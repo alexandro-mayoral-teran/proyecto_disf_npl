@@ -1,0 +1,7 @@
+file_name,output_file,status,page_count,token_count,processing_time_ms,error
+LeyInstCredito_93-110.pdf,LeyInstCredito_93-110.md,success,18,14503,5620,None
+Circular3-2012.pdf,Circular3-2012.md,success,313,173386,38341,None
+Anexo_33_CUB.pdf,Anexo_33_CUB.md,success,100,78013,14063,None
+CUB_extracto.pdf,CUB_extracto.md,success,29,18750,6774,None
+Disposiciones_Liquidez.pdf,Disposiciones_Liquidez.md,success,73,46406,9632,None
+Intraday_Liquidity_esp.pdf,Intraday_Liquidity_esp.md,success,26,10350,5090,None

@@ -1,0 +1,31 @@
+# Ambientes Virtuales
+venv/
+.venv/
+env/
+.env_folder/
+
+# Archivos de Entorno (API Keys) - ¡MUY IMPORTANTE NO SUBIR!
+.env
+.env.local
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# IDEs y SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Datos Temporales o pesados (Opcional)
+# Si tus PDFs o Excel son privados o muy pesados, descomenta lo siguiente:
+# data/01_raw/*.pdf
+# data/01_raw/*.docx
+# *.xlsx
