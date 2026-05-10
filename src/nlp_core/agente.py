@@ -8,11 +8,12 @@ from dotenv import load_dotenv
 
 # Importamos nuestro esquema Pydantic
 from src.nlp_core.schemas import RequerimientoInformacion
+from src.nlp_core.vectorizacion import buscar_similitud
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-def extraer_requerimiento_openai(texto_normativo: str) -> RequerimientoInformacion:
+def extraer_full_context(texto_normativo: str) -> RequerimientoInformacion:
     """
     Toma el texto limpio de un documento normativo y utiliza OpenAI 
     para extraer la estructura tabular y los catálogos en un JSON estructurado.
@@ -49,6 +50,53 @@ def extraer_requerimiento_openai(texto_normativo: str) -> RequerimientoInformaci
     # La API ya nos devuelve el objeto Pydantic instanciado y validado
     return respuesta.choices[0].message.parsed
 
+def extraer_rag_simple(query: str, k: int = 4) -> RequerimientoInformacion:
+    """
+    Estrategia RAG: Utiliza ChromaDB para recuperar los chunks más relevantes 
+    basado en la consulta, y le pide al LLM extraer el formulario usando SOLO ese contexto.
+    """
+    if not os.getenv("OPENAI_API_KEY"):
+        raise ValueError("No se encontró OPENAI_API_KEY en las variables de entorno.")
+        
+    print(f"Recuperando contexto vectorial para: '{query}'...")
+    # 1. Recuperar chunks de ChromaDB
+    resultados = buscar_similitud(query, k=k)
+    
+    if not resultados:
+        raise ValueError("No se encontró contexto en la base vectorial para esa consulta.")
+        
+    # 2. Armar el contexto concatenando los textos y sus metadatos
+    contexto_recuperado = "\n\n--- NUEVO FRAGMENTO RECUPERADO ---\n".join(
+        [f"Metadatos: {doc.metadata}\nContenido: {doc.page_content}" for doc in resultados]
+    )
+    
+    # 3. Llamar al LLM con este contexto limitado
+    client = OpenAI()
+    
+    prompt_sistema = (
+        "Eres un Especialista Digital Regulador de la DISF en el Banco de México. "
+        "Tu tarea es analizar los FRAGMENTOS RECUPERADOS de la normativa y extraer la estructura "
+        "tabular de los formularios requeridos.\n\n"
+        "REGLAS ESTRICTAS DE RAG:\n"
+        "1. Basa tu extracción EXCLUSIVAMENTE en el contexto proporcionado. No alucines información externa.\n"
+        "2. Identifica variables, fórmulas (ponlas en 'formula_calculo'), validaciones y catálogos.\n"
+        "3. Si detectas listas cerradas, pon 'es_catalogo=true'.\n"
+        "4. Si falta información para definir completamente una fórmula o catálogo, repórtalo en 'ambiguedades_detectadas'."
+    )
+    
+    print(f"Enviando contexto ({len(resultados)} chunks) al LLM...")
+    respuesta = client.beta.chat.completions.parse(
+        model="gpt-4o", 
+        messages=[
+            {"role": "system", "content": prompt_sistema},
+            {"role": "user", "content": f"Consulta del usuario: {query}\n\nFragmentos Recuperados:\n\n{contexto_recuperado}"}
+        ],
+        response_format=RequerimientoInformacion,
+        temperature=0.1
+    )
+    
+    return respuesta.choices[0].message.parsed
+
 # --- Prueba rápida ---
 if __name__ == "__main__":
     # Texto ficticio de prueba (muy sencillo para no gastar muchos tokens)
@@ -60,32 +108,36 @@ if __name__ == "__main__":
     3. Tasa de Interés: Debe ser un valor Numérico sin límite. Ojo, esta tasa no puede ser negativa en ningún caso.
     """
     
-    print("Iniciando prueba con OpenAI...")
+    print("\n=======================================================")
+    print("Iniciando prueba con Estrategia 1: FULL CONTEXT...")
     try:
-        resultado = extraer_requerimiento_openai(texto_prueba)
-        print("\n¡Extracción exitosa!\n")
-        print(f"📊 Formulario propuesto: {resultado.nombre_formulario}")
-        print("\n📝 Campos identificados:")
-        for campo in resultado.campos_formulario:
+        resultado_fc = extraer_full_context(texto_prueba)
+        print("¡Extracción Full Context exitosa!")
+        print(f"📊 Formulario propuesto: {resultado_fc.nombre_formulario}")
+    except Exception as e:
+        print(f"❌ Error en Full Context: {e}")
+
+    print("\n=======================================================")
+    print("Iniciando prueba con Estrategia 2: RAG SIMPLE...")
+    try:
+        query = "¿Cuáles son las metodologías y cálculos para la Severidad de la Pérdida en el Apartado E?"
+        resultado_rag = extraer_rag_simple(query, k=3)
+        print("\n¡Extracción RAG exitosa!")
+        print(f"📊 Formulario propuesto: {resultado_rag.nombre_formulario}")
+        
+        print("\n📝 Campos identificados por el RAG:")
+        for campo in resultado_rag.campos_formulario:
             print(f" - {campo.nombre_campo} ({campo.tipo_dato}): {campo.descripcion_funcional}")
-            if campo.longitud:
-                print(f"   [Longitud: {campo.longitud}]")
-            if campo.validaciones_sugeridas:
-                print(f"   [Validaciones: {campo.validaciones_sugeridas}]")
+            if campo.formula_calculo:
+                print(f"   [Fórmula: {campo.formula_calculo}]")
             if campo.es_catalogo:
-                print(f"   [Vinculado al catálogo: {campo.nombre_catalogo_vinculado}]")
+                print(f"   [Catálogo: {campo.nombre_catalogo_vinculado}]")
                 
-        print("\n🗂️ Catálogos identificados:")
-        for catalogo in resultado.catalogos_identificados:
-            valores = [f"{v.clave} ({v.descripcion})" for v in catalogo.valores]
-            print(f" - {catalogo.nombre_catalogo}: {', '.join(valores)}")
-            
-        if resultado.ambiguedades_detectadas:
+        if resultado_rag.ambiguedades_detectadas:
             print("\n⚠️ Ambigüedades detectadas:")
-            for amb in resultado.ambiguedades_detectadas:
+            for amb in resultado_rag.ambiguedades_detectadas:
                 print(f" - {amb}")
-                
     except ValueError as ve:
         print(f"⚠️ Atención: {ve}")
     except Exception as e:
-        print(f"❌ Error durante la ejecución con OpenAI: {e}")
+        print(f"❌ Error durante la ejecución del RAG: {e}")
