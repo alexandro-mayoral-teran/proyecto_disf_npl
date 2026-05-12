@@ -90,3 +90,37 @@ def extraer_relacion_seccion_catalogo(formularios: dict) -> pd.DataFrame:
 
     return pd.DataFrame(relaciones)
 
+def construir_dataset_campos(formularios: dict) -> pd.DataFrame:
+    registros = []
+
+    for seccion, df in formularios.items():
+        columnas_catalogo = [c for c in df.columns if "catalogo" in c]
+
+        for idx, row in df.iterrows():
+            catalogos_asociados = [
+                str(row[c]).strip()
+                for c in columnas_catalogo
+                if c in row and pd.notna(row[c])
+            ]
+
+            texto_campo = " | ".join([
+                str(row.get("etiqueta", "")),
+                str(row.get("descripcion", "")),
+                str(row.get("tipo_dato", "")),
+                " ".join(catalogos_asociados)
+            ])
+
+            registros.append({
+                "tipo_documento": "formulario",
+                "seccion": seccion,
+                "campo": row.get("etiqueta", None),
+                "descripcion": row.get("descripcion", None),
+                "tipo_dato": row.get("tipo_dato", None),
+                "catalogos_asociados": catalogos_asociados,
+                "n_catalogos_asociados": len(catalogos_asociados),
+                "texto_representacion": texto_campo,
+                "n_caracteres": len(texto_campo),
+                "n_palabras": len(re.findall(r"\b\w+\b", texto_campo))
+            })
+
+    return pd.DataFrame(registros)
