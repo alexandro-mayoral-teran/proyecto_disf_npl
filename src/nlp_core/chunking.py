@@ -9,18 +9,57 @@ if str(project_root) not in sys.path:
 from langchain_text_splitters import MarkdownHeaderTextSplitter
 from src.utils.limpieza_texto import procesar_documento
 
-def crear_chunks_markdown(ruta_archivo: Path, origen: str = "CNBV"):
+##### Chunks por párrafo
+def chunking_por_parrafo(texto: str, min_palabras: int = 20) -> list:
+    chunks = []
+
+    for bloque in re.split(r"\n\s*\n", texto):
+        bloque = bloque.strip()
+        n_palabras = len(re.findall(r"\b\w+\b", bloque))
+
+        if n_palabras >= min_palabras:
+            chunks.append(bloque)
+
+    return chunks
+
+##### Chunks fijos con overlap
+def chunking_fijo_overlap(texto: str, chunk_size: int = 300, overlap: int = 50) -> list:
+    palabras = re.findall(r"\b\w+\b", texto)
+    chunks = []
+
+    start = 0
+    while start < len(palabras):
+        end = start + chunk_size
+        chunk = " ".join(palabras[start:end])
+        chunks.append(chunk)
+        start += chunk_size - overlap
+
+    return chunks
+
+##### Chunking estructural por títulos/artículos
+def chunking_estructural(texto: str) -> list:
+    patron = r"(?=(?:Artículo\s+\d+|TÍTULO\s+[A-ZÁÉÍÓÚÑ]+|CAPÍTULO\s+[A-ZÁÉÍÓÚÑ]+|Apartado\s+[A-Z]))"
+    partes = re.split(patron, texto)
+
+    chunks = []
+    for parte in partes:
+        parte = parte.strip()
+        if len(parte.split()) >= 20:
+            chunks.append(parte)
+
+    return chunks
+
+
+
+def chunking_encabezados_md(texto: str, chunk_size: int = 300, overlap: int = 50) -> list:
+#def crear_chunks_markdown(texto: str, chunk_size: int = 300, overlap: int = 50) -> list:
     """
     Lee un archivo Markdown, aplica limpieza de ruido OCR y fragmenta el texto
     basándose en la jerarquía de los encabezados (Títulos, Capítulos, Artículos).
     """
-    with open(ruta_archivo, "r", encoding="utf-8") as f:
-        texto_md = f.read()
 
-    # 1. Limpieza inicial (quitar números de página, saltos innecesarios, etc.)
-    texto_limpio = procesar_documento(texto_md, origen=origen)
 
-    # 2. Definir los niveles de encabezados por los que queremos cortar.
+    # Definir los niveles de encabezados por los que queremos cortar.
     # Esto preservará el artículo o sección completa.
     headers_to_split_on = [
         ("#", "Header 1"),      # Ej: Títulos / Anexos
@@ -29,16 +68,38 @@ def crear_chunks_markdown(ruta_archivo: Path, origen: str = "CNBV"):
         ("####", "Header 4"),   # Ej: Artículos
     ]
 
-    # 3. Inicializar el Text Splitter
+    # Inicializar el Text Splitter
     markdown_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=headers_to_split_on,
         strip_headers=False # Mantener el encabezado dentro del chunk es útil para dar contexto al LLM
     )
 
-    # 4. Dividir el texto
-    chunks = markdown_splitter.split_text(texto_limpio)
+    # Dividir el texto
+    documentos = markdown_splitter.split_text(texto)
+    
+    # dividir chunks gigantes manteniendo contexto
+    recursive_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap
+    )
+
+    chunks_finales = []
+
+    for doc in documentos:
+
+        subchunks = recursive_splitter.split_text(doc.page_content)
+
+        for chunk in subchunks:
+
+            chunks_finales.append({
+                "texto": chunk,
+                "metadata": doc.metadata
+            })
     
     return chunks
+
+
+
 
 if __name__ == "__main__":
     # --- PRUEBA RÁPIDA ---
