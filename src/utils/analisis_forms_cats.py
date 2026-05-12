@@ -124,3 +124,33 @@ def construir_dataset_campos(formularios: dict) -> pd.DataFrame:
             })
 
     return pd.DataFrame(registros)
+
+def construir_dataset_catalogos(catalogos: dict) -> pd.DataFrame:
+    registros = []
+
+    for nombre_catalogo, df in catalogos.items():
+        columnas_textuales = [
+            c for c in df.columns
+            if df[c].dtype == "object" or pd.api.types.is_string_dtype(df[c])
+        ]
+
+        texto_catalogo = " ".join(
+            df[columnas_textuales]
+            .fillna("")
+            .astype(str)
+            .agg(" ".join, axis=1)
+            .tolist()
+        ) if columnas_textuales else ""
+
+        registros.append({
+            "tipo_documento": "catalogo",
+            "catalogo": nombre_catalogo,
+            "n_registros": len(df),
+            "n_columnas": df.shape[1],
+            "columnas": ", ".join(df.columns),
+            "texto_representacion": texto_catalogo,
+            "n_caracteres": len(texto_catalogo),
+            "n_palabras": len(re.findall(r"\b\w+\b", texto_catalogo))
+        })
+
+    return pd.DataFrame(registros)
