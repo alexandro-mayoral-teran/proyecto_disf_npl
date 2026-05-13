@@ -80,7 +80,7 @@ def chunking_encabezados_md(texto: str, chunk_size: int = 300, overlap: int = 50
     # dividir chunks gigantes manteniendo contexto
     recursive_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap
+        chunk_overlap=overlap
     )
 
     chunks_finales = []
@@ -96,7 +96,7 @@ def chunking_encabezados_md(texto: str, chunk_size: int = 300, overlap: int = 50
                 "metadata": doc.metadata
             })
     
-    return chunks
+    return chunks_finales
 
 
 
