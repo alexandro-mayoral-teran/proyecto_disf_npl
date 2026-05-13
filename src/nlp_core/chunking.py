@@ -109,8 +109,8 @@ def normalizar_headers_regulatorios(texto: str) -> str:
     return texto
 
 
-def chunking_encabezados_md(texto: str, chunk_size: int = 300, overlap: int = 50) -> list:
-#def crear_chunks_markdown(texto: str, chunk_size: int = 300, overlap: int = 50) -> list:
+def chunking_encabezados_md(texto: str, chunk_size: int = 500, overlap: int = 80) -> list:
+#def crear_chunks_markdown(texto: str, chunk_size: int = 500, overlap: int = 80) -> list:
     """
     Lee un archivo Markdown, aplica limpieza de ruido OCR y fragmenta el texto
     basándose en la jerarquía de los encabezados (Títulos, Capítulos, Artículos).
@@ -167,9 +167,13 @@ if __name__ == "__main__":
     
     if archivo_prueba.exists():
         print(f"Fragmentando archivo: {archivo_prueba.name}...")
+
+        texto = archivo_prueba.read_text(encoding="utf-8")
+        texto_limpio = procesar_documento(texto, origen="CNBV")
         
         # Probamos el chunking
-        chunks_generados = chunking_encabezados_md(archivo_prueba, origen="CNBV")
+        #chunks_generados = crear_chunks_markdown(archivo_prueba, origen="CNBV")
+        chunks_generados = chunking_encabezados_md(texto_limpio)
         
         print(f"Total de chunks (fragmentos) generados: {len(chunks_generados)}\n")
         
