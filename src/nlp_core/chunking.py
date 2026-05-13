@@ -90,11 +90,12 @@ def chunking_encabezados_md(texto: str, chunk_size: int = 300, overlap: int = 50
         subchunks = recursive_splitter.split_text(doc.page_content)
 
         for chunk in subchunks:
+            chunks_finales.append(chunk)
 
-            chunks_finales.append({
-                "texto": chunk,
-                "metadata": doc.metadata
-            })
+            # chunks_finales.append({
+            #     "texto": chunk,
+            #     "metadata": doc.metadata
+            # })
     
     return chunks_finales
 
