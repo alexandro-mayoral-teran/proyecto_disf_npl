@@ -49,6 +49,64 @@ def chunking_estructural(texto: str) -> list:
 
     return chunks
 
+def normalizar_headers_regulatorios(texto: str) -> str:
+
+    # TÍTULOS
+    texto = re.sub(
+        r'^(TÍTULO\s+[A-ZÁÉÍÓÚÑ]+.*)$',
+        r'# \1',
+        texto,
+        flags=re.MULTILINE
+    )
+    texto = re.sub(
+        r'^(Título\s+[A-ZÁÉÍÓÚÑ]+.*)$',
+        r'# \1',
+        texto,
+        flags=re.MULTILINE
+    )
+    # ANEXOS
+    texto = re.sub(
+        r'^(ANEXO\s+[A-ZÁÉÍÓÚÑ]+.*)$',
+        r'# \1',
+        texto,
+        flags=re.MULTILINE
+    )
+    texto = re.sub(
+        r'^(Anexo\s+[A-ZÁÉÍÓÚÑ]+.*)$',
+        r'# \1',
+        texto,
+        flags=re.MULTILINE
+    )
+
+    # CAPÍTULOS
+    texto = re.sub(
+        r'^(CAPÍTULO\s+[A-ZÁÉÍÓÚÑ]+.*)$',
+        r'## \1',
+        texto,
+        flags=re.MULTILINE
+    )
+    texto = re.sub(
+        r'^(Capítulo\s+[A-ZÁÉÍÓÚÑ]+.*)$',
+        r'## \1',
+        texto,
+        flags=re.MULTILINE
+    )
+
+    # ARTÍCULOS
+    texto = re.sub(
+        r'^(ARTÍCULO\s+\d+.*)$',
+        r'### \1',
+        texto,
+        flags=re.MULTILINE
+    )
+    texto = re.sub(
+        r'^(Artículo\s+\d+.*)$',
+        r'### \1',
+        texto,
+        flags=re.MULTILINE
+    )
+
+    return texto
 
 
 def chunking_encabezados_md(texto: str, chunk_size: int = 300, overlap: int = 50) -> list:
@@ -58,6 +116,7 @@ def chunking_encabezados_md(texto: str, chunk_size: int = 300, overlap: int = 50
     basándose en la jerarquía de los encabezados (Títulos, Capítulos, Artículos).
     """
 
+    texto = normalizar_headers_regulatorios(texto)
 
     # Definir los niveles de encabezados por los que queremos cortar.
     # Esto preservará el artículo o sección completa.
@@ -110,7 +169,7 @@ if __name__ == "__main__":
         print(f"Fragmentando archivo: {archivo_prueba.name}...")
         
         # Probamos el chunking
-        chunks_generados = crear_chunks_markdown(archivo_prueba, origen="CNBV")
+        chunks_generados = chunking_encabezados_md(archivo_prueba, origen="CNBV")
         
         print(f"Total de chunks (fragmentos) generados: {len(chunks_generados)}\n")
         
