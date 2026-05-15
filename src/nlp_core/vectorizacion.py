@@ -87,7 +87,7 @@ def indexar_documentos_formularios(df_textos: pd.DataFrame, collection_name: str
     vectorstore = Chroma.from_documents(
         documents=documentos_langchain,
         embedding=embeds,
-        persist_directory=CHROMA_PERSIST_DIR,
+        persist_directory=str(CHROMA_PERSIST_DIR),
         collection_name=collection_name
     )
 
@@ -123,6 +123,32 @@ def buscar_similitud_chroma(
     return pd.DataFrame(filas), resultados
 
 def resumen_resultados_busqueda(nombre_consulta, resultados_tfidf, resultados_chroma):
+    """
+    Construye una comparación simple entre los tipos de documentos recuperados por TF-IDF y ChromaDB.
+    """
+
+    # Process TF-IDF results
+    if not resultados_tfidf.empty and 'tipo_documento' in resultados_tfidf.columns:
+        tfidf_counts = resultados_tfidf["tipo_documento"].value_counts().reset_index()
+        tfidf_counts.columns = ['tipo_documento', 'conteo_tfidf']
+    else:
+        tfidf_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_tfidf'])
+
+    # Process Chroma results
+    if not resultados_chroma.empty and 'tipo_documento' in resultados_chroma.columns:
+        chroma_counts = resultados_chroma["tipo_documento"].value_counts().reset_index()
+        chroma_counts.columns = ['tipo_documento', 'conteo_chroma']
+    else:
+        chroma_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_chroma'])
+
+    resumen = pd.merge(
+        tfidf_counts,
+        chroma_counts,
+        on="tipo_documento",
+        how="outer"
+    ).fillna(0)
+
+    resumen["consulta"] = nombre_consultadef resumen_resultados_busqueda(nombre_consulta, resultados_tfidf, resultados_chroma):
     """
     Construye una comparación simple entre los tipos de documentos recuperados por TF-IDF y ChromaDB.
     """
