@@ -63,7 +63,7 @@ def indexar_documento(ruta_archivo: Path, origen: str = "CNBV", collection_name:
     return vectorstore
 
 
-def indexar_documentos_formularios(df_textos: DataFrame, collection_name: str = "regulacion_formularios_disf"):
+def indexar_documentos_formularios(df_textos: pd.DataFrame, collection_name: str = "regulacion_formularios_disf"):
     """
     Toma un DataFrame unificado para tareas de vectorización lo fragmenta y guarda los chunks en ChromaDB.
     """
