@@ -126,23 +126,24 @@ def resumen_resultados_busqueda(nombre_consulta, resultados_tfidf, resultados_ch
     """
     Construye una comparación simple entre los tipos de documentos recuperados por TF-IDF y ChromaDB.
     """
-    resumen_tfidf = (
-        resultados_tfidf["tipo_documento"]
-        .value_counts()
-        .reset_index()
-        .rename(columns={"index": "tipo_documento", "tipo_documento": "conteo_tfidf"})
-    )
 
-    resumen_chroma = (
-        resultados_chroma["tipo_documento"]
-        .value_counts()
-        .reset_index()
-        .rename(columns={"index": "tipo_documento", "tipo_documento": "conteo_chroma"})
-    )
+    # Process TF-IDF results
+    if not resultados_tfidf.empty and 'tipo_documento' in resultados_tfidf.columns:
+        tfidf_counts = resultados_tfidf["tipo_documento"].value_counts().reset_index()
+        tfidf_counts.columns = ['tipo_documento', 'conteo_tfidf']
+    else:
+        tfidf_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_tfidf'])
+
+    # Process Chroma results
+    if not resultados_chroma.empty and 'tipo_documento' in resultados_chroma.columns:
+        chroma_counts = resultados_chroma["tipo_documento"].value_counts().reset_index()
+        chroma_counts.columns = ['tipo_documento', 'conteo_chroma']
+    else:
+        chroma_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_chroma'])
 
     resumen = pd.merge(
-        resumen_tfidf,
-        resumen_chroma,
+        tfidf_counts,
+        chroma_counts,
         on="tipo_documento",
         how="outer"
     ).fillna(0)
