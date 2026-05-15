@@ -86,7 +86,7 @@ def indexar_documentos_formularios(df_textos: pd.DataFrame, collection_name: str
 
     vectorstore = Chroma.from_documents(
         documents=documentos_langchain,
-        embedding=embeddings,
+        embedding=embeds,
         persist_directory=CHROMA_PERSIST_DIR,
         collection_name=collection_name
     )
