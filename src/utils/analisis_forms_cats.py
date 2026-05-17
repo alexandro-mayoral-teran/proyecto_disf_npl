@@ -1,4 +1,6 @@
-import Pandas as pd
+import pandas as pd
+import numpy as np
+import re
 
 def resumen_formulario(formularios: dict) -> pd.DataFrame:
     '''

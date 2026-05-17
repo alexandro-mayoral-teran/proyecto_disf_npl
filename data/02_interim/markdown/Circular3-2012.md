@@ -1149,13 +1149,13 @@ BANCO DE MÉXICO®
 # TÍTULO SEGUNDO
 ## OPERACIONES CON EL PÚBLICO
 
-### CAPÍTULO I
-#### OPERACIONES PASIVAS
+# CAPÍTULO I
+## OPERACIONES PASIVAS
 
-##### Sección I
+### Sección I
 #### Operaciones pasivas en moneda nacional
 
-##### Apartado A
+### Apartado A
 #### Disposiciones generales para los Depósitos
 
 ## Transparencia
@@ -1785,13 +1785,13 @@ Lo anterior resultará procedente siempre que el cliente de que se trate acredit
 
 ## Características de los cheques
 
-**Artículo 21.-** Los esqueletos de los cheques que las Instituciones entreguen a sus cuentahabientes deberán cumplir con las especificaciones para el proceso automatizado elaboradas por dichas Instituciones a través de la Asociación de Bancos de México, A.C., establecidas en los siguientes estándares:
+Artículo 21.- Los esqueletos de los cheques que las Instituciones entreguen a sus cuentahabientes deberán cumplir con las especificaciones para el proceso automatizado elaboradas por dichas Instituciones a través de la Asociación de Bancos de México, A.C., establecidas en los siguientes estándares:
 
-I. “MCH1.1 Especificaciones del formato y contenido de la banda de caracteres magnetizables”;
+I. "MCH1.1 Especificaciones del formato y contenido de la banda de caracteres magnetizables";
+II. "MCH2.1 Especificaciones de impresión de los caracteres magnetizables";
+III. "MCH3.2 Especificaciones de las medidas de seguridad a utilizar para la elaboración del cheque", y
 
-II. “MCH2.1 Especificaciones de impresión de los caracteres magnetizables”;
-
-III. “MCH3.2 Especificaciones de las medidas de seguridad a utilizar para la elaboración del cheque”, y
+61
 
 BANCO DE MÉXICO®
 
@@ -3515,7 +3515,7 @@ BANCO DE MÉXICO®
 
 Artículo 107.- Las Instituciones se abstendrán de efectuar cualquier clase de propaganda relacionada con las operaciones de captación de recursos de residentes en México que practiquen sus Sucursales en el Extranjero.
 
-# CAPÍTULO VII
+## CAPÍTULO VII
 ## INFORMACIÓN
 
 ### Información al Banco de México
@@ -3813,6 +3813,8 @@ b) Traspasos que la Institución instruya a favor de su Cuenta del SPID.
 No se aceptarán sobregiros en las cuentas referidas en el presente artículo. (Modificado por la Circular 5/2016)
 
 ### Intereses
+
+139
 
 BANCO DE MÉXICO®
 
@@ -4987,8 +4989,6 @@ La referida solicitud de autorización deberá presentarse con una anticipación
 ## Características del contrato multilateral
 
 Artículo 199.- Las Instituciones que celebren el contrato multilateral para constituir una Cámara de Compensación deberán estipular en este un régimen de asociación conforme al cual las decisiones respecto de los siguientes temas solo puedan tomarse por aquellas Instituciones que sean titulares de los títulos representativos del capital social, en sus sesiones correspondientes, con el voto
-
-186
 
 BANCO DE MÉXICO®
 
@@ -6412,7 +6412,7 @@ Presente.
 
 Para tales efectos, el Banco de México deberá enviar a la citada institución para el depósito de valores las instrucciones que correspondan.
 
-Esta institución de crédito será responsable de las solicitudes de cargo y abono que el Banco de México realice en cumplimiento de las instrucciones que esta institución envíe a través del "Módulo Reportos para Proporcionar Liquidez al Sistema de Pagos del Sistema de Atención a Cuentahabientes del Banco de México.
+Esta institución de crédito será responsable de las solicitudes de cargo y abono que el Banco de México realice en cumplimiento de las instrucciones que esta institución envíe a través del “Módulo Reportos para Proporcionar Liquidez al Sistema de Pagos del Sistema de Atención a Cuentahabientes del Banco de México.
 
 (Nombre, firma y puesto del funcionario o funcionarios de la institución con facultades para ejercer actos de dominio)
 
@@ -6573,7 +6573,7 @@ BANCO DE MÉXICO®
 El Banco de México calculará, en cada Día Hábil Bancario, la TIIE a Plazos Mayores a un Día Hábil Bancario con base en la siguiente ecuación:
 
 $$
-\text{TIIE a plazo } n_t = \left[ \left(1 + \frac{TF_{t-1} + A}{36000}\right)^n - 1 \right] \times \frac{36000}{n} + \text{Diferencial de ajuste}
+TIIE \text{ a plazo } n_t = \left[ \left(1 + \frac{TF_{t-1} + A}{36000}\right)^n - 1 \right] \times \frac{36000}{n} + \text{Diferencial de ajuste}
 $$
 
 Donde:
@@ -6621,7 +6621,11 @@ El Índice de TIIE de Fondeo con composición en Días Hábiles Bancarios a cuat
 BANCO DE MÉXICO®
 
 $$
-\text{Índice de TIIE de Fondeo}_D = \left( \begin{array}{c c c} \square &amp; 100,000 &amp; si D = 2 \text{ de enero de } 2006 \\ \square &amp; \square &amp; \\ \square &amp; 100,000 \times \left[ \prod_{i=2 \text{ de enero de } 2006}^{D-1_h} \left(1 + \frac{\text{TIIEF}_i \times n_i}{36000}\right) \right] &amp; &amp; \\ \square &amp; &amp; \end{array} \right)
+\text{Índice de TIIE de Fondeo}_D = \begin{cases}
+\boxed{\square} &amp; 100,000 \quad \text{si } D = 2 \text{ de enero de } 2006 \\
+\boxed{\square} &amp; 100,000 \times \left[ \prod_{i=2 \text{ de enero de } 2006}^{D-1_h} \left(1 + \frac{\text{TIIEF}_i \times n_i}{36000}\right) \right] \\
+\boxed{\square} &amp; \text{si } D \geq 3 \text{ de enero de } 2006
+\end{cases}
 $$
 
 Donde:
@@ -6648,9 +6652,9 @@ $I =$ La fecha del Día inhábil para la cual es aplicable el Índice de TIIE de
 
 $D =$ La fecha correspondiente al Día Hábil Bancario inmediato anterior al Día inhábil $I$.
 
-Índice de TIIE de Fondeo$_D =$ El Índice de TIIE de Fondeo con composición en Días Hábiles Bancarios a cuatro decimales aplicable el Día Hábil Bancario $D$.
+$\text{Índice de TIIE de Fondeo}_D = \text{El Índice de TIIE de Fondeo con composición en Días Hábiles Bancarios a cuatro decimales aplicable el Día Hábil Bancario } D$.
 
-$\text{TIIEF}_D =$ La TIIE de Fondeo publicada el Día Hábil Bancario $D$ por el Banco de México a través de la página electrónica de Internet que se identifica con el nombre de dominio www.banxico.org.mx, expresada en puntos porcentuales.
+$\text{TIIEF}_D = \text{La TIIE de Fondeo publicada el Día Hábil Bancario } D$ por el Banco de México a través de la página electrónica de Internet que se identifica con el nombre de dominio www.banxico.org.mx, expresada en puntos porcentuales.
 
 $\Delta =$ La diferencia en Días entre $I$ y $D$.
 
@@ -7082,7 +7086,7 @@ BANCO DE MÉXICO®
 
 1. Se construyen los vectores $X_V = \left(X_V^{(1)}, X_V^{(2)}, \dots, X_V^{(k)}\right)$ donde $X_V^{(1)}, X_V^{(2)}, \dots, X_V^{(k)}$, son los tipos de cambio de venta ordenados de menor a mayor de las posturas presentadas por un número $k$ de Instituciones, y $K_c = \left(X_c^{(1)}, X_c^{(2)}, \dots, X_c^{(k)}\right)$ donde $X_c^{(1)}, X_c^{(2)}, \dots, X_c^{(k)}$, son los tipos de cambio de compra ordenados de mayor a menor.
 
-2. Sea $u$ el número de componentes positivos del vector diferencia:
+2. Sea u el número de componentes positivos del vector diferencia:
 
 $$
 X_c' - X_v' = \left\{ \left( X_c^{(1)} - X_v^{(1)} \right), \left( X_c^{(2)} - X_v^{(2)} \right), \dots, \left( X_c^{(k)} - X_v^{(k)} \right) \right\}
@@ -7090,9 +7094,7 @@ $$
 
 3. El tipo de cambio de equilibrio para cada período, se calculará como el promedio aritmético de los tipos de cambio $s_1$ y $s_2$, donde:
 
-$$
-I. - S_i k &gt; u &gt; 0
-$$
+I. - Si $k &gt; u &gt; 0$
 
 $$
 s_1 = \text{máximo} \left\{ X_v^{(u)}, X_c^{(u+1)} \right\}
@@ -7102,9 +7104,7 @@ $$
 s_2 = \text{mínimo} \left\{ X_v^{(u+1)}, X_c^{(u)} \right\}
 $$
 
-$$
-II. - S_i u = 0
-$$
+II. - Si $u = 0$
 
 $$
 s_1 = X_v(1)
@@ -7197,6 +7197,7 @@ BANCO DE MÉXICO®
 |  10. No hay continuidad en los endosos (Art. 39). | 22. Cheque al portador expedido por un monto mayor al permitido (Art. 179).  |
 |  11. Por haberse negociado indebidamente (Arts. 179, 199, 200 y 201). | 23. Cheque presuntamente falsificado (Art. 175).  |
 |  12. Es pagadero en otra moneda. | 24.
+
 NOTA: Los artículos citados son de la Ley General de Títulos y Operaciones de Crédito.  |
 
 264
@@ -7385,8 +7386,8 @@ $$
 
 Dónde:
 
-- $x =$ número de días por vencer, para $X = 1, 2, \ldots, 60$
-- $F(x) =$ factor por el día $x$
+- $x$ = número de días por vencer, para $X = 1, 2, \ldots, 60$
+- $F(x)$ = factor por el día $x$
 
 BANCO DE MÉXICO®
 
@@ -7507,13 +7508,13 @@ Para estos efectos, la TASA será el promedio mensual del mes inmediato anterior
 
 BANCO DE MÉXICO®
 
-# ANEXO 22
+ANEXO 22
 
 Operaciones en Moneda Extranjera que no deberán incluirse en el cómputo de los regímenes de admisión de pasivos y de inversión para las operaciones en Moneda Extranjera
 
 No deberán incluirse en el cómputo de los límites de admisión de pasivos y del régimen de inversión para las Operaciones en Moneda Extranjera, siguientes:
 
-## Para Instituciones de Crédito
+Para Instituciones de Crédito
 
 1. Otras cuentas por cobrar (cuenta 1400 00 00), excepto deudores por liquidación de operaciones (cuenta 1401 01 00).
 2. Bienes adjudicados (cuenta 1500 00 00).
@@ -7790,7 +7791,7 @@ Modelo de comunicación por la que las Instituciones autorizan e instruyen al Ba
 
 (PAPEL CON MEMBRETE DE LA INSTITUCIÓN DE CRÉDITO)
 
-México, D.F., a ___ de ___________ de ___.
+México, D.F., a ___ de __________ de ___.
 
 # BANCO DE MÉXICO
 
@@ -8236,7 +8237,7 @@ mantendrán su vigencia hasta el total cumplimiento de las obligaciones derivada
 **QUINTO.-** Una vez transcurridos los veinte Días Hábiles Bancarios a que se refiere el artículo Segundo Transitorio de la presente Circular, las Instituciones que deseen celebrar operaciones de conformidad con lo dispuesto en esta Circular, deberán enviar al Banco de México, a más tardar cinco Días Hábiles Bancarios previos al Día Hábil Bancario en que pretendan iniciar con las operaciones descritas en los artículos 115 Bis y 195 Bis 5, el Anexo 10 actualizado, conforme al formato previsto en esta Circular.
 
 ## Transitorios de la Circular 12/2019
-*(Publicada en el Diario Oficial de la Federación el 3 de octubre de 2019)*
+(Publicada en el Diario Oficial de la Federación el 3 de octubre de 2019)
 
 **PRIMERO.-** La presente Circular entrará en vigor al segundo Día Hábil Bancario posterior a la fecha de su publicación en el Diario Oficial de la Federación.
 
@@ -8296,9 +8297,9 @@ En las cuentas del nivel 2 las Instituciones podrán recibir Depósitos mensuale
 
 305
 
-BANCO DE MÉXICO
+BANCO DE MÉXICO®
 
-Ciuidad de México, a 29 de mayo de 2020.- El Director General de Operaciones de Banca Central, Gerardo Israel García López.- Rúbrica.- El Director General de Sistemas de Pagos e Infraestructuras de Mercados, Manuel Miguel Ángel Díaz Díaz.- Rúbrica.- El Director General Jurídico, Luis Urrutia Corral.- Rúbrica.- El Director General de Asuntos del Sistema Financiero, José Luis Negrín Muñoz.- Rúbrica.
+Ciudad de México, a 29 de mayo de 2020.- El Director General de Operaciones de Banca Central, Gerardo Israel García López.- Rúbrica.- El Director General de Sistemas de Pagos e Infraestructuras de Mercados, Manuel Miguel Ángel Díaz Díaz.- Rúbrica.- El Director General Jurídico, Luis Urrutia Corral.- Rúbrica.- El Director General de Asuntos del Sistema Financiero, José Luis Negrín Muñoz.- Rúbrica.
 
 ## Transitoria de la Circular 28/2020
 (Publicada en el Diario Oficial de la Federación el 15 de julio de 2020)
@@ -8434,7 +8435,7 @@ IV. Establecer los mecanismos para ejecutar, en su caso, los mandatos que el tit
 
 311
 
-BANCO DE MÉXICO
+BANCO DE MÉXICO®
 
 V. La determinación, por parte del comité de riesgos de la Institución de que se trate, del porcentaje límite del monto promedio mensual de los abonos de recursos que se reciban en la Cuenta Ordenante, para el pago de los adeudos correspondientes a los Créditos Asociados a la Nómina que otorgue dicha Institución, en términos del artículo 63 Bis de las Disposiciones.
 
