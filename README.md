@@ -50,8 +50,8 @@ El proyecto sigue una arquitectura modular "API-First" para separar la lógica d
 
 *   **`data/`**: Contiene el *Golden Dataset*. Los documentos originales en PDF/Excel se transforman a un formato Markdown (`.md`) estructural para optimizar la ventana de contexto del LLM y preservar las tablas normativas.
 *   **`src/`**: Motor central del proyecto (Backend).
-    *   `ingesta/`: Parsers y conversores de formatos (Excel a Markdown, limpieza de texto regex).
-    *   `nlp_core/`: Agentes extractores y esquemas de validación estricta utilizando **Pydantic**.
+    *   `ingesta/`: Parsers y conversores bajo la clase `IngestorDocumentos` (Excel/PDF a Markdown estructurado).
+    *   `nlp_core/`: Agentes extractores (Pydantic), `RegulacionChunker` (Patrón Strategy), `MotorVectorizacion` (ChromaDB) y `MotorBusqueda` (Búsqueda Híbrida y Multi-Query).
 *   **`api/` (Planeado):** Capa de servicios usando **FastAPI** para exponer el motor de NLP a futuras interfaces.
 *   **`app/` (Planeado):** Interfaz de usuario interactiva y ligera (MVP) construida con **Streamlit**.
 *   **`notebooks/`**: Entorno de experimentación, reportes de avances (EDA) y validación de métricas.
@@ -68,9 +68,9 @@ El proyecto sigue una arquitectura modular "API-First" para separar la lógica d
 
 | Fase | Estado | Descripción Técnica |
 | :--- | :--- | :--- |
-| **1. Cimentación y Dataset** | 🟢 Completado | Extracción de CUB y catálogos de Excel a Markdown. Limpieza de texto (Regex) y análisis exploratorio (EDA). |
-| **2. Core Engine (Pydantic)** | 🟡 En progreso | Diseño del esquema de datos. Creación del "System Prompt" del agente DISF y pruebas de extracción a JSON/Excel. |
-| **3. Módulo de Mejora** | ⚪ Pendiente | Implementación del "Agente Crítico" para detección de ambigüedades y sugerencias de validaciones de negocio. |
+| **1. Cimentación y Dataset** | 🟢 Completado | Extracción de CUB y catálogos de Excel a Markdown. Refactorización en Arquitectura Orientada a Objetos (OOP). |
+| **2. RAG Engine y Retrieval** | 🟢 Completado | Implementación de Chunking dinámico, Vectorización (ChromaDB) y Búsqueda Híbrida (Reciprocal Rank Fusion + Multi-Query). |
+| **3. Core LLM y Evaluación (Arena)** | 🟡 En progreso | Diseño del System Prompt con Pydantic. Entorno de evaluación (Notebook) para competir *Full Context* vs *RAG Híbrido* frente al Golden Dataset. |
 | **4. Integración y API** | ⚪ Pendiente | Empaquetado del pipeline de `src/` mediante endpoints de FastAPI. |
 | **5. Interfaz y Entrega** | ⚪ Pendiente | Construcción del MVP web en Streamlit, pruebas de consistencia final y documentación académica. |
 
