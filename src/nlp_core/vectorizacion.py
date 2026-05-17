@@ -1,220 +1,144 @@
 import os
 import sys
 from pathlib import Path
+import pandas as pd
+from dotenv import load_dotenv
 
 # Asegurar importaciones locales
 project_root = Path(__file__).resolve().parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
 
-from dotenv import load_dotenv
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_core.documents import Document
-
-
 from src.nlp_core.chunking import crear_chunks_markdown
 
-# Cargar variables de entorno (OPENAI_API_KEY)
-load_dotenv()
+class MotorVectorizacion:
+    """
+    Clase responsable de la creación de Embeddings y la indexación 
+    de documentos en la base de datos vectorial (ChromaDB).
+    """
+    def __init__(self, persist_dir: str | Path = None):
+        load_dotenv()
+        self.api_key = os.getenv("OPENAI_API_KEY")
+        if not self.api_key:
+            raise ValueError("No se encontró OPENAI_API_KEY en el archivo .env")
+        
+        self.embeddings = OpenAIEmbeddings(
+            model="text-embedding-3-small",
+            api_key=self.api_key
+        )
+        
+        self.persist_dir = str(persist_dir) if persist_dir else str(project_root / "data" / "03_output" / "chroma_db")
 
-# Directorio donde se guardará la base de datos vectorial localmente
-CHROMA_PERSIST_DIR = str(project_root / "data" / "03_output" / "chroma_db")
+    def indexar_documento_markdown(self, ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf"):
+        """
+        Toma un archivo Markdown local, lo fragmenta usando el chunker proporcionado y lo guarda en ChromaDB.
+        Si no se provee chunker, usa EstrategiaChunking.ENCABEZADOS_MD por defecto.
+        """
+        from src.utils.limpieza_texto import procesar_documento
+        from src.nlp_core.chunking import RegulacionChunker, EstrategiaChunking
+        
+        if chunker is None:
+            chunker = RegulacionChunker(EstrategiaChunking.ENCABEZADOS_MD, chunk_size=500, overlap=80)
+            
+        print(f"Fragmentando el documento: {ruta_archivo.name} con estrategia {chunker.estrategia}...")
+        
+        texto = ruta_archivo.read_text(encoding="utf-8")
+        texto_limpio = procesar_documento(texto, origen=origen)
+        chunks = chunker.chunk(texto_limpio)
+        
+        print(f"   Se generaron {len(chunks)} chunks.")
+        
+        # Inyectar metadata y generar IDs deterministas para evitar duplicados
+        ids = []
+        for i, chunk in enumerate(chunks):
+            chunk.metadata["source_file"] = ruta_archivo.name
+            ids.append(f"{ruta_archivo.stem}_{chunker.estrategia}_chunk_{i}")
+            
+        print("Indexando en ChromaDB...")
+        vectorstore = Chroma.from_documents(
+            documents=chunks,
+            embedding=self.embeddings,
+            ids=ids,
+            persist_directory=self.persist_dir,
+            collection_name=collection_name
+        )
+        
+        print(f"¡Documento indexado con éxito en {self.persist_dir}!")
+        return vectorstore
+
+    def indexar_dataset_unificado(self, df_textos: pd.DataFrame, collection_name: str = "regulacion_formularios_disf"):
+        """
+        Toma un DataFrame pandas unificado (ej. con forms, cats, y reglas) y lo convierte en documentos vectoriales.
+        """
+        documentos_langchain = []
+        ids = []
+        
+        for _, row in df_textos.iterrows():
+            doc_id = str(row.get("id"))
+            ids.append(doc_id)
+            documentos_langchain.append(
+                Document(
+                    page_content=row["texto"],
+                    metadata={
+                        "id": doc_id,
+                        "tipo_documento": row.get("tipo_documento", ""),
+                        "documento": row.get("documento", ""),
+                        "seccion": row.get("seccion", ""),
+                        "catalogo": row.get("catalogo", ""),
+                        "n_palabras": row.get("n_palabras", 0)
+                    }
+                )
+            )
+
+        print("Indexando dataset masivo en ChromaDB...")
+        vectorstore = Chroma.from_documents(
+            documents=documentos_langchain,
+            embedding=self.embeddings,
+            ids=ids, # Usa IDs deterministas para sobreescribir y evitar duplicados
+            persist_directory=self.persist_dir,
+            collection_name=collection_name
+        )
+
+        print(f'"Base vectorial creada y almacenada en" {self.persist_dir}')
+        return vectorstore
+
+# =====================================================================
+# FUNCIONES  
+# =====================================================================
 
 def obtener_embeddings():
-    """
-    Inicializa el modelo de embeddings de OpenAI.
-    Usamos text-embedding-3-small porque es rápido, muy barato y tiene excelente rendimiento.
-    """
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise ValueError("No se encontró OPENAI_API_KEY en el archivo .env")
-        
-    return OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=api_key
-    )
+    motor = MotorVectorizacion()
+    return motor.embeddings
 
-def indexar_documento(ruta_archivo: Path, origen: str = "CNBV", collection_name: str = "regulacion_disf"):
-    """
-    Toma un archivo Markdown, lo fragmenta usando nuestra estrategia estructural
-    y guarda los chunks en ChromaDB.
-    """
-    print(f"1. Fragmentando el documento: {ruta_archivo.name}...")
-    chunks = crear_chunks_markdown(ruta_archivo, origen=origen)
-    print(f"   Se generaron {len(chunks)} chunks.")
-    
-    # Asegurar que cada chunk tenga el nombre del documento en sus metadatos
-    for chunk in chunks:
-        chunk.metadata["source_file"] = ruta_archivo.name
-        
-    print("2. Inicializando modelo de Embeddings y ChromaDB...")
-    embeddings = obtener_embeddings()
-    
-    # Creamos o actualizamos la base de datos vectorial
-    vectorstore = Chroma.from_documents(
-        documents=chunks,
-        embedding=embeddings,
-        persist_directory=CHROMA_PERSIST_DIR,
-        collection_name=collection_name
-    )
-    
-    print(f"3. ¡Documento indexado con éxito en {CHROMA_PERSIST_DIR}!")
-    return vectorstore
-
+def indexar_documento(ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf"):
+    motor = MotorVectorizacion()
+    return motor.indexar_documento_markdown(ruta_archivo, chunker=chunker, origen=origen, collection_name=collection_name)
 
 def indexar_documentos_formularios(df_textos: pd.DataFrame, collection_name: str = "regulacion_formularios_disf"):
-    """
-    Toma un DataFrame unificado para tareas de vectorización lo fragmenta y guarda los chunks en ChromaDB.
-    """
+    motor = MotorVectorizacion()
+    return motor.indexar_dataset_unificado(df_textos, collection_name)
 
-    documentos_langchain = [
-        Document(
-            page_content=row["texto"],
-            metadata={
-                "id": row["id"],
-                "tipo_documento": row["tipo_documento"],
-                "documento": row["documento"],
-                "seccion": row["seccion"],
-                "catalogo": row["catalogo"]
-            }
-        )
-        for _, row in df_textos.iterrows()
-    ]
+# Las funciones de búsqueda fueron movidas a retrieval.py, 
+# pero las mantenemos aquí como puente para no romper los imports existentes.
+from src.nlp_core.retrieval import MotorBusqueda
 
-    embeds = obtener_embeddings()
-
-    vectorstore = Chroma.from_documents(
-        documents=documentos_langchain,
-        embedding=embeds,
-        persist_directory=str(CHROMA_PERSIST_DIR),
-        collection_name=collection_name
-    )
-
-    print(f'"Base vectorial creada correctamente y almacenada en" {CHROMA_PERSIST_DIR}')
-
-    return vectorstore
-
-def buscar_similitud_chroma(
-    query: str,
-    vectorstore,
-    k: int = 5
-) -> pd.DataFrame:
-    """
-    Ejecuta búsqueda semántica en ChromaDB y devuelve resultados tabulares.
-    """
-    resultados = vectorstore.similarity_search_with_score(query, k=k)
-
-    filas = []
-
-    for rank, (doc, score) in enumerate(resultados, start=1):
-        filas.append({
-            "rank": rank,
-            "score_distancia": score,
-            "id": doc.metadata.get("id"),
-            "tipo_documento": doc.metadata.get("tipo_documento"),
-            "documento": doc.metadata.get("documento"),
-            "seccion": doc.metadata.get("seccion"),
-            "catalogo": doc.metadata.get("catalogo"),
-            "n_palabras": doc.metadata.get("n_palabras"),
-            "texto": doc.page_content[:500]
-        })
-
-    return pd.DataFrame(filas), resultados
-
-def resumen_resultados_busqueda(nombre_consulta, resultados_tfidf, resultados_chroma):
-    """
-    Construye una comparación simple entre los tipos de documentos recuperados por TF-IDF y ChromaDB.
-    """
-
-    # Process TF-IDF results
-    if not resultados_tfidf.empty and 'tipo_documento' in resultados_tfidf.columns:
-        tfidf_counts = resultados_tfidf["tipo_documento"].value_counts().reset_index()
-        tfidf_counts.columns = ['tipo_documento', 'conteo_tfidf']
-    else:
-        tfidf_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_tfidf'])
-
-    # Process Chroma results
-    if not resultados_chroma.empty and 'tipo_documento' in resultados_chroma.columns:
-        chroma_counts = resultados_chroma["tipo_documento"].value_counts().reset_index()
-        chroma_counts.columns = ['tipo_documento', 'conteo_chroma']
-    else:
-        chroma_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_chroma'])
-
-    resumen = pd.merge(
-        tfidf_counts,
-        chroma_counts,
-        on="tipo_documento",
-        how="outer"
-    ).fillna(0)
-
-    resumen["consulta"] = nombre_consultadef resumen_resultados_busqueda(nombre_consulta, resultados_tfidf, resultados_chroma):
-    """
-    Construye una comparación simple entre los tipos de documentos recuperados por TF-IDF y ChromaDB.
-    """
-
-    # Process TF-IDF results
-    if not resultados_tfidf.empty and 'tipo_documento' in resultados_tfidf.columns:
-        tfidf_counts = resultados_tfidf["tipo_documento"].value_counts().reset_index()
-        tfidf_counts.columns = ['tipo_documento', 'conteo_tfidf']
-    else:
-        tfidf_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_tfidf'])
-
-    # Process Chroma results
-    if not resultados_chroma.empty and 'tipo_documento' in resultados_chroma.columns:
-        chroma_counts = resultados_chroma["tipo_documento"].value_counts().reset_index()
-        chroma_counts.columns = ['tipo_documento', 'conteo_chroma']
-    else:
-        chroma_counts = pd.DataFrame(columns=['tipo_documento', 'conteo_chroma'])
-
-    resumen = pd.merge(
-        tfidf_counts,
-        chroma_counts,
-        on="tipo_documento",
-        how="outer"
-    ).fillna(0)
-
-    resumen["consulta"] = nombre_consulta
-
-    return resumen
-
+def buscar_similitud_chroma(query: str, vectorstore, k: int = 5):
+    motor = MotorBusqueda()
+    motor.vectorstore = vectorstore # Override con el vectorstore pasado
+    return motor.buscar_similitud_tabular(query, k)
 
 def buscar_similitud(query: str, collection_name: str = "regulacion_disf", k: int = 3):
-    """
-    Realiza una búsqueda de similitud en la base de datos vectorial.
-    Devuelve los 'k' fragmentos más relevantes para la consulta.
-    """
-    embeddings = obtener_embeddings()
-    vectorstore = Chroma(
-        persist_directory=CHROMA_PERSIST_DIR, 
-        embedding_function=embeddings,
-        collection_name=collection_name
-    )
-    
-    print(f"Buscando: '{query}'...")
-    resultados = vectorstore.similarity_search(query, k=k)
-    return resultados
+    motor = MotorBusqueda(collection_name=collection_name)
+    return motor.buscar_similitud(query, k)
 
-if __name__ == "__main__":
-    # --- PRUEBA RÁPIDA DE VECTORIZACIÓN Y BÚSQUEDA ---
-    
-    # 1. Archivo que vamos a indexar
-    archivo_prueba = project_root / "data" / "02_interim" / "CUB_extracto.md"
+def top_tfidf_terms(vectorizer, X, top_n=25):
+    return MotorBusqueda.top_tfidf_terms(vectorizer, X, top_n)
 
-    if archivo_prueba.exists():
-        print("=== INICIANDO PRUEBA DE VECTORIZACIÓN ===")
-        # Indexar
-        vectorstore = indexar_documento(archivo_prueba, origen="CNBV")
-        
-        print("\n=== PRUEBA DE RECUPERACIÓN (RAG) ===")
-        # Consulta de prueba enfocada en encontrar reglas de negocio/campos
-        consulta = "¿Cuáles son las garantías que pueden reconocer las Instituciones para la Severidad de la Pérdida?"
-        
-        resultados = buscar_similitud(consulta, k=2)
-        
-        for i, doc in enumerate(resultados):
-            print(f"\n--- Resultado {i+1} ---")
-            print(f"Metadatos: {doc.metadata}")
-            print(f"Extracto: {doc.page_content[:300]}...")
-    else:
-        print(f"No se encontró el archivo de prueba: {archivo_prueba}")
+def buscar_tfidf(query: str, vectorizer, X, df_base: pd.DataFrame, k: int = 5):
+    return MotorBusqueda.buscar_tfidf(query, vectorizer, X, df_base, k)
+
+def resumen_resultados_busqueda(nombre_consulta, resultados_tfidf, resultados_chroma):
+    return MotorBusqueda.resumen_resultados_busqueda(nombre_consulta, resultados_tfidf, resultados_chroma)
