@@ -53,3 +53,11 @@ Para maximizar la precisión en escenarios regulatorios complejos sin compromete
 4.  ✅ **Búsqueda Híbrida Implementada:** Integración de la librería `rank_bm25` y `EnsembleRetriever` de LangChain para fusionar búsquedas semánticas y por palabras clave.
 5.  ✅ **Adaptación del Agente:** El agente Pydantic es capaz de manejar los esquemas estrictos de extracción, evaluando *Full Context* vs *RAG Simple*.
 6.  🔄 **Evaluación Comparativa (La "Arena"):** El proyecto se encuentra actualmente construyendo el Notebook de benchmarking final para comparar la latencia, el costo en tokens y la precisión (frente a un Golden Dataset) de los enfoques *Full Context*, *TF-IDF* y *Búsqueda Híbrida*.
+
+## 5. Horizonte de Producción (Escalabilidad)
+
+Inspirado en arquitecturas de despliegue real, se contemplan las siguientes integraciones para la fase de exposición vía API:
+
+1. **Caché Semántico:** Implementación de una capa de memoria que almacene respuestas previas. Ante consultas semánticamente idénticas, el sistema devolverá el resultado cacheado, mitigando costos de API y reduciendo la latencia a milisegundos.
+2. **Operaciones de Índice (Index Ops):** Módulo CRUD dedicado para ChromaDB. Facilitará la actualización quirúrgica de la base vectorial (ej. re-vectorizar únicamente los artículos que sufran reformas) sin necesidad de reprocesar el corpus íntegro.
+3. **Control de Acceso (RBAC):** Utilización estricta de metadatos en la recuperación vectorial para restringir la inyección de contexto normativo según el nivel de autorización o perfil del analista dentro de la DISF.
