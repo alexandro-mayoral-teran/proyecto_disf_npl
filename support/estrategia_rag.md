@@ -28,7 +28,7 @@ Para transformar el texto limpio en un formulario estructurado, el proyecto empl
 Para mitigar el alto costo y evitar la pérdida de contexto, se diseñó un flujo RAG especializado en el ámbito regulatorio:
 
 1. **Fragmentación Estructural / Chunking (`src/nlp_core/chunking.py`):** En textos normativos, cortar cada "N" tokens es peligroso porque puede partir un artículo por la mitad. Se implementó `MarkdownHeaderTextSplitter` para fragmentar el documento respetando la jerarquía (Títulos, Capítulos, Artículos). Esto asegura que un artículo y su tabla mantengan coherencia, inyectando la "ruta del documento" como un *metadato* del fragmento.
-2. **Vectorización e Indexación (`src/nlp_core/vectorizacion.py`):** Los fragmentos generados se convierten en vectores matemáticos usando `text-embedding-3-small` de OpenAI (un modelo optimizado y económico) y se almacenan localmente utilizando **ChromaDB**.
+2. **Vectorización e Indexación (`src/nlp_core/vectorizacion.py`):** Los fragmentos generados se convierten en vectores matemáticos usando `text-embedding-3-small` de OpenAI (un modelo optimizado y económico) y se almacenan localmente utilizando **ChromaDB**. Adicionalmente, durante las etapas de evaluación se utiliza `TfidfVectorizer` (haciendo explícita la normalización L2 con `norm='l2'`, fundamental para estandarizar el cálculo de similitud coseno) para establecer el marco de referencia léxico y capturar la jerga financiera. Como mejora a futuro se explorará el *fine-tuning* contrastivo de embeddings sobre pares (regulación, campo_formulario) del dominio Banxico para una mejor representación.
 3. **Consulta y Extracción Híbrida (Hybrid Search):** El proyecto evolucionó de una simple búsqueda semántica a un modelo de *Reciprocal Rank Fusion (RRF)*. Ahora, cuando se solicita información, el sistema ejecuta dos búsquedas en paralelo:
    *   **Búsqueda Semántica (ChromaDB + Embeddings):** Recupera fragmentos conceptualmente relevantes, incluso si usan sinónimos o lenguaje indirecto.
    *   **Búsqueda Léxica Exacta (BM25):** Recupera fragmentos donde las palabras clave (como un número de artículo o un código de formato específico) coinciden exactamente.
@@ -38,12 +38,21 @@ Para mitigar el alto costo y evitar la pérdida de contexto, se diseñó un fluj
 ### C. Arquitectura Map-Reduce
 Aunque el RAG híbrido es eficiente, corre un "riesgo de omisión" si la búsqueda vectorial falla en traer un artículo crítico. La solución planteada para estos casos es un patrón *Map-Reduce*: recuperar **todos** los artículos de un anexo específico mediante metadatos, aplicar el agente extractor a cada uno de manera individual (Map), y utilizar un agente consolidador final para unir los resultados en el esquema definitivo (Reduce).
 
-### D. Pipeline Modular de RAG Avanzado (SOTA - En desarrollo)
-Para maximizar la precisión en escenarios regulatorios complejos sin comprometer innecesariamente la latencia o los costos computacionales, se está implementando un pipeline de recuperación altamente modular. Dado que no todas las consultas requieren la máxima potencia algorítmica, el `MotorBusqueda` permitirá habilitar o deshabilitar dinámicamente las siguientes técnicas del estado del arte:
+### D. Pipeline Modular de RAG Avanzado (SOTA - Avance 3)
+Para maximizar la precisión y superar consistentemente la línea base (BM25), se implementa un pipeline de recuperación con técnicas avanzadas orientadas a cerrar la brecha entre consultas cortas y documentos regulatorios largos:
 
-1. **Multi-Query Expansion:** Utilización del LLM para generar reformulaciones sintácticas de la consulta original. Esto permite lanzar múltiples búsquedas en paralelo, mitigando el problema de la "brecha de vocabulario".
-2. **Cross-Encoder Reranking:** Tras realizar la Búsqueda Híbrida (RRF), los candidatos resultantes pasan por un modelo especializado (ej. *sentence-transformers*) que lee simultáneamente la pregunta y el documento para emitir una calificación de relevancia de alta precisión, reordenando el *Top K* definitivo.
-3. **Context Compression (Compresión de Contexto):** Aplicación de algoritmos para extraer exclusivamente las oraciones relevantes de los chunks recuperados. Esto reduce el ruido semántico (*Lost in the Middle*) y minimiza radicalmente el consumo de tokens.
+1. **Query Transformations (HyDE y Query Expansion):** Implementación de *Hypothetical Document Embeddings* (HyDE) generando 2-3 documentos hipotéticos por consulta mediante el LLM y promediando sus embeddings. Asimismo, se emplea expansión de consultas utilizando sinónimos regulatorios extraídos del vocabulario TF-IDF para potenciar drásticamente el *recall*.
+2. **Cross-Encoder Reranking Jerárquico:** Tras la Búsqueda Híbrida (RRF), se introduce una segunda etapa indispensable utilizando un modelo especializado (ej. `sentence-transformers/mmarco-MiniLMv2-L12-H384` en español). Este modelo lee simultáneamente la pregunta y el documento, reordenando el *Top K* final y compensando la "deriva semántica" inherente a los embeddings. Opcionalmente, se aplicará un *LLM-as-judge* para validación contextual.
+3. **Context Compression (Compresión de Contexto):** Extracción exclusiva de las oraciones relevantes dentro de los fragmentos recuperados. Esto reduce el ruido (*Lost in the Middle*) y minimiza el uso de tokens.
+
+### E. Framework de Evaluación Cuantitativa (Validación Avance 3)
+Un componente esencial es la evaluación sistemática y cuantitativa del pipeline RAG:
+
+1. **Dataset de Evaluación (Ground Truth):** Como paso inicial, se construye un dataset benchmark de 20-30 consultas representativas, cada una emparejada con 3-5 documentos relevantes (anotados por expertos de Banxico). Esta base hace falsable el experimento.
+2. **Métricas IR Estándar y Métrica Primaria:** Se comparará cuantitativamente (Recall@5, Recall@10, MAP@10, NDCG@10) entre enfoques BoW, TF-IDF, Embeddings simples, Híbrida y Híbrida+Reranking. La métrica primaria a priori se establece como **Recall@5** (o alternativamente **nDCG@10**).
+3. **Prueba de Contaminación de Datos (Data Contamination Check):** Evaluación del LLM sin contexto inyectado (*no-context test*) para discriminar entre la capacidad real del pipeline RAG y la potencial memorización de la normativa durante el pre-entrenamiento del LLM.
+4. **Análisis de Errores por Etapas:** Clasificación estructurada de los errores del sistema en tres categorías: (a) El sistema de Retrieval falló; (b) Retrieval exitoso pero el LLM alucinó; (c) Retrieval y respuesta exitosos pero formato estructurado inválido.
+5. **ROI y Costo de Revisión Humana:** Análisis comparativo del tiempo (minutos/documento) que requiere un analista de la DISF para validar las salidas del sistema versus el proceso de análisis manual, justificando económicamente el uso de IA.
 
 ## 4. Estado Actual (Roadmap)
 

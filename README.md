@@ -32,15 +32,21 @@ Para garantizar su viabilidad en un entorno operativo, el proyecto delimita su a
 
 ---
 
-## 📊 Metodología de Evaluación de Modelos (LLMs)
+## 📊 Metodología de Evaluación y Framework de Pruebas
 
-Para asegurar la viabilidad institucional y evaluar qué modelo (Open Source vs. Comercial) rinde mejor en precisión y costo, el proyecto empleará un enfoque riguroso comparando las salidas del LLM contra un **"Golden Dataset"** (formularios elaborados manualmente por expertos de la DISF).
+Para asegurar la viabilidad institucional y evaluar cada etapa del flujo (Retrieval + Generación), se empleará un marco de evaluación riguroso:
 
-**Métricas a considerar:**
-*   **Telemetría y Costos:** Rastreo de *Prompt Tokens*, *Completion Tokens*, latencia por documento y costo en USD (mediante librerías de proxy como LiteLLM).
-*   **Exhaustividad (Recall):** Porcentaje de campos requeridos por la regulación que el LLM logró identificar.
-*   **Precisión (Precision):** Porcentaje de campos "alucinados" versus campos reales identificados.
-*   **Similitud Semántica:** Evaluación mediante *embeddings* para identificar campos conceptualmente idénticos pero que difieren en nomenclatura (ej. "Monto" vs "Importe").
+**1. Evaluación de Recuperación de Información (RAG Retrieval):**
+Previo a la generación, se evalúa la capacidad de los modelos de búsqueda para encontrar los documentos correctos.
+*   **Golden Dataset de IR (Ground Truth):** Construcción (antes de realizar pruebas) de un benchmark de 20-30 consultas representativas, con 3-5 fragmentos regulatorios relevantes etiquetados por expertos.
+*   **Métricas Primarias (A priori):** La métrica principal será **Recall@5**, junto con **nDCG@10**.
+*   **Comparativa Estricta:** El desempeño del pipeline híbrido (con Cross-Encoder Reranking y HyDE) se medirá contra la línea base (Floor) que representa **BM25**, para comprobar empíricamente su "lift" y valor añadido.
+
+**2. Evaluación de Modelos Generativos (LLMs):**
+Una vez recuperado el contexto, se evalúa la salida final estructurada y la idoneidad del sistema completo.
+*   **Telemetría y Costos (ROI):** Rastreo de latencia, costo en USD y estimación del "Costo de revisión humana a escala" (minutos por documento analizado) vs el proceso manual.
+*   **Análisis de Errores por Etapa:** Distinción clara para detectar si el error ocurrió por (a) Fallo en Retrieval, (b) Alucinación Generativa o (c) Error de formato estructurado.
+*   **Data Contamination Check:** Pruebas "sin contexto" (*no-context test*) para descartar que el LLM simplemente memorizó las normativas en su pre-entrenamiento.
 
 ---
 
@@ -69,8 +75,8 @@ El proyecto sigue una arquitectura modular "API-First" para separar la lógica d
 | Fase | Estado | Descripción Técnica |
 | :--- | :--- | :--- |
 | **1. Cimentación y Dataset** | 🟢 Completado | Extracción de CUB y catálogos de Excel a Markdown. Refactorización en Arquitectura Orientada a Objetos (OOP). |
-| **2. RAG Engine y Retrieval** | 🟢 Completado | Implementación de Chunking dinámico, Vectorización (ChromaDB) y Búsqueda Híbrida (Reciprocal Rank Fusion + Multi-Query). |
-| **3. Core LLM y Evaluación (Arena)** | 🟡 En progreso | Diseño del System Prompt con Pydantic. Entorno de evaluación (Notebook) para competir *Full Context* vs *RAG Híbrido* frente al Golden Dataset. |
+| **2. RAG Engine y Retrieval** | 🟡 En progreso | Implementación de Chunking dinámico, Búsqueda Híbrida (RRF), **HyDE**, Query Expansion y **Cross-Encoder Reranking**. |
+| **3. Evaluación Cuantitativa (Arena)** | 🟡 En progreso | Construcción del Ground Truth (20-30 queries). Benchmarking sistemático (Recall@5) comparando baselines (BM25) vs SOTA. |
 | **4. Integración y API** | ⚪ Pendiente | Empaquetado del pipeline de `src/` mediante endpoints de FastAPI. |
 | **5. Interfaz y Entrega** | ⚪ Pendiente | Construcción del MVP web en Streamlit, pruebas de consistencia final y documentación académica. |
 
