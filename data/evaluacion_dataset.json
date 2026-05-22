@@ -1,14 +1,14 @@
 [
   {
     "query_id": "Q01",
-    "pregunta": "¿Cómo se clasifican los tipos de crédito de la Cartera Crediticia de Consumo no Revolvente para el cálculo de reservas?",
+    "pregunta": "¿Para consumo no revolvente cómo se define el pago realizado?",
     "dificultad": "Baja",
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Artículo 91 -> II. Tipos de cartera",
-        "texto_clave_esperado": "ABCD (B) | A los créditos que sean otorgados a personas físicas y cuyo destino sea la adquisición de bienes de consumo duradero",
-        "justificacion": "Enlista y define explícitamente los tipos: ABCD (B), auto (A), nómina (N), personal (P) y otro (O)."
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación",
+        "justificacion": "Define explícitamente el concepto de pago realizado para créditos de consumo no revolvente, lo cual es esencial para el cálculo de la Probabilidad de Incumplimiento (PI) y la clasificación de los créditos en las etapas de riesgo."
       }
     ]
   },
@@ -19,7 +19,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Artículo 91 Bis 1 -> III. La Probabilidad de Incumplimiento de los créditos... clasificados como 'N'",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "PI_i^N = \\frac{1}{1 + e^{-Z_i^N}}",
         "justificacion": "Contiene la fórmula logística y los valores de los coeficientes (beta) para créditos nómina (N)."
       }
@@ -32,7 +32,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Artículo 91 -> III. Etapas de riesgo de crédito",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3",
         "justificacion": "La tabla especifica que si los atrasos (ATR) son > 3, el crédito se clasifica en Etapa 3."
       }
@@ -44,7 +44,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Sección General -> Artículo 91 -> III. Etapas de riesgo de crédito",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:",
         "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en diferentes etapas de riesgo de crédito y los criterios para la migración entre etapas."
       }
@@ -57,7 +57,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Sección General -> Artículo 89 Bis",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...",
         "justificacion": "Este documento describe los enfoques disponibles para el cálculo de reservas preventivas y los requisitos asociados a cada uno."
       }
@@ -70,7 +70,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) III. a) Probabilidad de Incumplimiento",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%",
         "justificacion": "El texto especifica claramente que para créditos en etapa 3, la Probabilidad de Incumplimiento es del 100%, lo cual es crucial para el cálculo de reservas."
       }
@@ -83,7 +83,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) II. Etapas de riesgo de crédito",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.",
         "justificacion": "El texto indica que las instituciones pueden migrar créditos entre etapas de riesgo basándose en criterios formalizados en sus manuales, lo cual es esencial para entender la flexibilidad y control en la gestión del riesgo crediticio."
       }
@@ -91,14 +91,14 @@
     "query_id": "Q07"
   },
   {
-    "pregunta": "¿Cómo pueden las instituciones financieras utilizar las garantías reales financieras para reducir las reservas preventivas según el Artículo 97 Bis 6?",
-    "dificultad": "Alta",
+    "pregunta": "¿Qué se consideraría un crédito personal?",
+    "dificultad": "Media",
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado E",
-        "texto_clave_esperado": "Las Instituciones podrán reconocer en la estimación de la Severidad de la Pérdida de los créditos las garantías reales financieras",
-        "justificacion": "El texto describe cómo las instituciones pueden reconocer garantías reales financieras para disminuir las reservas preventivas."
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina",
+        "justificacion": "El texto define claramente qué se considera un crédito personal, lo cual es importante para la clasificación de créditos y la aplicación de las reglas correspondientes a cada tipo de crédito."
       }
     ],
     "query_id": "Q08"
@@ -109,7 +109,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado E",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito",
         "justificacion": "El texto enumera los tipos de garantías que pueden ser consideradas para la estimación de la Severidad de la Pérdida."
       }
@@ -122,7 +122,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Sección General -> Artículo 89 Bis",
+        "jerarquia_esperada": "CNR",
         "texto_clave_esperado": "Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.",
         "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en etapas de riesgo de crédito, utilizando el criterio de incremento significativo del riesgo crediticio."
       }
@@ -130,27 +130,27 @@
     "query_id": "Q10"
   },
   {
-    "pregunta": "¿Qué enfoques pueden adoptar las instituciones para el cálculo de reservas preventivas y cuáles son sus requisitos?",
-    "dificultad": "Media",
+    "pregunta": "¿Qué se entiendo por saldo a pagar?",
+    "dificultad": "Baja",
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Sección General -> Artículo 89 Bis",
-        "texto_clave_esperado": "Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...",
-        "justificacion": "El documento describe los dos enfoques disponibles para el cálculo de reservas preventivas y los requisitos asociados a cada uno."
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución",
+        "justificacion": "El documento describe claramente qué se entiende por saldo a pagar, lo cual es importante para la gestión de créditos y la aplicación de las reglas correspondientes."
       }
     ],
     "query_id": "Q11"
   },
   {
-    "pregunta": "¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados como \"B\" en la Cartera Crediticia de Consumo no Revolvente?",
+    "pregunta": "¿Cómo se determina la reservas para los créditos en etapa 2?",
     "dificultad": "Alta",
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "Sección General -> Artículo 91 Bis 1",
-        "texto_clave_esperado": "La Probabilidad de Incumplimiento de los créditos de la Cartera Crediticia de Consumo no Revolvente clasificados como “B” deberá obtenerse conforme a lo siguiente: a) Si $ATR_{i}^{B} > 3$ o cuando el crédito se encuentre en etapa 3: PI_{i}^{B} = 100%",
-        "justificacion": "Este documento explica el cálculo de la Probabilidad de Incumplimiento para créditos clasificados como \"B\", incluyendo las condiciones bajo las cuales se asigna una probabilidad del 100%."
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Reservas\\ Etapa\\ 2_i = \\max\\left(\\text{Reservas\\ Vida\\ Completa}_i, PI_i^X \\times SP_i^X \\times EI_i^X\\right)",
+        "justificacion": "El documento proporciona la fórmula específica para calcular las reservas para créditos en etapa 2, utilizando la máxima entre las reservas de vida completa y el producto de la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento."
       }
     ],
     "query_id": "Q12"
@@ -161,7 +161,7 @@
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado B -> III. Para estimar las reservas será necesario obtener la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento de acuerdo a lo siguiente: -> c) Exposición al Incumplimiento:",
+        "jerarquia_esperada": "CR",
         "texto_clave_esperado": "EI_i = \\max \\left\\{ \\frac{S_i \\times \\max \\left\\{1.026 \\cdot \\left( \\frac{S_i}{\\text{Límite de Crédito}} \\right)^{-0.5434} \\cdot 100\\% \\right\\}}{S_i + 13.79\\% \\cdot (\\text{Límite de Crédito} - S_i)} \\right\\}",
         "justificacion": "Este documento detalla el método específico para calcular la Exposición al Incumplimiento cuando el saldo es menor que el límite de crédito, proporcionando la fórmula exacta utilizada."
       }
@@ -169,69 +169,30 @@
     "query_id": "Q13"
   },
   {
-    "pregunta": "¿Qué criterios deben seguir las instituciones para migrar un crédito entre etapas de riesgo?",
+    "pregunta": "¿Se pueden reportar tasas de interés en cero?",
     "dificultad": "Media",
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado B -> II. Etapas de riesgo de crédito:",
-        "texto_clave_esperado": "Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.",
-        "justificacion": "El documento especifica que las instituciones deben tener criterios formalizados en sus manuales para migrar créditos entre etapas, asegurando consistencia en su aplicación."
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%",
+        "justificacion": "El documento especifica que en casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%, asegurando consistencia en su aplicación."
       }
     ],
     "query_id": "Q14"
   },
   {
-    "pregunta": "¿Cómo se determina la Probabilidad de Incumplimiento para créditos con ACT_i ≤ 3?",
+    "pregunta": "¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?",
     "dificultad": "Alta",
     "documentos_esperados": [
       {
         "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado B -> III. Para estimar las reservas será necesario obtener la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento de acuerdo a lo siguiente: -> a) Probabilidad de Incumplimiento:",
-        "texto_clave_esperado": "PI_i = \\frac{1}{1 + e^{-Z_i}}",
-        "justificacion": "El documento proporciona la fórmula específica para calcular la Probabilidad de Incumplimiento cuando ACT_i es menor o igual a 3, utilizando una función logística basada en Z_i."
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...",
+        "justificacion": "El documento establece que cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las instituciones deben aplicar un factor de riesgo específico para el cálculo de las variables, lo cual es crucial para la gestión del riesgo crediticio en ausencia de información."
       }
     ],
     "query_id": "Q15"
-  },
-  {
-    "pregunta": "¿Cómo pueden las instituciones financieras reducir las reservas preventivas a través del reconocimiento de garantías?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado E",
-        "texto_clave_esperado": "Las Instituciones podrán reconocer en la estimación de la Severidad de la Pérdida de los créditos las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito, con la finalidad de disminuir las reservas preventivas",
-        "justificacion": "El texto describe cómo las instituciones pueden utilizar diferentes tipos de garantías para reducir las reservas preventivas, lo cual es clave para entender el mecanismo de reducción."
-      }
-    ],
-    "query_id": "Q16"
-  },
-  {
-    "pregunta": "¿Qué tipos de garantías son reconocidos para la estimación de la Severidad de la Pérdida de los créditos?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado E",
-        "texto_clave_esperado": "las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito",
-        "justificacion": "El texto enumera explícitamente los tipos de garantías que pueden ser reconocidos, lo cual es esencial para responder a la pregunta."
-      }
-    ],
-    "query_id": "Q17"
-  },
-  {
-    "pregunta": "¿En qué condiciones deben las instituciones aplicar el apartado E para calcular sus reservas?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "(274) Apartado E",
-        "texto_clave_esperado": "emplearán el presente apartado siempre que calculen sus reservas con la metodología de calificación de cartera a la que se refiere esta sección",
-        "justificacion": "El texto especifica la condición bajo la cual las instituciones deben aplicar el apartado E, lo cual es crucial para entender el contexto de aplicación."
-      }
-    ],
-    "query_id": "Q18"
   },
   {
     "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Cobertura de Liquidez y cómo debe expresarse el resultado porcentual?",
@@ -244,7 +205,7 @@
         "justificacion": "Incluye la definición base de la fórmula de ML"
       }
     ],
-    "query_id": "Q19"
+    "query_id": "Q16"
   },
   {
     "pregunta": "¿Cómo se determina el flujo de salida contingente por operaciones con instrumentos financieros derivados?",
@@ -257,7 +218,7 @@
         "justificacion": "Texto clave para derivados en ML"
       }
     ],
-    "query_id": "Q20"
+    "query_id": "Q17"
   },
   {
     "pregunta": "¿Cómo se calcula el flujo total de entrada de efectivo?",
@@ -270,7 +231,7 @@
         "justificacion": "Texto clave para el cálculo del flujo de entrada de efectivo"
       }
     ],
-    "query_id": "Q21"
+    "query_id": "Q18"
   },
   {
     "pregunta": "¿Qué factor de salida se aplica a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB?",
@@ -283,7 +244,7 @@
         "justificacion": "Identificación de la tabla de factor IPAB"
       }
     ],
-    "query_id": "Q22"
+    "query_id": "Q19"
   },
   {
     "pregunta": "¿Cómo se registran las operaciones de compra-venta fecha valor para calcular el coeficiente de cobertura de liquidez?",
@@ -296,7 +257,7 @@
         "justificacion": "Regla para operaciones compra-venta"
       }
     ],
-    "query_id": "Q23"
+    "query_id": "Q20"
   },
   {
     "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Financiamiento Estable Neto y cómo debe expresarse el resultado porcentual?",
@@ -309,7 +270,7 @@
         "justificacion": "Definición base del Coeficiente de FE"
       }
     ],
-    "query_id": "Q24"
+    "query_id": "Q21"
   },
   {
     "pregunta": "¿Con qué periodicidad debe reportarse el CFEN al Banco de México y a qué fecha de cálculo corresponde?",
@@ -322,7 +283,7 @@
         "justificacion": "Regla de reporte de CFEN"
       }
     ],
-    "query_id": "Q25"
+    "query_id": "Q22"
   },
   {
     "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Disponible para efectos del CFEN?",
@@ -335,7 +296,7 @@
         "justificacion": "Definición textual"
       }
     ],
-    "query_id": "Q26"
+    "query_id": "Q23"
   },
   {
     "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Requerido para efectos del CFEN?",
@@ -348,7 +309,7 @@
         "justificacion": "Definición textual"
       }
     ],
-    "query_id": "Q27"
+    "query_id": "Q24"
   },
   {
     "pregunta": "¿Qué factor de financiamiento estable disponible se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año?",
@@ -361,7 +322,7 @@
         "justificacion": "Identificación de factores para financiamiento"
       }
     ],
-    "query_id": "Q28"
+    "query_id": "Q25"
   },
   {
     "pregunta": "¿Cuál es la definición de liquidez intradía según las herramientas de monitoreo del Comité de Basilea?",
@@ -374,7 +335,7 @@
         "justificacion": "Definición textual LID"
       }
     ],
-    "query_id": "Q29"
+    "query_id": "Q26"
   },
   {
     "pregunta": "¿Cuáles son las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil?",
@@ -387,7 +348,7 @@
         "justificacion": "Identificación de fuentes LID"
       }
     ],
-    "query_id": "Q30"
+    "query_id": "Q27"
   },
   {
     "pregunta": "¿Cómo se define un escenario de tensión de contraparte?",
@@ -400,7 +361,7 @@
         "justificacion": "Definición tensión de contraparte"
       }
     ],
-    "query_id": "Q31"
+    "query_id": "Q28"
   },
   {
     "pregunta": "¿Cómo se calcula el uso máximo diario de liquidez intradía a partir de la posición neta acumulada de pagos enviados y recibidos?",
@@ -413,7 +374,7 @@
         "justificacion": "Cálculo de LID diario"
       }
     ],
-    "query_id": "Q32"
+    "query_id": "Q29"
   },
   {
     "pregunta": "¿Qué son las obligaciones con horario específico y por qué su incumplimiento puede generar riesgo financiero o reputacional?",
@@ -426,6 +387,6 @@
         "justificacion": "Definición obligaciones LID"
       }
     ],
-    "query_id": "Q33"
+    "query_id": "Q30"
   }
 ]
