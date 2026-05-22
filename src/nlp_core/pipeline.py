@@ -49,7 +49,6 @@ class PipelineRecuperacion:
                 res = self.motor.buscar_similitud(q, k=top_k_base)
                 docs = _get_docs(res)
             elif self.base_retriever == "hibrido":
-                # Usar la función de búsqueda híbrida nativa del motor que soporta pesos
                 res = self.motor.buscar_hibrido(q, self.documentos_raw, k=top_k_base, weights=self.hybrid_weights)
                 docs = _get_docs(res)
             else:
