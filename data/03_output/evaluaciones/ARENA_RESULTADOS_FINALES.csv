@@ -1,9 +1,0 @@
-estrategia,Recall@5,Recall@10,MAP@10,NDCG@10,Latencia_Promedio_Segundos,Tokens_Contexto_Promedio
-1_BoW,18.18,18.18,0.1818,0.1818,0.3189,93.8
-2_TF-IDF,15.15,15.15,0.1515,0.1515,0.3078,93.9
-3_BM25,24.24,24.24,0.2424,0.2424,0.3226,106.9
-4_Embeddings,27.27,27.27,0.2727,0.2727,0.3229,115.9
-5_Hibrido_RRF,27.27,27.27,0.2727,0.2727,0.6216,115.9
-6_Hibrido_CrossEncoder,27.27,27.27,0.2727,0.2727,7.2423,115.9
-7_Embeddings_CrossEncoder,27.27,27.27,0.2727,0.2727,6.4471,115.9
-8_MultiQuery_Embeddings_CrossEncoder,27.27,27.27,0.2727,0.2727,8.6902,115.9
