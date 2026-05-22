@@ -6,13 +6,14 @@ class PipelineRecuperacion:
     2. Recuperación Base (BoW, TF-IDF, BM25, Embeddings, Híbrido)
     3. Reordenamiento / Reranking (Post-procesamiento)
     """
-    def __init__(self, motor, documentos_raw, base_retriever="embeddings", query_expansion=None, post_processing=None):
+    def __init__(self, motor, documentos_raw, base_retriever="embeddings", query_expansion=None, post_processing=None, hybrid_weights=[0.5, 0.5]):
         self.motor = motor
         self.documentos_raw = documentos_raw
         
         self.base_retriever = base_retriever
         self.query_expansion = query_expansion
         self.post_processing = post_processing
+        self.hybrid_weights = hybrid_weights
 
     def invoke(self, query: str, k: int = 5):
         # 1. Expansión de Consultas
@@ -48,14 +49,9 @@ class PipelineRecuperacion:
                 res = self.motor.buscar_similitud(q, k=top_k_base)
                 docs = _get_docs(res)
             elif self.base_retriever == "hibrido":
-                # Híbrido manual
-                res_sem = self.motor.buscar_similitud(q, k=top_k_base)
-                docs_sem = _get_docs(res_sem)
-                
-                res_lex = self.motor.buscar_bm25(q, self.documentos_raw, k=top_k_base)
-                docs_lex = _get_docs(res_lex)
-                
-                _, docs = self._fusion_rrf(docs_sem, docs_lex, top_n=top_k_base)
+                # Usar la función de búsqueda híbrida nativa del motor que soporta pesos
+                res = self.motor.buscar_hibrido(q, self.documentos_raw, k=top_k_base, weights=self.hybrid_weights)
+                docs = _get_docs(res)
             else:
                 raise ValueError(f"Retriever base no soportado: {self.base_retriever}")
                 
@@ -107,38 +103,7 @@ Pregunta original: {pregunta}"""
             print(f"[ERROR] Falló Multi-Query: {e}. Retornando query original.")
             return [query]
 
-    def _fusion_rrf(self, docs_sem, docs_lex, top_n=5, c=60):
-        # Reciprocal Rank Fusion Manual
-        scores_rrf = {}
-        for rank, doc in enumerate(docs_sem, start=1):
-            doc_id = doc.metadata.get("id")
-            if doc_id not in scores_rrf:
-                scores_rrf[doc_id] = {"score": 0, "doc": doc}
-            scores_rrf[doc_id]["score"] += 1.0 / (c + rank)
-            
-        for rank, doc in enumerate(docs_lex, start=1):
-            doc_id = doc.metadata.get("id")
-            if doc_id not in scores_rrf:
-                scores_rrf[doc_id] = {"score": 0, "doc": doc}
-            scores_rrf[doc_id]["score"] += 1.0 / (c + rank)
-            
-        # Ordenar
-        ordenados = sorted(scores_rrf.values(), key=lambda x: x["score"], reverse=True)[:top_n]
-        docs_finales = [item["doc"] for item in ordenados]
-        
-        import pandas as pd
-        filas = []
-        for rank, item in enumerate(ordenados, start=1):
-            doc = item["doc"]
-            filas.append({
-                "rank": rank,
-                "score_distancia": round(item["score"], 4),
-                "id": doc.metadata.get("id"),
-                "tipo_documento": doc.metadata.get("tipo_documento"),
-                "documento": doc.metadata.get("documento"),
-                "texto": doc.page_content[:500]
-            })
-        return pd.DataFrame(filas), docs_finales
+
 
     def _ejecutar_cross_encoder(self, query: str, docs_candidatos: list, k: int):
         from sentence_transformers.cross_encoder import CrossEncoder
