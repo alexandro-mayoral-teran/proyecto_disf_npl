@@ -76,32 +76,45 @@ class MotorBusqueda:
         Requiere la lista de documentos en memoria para inicializar el índice BM25.
         """
         from langchain_community.retrievers import BM25Retriever
-        from langchain_classic.retrievers import EnsembleRetriever
 
         print(f"Ejecutando Búsqueda Híbrida para: '{query}'...")
 
-        # 1. Configurar BM25 Retriever
+        if not documentos_bm25:
+            raise ValueError("Búsqueda Híbrida requiere 'documentos_bm25' para inicializar el BM25 local.")
+
+        # 1. Búsqueda Léxica
         bm25_retriever = BM25Retriever.from_documents(documentos_bm25)
         bm25_retriever.k = k
-
-        # 2. Configurar Chroma Retriever
-        chroma_retriever = self.vectorstore.as_retriever(search_kwargs={"k": k})
-
-        # 3. Ensamblar usando RRF (Reciprocal Rank Fusion)
-        ensemble_retriever = EnsembleRetriever(
-            retrievers=[bm25_retriever, chroma_retriever],
-            weights=weights
-        )
-
-        # 4. Obtener resultados combinados
-        resultados_raw = ensemble_retriever.invoke(query)[:k]
-
-        # 5. Formatear como DataFrame para consistencia
+        res_bm25 = bm25_retriever.invoke(query)
+        
+        # 2. Búsqueda Semántica
+        res_chroma = self.vectorstore.similarity_search(query, k=k)
+        
+        # 3. Reciprocal Rank Fusion (RRF) manual
+        rrf_k = 60
+        scores = {}
+        docs_map = {}
+        
+        for idx, doc in enumerate(res_bm25, start=1):
+            doc_id = doc.page_content
+            docs_map[doc_id] = doc
+            scores[doc_id] = scores.get(doc_id, 0) + (weights[0] * (1.0 / (idx + rrf_k)))
+            
+        for idx, doc in enumerate(res_chroma, start=1):
+            doc_id = doc.page_content
+            docs_map[doc_id] = doc
+            scores[doc_id] = scores.get(doc_id, 0) + (weights[1] * (1.0 / (idx + rrf_k)))
+            
+        # Ordenar por score RRF
+        sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)[:k]
+        resultados_raw = [docs_map[doc_id] for doc_id, score in sorted_scores]
+        
         filas = []
-        for rank, doc in enumerate(resultados_raw, start=1):
+        for rank, (doc_id, score) in enumerate(sorted_scores, start=1):
+            doc = docs_map[doc_id]
             filas.append({
                 "rank": rank,
-                "score_distancia": "N/A (Híbrido/RRF)", 
+                "score_distancia": round(score, 6),
                 "id": doc.metadata.get("id"),
                 "tipo_documento": doc.metadata.get("tipo_documento"),
                 "documento": doc.metadata.get("documento"),
@@ -111,6 +124,144 @@ class MotorBusqueda:
             })
 
         return pd.DataFrame(filas), resultados_raw
+
+    def buscar_bm25(self, query: str, documentos_bm25: list, k: int = 5) -> tuple[pd.DataFrame, list]:
+        """
+        Ejecuta Búsqueda Léxica pura usando BM25.
+        """
+        from langchain_community.retrievers import BM25Retriever
+        
+        print(f"Ejecutando Búsqueda Léxica (BM25) para: '{query}'...")
+        bm25_retriever = BM25Retriever.from_documents(documentos_bm25)
+        bm25_retriever.k = k
+        
+        resultados_raw = bm25_retriever.invoke(query)
+        
+        filas = []
+        for rank, doc in enumerate(resultados_raw, start=1):
+            filas.append({
+                "rank": rank,
+                "score_distancia": "N/A (BM25)", 
+                "id": doc.metadata.get("id"),
+                "tipo_documento": doc.metadata.get("tipo_documento"),
+                "documento": doc.metadata.get("documento"),
+                "texto": doc.page_content[:500]
+            })
+
+        return pd.DataFrame(filas), resultados_raw
+
+    def buscar_bow(self, query: str, documentos_raw: list, k: int = 5) -> tuple[pd.DataFrame, list]:
+        """Búsqueda Léxica pura usando Bag of Words (CountVectorizer)."""
+        from sklearn.feature_extraction.text import CountVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+        import nltk
+        from nltk.corpus import stopwords
+        
+        try:
+            stopwords_es = stopwords.words("spanish")
+        except LookupError:
+            nltk.download('stopwords')
+            stopwords_es = stopwords.words("spanish")
+        
+        print(f"Ejecutando Búsqueda Léxica (BoW) para: '{query}'...")
+        textos = [doc.page_content for doc in documentos_raw]
+        vectorizer = CountVectorizer(lowercase=True, stop_words=stopwords_es)
+        X = vectorizer.fit_transform(textos)
+        
+        q_vec = vectorizer.transform([query])
+        sims = cosine_similarity(q_vec, X).ravel()
+        top_idx = sims.argsort()[::-1][:k]
+        
+        docs_ordenados = [documentos_raw[i] for i in top_idx]
+        
+        filas = []
+        for rank, (doc, score) in enumerate(zip(docs_ordenados, sims[top_idx]), start=1):
+            filas.append({
+                "rank": rank,
+                "score_distancia": float(score),
+                "id": doc.metadata.get("id"),
+                "tipo_documento": doc.metadata.get("tipo_documento"),
+                "documento": doc.metadata.get("documento"),
+                "texto": doc.page_content[:500]
+            })
+        return pd.DataFrame(filas), docs_ordenados
+
+    def buscar_tfidf(self, query: str, documentos_raw: list, k: int = 5) -> tuple[pd.DataFrame, list]:
+        """Búsqueda Léxica usando TF-IDF con normalización L2."""
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+        import nltk
+        from nltk.corpus import stopwords
+        
+        try:
+            stopwords_es = stopwords.words("spanish")
+        except LookupError:
+            nltk.download('stopwords')
+            stopwords_es = stopwords.words("spanish")
+        
+        print(f"Ejecutando Búsqueda Léxica (TF-IDF) para: '{query}'...")
+        textos = [doc.page_content for doc in documentos_raw]
+        vectorizer = TfidfVectorizer(lowercase=True, stop_words=stopwords_es, norm='l2')
+        X = vectorizer.fit_transform(textos)
+        
+        q_vec = vectorizer.transform([query])
+        sims = cosine_similarity(q_vec, X).ravel()
+        top_idx = sims.argsort()[::-1][:k]
+        
+        docs_ordenados = [documentos_raw[i] for i in top_idx]
+        
+        filas = []
+        for rank, (doc, score) in enumerate(zip(docs_ordenados, sims[top_idx]), start=1):
+            filas.append({
+                "rank": rank,
+                "score_distancia": float(score),
+                "id": doc.metadata.get("id"),
+                "tipo_documento": doc.metadata.get("tipo_documento"),
+                "documento": doc.metadata.get("documento"),
+                "texto": doc.page_content[:500]
+            })
+        return pd.DataFrame(filas), docs_ordenados
+
+    def buscar_hibrido_reranking(self, query: str, documentos_bm25: list, k: int = 5, top_n_rerank: int = 15) -> tuple[pd.DataFrame, list]:
+        """
+        Ejecuta Búsqueda Semántica recuperando un Top N amplio, y luego reordena los 
+        resultados usando un Cross-Encoder (sentence-transformers).
+        """
+        from sentence_transformers.cross_encoder import CrossEncoder
+        import numpy as np
+
+        print(f"Ejecutando Embeddings + Cross-Encoder Reranking para: '{query}'...")
+        
+        # 1. Recuperar amplio espectro (evitando envenenamiento léxico)
+        raw_docs = self.vectorstore.similarity_search(query, k=top_n_rerank)
+        
+        # 2. Cargar Cross-Encoder
+        # Se usa un modelo ligero multilingüe o estándar
+        modelo_ce = "cross-encoder/ms-marco-MiniLM-L-6-v2" 
+        encoder = CrossEncoder(modelo_ce)
+        
+        # 3. Preparar pares (Query, Documento)
+        pares = [[query, doc.page_content] for doc in raw_docs]
+        
+        # 4. Calcular scores de relevancia
+        scores = encoder.predict(pares)
+        
+        # 5. Reordenar documentos según el score de mayor a menor
+        indices_ordenados = np.argsort(scores)[::-1][:k]
+        docs_ordenados = [raw_docs[i] for i in indices_ordenados]
+        
+        filas = []
+        for rank, (doc, score) in enumerate(zip(docs_ordenados, scores[indices_ordenados]), start=1):
+            filas.append({
+                "rank": rank,
+                "score_distancia": float(score), 
+                "id": doc.metadata.get("id"),
+                "tipo_documento": doc.metadata.get("tipo_documento"),
+                "documento": doc.metadata.get("documento"),
+                "texto": doc.page_content[:500]
+            })
+
+        return pd.DataFrame(filas), docs_ordenados
 
     def buscar_multi_query(self, query: str, k: int = 5, documentos_bm25: list = None, weights: list = [0.5, 0.5]) -> tuple[pd.DataFrame, list]:
         """
@@ -130,9 +281,8 @@ class MotorBusqueda:
         chroma_retriever = self.vectorstore.as_retriever(search_kwargs={"k": k})
         
         if documentos_bm25:
-            print(" -> Integrando Búsqueda Híbrida (BM25 + Chroma) para cada query generada...")
+            print(" -> Integrando Búsqueda Híbrida (BM25 + Chroma) manual para cada query generada...")
             from langchain_community.retrievers import BM25Retriever
-            from langchain_classic.retrievers import EnsembleRetriever
             
             bm25_retriever = BM25Retriever.from_documents(documentos_bm25)
             bm25_retriever.k = k
@@ -185,7 +335,7 @@ class MotorBusqueda:
         })
 
     @staticmethod
-    def buscar_tfidf(query: str, vectorizer, X, df_base: pd.DataFrame, k: int = 5) -> pd.DataFrame:
+    def buscar_tfidf_estatico(query: str, vectorizer, X, df_base: pd.DataFrame, k: int = 5) -> pd.DataFrame:
         """
         Busca usando similitud del coseno sobre la matriz TF-IDF.
         """
