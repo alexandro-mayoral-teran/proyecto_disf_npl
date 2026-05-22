@@ -75,8 +75,8 @@ El proyecto sigue una arquitectura modular "API-First" para separar la lógica d
 | Fase | Estado | Descripción Técnica |
 | :--- | :--- | :--- |
 | **1. Cimentación y Dataset** | 🟢 Completado | Extracción de CUB y catálogos de Excel a Markdown. Refactorización en Arquitectura Orientada a Objetos (OOP). |
-| **2. RAG Engine y Retrieval** | 🟡 En progreso | Implementación de Chunking dinámico, Búsqueda Híbrida (RRF), **HyDE**, Query Expansion y **Cross-Encoder Reranking**. |
-| **3. Evaluación Cuantitativa (Arena)** | 🟡 En progreso | Construcción del Ground Truth (20-30 queries). Benchmarking sistemático (Recall@5) comparando baselines (BM25) vs SOTA. |
+| **2. RAG Engine y Retrieval** | 🟢 Completado | Implementación de Chunking dinámico, Búsqueda Híbrida (RRF), Multi-Query Expansion y **Cross-Encoder Reranking**. |
+| **3. Evaluación Cuantitativa (Arena)** | 🟢 Completado | Construcción de un Ground Truth (33 queries). Benchmarking sistemático (Recall, MAP, NDCG) con 3 modos de validación (Exact Match, LLM-as-a-Judge, Human-in-the-loop). |
 | **4. Integración y API** | ⚪ Pendiente | Empaquetado del pipeline de `src/` mediante endpoints de FastAPI. |
 | **5. Interfaz y Entrega** | ⚪ Pendiente | Construcción del MVP web en Streamlit, pruebas de consistencia final y documentación académica. |
 

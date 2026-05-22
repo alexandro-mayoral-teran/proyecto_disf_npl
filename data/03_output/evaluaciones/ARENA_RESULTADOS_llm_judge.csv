@@ -1,0 +1,9 @@
+estrategia,modo_evaluacion,Recall@5,Recall@10,MAP@10,NDCG@10,Latencia_Promedio_Segundos,Tokens_Contexto_Promedio
+1_BoW,llm_judge,27.27,27.27,0.2727,0.2727,0.3353,93.8
+2_TF-IDF,llm_judge,27.27,27.27,0.2727,0.2727,0.3353,93.9
+3_BM25,llm_judge,39.39,39.39,0.3939,0.3939,0.2806,106.9
+4_Embeddings,llm_judge,51.52,51.52,0.5152,0.5152,0.4019,115.9
+5_Hibrido_RRF,llm_judge,54.55,54.55,0.5455,0.5455,0.6154,115.9
+6_Hibrido_CrossEncoder,llm_judge,54.55,54.55,0.5455,0.5455,7.0239,115.9
+7_Embeddings_CrossEncoder,llm_judge,54.55,54.55,0.5455,0.5455,6.5421,115.9
+8_MultiQuery_Embeddings_CrossEncoder,llm_judge,54.55,54.55,0.5455,0.5455,8.726,115.9
