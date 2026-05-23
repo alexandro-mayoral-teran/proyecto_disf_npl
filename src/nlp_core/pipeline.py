@@ -19,6 +19,8 @@ class PipelineRecuperacion:
         # 1. Expansión de Consultas
         if self.query_expansion == "multi_query":
             queries = self._generar_multi_queries(query)
+        elif self.query_expansion == "hyde":
+            queries = self._generar_hyde(query)
         else:
             queries = [query]
         
@@ -100,6 +102,31 @@ Pregunta original: {pregunta}"""
             return queries[:4]
         except Exception as e:
             print(f"[ERROR] Falló Multi-Query: {e}. Retornando query original.")
+            return [query]
+
+    def _generar_hyde(self, query: str) -> list[str]:
+        from langchain_openai import ChatOpenAI
+        from langchain_core.prompts import PromptTemplate
+        
+        print(f"Generando documento hipotético (HyDE) para: '{query}'...")
+        llm = ChatOpenAI(temperature=0.3, model="gpt-4o-mini", api_key=self.motor.api_key)
+        
+        prompt = PromptTemplate(
+            input_variables=["pregunta"],
+            template="""Por favor, redacta un párrafo breve respondiendo a la siguiente consulta como si fueras un documento normativo, técnico y oficial de la CNBV o el Banco de México.
+Utiliza vocabulario técnico financiero y mantén un tono declarativo. NO uses introducciones como "Claro, aquí tienes". Ve directo al texto normativo.
+Consulta: {pregunta}
+Documento Oficial:"""
+        )
+        
+        cadena = prompt | llm
+        try:
+            respuesta = cadena.invoke({"pregunta": query})
+            doc_hipotetico = respuesta.content.strip()
+            # En HyDE clásico, se reemplaza la query por el documento hipotético generado para buscar en el espacio vectorial.
+            return [doc_hipotetico]
+        except Exception as e:
+            print(f"[ERROR] Falló HyDE: {e}. Retornando query original.")
             return [query]
 
 

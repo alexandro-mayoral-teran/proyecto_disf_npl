@@ -32,10 +32,11 @@ class MotorVectorizacion:
         
         self.persist_dir = str(persist_dir) if persist_dir else str(project_root / "data" / "03_output" / "chroma_db")
 
-    def indexar_documento_markdown(self, ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf"):
+    def indexar_documento_markdown(self, ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf", postprocesadores: list = None):
         """
         Toma un archivo Markdown local, lo fragmenta usando el chunker proporcionado y lo guarda en ChromaDB.
         Si no se provee chunker, usa EstrategiaChunking.ENCABEZADOS_MD por defecto.
+        Adicionalmente, permite inyectar postprocesadores (Filtros) para alterar el texto (Ej. Contextual Retrieval).
         """
         from src.utils.limpieza_texto import procesar_documento
         from src.nlp_core.chunking import RegulacionChunker, EstrategiaChunking
@@ -49,7 +50,14 @@ class MotorVectorizacion:
         texto_limpio = procesar_documento(texto, origen=origen)
         chunks = chunker.chunk(texto_limpio)
         
-        print(f"   Se generaron {len(chunks)} chunks.")
+        print(f"   Se generaron {len(chunks)} chunks originales.")
+        
+        if postprocesadores:
+            print(f"   Aplicando {len(postprocesadores)} post-procesadores...")
+            for procesador in postprocesadores:
+                chunks = procesador.procesar(chunks, texto_limpio)
+        
+        print(f"   Chunks finales a vectorizar: {len(chunks)}")
         
         # Inyectar metadata y generar IDs deterministas para evitar duplicados
         ids = []
@@ -113,9 +121,9 @@ def obtener_embeddings():
     motor = MotorVectorizacion()
     return motor.embeddings
 
-def indexar_documento(ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf"):
+def indexar_documento(ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf", postprocesadores=None):
     motor = MotorVectorizacion()
-    return motor.indexar_documento_markdown(ruta_archivo, chunker=chunker, origen=origen, collection_name=collection_name)
+    return motor.indexar_documento_markdown(ruta_archivo, chunker=chunker, origen=origen, collection_name=collection_name, postprocesadores=postprocesadores)
 
 def indexar_documentos_formularios(df_textos: pd.DataFrame, collection_name: str = "regulacion_formularios_disf"):
     motor = MotorVectorizacion()

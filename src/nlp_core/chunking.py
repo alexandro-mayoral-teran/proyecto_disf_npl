@@ -1,8 +1,11 @@
+import os
 import sys
 import re
+import time
 from pathlib import Path
 from enum import Enum
 from typing import List
+from dotenv import load_dotenv
 
 # Asegurar importaciones locales
 project_root = Path(__file__).resolve().parent.parent.parent
@@ -11,6 +14,8 @@ if str(project_root) not in sys.path:
 
 from langchain_core.documents import Document
 from langchain_text_splitters import MarkdownHeaderTextSplitter, RecursiveCharacterTextSplitter
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
 from src.utils.limpieza_texto import procesar_documento
 
 class EstrategiaChunking(str, Enum):
@@ -161,6 +166,100 @@ class RegulacionChunker:
         
         return chunks_finales
 
+class PostProcesadorChunk:
+    """Clase base para todos los post-procesadores de chunks (Filtros de Pipeline)."""
+    def procesar(self, chunks: List[Document], texto_completo: str = "") -> List[Document]:
+        raise NotImplementedError("Debe implementarse en la subclase")
+
+class InyectorMetadatos(PostProcesadorChunk):
+    """
+    Inyecta los metadatos jerárquicos extraídos por el MarkdownHeaderTextSplitter
+    directamente al inicio del page_content de cada chunk.
+    """
+    def procesar(self, chunks: List[Document], texto_completo: str = "") -> List[Document]:
+        chunks_procesados = []
+        for doc in chunks:
+            # Extraer headers de los metadatos (ej. Header 1, Header 2...)
+            headers = []
+            for key, value in doc.metadata.items():
+                if "Header" in key:
+                    headers.append(f"{value}")
+            
+            if headers:
+                contexto_str = " | ".join(headers)
+                nuevo_contenido = f"[Contexto Estructural: {contexto_str}]\n\n{doc.page_content}"
+            else:
+                nuevo_contenido = doc.page_content
+                
+            chunks_procesados.append(
+                Document(page_content=nuevo_contenido, metadata=doc.metadata.copy())
+            )
+            
+        return chunks_procesados
+
+class ContextualizadorLLM(PostProcesadorChunk):
+    """
+    Implementa la técnica de 'Contextual Retrieval'.
+    Para cada chunk, llama a un LLM ligero (gpt-4o-mini) para que redacte
+    una o dos oraciones de contexto, y las antepone al contenido.
+    """
+    def __init__(self, modelo: str = "gpt-4o-mini", max_retries: int = 3):
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("No se encontró OPENAI_API_KEY en el archivo .env")
+            
+        self.llm = ChatOpenAI(model=modelo, api_key=api_key, temperature=0)
+        self.max_retries = max_retries
+        self.prompt = PromptTemplate.from_template(
+            "Eres un experto regulador financiero del Banco de México.\n"
+            "A continuación te presento un documento normativo completo (o una gran sección) y un fragmento (chunk) específico extraído de él.\n\n"
+            "<documento_completo>\n{documento}\n</documento_completo>\n\n"
+            "<fragmento>\n{chunk}\n</fragmento>\n\n"
+            "Tu tarea es redactar estrictamente 1 o 2 oraciones breves que le den contexto a este fragmento basándote en el documento completo. "
+            "Por ejemplo, debes mencionar a qué anexo o cartera específica (ej. tarjeta de crédito, auto, nómina) pertenece este fragmento. "
+            "NO resumas el fragmento, solo explica su contexto jerárquico o el tema principal al que responde.\n"
+            "Respuesta:"
+        )
+
+    def procesar(self, chunks: List[Document], texto_completo: str = "") -> List[Document]:
+        chunks_procesados = []
+        texto_recortado = texto_completo[:30000]
+        
+        print(f"Contextualizando {len(chunks)} chunks con LLM...")
+        
+        for i, doc in enumerate(chunks):
+            print(f"  Procesando chunk {i+1}/{len(chunks)}...", end="\r")
+            
+            contexto_generado = ""
+            intentos = 0
+            while intentos < self.max_retries:
+                try:
+                    chain = self.prompt | self.llm
+                    respuesta = chain.invoke({
+                        "documento": texto_recortado,
+                        "chunk": doc.page_content
+                    })
+                    contexto_generado = respuesta.content.strip()
+                    break
+                except Exception as e:
+                    intentos += 1
+                    time.sleep(1) # Backoff simple
+                    if intentos == self.max_retries:
+                        print(f"\n  [!] Error al contextualizar chunk {i}: {e}. Se omitirá el contexto LLM.")
+                        contexto_generado = ""
+
+            if contexto_generado:
+                nuevo_contenido = f"[Contexto generado por IA: {contexto_generado}]\n\n{doc.page_content}"
+            else:
+                nuevo_contenido = doc.page_content
+                
+            chunks_procesados.append(
+                Document(page_content=nuevo_contenido, metadata=doc.metadata.copy())
+            )
+            
+        print("\nContextualización con LLM finalizada.")
+        return chunks_procesados
 
 # =====================================================================
 # FUNCIONES DE COMPATIBILIDAD HACIA ATRÁS (Para no romper otros módulos)

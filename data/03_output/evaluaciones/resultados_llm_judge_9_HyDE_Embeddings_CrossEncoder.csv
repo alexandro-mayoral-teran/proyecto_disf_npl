@@ -1,0 +1,3 @@
+﻿query_id,pregunta,estrategia,hit,rank_encontrado
+Q01,¿Para consumo no revolvente cómo se define el pago realizado?,9_HyDE_Embeddings_CrossEncoder,1,1
+Q02,¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?,9_HyDE_Embeddings_CrossEncoder,0,-1
