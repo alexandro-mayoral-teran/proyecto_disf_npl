@@ -9,6 +9,7 @@ if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
 
 from src.nlp_core.vectorizacion import MotorVectorizacion
+from src.nlp_core.chunking import InyectorMetadatos, ContextualizadorLLM, RegulacionChunker, EstrategiaChunking
 
 def poblar_base_vectorial():
     print("Iniciando proceso de indexación de Markdowns en ChromaDB...")
@@ -37,10 +38,23 @@ def poblar_base_vectorial():
     for archivo in archivos_md:
         print(f"\n--- Procesando: {archivo.name} ---")
         try:
-            # Por defecto usa MarkdownHeaderTextSplitter (EstrategiaChunking.ENCABEZADOS_MD)
+            # 1. Selecciona tu estrategia de Fragmentación (Chunking)
+            # - EstrategiaChunking.ENCABEZADOS_MD: Ideal para InyectorMetadatos (extrae jerarquía)
+            # - EstrategiaChunking.PARRAFO: Corta por saltos de línea (ideal para ContextualizadorLLM)
+            # - EstrategiaChunking.FIJO_OVERLAP: Ventana deslizante clásica
+            chunker_seleccionado = RegulacionChunker(EstrategiaChunking.ENCABEZADOS_MD)
+
+            # 2. Selecciona tu estrategia de Post-procesamiento (Contexto)
+            # - []: Línea base (sin contexto explícito)
+            # - [InyectorMetadatos()]: Rápido, pega títulos al inicio (Requiere ENCABEZADOS_MD)
+            # - [ContextualizadorLLM()]: SOTA, usa LLM. Universal, funciona con cualquier chunker.
+            postprocesadores_seleccionados = [ContextualizadorLLM()]
+            
             motor.indexar_documento_markdown(
                 ruta_archivo=archivo, 
-                collection_name="regulacion_disf"
+                chunker=chunker_seleccionado,
+                collection_name="regulacion_disf",
+                postprocesadores=postprocesadores_seleccionados
             )
         except Exception as e:
             print(f"Error al indexar {archivo.name}: {e}")

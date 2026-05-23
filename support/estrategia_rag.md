@@ -40,7 +40,9 @@ Aunque el RAG híbrido es eficiente, corre un "riesgo de omisión" si la búsque
 ### 3.4 Pipeline Modular de RAG Avanzado (SOTA)
 Para maximizar la precisión y superar consistentemente la línea base (BM25), se implementa un pipeline de recuperación con técnicas avanzadas orientadas a cerrar la brecha entre consultas cortas y documentos regulatorios largos:
 
-1. **Query Transformations (Multi-Query y Expansión):** Se emplea expansión de consultas generando 2-3 variantes por consulta mediante el LLM (ChatGPT) para potenciar drásticamente el *recall*.
+1. **Query Transformations (Multi-Query y HyDE):** Para cerrar la asimetría semántica entre consultas cortas de usuario y documentos legales extensos, se incorporan dos técnicas de expansión como "bloques LEGO":
+   - **Multi-Query:** Genera 3 paráfrasis o perspectivas de la consulta original para cubrir distintos vocabularios.
+   - **HyDE (Hypothetical Document Embeddings):** El LLM redacta una "alucinación" o documento hipotético respondiendo a la pregunta, imitando el tono y vocabulario oficial normativo. Luego, se vectoriza esta respuesta falsa para buscar coincidencias en ChromaDB (comparando documento vs documento). Esta técnica incrementa la capacidad de *Recall* en preguntas ambiguas.
 2. **Cross-Encoder Reranking Jerárquico:** Tras la Búsqueda Híbrida (RRF), se introduce una segunda etapa utilizando un modelo especializado. Este modelo lee simultáneamente la pregunta y el documento, reordenando el *Top K* final y compensando la "deriva semántica" inherente a los embeddings.
 
 ### 3.5 Aspectos Matemáticos y Telemetría: Normalización L2 y Estandarización
@@ -58,6 +60,30 @@ Para construir nuestra línea base léxica (TF-IDF) y semántica (Embeddings) de
 
 3. **Telemetría Transversal (Tokens y Latencia):**
    Se implementó seguimiento robusto durante el retrieval contando tokens precisos inyectados en el contexto (mediante `tiktoken`) y trackeando la latencia entre etapas (Cross-Encoder, OpenAI calls para expansión).
+
+### 3.6 Iteración del Sistema: Diagnóstico y Corrección de Pérdida de Contexto (Context Loss)
+
+**El Ciclo de Iteración:**
+1. **Creación de la Línea Base:** Inicialmente, se pobló la base de datos vectorial (ChromaDB) utilizando una estrategia estándar de fragmentación por encabezados (`MarkdownHeaderTextSplitter`).
+2. **Evaluación Cuantitativa:** Al ejecutar el framework de evaluación (la "Arena de Modelos"), el sistema arrojó un *Recall* del 27.78%. 
+3. **Diagnóstico del Problema:** El análisis de los errores en las evaluaciones reveló un problema estructural crítico: la **pérdida de contexto jerárquico**. En documentos complejos (como la CUB), una misma fórmula (ej. cálculo de la Probabilidad de Incumplimiento - PI) aparece múltiples veces, pero aplica a distintas carteras (revolvente, auto, nómina). Al fragmentar el texto, el *chunk* resultante contenía la fórmula pero quedaba "huérfano" perdiendo el contexto de la cartera a la que pertenecía (información que quedó "arriba" en el título). Por ello, consultas precisas como "PI de auto" fallaban.
+4. **Corrección e Implementación (Post-procesamiento):** Para solucionar este cuello de botella y mejorar drásticamente las métricas, se iteró la arquitectura integrando soluciones directamente en `chunking.py` para inyectar este contexto antes de vectorizar.
+
+**Soluciones Implementadas (Integradas como Post-procesadores en el Chunker):**
+Para mantener una arquitectura limpia e integrada (alta cohesión), se implementó un patrón *Pipeline/Filtros*:
+
+1. **Inyección de Metadatos (Metadata Injection):** Una técnica rápida y sin costo de API que concatena los títulos jerárquicos extraídos (ej. `[Contexto Estructural: Anexo 33 | Cartera Automotriz]`) físicamente al inicio del *chunk*. 
+2. **Contextual Retrieval (Resumen con LLM Ligero - SOTA):** Una técnica de vanguardia donde, durante el indexado, se le envía el documento completo y el *chunk* a un LLM económico (como `gpt-4o-mini`). El LLM redacta una única oración de contexto (ej. *"Este fragmento detalla el cálculo de la PI específicamente para la cartera automotriz"*) que se antepone al texto. Esto elimina la ambigüedad semántica de forma definitiva, maximizando el *Recall* a cambio de costo y latencia moderados durante la ingesta.
+
+**¿Por qué funciona esta concatenación física en el espacio vectorial?**
+El modelo de embeddings (ej. OpenAI `text-embedding-3-small`) no lee ni interpreta los diccionarios de metadatos (JSON) de un objeto *Document*; procesa **exclusivamente el string de texto crudo (`page_content`)**. 
+Si el texto fragmentado es simplemente *"La PI se calcula como X + Y"*, el vector resultante apunta semánticamente a conceptos matemáticos financieros, pero carece de la dimensión del tipo de producto. 
+Al **concatenar físicamente** el contexto en un único "súper texto" (ej. `"[Contexto: Cartera Automotriz] La PI se calcula como X + Y"`), obligamos al modelo a "leer" todas las palabras juntas. El nuevo vector generado apunta simultáneamente al concepto matemático y al ecosistema automotriz. Cuando el usuario hace la consulta *"PI de auto"*, la similitud coseno hace un emparejamiento perfecto porque ambos vectores vibran en esa misma frecuencia semántica que originalmente se habría perdido.
+
+**Compatibilidad entre Estrategias de Chunking y Post-procesadores:**
+Dado que la arquitectura se diseñó bajo un modelo de componentes "LEGO" (Filtros), los post-procesadores nunca romperán el código independientemente de la estrategia de fragmentación seleccionada, pero su efectividad sí varía:
+- **`ContextualizadorLLM`:** Es **100% universal**. Dado que el LLM lee el documento original completo y el fragmento resultante, es irrelevante si el fragmento se cortó por párrafos, por superposición fija (`fijo_overlap`) o por encabezados. El LLM siempre podrá inferir y redactar el contexto correctamente.
+- **`InyectorMetadatos`:** Su efectividad **depende de la estrategia**. Esta clase busca activamente llaves como `"Header 1"` en el diccionario del chunk. Si se usa `EstrategiaChunking.ENCABEZADOS_MD`, LangChain extrae estos headers y funciona a la perfección. Sin embargo, si se usan cortadores básicos (`PARRAFO` o `FIJO_OVERLAP` sin encadenamiento previo), LangChain no extrae la jerarquía. En ese caso, el inyector no encontrará metadatos y dejará el *chunk* intacto (no inyectará contexto, pero el programa no fallará).
 
 ## 4. Framework de Evaluación Cuantitativa
 
@@ -142,3 +168,16 @@ Inspirado en arquitecturas de despliegue real, se contemplan las siguientes inte
 1. **Caché Semántico:** Memoria para almacenar respuestas previas y reducir costos de API y latencia a milisegundos en consultas repetidas.
 2. **Operaciones de Índice (Index Ops):** Módulo CRUD para ChromaDB, permitiendo actualizar únicamente los artículos que sufran reformas sin reprocesar todo el corpus.
 3. **Control de Acceso (RBAC):** Utilización de metadatos en ChromaDB para restringir la inyección de contexto según el perfil del analista dentro de la DISF.
+
+## 8. Siguientes Pasos (Alineación Avance 4 - Rúbrica Modificada LLM)
+
+Para cumplir con el rigor científico y arquitectónico exigido en la fase final de selección de modelos (Avance 4), el proyecto desarrollará los siguientes componentes:
+
+1. **Integración de Modelos Open-Source (Self-hostable):** Conectar el pipeline a un LLM de código abierto (ej. Llama 3 o Mistral vía Ollama/vLLM) para evaluar alternativas a OpenAI. Esto es crítico para garantizar la **residencia de datos** (requisito indispensable en entornos regulatorios como Banxico) y mitigar el riesgo de *vendor lock-in*.
+2. **Data Contamination Check (Evaluación Ciega):** Desarrollar un pipeline de control que ejecute el Ground Truth contra los LLMs candidatos *sin* el contexto inyectado por el RAG. Esto aislará cuántos aciertos provienen de la memorización pre-entrenada del modelo y demostrará matemáticamente el valor añadido de nuestro motor de búsqueda.
+3. **Frontera de Pareto (Costo vs Interpretabilidad vs Precisión):** Extender la telemetría actual para cuantificar el costo exacto por consulta (tokens procesados $\times$ tabulador de API) y latencia (P50/P95). Los 6 modelos candidatos se graficarán en una Frontera de Pareto para fundamentar la selección técnica desde una óptica financiera y de arquitectura de software.
+4. **Análisis de Errores Desagregado por Etapa:** Ampliar el módulo evaluador para etiquetar sistemáticamente la procedencia de la degradación del NDCG en tres categorías:
+   - *(a) Fallo de Retrieval:* El documento clave no se ubicó en el Top K.
+   - *(b) Alucinación Generativa:* El documento clave fue recuperado, pero el LLM emitió un fallo.
+   - *(c) Fallo de Formato:* El LLM dedujo la información correcta, pero falló la validación del parser estructurado (JSON/Pydantic).
+5. **Significancia Estadística:** Modificar los parámetros deterministas (pasar a `temperature > 0`) o aplicar técnicas de remuestreo (*bootstrap*) durante las evaluaciones para generar Intervalos de Confianza, demostrando que la superioridad del modelo final no obedece a fluctuaciones aleatorias.
