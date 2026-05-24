@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Especialista Digital Regulador - Banco de México</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏛️</text></svg>">
+    <!-- Importar CSS Institucional -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Iconos Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Librerías para renderizar Markdown y Matemáticas (LaTeX) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <style>
+        /* Estilos adicionales específicos para esta App, construidos sobre banxico theme */
+        .app-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 60vh;
+            overflow-y: auto;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(210, 223, 232, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.user {
+            background-color: var(--banxico-cielo);
+            color: var(--banxico-azul-institucional);
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-message.bot {
+            background-color: var(--banxico-blanco);
+            border: 1px solid rgba(210, 223, 232, 0.8);
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+            box-shadow: var(--sombra-suave);
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid rgba(210, 223, 232, 0.8);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--banxico-turquesa);
+            box-shadow: 0 0 0 3px rgba(0, 169, 181, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--banxico-turquesa);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--banxico-azul-medio);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--banxico-gris-claro);
+            cursor: not-allowed;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid rgba(210, 223, 232, 0.8);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: var(--banxico-cielo);
+            color: var(--banxico-azul-institucional);
+            font-weight: 700;
+        }
+
+        .badge-catalogo {
+            background-color: var(--banxico-dorado);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .eval-table-container {
+            overflow-x: auto;
+        }
+
+        /* FIX: Separar los tabs del header */
+        .panel-tabset {
+            margin-top: 2rem !important; /* Sobreescribe el -10px del CSS original */
+        }
+
+        /* FIX: Evitar que la tabla se aplaste */
+        #result-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        /* Ocultar pestañas no activas */
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Institucional (basado en CSS de Banxico) -->
+    <header id="title-block-header">
+        <div class="header-bg-mesh"></div>
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="title">Especialista Digital Regulador</h1>
+                <p class="subtitle">Dirección de Información del Sistema Financiero (DISF)</p>
+            </div>
+            <div class="header-right">
+                <div class="global-hud">
+                    <span class="hud-item"><i data-lucide="shield-check" class="icon-sm"></i> Sistema Activo</span>
+                    <span class="hud-item" id="latency-hud"><i data-lucide="activity" class="icon-sm"></i> Latencia: --</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación de Tabs -->
+    <div class="panel-tabset">
+        <div class="nav-tabs">
+            <div class="nav-link active" onclick="switchTab('tab-qa', this)">
+                <i data-lucide="message-circle" class="icon-sm"></i> Consulta Normativa
+            </div>
+            <div class="nav-link" onclick="switchTab('tab-extraccion', this)">
+                <i data-lucide="file-text" class="icon-sm"></i> Extracción Formularios
+            </div>
+            <div class="nav-link" onclick="switchTab('tab-evaluaciones', this)">
+                <i data-lucide="bar-chart-2" class="icon-sm"></i> Dashboard Evaluaciones
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="app-container">
+        
+        <!-- Pestaña 0: Consulta Normativa (RAG Puro) -->
+        <div id="tab-qa" class="tab-pane active">
+            <div class="row justify-content-center">
+                <!-- Panel Principal: Chat -->
+                <div class="col-12 banxico-card" style="height: 100%; display: flex; flex-direction: column;">
+                    <div class="section-heading-inline">
+                        <h3><i data-lucide="message-circle" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Asesor Normativo</h3>
+                        <span class="subtle-pill">RAG Conversacional</span>
+                    </div>
+                    <p class="explorer-subtitle">Resuelve dudas normativas generales. El modelo buscará en los documentos y redactará una respuesta.</p>
+                    
+                    <!-- Configurador de Pipeline RAG en vivo -->
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; background: #f8f9fa; padding: 0.5rem; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.75rem;">
+                        <div style="flex: 1; display: flex; flex-direction: column;">
+                            <label style="font-weight: bold; color: var(--banxico-azul-institucional); margin-bottom: 0.2rem;">Motor Base:</label>
+                            <select id="config-retriever" style="padding: 0.2rem; border-radius: 4px; border: 1px solid #cbd5e1; outline: none;">
+                                <option value="embeddings">Semántica Simple (ChromaDB)</option>
+                                <option value="bm25">Léxica Pura (BM25)</option>
+                                <option value="hibrido">Híbrida (BM25 + ChromaDB + RRF)</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; display: flex; flex-direction: column;">
+                            <label style="font-weight: bold; color: var(--banxico-azul-institucional); margin-bottom: 0.2rem;">Expansión Query:</label>
+                            <select id="config-expansion" style="padding: 0.2rem; border-radius: 4px; border: 1px solid #cbd5e1; outline: none;">
+                                <option value="none">Ninguna</option>
+                                <option value="multi_query">Multi-Query (LLM)</option>
+                                <option value="hyde">HyDE (Documento Hipotético)</option>
+                                <option value="ambos">Ambos (Multi-Query + HyDE)</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; display: flex; flex-direction: column;">
+                            <label style="font-weight: bold; color: var(--banxico-azul-institucional); margin-bottom: 0.2rem;">Post-Procesamiento:</label>
+                            <select id="config-post" style="padding: 0.2rem; border-radius: 4px; border: 1px solid #cbd5e1; outline: none;">
+                                <option value="none">Ninguno</option>
+                                <option value="cross_encoder">Cross-Encoder (Reranking)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="chat-container" id="qa-history" style="flex: 1; min-height: 0;">
+                        <div class="chat-message bot">
+                            Hola, estoy aquí para resolver tus dudas sobre la normativa de la DISF. Pregúntame lo que necesites saber. Usa los menús de arriba para cambiar mi estrategia de búsqueda.
+                        </div>
+                    </div>
+                    
+                    <form class="chat-input-container" id="qa-form">
+                        <input type="text" id="qa-input" class="chat-input" placeholder="Hazme una pregunta sobre la CUB o manuales..." required autocomplete="off">
+                        <button type="submit" id="btn-qa-send" class="btn-primary">
+                            <span>Consultar</span>
+                            <i data-lucide="send" class="icon-sm"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestaña 1: Extracción Normativa (Dividida en 2 paneles) -->
+        <div id="tab-extraccion" class="tab-pane">
+            <div class="row layout-split-8-4">
+                
+                <!-- Panel Izquierdo: Chatbot -->
+                <div class="banxico-card" style="height: 100%;">
+                    <div class="section-heading-inline">
+                        <h3><i data-lucide="message-square" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Asistente de IA</h3>
+                    </div>
+                    <p class="explorer-subtitle">Consulta la normativa y el modelo estructurará la respuesta automáticamente.</p>
+                    
+                    <div class="chat-container" id="chat-history">
+                        <div class="chat-message bot">
+                            Hola, soy el Especialista Digital de la DISF. Escribe tu consulta normativa (ej. "¿Cuáles son los campos requeridos para la cartera hipotecaria?") y extraeré las variables por ti.
+                        </div>
+                    </div>
+                    
+                    <form class="chat-input-container" id="chat-form">
+                        <input type="text" id="query-input" class="chat-input" placeholder="Ingresa tu consulta..." required autocomplete="off">
+                        <button type="submit" id="btn-send" class="btn-primary">
+                            <span>Extraer</span>
+                            <i data-lucide="send" class="icon-sm"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Panel Derecho: Visualizador Estructurado -->
+                <div class="banxico-card" style="height: 100%;">
+                    <div class="section-heading-inline">
+                        <h3><i data-lucide="layout-template" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Datos Estructurados</h3>
+                        <span class="subtle-pill">Pydantic JSON</span>
+                    </div>
+                    <p class="explorer-subtitle">Resultado generado y validado estructuralmente.</p>
+                    
+                    <div id="result-container" style="margin-top: 1rem;">
+                        <div class="callout" style="background: var(--banxico-cielo); border-color: var(--banxico-azul-medio); color: var(--banxico-azul-institucional);">
+                            Esperando consulta... La tabla de campos aparecerá aquí.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Pestaña 2: Dashboard Evaluaciones -->
+        <div id="tab-evaluaciones" class="tab-pane">
+            <div class="banxico-card">
+                <div class="section-heading-inline">
+                    <h3><i data-lucide="bar-chart" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Resultados de la Arena de Modelos</h3>
+                </div>
+                <p class="explorer-subtitle">Comparativa del Recall@10 utilizando el juez LLM en distintos escenarios de mitigación de Context Loss.</p>
+                
+                <div class="explorer-controls" style="margin-top:1rem;">
+                    <label class="explorer-label">Seleccionar Escenario:</label>
+                    <select id="scenario-select" class="explorer-select" onchange="loadEvaluations()">
+                        <option value="contextualizador">Contextual Retrieval (LLM Ingestion) - SOTA</option>
+                        <option value="inyector">Inyector de Metadatos</option>
+                        <option value="only_chunking">Línea Base (Only Chunking)</option>
+                    </select>
+                    <button class="btn-primary" style="padding: 0.4rem 1rem;" onclick="loadEvaluations()">
+                        <i data-lucide="refresh-cw" class="icon-sm"></i> Actualizar
+                    </button>
+                </div>
+
+                <div id="eval-table-wrapper" class="eval-table-container" style="margin-top:1.5rem;">
+                    <!-- Tabla de evaluaciones inyectada por JS -->
+                    <div class="skeleton skeleton-chart"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Lógica de Aplicación -->
+    <script src="main.js"></script>
+    <script>
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+    </script>
+</body>
+</html>

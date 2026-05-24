@@ -13,7 +13,25 @@ from dotenv import load_dotenv
 
 # Importamos nuestro esquema Pydantic
 from src.nlp_core.schemas import RequerimientoInformacion
-from src.nlp_core.vectorizacion import buscar_similitud
+from src.nlp_core.retrieval import MotorBusqueda
+from src.nlp_core.pipeline import PipelineRecuperacion
+from langchain_core.documents import Document
+
+_DOCS_RAW_CACHE = None
+_MOTOR_CACHE = None
+
+def get_motor_and_docs():
+    global _MOTOR_CACHE, _DOCS_RAW_CACHE
+    if _MOTOR_CACHE is None:
+        _MOTOR_CACHE = MotorBusqueda(collection_name="regulacion_disf")
+    if _DOCS_RAW_CACHE is None:
+        print("Cargando documentos crudos en memoria para BM25/Híbrido...")
+        data = _MOTOR_CACHE.vectorstore.get(include=['documents', 'metadatas'])
+        _DOCS_RAW_CACHE = [
+            Document(page_content=txt, metadata=meta)
+            for txt, meta in zip(data['documents'], data['metadatas'])
+        ]
+    return _MOTOR_CACHE, _DOCS_RAW_CACHE
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -99,7 +117,8 @@ def extraer_rag_simple(query: str, k: int = 4) -> tuple[RequerimientoInformacion
     
     t0_busqueda = time.time()
     # 1. Recuperar chunks de ChromaDB
-    resultados = buscar_similitud(query, k=k)
+    motor, _ = get_motor_and_docs()
+    resultados = motor.buscar_similitud(query, k=k)
     latencia_busqueda = time.time() - t0_busqueda
     
     if not resultados:
@@ -152,6 +171,88 @@ def extraer_rag_simple(query: str, k: int = 4) -> tuple[RequerimientoInformacion
     _guardar_telemetria(telemetria, "RAG Simple")
     
     return respuesta.choices[0].message.parsed, telemetria
+
+def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings", query_expansion: str = "none", post_processing: str = "none") -> tuple[str, dict, list]:
+    """
+    Estrategia RAG Conversacional interactiva usando el Pipeline Modular.
+    Retorna el texto markdown, un diccionario con telemetría y la lista de chunks recuperados.
+    """
+    if not os.getenv("OPENAI_API_KEY"):
+        raise ValueError("No se encontró OPENAI_API_KEY en las variables de entorno.")
+        
+    print(f"Recuperando contexto (Retriever: {base_retriever}, Expansión: {query_expansion}, Post: {post_processing}) para QA: '{query}'...")
+    
+    t0_busqueda = time.time()
+    
+    motor, docs_raw = get_motor_and_docs()
+    pipeline = PipelineRecuperacion(
+        motor=motor,
+        documentos_raw=docs_raw,
+        base_retriever=base_retriever,
+        query_expansion=None if query_expansion == "none" else query_expansion,
+        post_processing=None if post_processing == "none" else post_processing
+    )
+    
+    resultados = pipeline.invoke(query, k=k)
+    latencia_busqueda = time.time() - t0_busqueda
+    
+    if not resultados:
+        raise ValueError("No se encontró contexto para esa consulta usando la estrategia seleccionada.")
+        
+    # 2. Armar el contexto concatenando los textos y sus metadatos
+    contexto_recuperado = "\n\n--- NUEVO FRAGMENTO RECUPERADO ---\n".join(
+        [f"Metadatos: {doc.metadata}\nContenido: {doc.page_content}" for doc in resultados]
+    )
+    
+    # 3. Llamar al LLM con este contexto limitado (Uso de chat.completions.create normal)
+    client = OpenAI()
+    
+    prompt_sistema = (
+        "Eres un Especialista Digital Regulador de la DISF en el Banco de México. "
+        "Tu tarea es responder a las preguntas de los analistas utilizando EXCLUSIVAMENTE "
+        "la información contenida en los fragmentos recuperados.\n\n"
+        "REGLAS ESTRICTAS:\n"
+        "1. Basa tu respuesta solo en el contexto proporcionado. No alucines información externa ni asumas datos.\n"
+        "2. Si la respuesta a la pregunta no está en el contexto, indica claramente: 'La información proporcionada en el contexto no es suficiente para responder a esta pregunta'.\n"
+        "3. Utiliza formato Markdown (negritas, listas, saltos de línea) para que la respuesta sea muy fácil de leer.\n"
+        "4. Al final de tu respuesta, menciona brevemente las fuentes (usando los nombres de los documentos en los metadatos)."
+    )
+    
+    print(f"Enviando contexto ({len(resultados)} chunks) al LLM para respuesta de QA...")
+    
+    t0_llm = time.time()
+    respuesta = client.chat.completions.create(
+        model="gpt-4o-mini", # Para conversación rápida y barata usamos gpt-4o-mini
+        messages=[
+            {"role": "system", "content": prompt_sistema},
+            {"role": "user", "content": f"Consulta del usuario: {query}\n\nFragmentos Recuperados:\n\n{contexto_recuperado}"}
+        ],
+        temperature=0.3
+    )
+    latencia_llm = time.time() - t0_llm
+    
+    texto_respuesta = respuesta.choices[0].message.content
+    
+    telemetria = {
+        "modelo": "gpt-4o-mini",
+        "prompt_tokens": respuesta.usage.prompt_tokens if respuesta.usage else 0,
+        "completion_tokens": respuesta.usage.completion_tokens if respuesta.usage else 0,
+        "total_tokens": respuesta.usage.total_tokens if respuesta.usage else 0,
+        "latencia_busqueda_seg": round(latencia_busqueda, 2),
+        "latencia_llm_seg": round(latencia_llm, 2),
+        "latencia_total_seg": round(latencia_busqueda + latencia_llm, 2)
+    }
+    
+    # Guardar en disco para el dashboard
+    _guardar_telemetria(telemetria, "RAG Conversacional QA")
+    
+    # Serializar los chunks para el frontend
+    chunks_recuperados = [
+        {"metadata": doc.metadata, "content": doc.page_content} 
+        for doc in resultados
+    ]
+    
+    return texto_respuesta, telemetria, chunks_recuperados
 
 # --- Prueba rápida ---
 if __name__ == "__main__":
