@@ -1,0 +1,10 @@
+estrategia,modo_evaluacion,Recall@5,Recall@10,MAP@10,NDCG@10,Latencia_Promedio_Segundos,Tokens_Contexto_Promedio
+1_BoW,exact_match,16.67,16.67,0.1667,0.1667,0.6294,224.2
+2_TF-IDF,exact_match,20.0,20.0,0.2,0.2,0.612,217.2
+3_BM25,exact_match,16.67,16.67,0.1667,0.1667,0.4322,225.2
+4_Embeddings,exact_match,36.67,36.67,0.3667,0.3667,0.2535,217.3
+5_Hibrido_RRF,exact_match,20.0,20.0,0.2,0.2,0.7104,220.3
+6_Hibrido_CrossEncoder,exact_match,23.33,23.33,0.2333,0.2333,6.2125,218.7
+7_Embeddings_CrossEncoder,exact_match,36.67,36.67,0.3667,0.3667,5.6081,217.3
+8_MultiQuery_Embeddings_CrossEncoder,exact_match,36.67,36.67,0.3667,0.3667,7.8465,217.3
+9_HyDE_Embeddings_CrossEncoder,exact_match,40.0,40.0,0.4,0.4,8.8553,231.4
