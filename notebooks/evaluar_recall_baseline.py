@@ -48,7 +48,9 @@ def correr_la_arena(modo_evaluacion="exact_match", limite_consultas=None):
         {"nombre": "6_Hibrido_CrossEncoder", "base_retriever": "hibrido", "query_expansion": None, "post_processing": "cross_encoder"},
         {"nombre": "7_Embeddings_CrossEncoder", "base_retriever": "embeddings", "query_expansion": None, "post_processing": "cross_encoder"},
         {"nombre": "8_MultiQuery_Embeddings_CrossEncoder", "base_retriever": "embeddings", "query_expansion": "multi_query", "post_processing": "cross_encoder"},
-        {"nombre": "9_HyDE_Embeddings_CrossEncoder", "base_retriever": "embeddings", "query_expansion": "hyde", "post_processing": "cross_encoder"}
+        {"nombre": "9_HyDE_Embeddings_CrossEncoder", "base_retriever": "embeddings", "query_expansion": "hyde", "post_processing": "cross_encoder"},
+        {"nombre": "10_Ambos_Embeddings_CrossEncoder", "base_retriever": "embeddings", "query_expansion": "ambos", "post_processing": "cross_encoder"},
+        {"nombre": "11_Ambos_Hibrido_CrossEncoder", "base_retriever": "hibrido", "query_expansion": "ambos", "post_processing": "cross_encoder"}
     ]
 
     resultados_arena = []

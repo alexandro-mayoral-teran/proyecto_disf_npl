@@ -21,6 +21,8 @@ class PipelineRecuperacion:
             queries = self._generar_multi_queries(query)
         elif self.query_expansion == "hyde":
             queries = self._generar_hyde(query)
+        elif self.query_expansion == "ambos":
+            queries = self._generar_multi_queries(query) + self._generar_hyde(query)
         else:
             queries = [query]
         
@@ -57,7 +59,8 @@ class PipelineRecuperacion:
                 raise ValueError(f"Retriever base no soportado: {self.base_retriever}")
                 
             for d in docs:
-                doc_id = d.metadata.get("id")
+                # Usar id de metadata si existe, si no, usar el contenido como identificador único
+                doc_id = d.metadata.get("id") or hash(d.page_content)
                 if doc_id not in doc_ids_vistos:
                     doc_ids_vistos.add(doc_id)
                     docs_totales.append(d)
