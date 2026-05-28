@@ -1,0 +1,1242 @@
+[
+  {
+    "query_id": "Q01",
+    "pregunta": "¿Qué se entiende por Activos Líquidos Computables?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Al monto total correspondiente al valor de los Activos Líquidos Elegibles que, conforme a las presentes disposiciones, se incluyan en el cálculo del Coeficiente de Cobertura de Liquidez, con los límites y factores de descuento establecidos en las presentes disposiciones.",
+        "justificacion": "Tratamiento de activos líquidos computables"
+      }
+    ]
+  },
+  {
+    "query_id": "Q02",
+    "pregunta": "¿En qué plazo debe reportarse el Coeficiente de Cobertura de Liquidez diario?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "El Coeficiente de Cobertura de Liquidez que corresponda a cada día deberá reportarse durante los diez Días Hábiles posteriores a dicho día.",
+        "justificacion": "Criterios de plazo y vencimiento para CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q03",
+    "pregunta": "¿Qué es el Flujo Neto Total de Salida de Efectivo?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Al monto que resulte de restar el flujo total de entrada de efectivo de una Institución del flujo total de salida de efectivo de esa misma Institución, determinados de conformidad con las presentes disposiciones.",
+        "justificacion": "Cálculo de flujos para CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q04",
+    "pregunta": "¿Cómo se determina el flujo total de salida de efectivo?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "El flujo total de salida de efectivo será el que resulte de sumar todas las operaciones pasivas con vencimiento igual o menor a treinta días multiplicadas por su correspondiente factor de salida, de conformidad con lo establecido en el Anexo 2 de estas disposiciones.",
+        "justificacion": "Cálculo de flujos para CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q05",
+    "pregunta": "¿Qué fecha deben tomar las Instituciones para determinar el plazo de las operaciones de salida?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Las Instituciones deberán tomar como fecha de vencimiento la fecha más próxima en que dichas operaciones pueden ser exigibles contractualmente, para lo cual deberán considerar si el contrato respectivo permite a la contraparte adelantar la exigibilidad de dichas operaciones.",
+        "justificacion": "Criterios de plazo y vencimiento para CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q06",
+    "pregunta": "¿Qué operaciones se consideran para el flujo total de entrada de efectivo?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Considerarán todas las operaciones vigentes conforme a los Criterios Contables que no presenten pagos vencidos de principal o intereses, que, derivado de los contratos que al efecto tenga celebrados, generarán un flujo de entrada de efectivo en los treinta días siguientes a la fecha de cálculo del Coeficiente de Cobertura de Liquidez.",
+        "justificacion": "Cálculo de flujos para CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q07",
+    "pregunta": "¿Cuál es el límite máximo reconocido para el flujo total de entrada de efectivo?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo calculado conforme el artículo 11 de las presentes disposiciones.",
+        "justificacion": "Cálculo de flujos para CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q08",
+    "pregunta": "¿Qué requisito de CCL debe cumplir una institución con más de 60 meses de operación para estar en Escenario I?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Escenario I cuando el Coeficiente de Cobertura de Liquidez correspondiente a cada día del mes calendario inmediato anterior sea al menos de 100 por ciento.",
+        "justificacion": "Escenarios y medidas aplicables al CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q09",
+    "pregunta": "¿Cuándo se ubica una institución en Escenario III por recurrencia en Escenario II?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "En el escenario III cuando, de acuerdo a lo establecido en la fracción II del presente artículo, les corresponda ubicarse en el escenario II y, adicionalmente, hubieren actualizado durante los últimos seis meses el escenario II o superior en tres o más ocasiones.",
+        "justificacion": "Escenarios y medidas aplicables al CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q10",
+    "pregunta": "¿Qué tratamiento de escenarios de liquidez reciben las instituciones en sus primeros 12 meses de operación?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "A partir del primer día y hasta el último día del decimosegundo mes posterior a la fecha en que hubieren comenzado operaciones, no les serán aplicables los escenarios de liquidez señalados en el presente artículo.",
+        "justificacion": "Escenarios y medidas aplicables al CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q11",
+    "pregunta": "¿Cuál es el CCL mínimo para Escenario I en instituciones de entre 13 y 24 meses de operación?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Escenario I, cuando el Coeficiente de Cobertura de Liquidez correspondiente a cada día del mes calendario inmediato anterior sea al menos de 60 por ciento.",
+        "justificacion": "Escenarios y medidas aplicables al CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q12",
+    "pregunta": "¿Qué medida debe tomar una institución en Escenario III respecto a sus operaciones?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Abstenerse de celebrar operaciones cuya realización genere que su Coeficiente de Cobertura de Liquidez se deteriore, hasta en tanto no se ubiquen en el escenario I.",
+        "justificacion": "Escenarios y medidas aplicables al CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q13",
+    "pregunta": "¿Qué restricciones de dividendos aplican en el Escenario IV de CCL?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Suspender el pago de dividendos, así como cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se ubique en el escenario I.",
+        "justificacion": "Escenarios y medidas aplicables al CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q14",
+    "pregunta": "¿Cómo deben valuarse los títulos conservados a vencimiento para el CCL?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Las Instituciones deberán valuar los títulos conservados a vencimiento a su valor de mercado.",
+        "justificacion": "Tratamiento de activos líquidos computables"
+      }
+    ]
+  },
+  {
+    "query_id": "Q15",
+    "pregunta": "¿Qué criterio aplica si una misma operación tiene más de un factor de salida en el Anexo 2?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "En caso de que, de conformidad con lo previsto por el Anexo 2 de las presentes disposiciones, a una misma operación le corresponda más de un factor de salida, la Institución deberá utilizar el factor de salida más alto.",
+        "justificacion": "Reglas de cálculo y reporte del CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q16",
+    "pregunta": "¿Cómo se determina la fecha de vencimiento para los flujos de entrada de efectivo?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Para determinar el plazo de las operaciones a que hace referencia la fracción I del presente artículo, las Instituciones deberán tomar como fecha de vencimiento la última fecha en que contractualmente podrían exigir su pago.",
+        "justificacion": "Cálculo de flujos para CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q17",
+    "pregunta": "¿Qué medida adicional se aplica a las Instituciones que se ubiquen en el escenario V de CCL?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "En el escenario V, además de las medidas aplicables a las Instituciones que se ubiquen en el escenario IV, la suspensión del pago de dividendos, así como de cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se dé cabal cumplimiento al Plan de Restauración de Liquidez.",
+        "justificacion": "Escenarios y medidas aplicables al CCL"
+      }
+    ]
+  },
+  {
+    "query_id": "Q18",
+    "pregunta": "¿Cuál es la restricción al incluir activos líquidos de entidades extranjeras en el cálculo consolidado?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "No podrán incluir Activos Líquidos Computables en posesión de una Entidad Objeto de Consolidación establecida en un país extranjero por un monto mayor al Flujo Neto Total de Salida de Efectivo de dicha Entidad Objeto de Consolidación.",
+        "justificacion": "Tratamiento de activos líquidos computables"
+      }
+    ]
+  },
+  {
+    "query_id": "Q19",
+    "pregunta": "¿Cómo debe considerarse la cartera de crédito para el cálculo del CFEN?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "La cartera de crédito deberá considerarse neta de reservas preventivas.",
+        "justificacion": "Reglas de cálculo del CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q20",
+    "pregunta": "¿Cómo se tratan las operaciones fecha valor en el CFEN?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Las operaciones fecha valor se consideran como si estas ya hubieran sido liquidadas, es decir, los activos a recibir por operaciones fecha valor tendrán el tratamiento como si ya se encontraran en la tenencia de la Institución y los activos a entregar como si ya se hubieran entregado.",
+        "justificacion": "Reglas de cálculo del CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q21",
+    "pregunta": "¿Cómo se calcula el plazo de las operaciones para el CFEN?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Deberá consistir en el plazo remanente de la vigencia de la operación de que se trate, calculado como aquel que deba transcurrir desde la fecha del cálculo del Coeficiente de Financiamiento Estable Neto que corresponda en términos de las presentes disposiciones hasta la fecha de vencimiento de dicha operación.",
+        "justificacion": "Criterios de plazo remanente para CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q22",
+    "pregunta": "¿Qué supuesto aplica para determinar el plazo remanente de los activos con opciones?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Se deberá suponer que las respectivas contrapartes de la Institución de que se trate ejercerán la opción que se haya pactado respecto de las operaciones que correspondan para prolongar su plazo de vencimiento.",
+        "justificacion": "Criterios de plazo remanente para CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q23",
+    "pregunta": "¿Qué supuesto aplica para determinar el plazo remanente de los pasivos con opciones?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Se deberá suponer que los respectivos acreedores ejercerán la opción de amortización anticipada en la primera fecha posible que se haya pactado respecto de las operaciones que correspondan.",
+        "justificacion": "Criterios de plazo remanente para CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q24",
+    "pregunta": "¿Cómo se determina el plazo de pago para créditos de cuenta corriente dispuestos por tarjetas de crédito?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Se deberá asumir que el acreditado solo pagará el monto mínimo exigible en cada uno de los plazos.",
+        "justificacion": "Criterios de plazo remanente para CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q25",
+    "pregunta": "¿Qué nivel de CFEN se requiere para estar en el Escenario I?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Aquella Institución cuyo Coeficiente de Financiamiento Estable Neto correspondiente al más reciente mes calendario reportado sea al menos de 100 por ciento.",
+        "justificacion": "Escenarios y medidas aplicables al CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q26",
+    "pregunta": "¿Qué obligación surge cuando una Institución se ubica en un escenario distinto al I en 3 o más ocasiones en 12 meses?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Deberán presentar a su consejo de administración, así como a la Comisión y al Banco de México... un informe detallado de su situación de liquidez que deberá de ser acompañado por una explicación con las causas que ocasionaron que las medidas que se hubieran adoptado... no hayan resultado efectivas.",
+        "justificacion": "Escenarios y medidas aplicables al CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q27",
+    "pregunta": "¿Qué plazo tiene una institución en Escenario II para presentar un plan de restauración de CFEN?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Un plan de restauración del Coeficiente de Financiamiento Estable Neto en un plazo no mayor a cinco Días Hábiles contado a partir del día en que la Institución se haya ubicado en el citado escenario.",
+        "justificacion": "Escenarios y medidas aplicables al CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q28",
+    "pregunta": "¿Qué medida adicional aplica a las Instituciones en Escenario III de CFEN?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Suspender el pago de dividendos, así como cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se ubique en el escenario I.",
+        "justificacion": "Escenarios y medidas aplicables al CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q29",
+    "pregunta": "¿Qué metodología se aplica para activos y pasivos por derivados en el CFEN?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Aplicar la metodología descrita en el Anexo 9 de las presentes disposiciones para la determinación de los activos y pasivos por operaciones con instrumentos financieros derivados.",
+        "justificacion": "Reglas de cálculo del CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q30",
+    "pregunta": "¿Qué ponderación de financiamiento estable disponible tienen los pasivos con plazo residual igual o mayor a un año?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Los pasivos con plazo residual igual o mayor a un año (tienen un factor del 100%).",
+        "justificacion": "Criterios de plazo remanente para CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q31",
+    "pregunta": "¿Cómo deben tratarse las amortizaciones parciales de capital en el cálculo del plazo para el CFEN?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Tratándose de los créditos respecto de los cuales se hayan pactado amortizaciones parciales de capital, se deberán considerar las amortizaciones parciales del principal en el plazo en que deban realizarse dichas amortizaciones.",
+        "justificacion": "Criterios de plazo remanente para CFEN"
+      }
+    ]
+  },
+  {
+    "query_id": "Q32",
+    "pregunta": "¿Qué factor de financiamiento estable requerido aplica a la cartera hipotecaria de vivienda con ponderación de riesgo menor o igual al 35%?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Activos con ponderación del 65%: Cartera hipotecaria de vivienda con riesgo de crédito etapa 1 y etapa 2... elegible para un tratamiento de ponderación por riesgo crédito igual o menor al 35%, con plazo remanente mayor a un año.",
+        "justificacion": "Factores de financiamiento estable para CFEN"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q33",
+    "pregunta": "¿Cuál es el factor de financiamiento estable requerido para la caja, los billetes y las monedas?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Activos con ponderación del 0%: Caja, billetes y monedas.",
+        "justificacion": "Factores de financiamiento estable para CFEN"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q34",
+    "pregunta": "¿Qué debe contener el informe detallado que presentan las Instituciones si se ubican en un escenario distinto al I en 3 ocasiones en 12 meses?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Una explicación con las causas que ocasionaron que las medidas que se hubieran adoptado... no hayan resultado efectivas para impedir la variabilidad de su Coeficiente de Financiamiento Estable Neto, así como de las medidas de gestión de riesgos que implementará para reducir dicha variabilidad.",
+        "justificacion": "Escenarios y medidas aplicables al CFEN"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q35",
+    "pregunta": "¿A qué se refiere el término \"Coeficientes\" en la regulación?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Al Coeficiente de Cobertura de Liquidez y al Coeficiente de Financiamiento Estable Neto, conjunta o separadamente.",
+        "justificacion": "Disposiciones generales de liquidez"
+      }
+    ]
+  },
+  {
+    "query_id": "Q36",
+    "pregunta": "¿Qué operaciones deben incluir las Instituciones para el cálculo individual y consolidado?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Incluir todas sus operaciones para el cálculo individual, e incluir para el cálculo consolidado las operaciones tanto del cálculo individual como las operaciones realizadas por las Entidades Objeto de Consolidación.",
+        "justificacion": "Disposiciones generales de liquidez"
+      }
+    ]
+  },
+  {
+    "query_id": "Q37",
+    "pregunta": "¿Cuál es el criterio general para considerar el valor de las operaciones?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Salvo que en las presentes disposiciones se especifique lo contrario, considerar el valor de sus operaciones conforme a los Criterios Contables.",
+        "justificacion": "Criterios de valorización y conversión"
+      }
+    ]
+  },
+  {
+    "query_id": "Q38",
+    "pregunta": "¿Cómo se calcula la equivalencia en moneda nacional de montos en dólares de EE. UU.?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Se realizará tomando en cuenta el tipo de cambio aplicable conforme a lo dispuesto en los Criterios Contables.",
+        "justificacion": "Criterios de valorización y conversión"
+      }
+    ]
+  },
+  {
+    "query_id": "Q39",
+    "pregunta": "¿Qué debe hacer una Institución si prevea ubicarse en un escenario distinto al I?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Deberá reportar al Banco de México y a la Comisión el cálculo del Coeficiente que corresponda, al Día Hábil siguiente a aquel en que se presente alguna de estas situaciones.",
+        "justificacion": "Incumplimiento y reporte de escenarios de liquidez"
+      }
+    ]
+
+  },
+  {
+    "query_id": "Q40",
+    "pregunta": "¿En cuánto tiempo el Banco de México verificará los cálculos reportados?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Dentro de los cinco Días Hábiles posteriores a la recepción de la información correspondiente.",
+        "justificacion": "Disposiciones generales de liquidez"
+      }
+    ]
+  },
+  {
+    "query_id": "Q41",
+    "pregunta": "¿Cuál será el cálculo válido para todos los efectos legales?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "El cálculo de los Coeficientes reportado por las Instituciones, y verificado por el Banco de México conforme a lo señalado en las presentes disposiciones, será el cálculo válido para todos los efectos legales conducentes.",
+        "justificacion": "Disposiciones generales de liquidez"
+      }
+    ]
+  },
+  {
+    "query_id": "Q42",
+    "pregunta": "¿Cuál es el objetivo de los planes de restauración de los Coeficientes?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Tendrán como objetivo que la Institución implemente las modificaciones a su gestión de liquidez de manera que sea capaz de mantener de manera consistente un Coeficiente de Cobertura de Liquidez, un Coeficiente de Financiamiento Estable Neto, o ambos, que la ubiquen en el escenario I correspondiente",
+        "justificacion": "Planes de restauración de los coeficientes"
+      }
+    ]
+  },
+  {
+    "query_id": "Q43",
+    "pregunta": "¿Cuándo se considera que existe un incumplimiento a los requerimientos de liquidez?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Cuando las Instituciones se ubiquen en los escenarios III, IV o V en términos del Título II... en el caso del Coeficiente de Cobertura de Liquidez y cuando las Instituciones se ubiquen en los escenarios III o IV en términos del Título III... tratándose del Coeficiente de Financiamiento Estable Neto.",
+        "justificacion": "Incumplimiento y reporte de escenarios de liquidez"
+      }
+    ]
+  },
+  {
+    "query_id": "Q44",
+    "pregunta": "¿Qué información deben difundir trimestralmente las Instituciones en su página de Internet?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "La información relativa tanto al Coeficiente de Cobertura de Liquidez como al Coeficiente de Financiamiento Estable Neto, en ambos casos, la relacionada al trimestre que se reporte, de conformidad con los formatos comprendidos en los Anexos 5 y 10, respectivamente.",
+        "justificacion": "Disposiciones generales de liquidez"
+      }
+    ]
+  },
+  {
+    "query_id": "Q45",
+    "pregunta": "¿Quién es el encargado de aprobar el plan de restauración de los Coeficientes?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "El plan de restauración de los Coeficientes... tendrá como objetivo que la Institución implemente las modificaciones a su gestión de liquidez... y deberá ser aprobado por el consejo de administración de la Institución de que se trate.",
+        "justificacion": "Planes de restauración de los coeficientes"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q46",
+    "pregunta": "¿Cómo se realiza el cálculo de la equivalencia en moneda nacional de montos denominados en UDIs?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Se realizará tomando en cuenta el tratamiento para la valorización establecido en los Criterios Contables de las Disposiciones.",
+        "justificacion": "Criterios de valorización y conversión"
+      }
+    ]
+  },
+  {
+    "query_id": "Q47",
+    "pregunta": "¿Cómo se deben resolver las consultas sobre la aplicación de estas disposiciones?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "LIQUIDEZ",
+        "texto_clave_esperado": "Serán resueltas por la Comisión o el Banco de México. La autoridad que reciba la consulta, deberá obtener la previa opinión favorable de la otra, a fin de resolver lo conducente.",
+        "justificacion": "Disposiciones generales de liquidez"
+      }
+    ]
+  },
+  {
+    "query_id": "Q48",
+    "pregunta": "¿Cuál es el objetivo principal del Principio 8 establecido por el Comité de Basilea?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Un banco debe gestionar activamente sus posiciones y riesgos de liquidez intradía para cumplir oportunamente sus obligaciones de pago y liquidación, tanto en condiciones normales como de tensión, y contribuir así al buen funcionamiento de los sistemas de pago y liquidación.",
+        "justificacion": "Criterio de monitoreo de liquidez intradía"
+      }
+    ]
+  },
+  {
+    "query_id": "Q49",
+    "pregunta": "¿Cuáles son las herramientas de monitoreo que deben aplicar todos los bancos informantes (Categoría A)?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "A(i) Uso máximo diario de liquidez intradía A(ii) Liquidez intradía disponible al inicio del día hábil A(iii) Pagos totales A(iv) Obligaciones con horario específico",
+        "justificacion": "Herramientas de monitoreo LID"
+      }
+    ]
+  },
+  {
+    "query_id": "Q50",
+    "pregunta": "¿Qué datos deben reportar los bancos respecto a sus posiciones netas acumuladas negativas?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Los bancos deben reportar sus tres mayores posiciones netas acumuladas negativas diarias en sus cuentas de liquidación o corresponsalía durante el periodo de reporte, así como el promedio diario de la posición neta acumulada negativa durante el periodo.",
+        "justificacion": "Criterio de monitoreo de liquidez intradía"
+      }
+    ]
+  },
+  {
+    "query_id": "Q51",
+    "pregunta": "¿Cuál es el propósito de la herramienta de Pagos totales?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Esta herramienta permitirá a los supervisores monitorear la escala general de la actividad de pagos de un banco.",
+        "justificacion": "Criterio de monitoreo de liquidez intradía"
+      }
+    ]
+  },
+  {
+    "query_id": "Q52",
+    "pregunta": "¿Qué implicaciones tiene el incumplimiento de las obligaciones con horario específico?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "La falta de liquidación oportuna de estas obligaciones podría generar una penalización financiera, daño reputacional para el banco o pérdida de negocio futuro.",
+        "justificacion": "Obligaciones con horario específico LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q53",
+    "pregunta": "¿Cuáles son las herramientas específicas para bancos que prestan servicios de corresponsalía bancaria?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "B(i) Valor de los pagos realizados en nombre de clientes de corresponsalía bancaria B(ii) Líneas de crédito intradía otorgadas a clientes",
+        "justificacion": "Herramientas de monitoreo LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q54",
+    "pregunta": "¿Qué detalles deben incluir los bancos corresponsales al reportar las líneas de crédito intradía otorgadas?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Los bancos corresponsales deben reportar las tres mayores líneas de crédito intradía otorgadas a sus clientes en el periodo de reporte, indicando si dichas líneas son garantizadas o comprometidas y el uso de esas líneas en su punto máximo.",
+        "justificacion": "Tratamiento de corresponsalía y supervisión LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q55",
+    "pregunta": "¿Qué herramienta es exclusiva para los bancos que son participantes directos?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "C(i) Ritmo de liquidación intradía",
+        "justificacion": "Criterio de monitoreo de liquidez intradía"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q56",
+    "pregunta": "¿Qué permite evaluar el ritmo de liquidación intradía?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Esta herramienta permitirá a los supervisores monitorear el ritmo de liquidación de la actividad diaria de pagos de un participante directo a través de su cuenta de liquidación.",
+        "justificacion": "Criterio de monitoreo de liquidez intradía"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q57",
+    "pregunta": "¿Cuáles son los escenarios de tensión que deben considerar los bancos?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "(i) Tensión financiera propia: el banco sufre, o se percibe que sufre, un evento de tensión (ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos (iii) Tensión de un banco cliente: un banco cliente de un banco corresponsal sufre un evento de tensión (iv) Tensión crediticia o de liquidez a nivel de mercado",
+        "justificacion": "Escenarios de tensión LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q58",
+    "pregunta": "¿Qué efecto puede tener una tensión financiera propia en un participante directo?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "la tensión financiera y/u operativa propia puede provocar que las contrapartes difieran pagos y/o retiren líneas de crédito intradía. Esto, a su vez, puede ocasionar que el banco tenga que financiar una mayor parte de sus pagos con sus propias fuentes de liquidez intradía para evitar diferir sus propios pagos.",
+        "justificacion": "Escenarios de tensión LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q59",
+    "pregunta": "¿A qué nivel de la estructura organizacional deben aplicarse típicamente estas herramientas?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "se espera que las herramientas de monitoreo se apliquen típicamente al nivel de entidad jurídica individual significativa.",
+        "justificacion": "Herramientas de monitoreo LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q60",
+    "pregunta": "En grupos bancarios transfronterizos, ¿cuál es la responsabilidad del supervisor de acogida respecto a una sucursal?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "El supervisor de acogida debe tener la opción de requerir que las sucursales extranjeras en su jurisdicción le reporten herramientas de liquidez intradía, sujeto a materialidad.",
+        "justificacion": "Tratamiento de corresponsalía y supervisión LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q61",
+    "pregunta": "¿Cuál es la fecha de implementación y la frecuencia inicial de reporte?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "El reporte de las herramientas de monitoreo comenzará con periodicidad mensual a partir del 1 de enero de 2015, para coincidir con la implementación de los requerimientos de reporte del LCR.",
+        "justificacion": "Criterio de monitoreo de liquidez intradía"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q62",
+    "pregunta": "¿Quién es el responsable final de la presentación de los datos ante el supervisor?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "la administración del banco será responsable de recopilar y presentar a su supervisor bancario los datos de monitoreo correspondientes a las herramientas.",
+        "justificacion": "Criterio de monitoreo de liquidez intradía"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q63",
+    "pregunta": "¿Qué elementos se consideran fuentes propias de liquidez intradía?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Saldos de reserva en el banco central; Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía; Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía; Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía; Saldos con otros bancos que puedan utilizarse para liquidación intradía.",
+        "justificacion": "Definición y gestión de liquidez intradía"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q64",
+    "pregunta": "¿Qué indica una combinación de baja liquidez inicial y alta proporción de obligaciones con horario específico?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Si una alta proporción de la actividad de pagos de un banco es crítica en términos de tiempo, el banco tiene menor flexibilidad para enfrentar choques inesperados mediante la gestión de sus flujos de pagos, especialmente cuando su monto de liquidez intradía disponible al inicio del día hábil suele ser bajo.",
+        "justificacion": "Obligaciones con horario específico LID"
+      }
+    ]
+    
+  },
+  {
+    "query_id": "Q65",
+    "pregunta": "¿Para consumo no revolvente cómo se define el pago realizado?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación",
+        "justificacion": "Define explícitamente el concepto de pago realizado para créditos de consumo no revolvente, lo cual es esencial para el cálculo de la Probabilidad de Incumplimiento (PI) y la clasificación de los créditos en las etapas de riesgo."
+      }
+    ]
+  },
+  {
+    "query_id": "Q66",
+    "pregunta": "¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "PI_i^N = \\frac{1}{1 + e^{-Z_i^N}}",
+        "justificacion": "Contiene la fórmula logística y los valores de los coeficientes (beta) para créditos nómina (N)."
+      }
+    ]
+  },
+  {
+    "query_id": "Q67",
+    "pregunta": "¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3",
+        "justificacion": "La tabla especifica que si los atrasos (ATR) son > 3, el crédito se clasifica en Etapa 3."
+      }
+    ]
+  },
+  {
+    "pregunta": "¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:",
+        "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en diferentes etapas de riesgo de crédito y los criterios para la migración entre etapas."
+      }
+    ],
+    "query_id": "Q68"
+  },
+  {
+    "pregunta": "¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...",
+        "justificacion": "Este documento describe los enfoques disponibles para el cálculo de reservas preventivas y los requisitos asociados a cada uno."
+      }
+    ],
+    "query_id": "Q69"
+  },
+  {
+    "pregunta": "¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%",
+        "justificacion": "El texto especifica claramente que para créditos en etapa 3, la Probabilidad de Incumplimiento es del 100%, lo cual es crucial para el cálculo de reservas."
+      }
+    ],
+    "query_id": "Q70"
+  },
+  {
+    "pregunta": "¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.",
+        "justificacion": "El texto indica que las instituciones pueden migrar créditos entre etapas de riesgo basándose en criterios formalizados en sus manuales, lo cual es esencial para entender la flexibilidad y control en la gestión del riesgo crediticio."
+      }
+    ],
+    "query_id": "Q71"
+  },
+  {
+    "pregunta": "¿Qué se consideraría un crédito personal?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina",
+        "justificacion": "El texto define claramente qué se considera un crédito personal, lo cual es importante para la clasificación de créditos y la aplicación de las reglas correspondientes a cada tipo de crédito."
+      }
+    ],
+    "query_id": "Q72"
+  },
+  {
+    "pregunta": "¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito",
+        "justificacion": "El texto enumera los tipos de garantías que pueden ser consideradas para la estimación de la Severidad de la Pérdida."
+      }
+    ],
+    "query_id": "Q73"
+  },
+  {
+    "pregunta": "¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.",
+        "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en etapas de riesgo de crédito, utilizando el criterio de incremento significativo del riesgo crediticio."
+      }
+    ],
+    "query_id": "Q74"
+  },
+  {
+    "pregunta": "¿Qué se entiendo por saldo a pagar?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución",
+        "justificacion": "El documento describe claramente qué se entiende por saldo a pagar, lo cual es importante para la gestión de créditos y la aplicación de las reglas correspondientes."
+      }
+    ],
+    "query_id": "Q75"
+  },
+  {
+    "pregunta": "¿Cómo se determina la reservas para los créditos en etapa 2?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Reservas\\ Etapa\\ 2_i = \\max\\left(\\text{Reservas\\ Vida\\ Completa}_i, PI_i^X \\times SP_i^X \\times EI_i^X\\right)",
+        "justificacion": "El documento proporciona la fórmula específica para calcular las reservas para créditos en etapa 2, utilizando la máxima entre las reservas de vida completa y el producto de la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento."
+      }
+    ],
+    "query_id": "Q76"
+  },
+  {
+    "pregunta": "¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CR",
+        "texto_clave_esperado": "EI_i = \\max \\left\\{ \\frac{S_i \\times \\max \\left\\{1.026 \\cdot \\left( \\frac{S_i}{\\text{Límite de Crédito}} \\right)^{-0.5434} \\cdot 100\\% \\right\\}}{S_i + 13.79\\% \\cdot (\\text{Límite de Crédito} - S_i)} \\right\\}",
+        "justificacion": "Este documento detalla el método específico para calcular la Exposición al Incumplimiento cuando el saldo es menor que el límite de crédito, proporcionando la fórmula exacta utilizada."
+      }
+    ],
+    "query_id": "Q77"
+  },
+  {
+    "pregunta": "¿Se pueden reportar tasas de interés en cero?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%",
+        "justificacion": "El documento especifica que en casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%, asegurando consistencia en su aplicación."
+      }
+    ],
+    "query_id": "Q78"
+  },
+  {
+    "pregunta": "¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "CUB_extracto.md",
+        "jerarquia_esperada": "CNR",
+        "texto_clave_esperado": "Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...",
+        "justificacion": "El documento establece que cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las instituciones deben aplicar un factor de riesgo específico para el cálculo de las variables, lo cual es crucial para la gestión del riesgo crediticio en ausencia de información."
+      }
+    ],
+    "query_id": "Q79"
+  },
+  {
+    "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Cobertura de Liquidez?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "$$ \frac{\text{Coeficiente de Cobertura de Liquidez}}{\text{Activos Líquidos Computables}} = \frac{\text{Flujo Neto Total de Salida de Efectivo}} $$",
+        "justificacion": "Incluye la definición base de la fórmula de ML"
+      }
+    ],
+    "query_id": "Q80"
+  },
+  {
+    "pregunta": "¿Cómo se determina el flujo de salida contingente por operaciones con instrumentos financieros derivados?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Las Instituciones deberán calcular el flujo de salida contingente por operaciones con instrumentos financieros derivados como el máximo valor absoluto de la suma de los montos referidos en los incisos a) y b) siguientes, calculando dichos incisos para cada horizonte de treinta días consecutivos durante los últimos 24 meses (Look Back Approach). Para cada horizonte de 30 días consecutivos, se deberán sumar: a) El flujo acumulado de garantías neto, que son las variaciones en el saldo de garantías recibidas menos las variaciones en el saldo de garantías entregadas, que resulte de los cambios en la valuación de las operaciones con instrumentos financieros derivados, sin incluir las variaciones de los saldos de garantías entregadas o recibidas que resulten de la constitución de márgenes iniciales o de la liquidación de operaciones, más b) La variación acumulada en la valuación de mercado del portafolio de operaciones con instrumentos financieros derivados que correspondan a operaciones que no estén cubiertas con garantías previamente otorgadas o recibidas o que no hayan sido correspondidas por un intercambio de garantías.",
+        "justificacion": "Texto clave para derivados en ML"
+      }
+    ],
+    "query_id": "Q81"
+  },
+  {
+    "pregunta": "¿Cómo se calcula el flujo total de entrada de efectivo?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo",
+        "justificacion": "Texto clave para el cálculo del flujo de entrada de efectivo"
+      }
+    ],
+    "query_id": "Q82"
+  },
+  {
+    "pregunta": "¿Qué factor de salida se aplica a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "5% | | | I.1.2 Depósitos en Cuentas Transaccionales de personas físicas y de personas físicas con actividad empresarial, elegibles como operaciones pasivas garantizadas por el IPAB de acuerdo a la Ley para la Protección al Ahorro Bancario, cuyo monto excede el límite establecido en esta, o el que corresponda en la jurisdicción en que se hayan constituido las cuentas. | | | | I.1.2.1 Monto que no excede el límite establecido en la Ley para la Protección al Ahorro Bancario para las operaciones pasivas garantizadas por el IPAB o el que corresponda en la jurisdicción en que se hayan constituido las cuentas.",
+        "justificacion": "Identificación de la tabla de factor IPAB"
+      }
+    ],
+    "query_id": "Q83"
+  },
+  {
+    "pregunta": "¿Cómo se registran las operaciones de compra-venta fecha valor para calcular el coeficiente de cobertura de liquidez?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "ML",
+        "texto_clave_esperado": "Compensar para cada operación de compra venta de títulos pactada a una fecha valor, la parte activa y pasiva de la misma operación e incluir el monto resultante como flujo de entrada si la parte activa es mayor, o bien como flujo de salida si la parte pasiva es mayor.",
+        "justificacion": "Regla para operaciones compra-venta"
+      }
+    ],
+    "query_id": "Q84"
+  },
+  {
+    "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Financiamiento Estable Neto y cómo debe expresarse el resultado porcentual?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "El Coeficiente de Financiamiento Estable Neto será el que resulte de aplicar la fórmula siguiente y deberá expresarse como porcentaje redondeado a la centésima de punto porcentual más cercana. $$ \\frac{\\text{Coeficiente de Financiamiento Estable Neto}}{} = \\frac{\\text{Monto de Financiamiento Estable Disponible}}{\\text{Monto de Financiamiento Estable Requerido}} $$",
+        "justificacion": "Definición base del Coeficiente de FE"
+      }
+    ],
+    "query_id": "Q85"
+  },
+  {
+    "pregunta": "¿Con qué periodicidad debe reportarse el CFEN al Banco de México y a qué fecha de cálculo corresponde?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "El Coeficiente de Financiamiento Estable Neto que corresponda al último Día Hábil de cada mes deberá reportarse durante los primeros dieciséis Días Hábiles del mes inmediato siguiente.",
+        "justificacion": "Regla de reporte de CFEN"
+      }
+    ],
+    "query_id": "Q86"
+  },
+  {
+    "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Disponible para efectos del CFEN?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Monto de Financiamiento Estable Disponible: al monto que resulte de sumar los pasivos y capital señalados en el Anexo 6 de las presentes disposiciones después de aplicarles los factores que les correspondan dependiendo de su clasificación en términos del propio anexo",
+        "justificacion": "Definición textual"
+      }
+    ],
+    "query_id": "Q87"
+  },
+  {
+    "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Requerido para efectos del CFEN?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Monto de Financiamiento Estable Requerido: al monto que resulte de sumar: (i) los activos no restringidos y otras operaciones señaladas en el Anexo 7 de las presentes disposiciones, y (ii) los activos restringidos u otorgados como garantía señalados en el Anexo 8 de las presentes disposiciones. En ambos casos la suma se hará después de aplicarles los factores que les correspondan dependiendo de su clasificación en términos de los anexos referidos.",
+        "justificacion": "Definición textual"
+      }
+    ],
+    "query_id": "Q88"
+  },
+  {
+    "pregunta": "¿Qué factor de financiamiento estable disponible se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Disposiciones_Liquidez.md",
+        "jerarquia_esperada": "FE",
+        "texto_clave_esperado": "Los factores para la determinación del financiamiento estable disponible serán: I. Pasivos y capital con factor del 100% A. Capital fundamental definido en las Disposiciones artículo 2 Bis 6, fracción I, inciso a), sin considerar las deducciones establecidas en dicha fracción y Capital Básico No Fundamental definido en las Disposiciones en el artículo 2 Bis 6, fracción II.",
+        "justificacion": "Identificación de factores para financiamiento"
+      }
+    ],
+    "query_id": "Q89"
+  },
+  {
+    "pregunta": "¿Cuál es la definición de liquidez intradía según las herramientas de monitoreo del Comité de Basilea?",
+    "dificultad": "Baja",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "Liquidez intradía: fondos a los que se puede acceder durante el día hábil, usualmente para permitir que los bancos realicen pagos en tiempo real;",
+        "justificacion": "Definición textual LID"
+      }
+    ],
+    "query_id": "Q90"
+  },
+  {
+    "pregunta": "¿Cuáles son las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "(i) Fuentes Fuentes propias - Saldos de reserva en el banco central; - Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía; - Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía; - Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía; - Saldos con otros bancos que puedan utilizarse para liquidación intradía.",
+        "justificacion": "Identificación de fuentes LID"
+      }
+    ],
+    "query_id": "Q91"
+  },
+  {
+    "pregunta": "¿Cómo se define un escenario de tensión de contraparte?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "(ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos 32. Una tensión de contraparte puede provocar que los participantes directos y los bancos que utilizan servicios de corresponsalía bancaria no puedan depender de los pagos entrantes de la contraparte estresada, reduciendo la disponibilidad de liquidez intradía que puede obtenerse mediante la recepción de pagos de dicha contraparte.",
+        "justificacion": "Definición tensión de contraparte"
+      }
+    ],
+    "query_id": "Q92"
+  },
+  {
+    "pregunta": "¿Cómo se calcula el uso máximo diario de liquidez intradía a partir de la posición neta acumulada de pagos enviados y recibidos?",
+    "dificultad": "Alta",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "La mayor posición neta negativa durante el día hábil en la(s) cuenta(s), es decir, el mayor saldo neto acumulado entre pagos realizados y recibidos, determinará el uso máximo diario de liquidez intradía del banco. La posición neta debe determinarse con marcas de tiempo de liquidación (o su equivalente), usando datos transacción por transacción de la(s) cuenta(s). El mayor saldo neto negativo puede calcularse al cierre del día hábil y no requiere monitoreo en tiempo real durante todo el día.",
+        "justificacion": "Cálculo de LID diario"
+      }
+    ],
+    "query_id": "Q93"
+  },
+  {
+    "pregunta": "¿Qué son las obligaciones con horario específico y por qué su incumplimiento puede generar riesgo financiero o reputacional?",
+    "dificultad": "Media",
+    "documentos_esperados": [
+      {
+        "archivo": "Intraday_liquidity_esp.md",
+        "jerarquia_esperada": "LID",
+        "texto_clave_esperado": "La falta de liquidación oportuna de estas obligaciones podría generar una penalización financiera, daño reputacional para el banco o pérdida de negocio futuro.23. Los bancos deben calcular el valor total de las obligaciones con horario específico que liquidan cada día y reportar los tres mayores valores totales diarios y el valor total diario promedio en el periodo de reporte, paradar a los supervisores una indicación de la escala de estas obligaciones.",
+        "justificacion": "Definición obligaciones LID"
+      }
+    ],
+    "query_id": "Q94"
+  }
+]
