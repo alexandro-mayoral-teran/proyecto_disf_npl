@@ -20,15 +20,11 @@ class MotorBusqueda:
     vectorial y otros métodos estadísticos (TF-IDF).
     """
     def __init__(self, persist_dir: str | Path = None, collection_name: str = "regulacion_disf"):
+        from src.nlp_core.config_llm import get_embeddings
+        self.embeddings = get_embeddings()
+        
         load_dotenv()
-        self.api_key = os.getenv("OPENAI_API_KEY")
-        if not self.api_key:
-            raise ValueError("No se encontró OPENAI_API_KEY en el archivo .env")
-            
-        self.embeddings = OpenAIEmbeddings(
-            model="text-embedding-3-small",
-            api_key=self.api_key
-        )
+        self.api_key = os.getenv("OPENAI_API_KEY", "")
         
         self.persist_dir = str(persist_dir) if persist_dir else str(project_root / "data" / "03_output" / "chroma_db")
         
@@ -269,13 +265,13 @@ class MotorBusqueda:
         Si se proporcionan `documentos_bm25`, utiliza Búsqueda Híbrida (EnsembleRetriever)
         como motor de búsqueda para cada query generada. Si no, usa solo ChromaDB.
         """
-        from langchain_openai import ChatOpenAI
+        from src.nlp_core.config_llm import get_langchain_chat
         from langchain_classic.retrievers.multi_query import MultiQueryRetriever
 
         print(f"Ejecutando Multi-Query Expansion para: '{query}'...")
 
         # 1. Configurar LLM para la generación de queries
-        llm = ChatOpenAI(temperature=0, model="gpt-4o", api_key=self.api_key)
+        llm = get_langchain_chat(task="expansion", temperature=0)
 
         # 2. Configurar el retriever base (Chroma o Híbrido)
         chroma_retriever = self.vectorstore.as_retriever(search_kwargs={"k": k})

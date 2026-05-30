@@ -20,15 +20,8 @@ class MotorVectorizacion:
     de documentos en la base de datos vectorial (ChromaDB).
     """
     def __init__(self, persist_dir: str | Path = None):
-        load_dotenv()
-        self.api_key = os.getenv("OPENAI_API_KEY")
-        if not self.api_key:
-            raise ValueError("No se encontró OPENAI_API_KEY en el archivo .env")
-        
-        self.embeddings = OpenAIEmbeddings(
-            model="text-embedding-3-small",
-            api_key=self.api_key
-        )
+        from src.nlp_core.config_llm import get_embeddings
+        self.embeddings = get_embeddings()
         
         self.persist_dir = str(persist_dir) if persist_dir else str(project_root / "data" / "03_output" / "chroma_db")
 

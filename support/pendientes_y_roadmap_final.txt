@@ -1,0 +1,146 @@
+================================================================================
+PENDIENTES Y ROADMAP DE ACCIÓN - PROYECTO DISF (AVANCE 4)
+================================================================================
+Basado en la evaluación y feedback del Avance 3 (Calificación: 82/100).
+Este archivo actúa como el inventario de brechas a cerrar y el plan de trabajo
+científico-arquitectónico exigido para el cierre del proyecto (Avance 4).
+
+--------------------------------------------------------------------------------
+1. BRECHAS DETECTADAS EN EL AVANCE 3 (A CERRAR DE INMEDIATO)
+--------------------------------------------------------------------------------
+
+[x] B1. EXPANDIR EL EVAL SET (DATASET DE PRUEBAS) (COMPLETADO: 110 consultas generadas)
+    - Actualmente cuenta con 30 consultas.
+    - Se requiere expandir a >= 100 consultas balanceadas (por tipo de léxico, 
+      longitud y complejidad sintáctica).
+    - Riesgo actual: Muestra pequeña que impide la generalización robusta.
+
+[x] B2. TABULAR COMPARATIVA DE RECOVERY (EXACT_MATCH VS LLM_JUDGE) (COMPLETADO: Soporte agregado en el evaluador e integrado con Bootstrap)
+    - El exact-match castiga erróneamente las respuestas parafraseadas del RAG.
+    - Se debe generar y presentar una tabla comparativa explícita que tabule
+      la diferencia de métricas entre exact_match y LLM_judge.
+
+[x] B3. VERSIONAMIENTO Y REPRODUCIBILIDAD COMPLETA DE MODELOS Y PROMPTS (COMPLETADO: Trazabilidad Git implementada en prompts_registry.py)
+    - Declarar la versión exacta de la API y modelo de text-embedding-3-small.
+    - Fijar versiones exactas con fecha (ej. gpt-4o-2024-05-13, gpt-4o-mini-2024-07-18).
+    - Implementar un Registro Versionado de Prompts (.json registry con 
+      timestamp + hash del commit de Git) para garantizar la trazabilidad física.
+
+[x] B4. MANEJO DE MULTI-CHUNK (SOPORTE MULTI-DOCUMENTO) (COMPLETADO: Agrupador de contexto estructurado y renombre a generacion.py)
+    - Actualmente se tiene como "reserved for future".
+    - Banxico requiere que el RAG pueda extraer información correlacionada de
+      MÚLTIPLES documentos regulatorios simultáneamente. Es un pendiente crítico.
+
+--------------------------------------------------------------------------------
+2. REQUERIMIENTOS METODOLÓGICOS DEL AVANCE 4 (PLAN MA1 - MA7)
+--------------------------------------------------------------------------------
+
+[ ] MA1. EVALUAR >= 6 CONFIGURACIONES DE LLM (CON AL MENOS UNA LOCAL/SELF-HOSTABLE)
+    - Configurar y probar al menos 6 combinaciones de modelos.
+    - Ya tenemos la base local operativa (Llama 3.1:8b vía Ollama en GPU RTX 4060).
+    - Razón: Data Residency obligatoria en Banxico + mitigación de vendor lock-in.
+
+[x] MA2. PRUEBA DE CONTAMINACIÓN DE DATOS (EVALUACIÓN CIEGA) POR CANDIDATO (COMPLETADO: Método evaluar_contaminacion_ciega añadido)
+    - Evaluar los candidatos (OpenAI vs Llama local) contra el Ground Truth de
+      manera "ciega" (sin contexto del RAG).
+    - Calcular el "Lift" (mejora real) del RAG. Meta: Superar un lift del 25% 
+      o documentar y justificar el límite físico intrínseco.
+
+[x] MA3. REGISTRO DE CONFIGURACIÓN Y PROMPTS (COMPLETADO: prompts.json centralizado, prompts_registry.py hasheando dinámicamente SHA-256 e integrado en logs de telemetría)
+    - Crear una tabla resumen consolidada con las siguientes columnas:
+      Candidato | Modelo | Embedding | Reranker | Fine-tuning | Hash Prompt | Costo/1k tokens
+
+[ ] MA4. TUNING PROFUNDO DE LAS TOP-2 CONFIGURACIONES
+    - Tras la ablación inicial, seleccionar las 2 mejores configuraciones y realizar
+      ajustes finos de hiperparámetros (temperatura, top_p, chunk size, overlap) 
+      usando un set de validación separado (held-out) para evitar leakage.
+
+[x] MA5. ANÁLISIS DE SIGNIFICANCIA ESTADÍSTICA (NUEVO REQUERIMIENTO CIENTÍFICO) (COMPLETADO: Algoritmo Bootstrap 1,000 resamples y CIs de 95% integrados en evaluar_retrieval)
+    - Realizar un remuestreo Bootstrap con 1,000 iteraciones por candidato para
+      calcular Intervalos de Confianza (CIs) del NDCG@10.
+    - Aplicar pruebas de hipótesis estadísticas (Paired t-test o McNemar) sobre 
+      los deltas de NDCG de los candidatos para probar si hay empates o superioridad real.
+    - Reportar la varianza de resultados en ejecuciones con temperature > 0 para
+      modelos locales (no-determinismo).
+
+[x] MA6. ANÁLISIS DE ERRORES DESAGREGADO POR ETAPAS (NUEVO) (COMPLETADO: Clasificador de Categorías A, B y C implementado en evaluar_desagregacion_errores)
+    - Etiquetar los fallos del sistema en 3 categorías discretas:
+      (a) Fallo de Retrieval (El fragmento correcto no quedó en el Top-K).
+      (b) Alucinación Generativa (El fragmento estaba en el Top-K, pero el LLM falló/alucinó).
+      (c) Fallo de Formato (El LLM dedujo la información, pero falló la validación del JSON/Pydantic).
+    - Desagregar el análisis por tipo de documento, complejidad y longitud de consulta.
+
+[ ] MA7. CUANTIFICAR LA FRONTERA DE PARETO (COSTO vs INTERPRETABILIDAD vs LOCK-IN)
+    - Telemetría: Registrar costos en USD por 1K tokens, latencias en percentiles
+      P50/P95 (en milisegundos), y memoria pico de ejecución en hardware local.
+    - Interpretabilidad: Analizar el espectro entre embeddings opacas vs BM25 + metadatos.
+    - Vendor Lock-in: Analizar la dependencia/independencia tecnológica (Self-Hostable vs APIs propietarias).
+
+--------------------------------------------------------------------------------
+3. ROADMAP PROPUESTO - ORDEN DE EJECUCIÓN SUGERIDO
+--------------------------------------------------------------------------------
+
+FASE 1: AMPLIACIÓN Y LIMPIEZA DE DATOS (B1, B4)
+   - Expandir las 30 queries del Ground Truth actual a las >= 100 queries requeridas.
+   - Refactorizar el motor de recuperación para soportar consultas sobre múltiples 
+     documentos y múltiples chunks consolidados (Multi-chunk handling).
+
+FASE 2: TELEMETRÍA Y EVALUADOR AVANZADO (B2, MA5, MA6)
+   - Modificar el archivo `src/nlp_core/evals/evaluador.py` para implementar:
+     * El cálculo de bootstrap CI (1,000 resamples).
+     * El análisis de errores etiquetado (Categorías A, B y C).
+     * La tabulación automática de exact_match vs llm_judge.
+
+FASE 3: REGISTRO DE PROMPTS Y TUNING DE PARETO (B3, MA2, MA3, MA4, MA7)
+   - Crear el registro de prompts JSON con hash/commits.
+   - Ejecutar la prueba de contaminación blind (sin contexto) para calcular el Lift.
+   - Correr las evaluaciones para los 6 candidatos y compilar la Frontera de Pareto
+     (NDCG@10 vs Costo/Latencia).
+================================================================================
+4. REQUERIMIENTOS DEL AVANCE 5 (ENSAMBLES Y GRÁFICOS)
+--------------------------------------------------------------------------------
+
+[ ] ENS-A. ESTRATEGIAS DE ENSAMBLE HOMOGÉNEAS Y HETEROGÉNEAS
+    - Validar y documentar formalmente la Búsqueda Híbrida (RRF) como nuestro 
+      ensamble heterogéneo (léxico + semántico).
+
+[ ] ENS-B. TABLA RESUMEN DE ENSAMBLES
+    - Incluir costo por consulta, latencia (P50/P95), hallucination rate y el 
+      tier del servicio (local vs cloud).
+
+[ ] ENS-C. PARETO FRONTIER Y VISUALIZACIONES
+    - Gráfica de Pareto (Costo/Latencia vs Precisión NDCG).
+    - Incluir matrices de confusión o gráficas UMAP de los embeddings.
+
+[ ] ENS-D. DIVERSIDAD CUANTIFICADA DE LOS BASE LEARNERS
+    - Reportar la tasa de desacuerdo (Disagreement rate) entre la búsqueda 
+      léxica y la semántica, o coeficiente Kappa.
+
+[ ] ENS-E. CALIBRACIÓN DE CONFIDENCE Y CONSISTENCIA
+    - Ejecutar el LLM con `temperature > 0` múltiples veces sobre las mismas
+      consultas y reportar la consistencia de las salidas (Self-consistency).
+
+[ ] ENS-F. LIFT ESTADÍSTICAMENTE SIGNIFICATIVO
+    - Declarar formalmente si el costo y latencia del "Súper RAG" (Ensamble) se 
+      justifica vs usar solo Embeddings Puros.
+
+--------------------------------------------------------------------------------
+5. REQUERIMIENTOS DEL AVANCE 6 (VIABILIDAD E IMPLEMENTACIÓN CLOUD)
+--------------------------------------------------------------------------------
+
+[ ] DEP-A. DECISIÓN GO/NO-GO
+    - Documentar recomendación final a Banxico (dueño, métricas de éxito).
+
+[ ] DEP-B. TCO A 12 MESES Y VENDOR LOCK-IN
+    - Desglosar tokens input/output, storage del vector index y costo computacional.
+    - Analizar dependencia (OpenAI) vs Independencia (Self-hostable Llama 3).
+
+[ ] DEP-C. SLO Y PLAN DE MONITOREO
+    - Definir latencia objetivo y detección de "Drift" en las consultas.
+
+[ ] DEP-D. SEGURIDAD Y COMPLIANCE
+    - Documentar resistencia a Prompt Injection y manejo de PII (Red-Teaming).
+
+[ ] DEP-E. PLAN DE HANDOFF Y DECOMMISSIONING
+    - Entregables serializados y documentación de despliegue para el sponsor.
+================================================================================

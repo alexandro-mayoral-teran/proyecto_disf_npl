@@ -1,0 +1,3 @@
+estrategia,modo_evaluacion,Recall@5,Recall@10,Recall@10_CI_95,MAP@10,MAP@10_CI_95,NDCG@10,NDCG@10_CI_95,Latencia_Promedio_Segundos,Tokens_Contexto_Promedio,LLM_Modelo_QA,Es_QA_Local,LLM_Modelo_Extraccion,Es_Extraccion_Local,Es_Juez_Local,Es_Expansion_Local
+1_Baseline_Léxico,llm_judge,100.0,100.0,"(100.0, 100.0)",0.3333,"(0.3333, 0.3333)",0.5,"(0.5, 0.5)",0.5476,2465.0,llama3.1:8b,True,llama3.1:8b,False,False,True
+2_Baseline_Semántico,llm_judge,100.0,100.0,"(100.0, 100.0)",0.5,"(0.5, 0.5)",0.6309,"(0.6309, 0.6309)",0.4763,2323.0,llama3.1:8b,True,llama3.1:8b,False,False,True

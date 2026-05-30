@@ -8,8 +8,11 @@ from pathlib import Path
 # Agregar el directorio raíz del proyecto al PYTHONPATH para que encuentre 'src'
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from openai import OpenAI
 from dotenv import load_dotenv
+
+# Importar configuración de LLM centralizada
+from src.nlp_core.config_llm import get_llm_client, get_llm_model_name
+from src.nlp_core.prompts_registry import get_prompt
 
 # Importamos nuestro esquema Pydantic
 from src.nlp_core.schemas import RequerimientoInformacion
@@ -59,28 +62,16 @@ def extraer_full_context(texto_normativo: str) -> tuple[RequerimientoInformacion
     para extraer la estructura tabular y los catálogos en un JSON estructurado.
     Retorna la estructura y un diccionario con telemetría (tokens, latencia).
     """
-    # Validar que la API Key exista
-    if not os.getenv("OPENAI_API_KEY"):
-        raise ValueError("No se encontró OPENAI_API_KEY en las variables de entorno. Asegúrate de configurar tu archivo .env.")
-        
-    client = OpenAI()
+    client = get_llm_client("extraction")
+    modelo_extraccion = get_llm_model_name("extraction")
     
-    prompt_sistema = (
-        "Eres un Especialista Digital Regulador de la DISF en el Banco de México, y actúas como un auditor de datos experto. "
-        "Tu tarea es analizar el texto normativo y extraer EXHAUSTIVAMENTE la estructura tabular de los formularios requeridos.\n\n"
-        "REGLAS ESTRICTAS DE EXTRACCIÓN:\n"
-        "1. EXHAUSTIVIDAD: Extrae TODOS los conceptos matemáticos, variables de reporte y parámetros (ej. Probabilidad de Incumplimiento PI, Reservas, Severidad de la Pérdida SP, etc.). No omitas NINGUNA variable clave mencionada en el texto.\n"
-        "2. FÓRMULAS: Si una variable se calcula mediante una fórmula o ecuación, OBLIGATORIAMENTE regístrala en el campo 'formula_calculo'.\n"
-        "3. CATÁLOGOS: Si detectas que una variable solo puede tomar valores específicos de una lista (ej. Etapas de riesgo 1, 2, 3), CREA el catálogo. Debes OBLIGATORIAMENTE establecer 'es_catalogo=true' en ese campo y poner el nombre exacto en 'nombre_catalogo_vinculado'.\n"
-        "4. VALIDACIONES: Genera reglas de negocio lógicas y analíticas en 'validaciones_sugeridas' (ej. 'PI debe estar entre 0 y 1', 'El Monto no puede superar al límite').\n"
-        "5. AMBIGÜEDADES: Si la normativa menciona una fórmula pero no define claramente sus variables, o encuentras huecos lógicos, regístralo SIEMPRE en 'ambiguedades_detectadas'."
-    )
+    prompt_sistema, version_prompt, hash_prompt = get_prompt("extraccion_full_context")
     
     # Utilizamos Structured Outputs de OpenAI (disponible en pydantic >= 2.0 y openai >= 1.40)
     # garantizando que la salida cumpla perfectamente con nuestro esquema.
     t0 = time.time()
     respuesta = client.beta.chat.completions.parse(
-        model="gpt-4o", # Subimos a gpt-4o para asegurar la extracción perfecta de fórmulas complejas
+        model=modelo_extraccion,
         messages=[
             {"role": "system", "content": prompt_sistema},
             {"role": "user", "content": f"Texto normativo a analizar:\n\n{texto_normativo}"}
@@ -91,11 +82,13 @@ def extraer_full_context(texto_normativo: str) -> tuple[RequerimientoInformacion
     latencia = time.time() - t0
     
     telemetria = {
-        "modelo": "gpt-4o",
+        "modelo": modelo_extraccion,
         "prompt_tokens": respuesta.usage.prompt_tokens if respuesta.usage else 0,
         "completion_tokens": respuesta.usage.completion_tokens if respuesta.usage else 0,
         "total_tokens": respuesta.usage.total_tokens if respuesta.usage else 0,
-        "latencia_seg": round(latencia, 2)
+        "latencia_seg": round(latencia, 2),
+        "prompt_version": version_prompt,
+        "prompt_hash": hash_prompt
     }
     
     # Guardar en disco para el dashboard futuro
@@ -110,9 +103,7 @@ def extraer_rag_simple(query: str, k: int = 4) -> tuple[RequerimientoInformacion
     basado en la consulta, y le pide al LLM extraer el formulario usando SOLO ese contexto.
     Retorna la estructura y un diccionario con telemetría (tokens, latencia).
     """
-    if not os.getenv("OPENAI_API_KEY"):
-        raise ValueError("No se encontró OPENAI_API_KEY en las variables de entorno.")
-        
+    
     print(f"Recuperando contexto vectorial para: '{query}'...")
     
     t0_busqueda = time.time()
@@ -124,30 +115,35 @@ def extraer_rag_simple(query: str, k: int = 4) -> tuple[RequerimientoInformacion
     if not resultados:
         raise ValueError("No se encontró contexto en la base vectorial para esa consulta.")
         
-    # 2. Armar el contexto concatenando los textos y sus metadatos
-    contexto_recuperado = "\n\n--- NUEVO FRAGMENTO RECUPERADO ---\n".join(
-        [f"Metadatos: {doc.metadata}\nContenido: {doc.page_content}" for doc in resultados]
-    )
+    # 2. Agrupar chunks por documento de origen para soporte Multi-Documento (Requerimiento B4)
+    docs_por_archivo = {}
+    for doc in resultados:
+        # Extraer el nombre del archivo o documento original (varía según cómo se indexó)
+        origen = doc.metadata.get("source_file", doc.metadata.get("documento", "Normativa General"))
+        if origen not in docs_por_archivo:
+            docs_por_archivo[origen] = []
+        docs_por_archivo[origen].append(doc)
+        
+    bloques_contexto = []
+    for origen, docs in docs_por_archivo.items():
+        bloque = f"[📜 Documento: {origen}]\n"
+        for i, d in enumerate(docs, 1):
+            bloque += f" - Fragmento {i}: {d.page_content.strip()}\n"
+        bloques_contexto.append(bloque)
+        
+    contexto_recuperado = "\n\n".join(bloques_contexto)
     
     # 3. Llamar al LLM con este contexto limitado
-    client = OpenAI()
+    client = get_llm_client("extraction")
+    modelo_extraccion = get_llm_model_name("extraction")
     
-    prompt_sistema = (
-        "Eres un Especialista Digital Regulador de la DISF en el Banco de México. "
-        "Tu tarea es analizar los FRAGMENTOS RECUPERADOS de la normativa y extraer la estructura "
-        "tabular de los formularios requeridos.\n\n"
-        "REGLAS ESTRICTAS DE RAG:\n"
-        "1. Basa tu extracción EXCLUSIVAMENTE en el contexto proporcionado. No alucines información externa.\n"
-        "2. Identifica variables, fórmulas (ponlas en 'formula_calculo'), validaciones y catálogos.\n"
-        "3. Si detectas listas cerradas, pon 'es_catalogo=true'.\n"
-        "4. Si falta información para definir completamente una fórmula o catálogo, repórtalo en 'ambiguedades_detectadas'."
-    )
+    prompt_sistema, version_prompt, hash_prompt = get_prompt("extraccion_rag")
     
     print(f"Enviando contexto ({len(resultados)} chunks) al LLM...")
     
     t0_llm = time.time()
     respuesta = client.beta.chat.completions.parse(
-        model="gpt-4o", 
+        model=modelo_extraccion, 
         messages=[
             {"role": "system", "content": prompt_sistema},
             {"role": "user", "content": f"Consulta del usuario: {query}\n\nFragmentos Recuperados:\n\n{contexto_recuperado}"}
@@ -158,13 +154,15 @@ def extraer_rag_simple(query: str, k: int = 4) -> tuple[RequerimientoInformacion
     latencia_llm = time.time() - t0_llm
     
     telemetria = {
-        "modelo": "gpt-4o",
+        "modelo": modelo_extraccion,
         "prompt_tokens": respuesta.usage.prompt_tokens if respuesta.usage else 0,
         "completion_tokens": respuesta.usage.completion_tokens if respuesta.usage else 0,
         "total_tokens": respuesta.usage.total_tokens if respuesta.usage else 0,
         "latencia_busqueda_seg": round(latencia_busqueda, 2),
         "latencia_llm_seg": round(latencia_llm, 2),
-        "latencia_total_seg": round(latencia_busqueda + latencia_llm, 2)
+        "latencia_total_seg": round(latencia_busqueda + latencia_llm, 2),
+        "prompt_version": version_prompt,
+        "prompt_hash": hash_prompt
     }
     
     # Guardar en disco para el dashboard futuro
@@ -177,9 +175,7 @@ def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings",
     Estrategia RAG Conversacional interactiva usando el Pipeline Modular.
     Retorna el texto markdown, un diccionario con telemetría y la lista de chunks recuperados.
     """
-    if not os.getenv("OPENAI_API_KEY"):
-        raise ValueError("No se encontró OPENAI_API_KEY en las variables de entorno.")
-        
+    
     print(f"Recuperando contexto (Retriever: {base_retriever}, Expansión: {query_expansion}, Post: {post_processing}) para QA: '{query}'...")
     
     t0_busqueda = time.time()
@@ -199,30 +195,35 @@ def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings",
     if not resultados:
         raise ValueError("No se encontró contexto para esa consulta usando la estrategia seleccionada.")
         
-    # 2. Armar el contexto concatenando los textos y sus metadatos
-    contexto_recuperado = "\n\n--- NUEVO FRAGMENTO RECUPERADO ---\n".join(
-        [f"Metadatos: {doc.metadata}\nContenido: {doc.page_content}" for doc in resultados]
-    )
+    # 2. Agrupar chunks por documento de origen para soporte Multi-Documento (Requerimiento B4)
+    docs_por_archivo = {}
+    for doc in resultados:
+        # Extraer el nombre del archivo o documento original (varía según cómo se indexó)
+        origen = doc.metadata.get("source_file", doc.metadata.get("documento", "Normativa General"))
+        if origen not in docs_por_archivo:
+            docs_por_archivo[origen] = []
+        docs_por_archivo[origen].append(doc)
+        
+    bloques_contexto = []
+    for origen, docs in docs_por_archivo.items():
+        bloque = f"[📜 Documento: {origen}]\n"
+        for i, d in enumerate(docs, 1):
+            bloque += f" - Fragmento {i}: {d.page_content.strip()}\n"
+        bloques_contexto.append(bloque)
+        
+    contexto_recuperado = "\n\n".join(bloques_contexto)
     
     # 3. Llamar al LLM con este contexto limitado (Uso de chat.completions.create normal)
-    client = OpenAI()
+    client = get_llm_client("qa")
+    modelo_qa = get_llm_model_name("qa")
     
-    prompt_sistema = (
-        "Eres un Especialista Digital Regulador de la DISF en el Banco de México. "
-        "Tu tarea es responder a las preguntas de los analistas utilizando EXCLUSIVAMENTE "
-        "la información contenida en los fragmentos recuperados.\n\n"
-        "REGLAS ESTRICTAS:\n"
-        "1. Basa tu respuesta solo en el contexto proporcionado. No alucines información externa ni asumas datos.\n"
-        "2. Si la respuesta a la pregunta no está en el contexto, indica claramente: 'La información proporcionada en el contexto no es suficiente para responder a esta pregunta'.\n"
-        "3. Utiliza formato Markdown (negritas, listas, saltos de línea) para que la respuesta sea muy fácil de leer.\n"
-        "4. Al final de tu respuesta, menciona brevemente las fuentes (usando los nombres de los documentos en los metadatos)."
-    )
+    prompt_sistema, version_prompt, hash_prompt = get_prompt("qa_rag")
     
     print(f"Enviando contexto ({len(resultados)} chunks) al LLM para respuesta de QA...")
     
     t0_llm = time.time()
     respuesta = client.chat.completions.create(
-        model="gpt-4o-mini", # Para conversación rápida y barata usamos gpt-4o-mini
+        model=modelo_qa,
         messages=[
             {"role": "system", "content": prompt_sistema},
             {"role": "user", "content": f"Consulta del usuario: {query}\n\nFragmentos Recuperados:\n\n{contexto_recuperado}"}
@@ -234,13 +235,15 @@ def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings",
     texto_respuesta = respuesta.choices[0].message.content
     
     telemetria = {
-        "modelo": "gpt-4o-mini",
+        "modelo": modelo_qa,
         "prompt_tokens": respuesta.usage.prompt_tokens if respuesta.usage else 0,
         "completion_tokens": respuesta.usage.completion_tokens if respuesta.usage else 0,
         "total_tokens": respuesta.usage.total_tokens if respuesta.usage else 0,
         "latencia_busqueda_seg": round(latencia_busqueda, 2),
         "latencia_llm_seg": round(latencia_llm, 2),
-        "latencia_total_seg": round(latencia_busqueda + latencia_llm, 2)
+        "latencia_total_seg": round(latencia_busqueda + latencia_llm, 2),
+        "prompt_version": version_prompt,
+        "prompt_hash": hash_prompt
     }
     
     # Guardar en disco para el dashboard

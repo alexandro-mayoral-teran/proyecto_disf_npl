@@ -1,392 +1,1032 @@
 [
-  {
-    "query_id": "Q01",
-    "pregunta": "¿Para consumo no revolvente cómo se define el pago realizado?",
-    "dificultad": "Baja",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación",
-        "justificacion": "Define explícitamente el concepto de pago realizado para créditos de consumo no revolvente, lo cual es esencial para el cálculo de la Probabilidad de Incumplimiento (PI) y la clasificación de los créditos en las etapas de riesgo."
-      }
-    ]
-  },
-  {
-    "query_id": "Q02",
-    "pregunta": "¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "PI_i^N = \\frac{1}{1 + e^{-Z_i^N}}",
-        "justificacion": "Contiene la fórmula logística y los valores de los coeficientes (beta) para créditos nómina (N)."
-      }
-    ]
-  },
-  {
-    "query_id": "Q03",
-    "pregunta": "¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3",
-        "justificacion": "La tabla especifica que si los atrasos (ATR) son > 3, el crédito se clasifica en Etapa 3."
-      }
-    ]
-  },
-  {
-    "pregunta": "¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:",
-        "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en diferentes etapas de riesgo de crédito y los criterios para la migración entre etapas."
-      }
-    ],
-    "query_id": "Q04"
-  },
-  {
-    "pregunta": "¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...",
-        "justificacion": "Este documento describe los enfoques disponibles para el cálculo de reservas preventivas y los requisitos asociados a cada uno."
-      }
-    ],
-    "query_id": "Q05"
-  },
-  {
-    "pregunta": "¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%",
-        "justificacion": "El texto especifica claramente que para créditos en etapa 3, la Probabilidad de Incumplimiento es del 100%, lo cual es crucial para el cálculo de reservas."
-      }
-    ],
-    "query_id": "Q06"
-  },
-  {
-    "pregunta": "¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.",
-        "justificacion": "El texto indica que las instituciones pueden migrar créditos entre etapas de riesgo basándose en criterios formalizados en sus manuales, lo cual es esencial para entender la flexibilidad y control en la gestión del riesgo crediticio."
-      }
-    ],
-    "query_id": "Q07"
-  },
-  {
-    "pregunta": "¿Qué se consideraría un crédito personal?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina",
-        "justificacion": "El texto define claramente qué se considera un crédito personal, lo cual es importante para la clasificación de créditos y la aplicación de las reglas correspondientes a cada tipo de crédito."
-      }
-    ],
-    "query_id": "Q08"
-  },
-  {
-    "pregunta": "¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito",
-        "justificacion": "El texto enumera los tipos de garantías que pueden ser consideradas para la estimación de la Severidad de la Pérdida."
-      }
-    ],
-    "query_id": "Q09"
-  },
-  {
-    "pregunta": "¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.",
-        "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en etapas de riesgo de crédito, utilizando el criterio de incremento significativo del riesgo crediticio."
-      }
-    ],
-    "query_id": "Q10"
-  },
-  {
-    "pregunta": "¿Qué se entiendo por saldo a pagar?",
-    "dificultad": "Baja",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución",
-        "justificacion": "El documento describe claramente qué se entiende por saldo a pagar, lo cual es importante para la gestión de créditos y la aplicación de las reglas correspondientes."
-      }
-    ],
-    "query_id": "Q11"
-  },
-  {
-    "pregunta": "¿Cómo se determina la reservas para los créditos en etapa 2?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Reservas\\ Etapa\\ 2_i = \\max\\left(\\text{Reservas\\ Vida\\ Completa}_i, PI_i^X \\times SP_i^X \\times EI_i^X\\right)",
-        "justificacion": "El documento proporciona la fórmula específica para calcular las reservas para créditos en etapa 2, utilizando la máxima entre las reservas de vida completa y el producto de la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento."
-      }
-    ],
-    "query_id": "Q12"
-  },
-  {
-    "pregunta": "¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CR",
-        "texto_clave_esperado": "EI_i = \\max \\left\\{ \\frac{S_i \\times \\max \\left\\{1.026 \\cdot \\left( \\frac{S_i}{\\text{Límite de Crédito}} \\right)^{-0.5434} \\cdot 100\\% \\right\\}}{S_i + 13.79\\% \\cdot (\\text{Límite de Crédito} - S_i)} \\right\\}",
-        "justificacion": "Este documento detalla el método específico para calcular la Exposición al Incumplimiento cuando el saldo es menor que el límite de crédito, proporcionando la fórmula exacta utilizada."
-      }
-    ],
-    "query_id": "Q13"
-  },
-  {
-    "pregunta": "¿Se pueden reportar tasas de interés en cero?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%",
-        "justificacion": "El documento especifica que en casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%, asegurando consistencia en su aplicación."
-      }
-    ],
-    "query_id": "Q14"
-  },
-  {
-    "pregunta": "¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "CNR",
-        "texto_clave_esperado": "Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...",
-        "justificacion": "El documento establece que cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las instituciones deben aplicar un factor de riesgo específico para el cálculo de las variables, lo cual es crucial para la gestión del riesgo crediticio en ausencia de información."
-      }
-    ],
-    "query_id": "Q15"
-  },
-  {
-    "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Cobertura de Liquidez y cómo debe expresarse el resultado porcentual?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "ML",
-        "texto_clave_esperado": "El Coeficiente de Cobertura de Liquidez será el que resulte de aplicar la fórmula siguiente y deberá expresarse como porcentaje redondeado a la centésima de punto porcentual más cercana.",
-        "justificacion": "Incluye la definición base de la fórmula de ML"
-      }
-    ],
-    "query_id": "Q16"
-  },
-  {
-    "pregunta": "¿Cómo se determina el flujo de salida contingente por operaciones con instrumentos financieros derivados?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "ML",
-        "texto_clave_esperado": "Las Instituciones deberán calcular el flujo de salida contingente por operaciones con instrumentos financieros derivados como el máximo valor absoluto de la suma de los montos referidos en los incisos a) y b) siguientes",
-        "justificacion": "Texto clave para derivados en ML"
-      }
-    ],
-    "query_id": "Q17"
-  },
-  {
-    "pregunta": "¿Cómo se calcula el flujo total de entrada de efectivo?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "ML",
-        "texto_clave_esperado": "El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo",
-        "justificacion": "Texto clave para el cálculo del flujo de entrada de efectivo"
-      }
-    ],
-    "query_id": "Q18"
-  },
-  {
-    "pregunta": "¿Qué factor de salida se aplica a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "ML",
-        "texto_clave_esperado": "I.1.2.1 Monto que no excede el límite establecido en la Ley para la Protección al Ahorro Bancario para las operaciones pasivas garantizadas por el IPAB",
-        "justificacion": "Identificación de la tabla de factor IPAB"
-      }
-    ],
-    "query_id": "Q19"
-  },
-  {
-    "pregunta": "¿Cómo se registran las operaciones de compra-venta fecha valor para calcular el coeficiente de cobertura de liquidez?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "ML",
-        "texto_clave_esperado": "Compensar para cada operación de compra venta de títulos pactada a una fecha valor, la parte activa y pasiva de la misma operación e incluir el monto resultante como flujo de entrada",
-        "justificacion": "Regla para operaciones compra-venta"
-      }
-    ],
-    "query_id": "Q20"
-  },
-  {
-    "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Financiamiento Estable Neto y cómo debe expresarse el resultado porcentual?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "FE",
-        "texto_clave_esperado": "El Coeficiente de Financiamiento Estable Neto será el que resulte de aplicar la fórmula siguiente y deberá expresarse como porcentaje redondeado a la centésima de punto porcentual más cercana.",
-        "justificacion": "Definición base del Coeficiente de FE"
-      }
-    ],
-    "query_id": "Q21"
-  },
-  {
-    "pregunta": "¿Con qué periodicidad debe reportarse el CFEN al Banco de México y a qué fecha de cálculo corresponde?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "FE",
-        "texto_clave_esperado": "El Coeficiente de Financiamiento Estable Neto que corresponda al último Día Hábil de cada mes deberá reportarse durante los primeros dieciséis Días Hábiles del mes inmediato siguiente.",
-        "justificacion": "Regla de reporte de CFEN"
-      }
-    ],
-    "query_id": "Q22"
-  },
-  {
-    "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Disponible para efectos del CFEN?",
-    "dificultad": "Baja",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "FE",
-        "texto_clave_esperado": "Monto de Financiamiento Estable Disponible: al monto que resulte de sumar los pasivos y capital señalados en el Anexo 6 de las presentes disposiciones",
-        "justificacion": "Definición textual"
-      }
-    ],
-    "query_id": "Q23"
-  },
-  {
-    "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Requerido para efectos del CFEN?",
-    "dificultad": "Baja",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "FE",
-        "texto_clave_esperado": "Monto de Financiamiento Estable Requerido: al monto que resulte de sumar: (i) los activos no restringidos y otras operaciones señaladas en el Anexo 7 de las presentes disposiciones",
-        "justificacion": "Definición textual"
-      }
-    ],
-    "query_id": "Q24"
-  },
-  {
-    "pregunta": "¿Qué factor de financiamiento estable disponible se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "FE",
-        "texto_clave_esperado": "Los factores para la determinación del financiamiento estable disponible serán: I. Pasivos y capital con factor del 100% A. Capital fundamental",
-        "justificacion": "Identificación de factores para financiamiento"
-      }
-    ],
-    "query_id": "Q25"
-  },
-  {
-    "pregunta": "¿Cuál es la definición de liquidez intradía según las herramientas de monitoreo del Comité de Basilea?",
-    "dificultad": "Baja",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "LID",
-        "texto_clave_esperado": "Liquidez intradía: fondos a los que se puede acceder durante el día hábil, usualmente para permitir que los bancos realicen pagos en tiempo real;",
-        "justificacion": "Definición textual LID"
-      }
-    ],
-    "query_id": "Q26"
-  },
-  {
-    "pregunta": "¿Cuáles son las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "LID",
-        "texto_clave_esperado": "(i) Fuentes Fuentes propias - Saldos de reserva en el banco central; - Colateral pignorado con el banco central o con sistemas auxiliares",
-        "justificacion": "Identificación de fuentes LID"
-      }
-    ],
-    "query_id": "Q27"
-  },
-  {
-    "pregunta": "¿Cómo se define un escenario de tensión de contraparte?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "LID",
-        "texto_clave_esperado": "(ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos",
-        "justificacion": "Definición tensión de contraparte"
-      }
-    ],
-    "query_id": "Q28"
-  },
-  {
-    "pregunta": "¿Cómo se calcula el uso máximo diario de liquidez intradía a partir de la posición neta acumulada de pagos enviados y recibidos?",
-    "dificultad": "Alta",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "LID",
-        "texto_clave_esperado": "(i) Uso máximo diario de liquidez intradía 13. Esta herramienta permitirá a los supervisores monitorear el uso de liquidez intradía de un banco en condiciones normales.",
-        "justificacion": "Cálculo de LID diario"
-      }
-    ],
-    "query_id": "Q29"
-  },
-  {
-    "pregunta": "¿Qué son las obligaciones con horario específico y por qué su incumplimiento puede generar riesgo financiero o reputacional?",
-    "dificultad": "Media",
-    "documentos_esperados": [
-      {
-        "archivo": "CUB_extracto.md",
-        "jerarquia_esperada": "LID",
-        "texto_clave_esperado": "(iv) Obligaciones con horario específico 22. Esta herramienta permitirá a los supervisores comprender mejor las obligaciones con horario específico de un banco.",
-        "justificacion": "Definición obligaciones LID"
-      }
-    ],
-    "query_id": "Q30"
-  }
+    {
+        "query_id": "Q01",
+        "pregunta": "¿Para consumo no revolvente cómo se define el pago realizado?",
+        "dificultad": "Baja",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación",
+                "justificacion": "Define explícitamente el concepto de pago realizado para créditos de consumo no revolvente, lo cual es esencial para el cálculo de la Probabilidad de Incumplimiento (PI) y la clasificación de los créditos en las etapas de riesgo."
+            }
+        ]
+    },
+    {
+        "query_id": "Q02",
+        "pregunta": "¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "PI_i^N = \\frac{1}{1 + e^{-Z_i^N}}",
+                "justificacion": "Contiene la fórmula logística y los valores de los coeficientes (beta) para créditos nómina (N)."
+            }
+        ]
+    },
+    {
+        "query_id": "Q03",
+        "pregunta": "¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3",
+                "justificacion": "La tabla especifica que si los atrasos (ATR) son > 3, el crédito se clasifica en Etapa 3."
+            }
+        ]
+    },
+    {
+        "pregunta": "¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:",
+                "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en diferentes etapas de riesgo de crédito y los criterios para la migración entre etapas."
+            }
+        ],
+        "query_id": "Q04"
+    },
+    {
+        "pregunta": "¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...",
+                "justificacion": "Este documento describe los enfoques disponibles para el cálculo de reservas preventivas y los requisitos asociados a cada uno."
+            }
+        ],
+        "query_id": "Q05"
+    },
+    {
+        "pregunta": "¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%",
+                "justificacion": "El texto especifica claramente que para créditos en etapa 3, la Probabilidad de Incumplimiento es del 100%, lo cual es crucial para el cálculo de reservas."
+            }
+        ],
+        "query_id": "Q06"
+    },
+    {
+        "pregunta": "¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.",
+                "justificacion": "El texto indica que las instituciones pueden migrar créditos entre etapas de riesgo basándose en criterios formalizados en sus manuales, lo cual es esencial para entender la flexibilidad y control en la gestión del riesgo crediticio."
+            }
+        ],
+        "query_id": "Q07"
+    },
+    {
+        "pregunta": "¿Qué se consideraría un crédito personal?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina",
+                "justificacion": "El texto define claramente qué se considera un crédito personal, lo cual es importante para la clasificación de créditos y la aplicación de las reglas correspondientes a cada tipo de crédito."
+            }
+        ],
+        "query_id": "Q08"
+    },
+    {
+        "pregunta": "¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito",
+                "justificacion": "El texto enumera los tipos de garantías que pueden ser consideradas para la estimación de la Severidad de la Pérdida."
+            }
+        ],
+        "query_id": "Q09"
+    },
+    {
+        "pregunta": "¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.",
+                "justificacion": "Este documento detalla cómo las instituciones deben clasificar los créditos en etapas de riesgo de crédito, utilizando el criterio de incremento significativo del riesgo crediticio."
+            }
+        ],
+        "query_id": "Q10"
+    },
+    {
+        "pregunta": "¿Qué se entiendo por saldo a pagar?",
+        "dificultad": "Baja",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución",
+                "justificacion": "El documento describe claramente qué se entiende por saldo a pagar, lo cual es importante para la gestión de créditos y la aplicación de las reglas correspondientes."
+            }
+        ],
+        "query_id": "Q11"
+    },
+    {
+        "pregunta": "¿Cómo se determina la reservas para los créditos en etapa 2?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Reservas\\ Etapa\\ 2_i = \\max\\left(\\text{Reservas\\ Vida\\ Completa}_i, PI_i^X \\times SP_i^X \\times EI_i^X\\right)",
+                "justificacion": "El documento proporciona la fórmula específica para calcular las reservas para créditos en etapa 2, utilizando la máxima entre las reservas de vida completa y el producto de la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento."
+            }
+        ],
+        "query_id": "Q12"
+    },
+    {
+        "pregunta": "¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CR",
+                "texto_clave_esperado": "EI_i = \\max \\left\\{ \\frac{S_i \\times \\max \\left\\{1.026 \\cdot \\left( \\frac{S_i}{\\text{Límite de Crédito}} \\right)^{-0.5434} \\cdot 100\\% \\right\\}}{S_i + 13.79\\% \\cdot (\\text{Límite de Crédito} - S_i)} \\right\\}",
+                "justificacion": "Este documento detalla el método específico para calcular la Exposición al Incumplimiento cuando el saldo es menor que el límite de crédito, proporcionando la fórmula exacta utilizada."
+            }
+        ],
+        "query_id": "Q13"
+    },
+    {
+        "pregunta": "¿Se pueden reportar tasas de interés en cero?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%",
+                "justificacion": "El documento especifica que en casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%, asegurando consistencia en su aplicación."
+            }
+        ],
+        "query_id": "Q14"
+    },
+    {
+        "pregunta": "¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "CNR",
+                "texto_clave_esperado": "Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...",
+                "justificacion": "El documento establece que cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las instituciones deben aplicar un factor de riesgo específico para el cálculo de las variables, lo cual es crucial para la gestión del riesgo crediticio en ausencia de información."
+            }
+        ],
+        "query_id": "Q15"
+    },
+    {
+        "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Cobertura de Liquidez y cómo debe expresarse el resultado porcentual?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "ML",
+                "texto_clave_esperado": "El Coeficiente de Cobertura de Liquidez será el que resulte de aplicar la fórmula siguiente y deberá expresarse como porcentaje redondeado a la centésima de punto porcentual más cercana.",
+                "justificacion": "Incluye la definición base de la fórmula de ML"
+            }
+        ],
+        "query_id": "Q16"
+    },
+    {
+        "pregunta": "¿Cómo se determina el flujo de salida contingente por operaciones con instrumentos financieros derivados?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "ML",
+                "texto_clave_esperado": "Las Instituciones deberán calcular el flujo de salida contingente por operaciones con instrumentos financieros derivados como el máximo valor absoluto de la suma de los montos referidos en los incisos a) y b) siguientes",
+                "justificacion": "Texto clave para derivados en ML"
+            }
+        ],
+        "query_id": "Q17"
+    },
+    {
+        "pregunta": "¿Cómo se calcula el flujo total de entrada de efectivo?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "ML",
+                "texto_clave_esperado": "El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo",
+                "justificacion": "Texto clave para el cálculo del flujo de entrada de efectivo"
+            }
+        ],
+        "query_id": "Q18"
+    },
+    {
+        "pregunta": "¿Qué factor de salida se aplica a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "ML",
+                "texto_clave_esperado": "I.1.2.1 Monto que no excede el límite establecido en la Ley para la Protección al Ahorro Bancario para las operaciones pasivas garantizadas por el IPAB",
+                "justificacion": "Identificación de la tabla de factor IPAB"
+            }
+        ],
+        "query_id": "Q19"
+    },
+    {
+        "pregunta": "¿Cómo se registran las operaciones de compra-venta fecha valor para calcular el coeficiente de cobertura de liquidez?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "ML",
+                "texto_clave_esperado": "Compensar para cada operación de compra venta de títulos pactada a una fecha valor, la parte activa y pasiva de la misma operación e incluir el monto resultante como flujo de entrada",
+                "justificacion": "Regla para operaciones compra-venta"
+            }
+        ],
+        "query_id": "Q20"
+    },
+    {
+        "pregunta": "¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Financiamiento Estable Neto y cómo debe expresarse el resultado porcentual?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "FE",
+                "texto_clave_esperado": "El Coeficiente de Financiamiento Estable Neto será el que resulte de aplicar la fórmula siguiente y deberá expresarse como porcentaje redondeado a la centésima de punto porcentual más cercana.",
+                "justificacion": "Definición base del Coeficiente de FE"
+            }
+        ],
+        "query_id": "Q21"
+    },
+    {
+        "pregunta": "¿Con qué periodicidad debe reportarse el CFEN al Banco de México y a qué fecha de cálculo corresponde?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "FE",
+                "texto_clave_esperado": "El Coeficiente de Financiamiento Estable Neto que corresponda al último Día Hábil de cada mes deberá reportarse durante los primeros dieciséis Días Hábiles del mes inmediato siguiente.",
+                "justificacion": "Regla de reporte de CFEN"
+            }
+        ],
+        "query_id": "Q22"
+    },
+    {
+        "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Disponible para efectos del CFEN?",
+        "dificultad": "Baja",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "FE",
+                "texto_clave_esperado": "Monto de Financiamiento Estable Disponible: al monto que resulte de sumar los pasivos y capital señalados en el Anexo 6 de las presentes disposiciones",
+                "justificacion": "Definición textual"
+            }
+        ],
+        "query_id": "Q23"
+    },
+    {
+        "pregunta": "¿Qué se entiende por Monto de Financiamiento Estable Requerido para efectos del CFEN?",
+        "dificultad": "Baja",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "FE",
+                "texto_clave_esperado": "Monto de Financiamiento Estable Requerido: al monto que resulte de sumar: (i) los activos no restringidos y otras operaciones señaladas en el Anexo 7 de las presentes disposiciones",
+                "justificacion": "Definición textual"
+            }
+        ],
+        "query_id": "Q24"
+    },
+    {
+        "pregunta": "¿Qué factor de financiamiento estable disponible se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "FE",
+                "texto_clave_esperado": "Los factores para la determinación del financiamiento estable disponible serán: I. Pasivos y capital con factor del 100% A. Capital fundamental",
+                "justificacion": "Identificación de factores para financiamiento"
+            }
+        ],
+        "query_id": "Q25"
+    },
+    {
+        "pregunta": "¿Cuál es la definición de liquidez intradía según las herramientas de monitoreo del Comité de Basilea?",
+        "dificultad": "Baja",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "LID",
+                "texto_clave_esperado": "Liquidez intradía: fondos a los que se puede acceder durante el día hábil, usualmente para permitir que los bancos realicen pagos en tiempo real;",
+                "justificacion": "Definición textual LID"
+            }
+        ],
+        "query_id": "Q26"
+    },
+    {
+        "pregunta": "¿Cuáles son las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "LID",
+                "texto_clave_esperado": "(i) Fuentes Fuentes propias - Saldos de reserva en el banco central; - Colateral pignorado con el banco central o con sistemas auxiliares",
+                "justificacion": "Identificación de fuentes LID"
+            }
+        ],
+        "query_id": "Q27"
+    },
+    {
+        "pregunta": "¿Cómo se define un escenario de tensión de contraparte?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "LID",
+                "texto_clave_esperado": "(ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos",
+                "justificacion": "Definición tensión de contraparte"
+            }
+        ],
+        "query_id": "Q28"
+    },
+    {
+        "pregunta": "¿Cómo se calcula el uso máximo diario de liquidez intradía a partir de la posición neta acumulada de pagos enviados y recibidos?",
+        "dificultad": "Alta",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "LID",
+                "texto_clave_esperado": "(i) Uso máximo diario de liquidez intradía 13. Esta herramienta permitirá a los supervisores monitorear el uso de liquidez intradía de un banco en condiciones normales.",
+                "justificacion": "Cálculo de LID diario"
+            }
+        ],
+        "query_id": "Q29"
+    },
+    {
+        "pregunta": "¿Qué son las obligaciones con horario específico y por qué su incumplimiento puede generar riesgo financiero o reputacional?",
+        "dificultad": "Media",
+        "documentos_esperados": [
+            {
+                "archivo": "CUB_extracto.md",
+                "jerarquia_esperada": "LID",
+                "texto_clave_esperado": "(iv) Obligaciones con horario específico 22. Esta herramienta permitirá a los supervisores comprender mejor las obligaciones con horario específico de un banco.",
+                "justificacion": "Definición obligaciones LID"
+            }
+        ],
+        "query_id": "Q30"
+    },
+    {
+        "query": "En caso de que una entidad venda cartera de crédito y no cumpla con las condiciones de la NIF C-14, ¿qué tratamiento contable debe aplicar a los montos involucrados?",
+        "expected_answer": "La entidad deberá conservar en el activo el monto del crédito vendido y reconocer en el pasivo el importe de los recursos provenientes del receptor.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una entidad decide dar de baja un activo financiero de acuerdo a la NIF C-14, ¿qué implicaciones tendría esto en el tratamiento de la venta de cartera de crédito?",
+        "expected_answer": "Si se cumplen las condiciones de la NIF C-14, la entidad no tendría que conservar en el activo el monto del crédito vendido ni reconocer en el pasivo el importe de los recursos provenientes del receptor.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Cómo se determina el precio de la transacción en relación al monto neto financiado y qué elementos se deben considerar para su cálculo?",
+        "expected_answer": "El precio de la transacción se determina cuantificando el monto neto financiado, que resulta de adicionar o restar al monto original del crédito, el seguro, los costos de transacción, las comisiones, intereses y otras partidas cobradas por anticipado.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Cuál es la importancia del precio de transacción en el reconocimiento inicial de la cartera de crédito y cómo influye en el cálculo del costo amortizado?",
+        "expected_answer": "El precio de transacción corresponde al valor razonable de la cartera de crédito en el reconocimiento inicial y es la base para aplicar el método de interés efectivo con la tasa de interés efectiva, influyendo así en el cálculo del costo amortizado de la cartera de crédito para su reconocimiento posterior.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué documentos puede elegir un solicitante para verificar su identidad antes de que la Institución o SOFOM E.R. Vinculada solicite información relacionada con un crédito o préstamo?",
+        "expected_answer": "La carátula del contrato de apertura de la Cuenta, algún estado de cuenta expedido dentro del trimestre inmediato anterior a la fecha de presentación de la solicitud, o la tarjeta de débito vigente que contenga el nombre impreso del cuentahabiente.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una Institución o SOFOM E.R. Vinculada no verifica la identidad del cliente antes de solicitar información, ¿qué implica esto respecto a su capacidad para ofrecer crédito o préstamo?",
+        "expected_answer": "No podrá solicitar la referida información relacionada con el crédito o préstamo.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución financiera desea convertir una divisa a dólares, ¿qué aspecto debe considerar al momento de realizar la conversión?",
+        "expected_answer": "La cotización que rija para la Divisa correspondiente contra el mencionado Dólar en los mercados internacionales al cierre de las operaciones del Día de que se trate.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué momento específico se debe tener en cuenta para determinar la cotización de la divisa al convertir a dólares?",
+        "expected_answer": "Al cierre de las operaciones del Día de que se trate.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué capital neto debe considerar el Banco de México para el cálculo de los límites y en qué momento se determina?",
+        "expected_answer": "El capital neto que considerará será el que se determine en términos de las disposiciones de carácter general a que hace referencia el artículo 50 de la Ley de Instituciones de Crédito, correspondiente al tercer mes inmediato anterior al mes de que se trate.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿A partir de qué momento el Banco de México aplicará los límites calculados conforme a los artículos mencionados?",
+        "expected_answer": "A partir del primer Día Hábil Bancario de cada mes.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un participante en el SIAC-BANXICO tiene un saldo negativo y su Capacidad de Pago no es suficiente, ¿qué condiciones deben cumplir los participantes que ofrecen crédito para que se utilicen las líneas bilaterales de crédito?",
+        "expected_answer": "Deben tener Capacidad de Pago en el SIAC-BANXICO o tener saldo positivo en el SICAM.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué sucede si un participante en el SIAC-BANXICO tiene una Capacidad de Pago suficiente pero no tiene líneas bilaterales de crédito contratadas?",
+        "expected_answer": "No se podrán usar líneas bilaterales de crédito, ya que solo se utilizan cuando la Capacidad de Pago no es suficiente.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué información específica deben enviar las Instituciones a la institución depositaria en relación a las operaciones de compra y venta de Valores?",
+        "expected_answer": "La información relativa a las operaciones de compra y de venta de Valores y Valores Gubernamentales que celebren con otras entidades financieras y con el Banco de México.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una Institución no envía la información a la institución depositaria el mismo Día Hábil Bancario de su concertación, ¿cuáles podrían ser las implicaciones según la normativa?",
+        "expected_answer": "Las implicaciones no están explícitamente mencionadas en el texto, pero se podría inferir que el incumplimiento podría resultar en sanciones o problemas en la liquidez de las operaciones.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué criterios deben ser considerados para incluir a las entidades financieras en el cálculo del Coeficiente de Cobertura de Liquidez?",
+        "expected_answer": "Las Políticas y Criterios para incluir, en su caso, a las entidades financieras correspondientes dentro de las Entidades Objeto de Consolidación.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución financiera forma parte de un grupo empresarial, ¿cómo afecta esto al cálculo del Coeficiente de Financiamiento Estable Neto?",
+        "expected_answer": "Las entidades o sociedades que integran el mismo grupo financiero, consorcio o grupo empresarial deben ser consideradas para la determinación de un monto destinado a hacer frente a los riesgos de liquidez de la Institución.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si la Junta de Gobierno del Banco de México determina una nueva tasa de interés interbancaria a un día, ¿cuál es el procedimiento para que los bancos conozcan esta tasa antes de formalizar un depósito?",
+        "expected_answer": "La tasa es dada a conocer por el Banco de México el Día Hábil Bancario anterior a la formalización del depósito, a través de su página electrónica en internet o cualquier otro medio electrónico autorizado.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué implicaciones tiene para un banco el no estar al tanto de la tasa de interés interbancaria a un día determinada por la Junta de Gobierno del Banco de México antes de realizar un depósito?",
+        "expected_answer": "El banco podría no aplicar la tasa correcta en sus operaciones de depósito, afectando su rentabilidad y cumplimiento normativo.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una Institución participante en el SPID desea dar a conocer una cuenta alterna al Banco de México, ¿qué condición debe cumplir la entidad corresponsal en los Estados Unidos?",
+        "expected_answer": "La entidad corresponsal debe ser distinta a la que se refiere el párrafo anterior.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Cuál es el propósito exclusivo para el cual una Institución puede mantener una cuenta alterna en un corresponsal en los Estados Unidos?",
+        "expected_answer": "Para efectos exclusivos de su operación con el SPID.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Cuáles son las consecuencias para una Institución de Banca Múltiple al exceder el límite de admisión de pasivos según lo estipulado en el artículo 229?",
+        "expected_answer": "Se harán acreedoras a multas en los términos previstos en los artículos 29 y 33 de la Ley del Banco de México.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una Institución de Banca Múltiple incurre en faltantes de Activos Líquidos, ¿qué acción normativa se aplicará de acuerdo al artículo 229?",
+        "expected_answer": "Se harán acreedoras a multas en los términos previstos en los artículos 29 y 33 de la Ley del Banco de México.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué implicaciones tiene para una institución si no entrega el dictamen en los plazos establecidos en el tercer y cuarto párrafo?",
+        "expected_answer": "El abono realizado previamente quedará firme y no podrá revertirse.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución presenta el dictamen después de los plazos estipulados, ¿qué consecuencias legales o financieras podría enfrentar según el artículo mencionado?",
+        "expected_answer": "El abono realizado previamente quedará firme y no podrá revertirse.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco desea calcular la TIIE de Fondeo compuesta por adelantado a 30 días, ¿qué índices deberá utilizar y qué relación existe entre ellos?",
+        "expected_answer": "Deberá utilizar el Índice de TIIE de Fondeo a 30 días y el Índice de TIIE de Fondeo a 28 días atrás. La relación es que se divide el índice actual por el índice de 28 días atrás.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si la TIIE de Fondeo a 28 días aumenta, ¿cómo afectará esto al cálculo de la TIIE de Fondeo compuesta por adelantado a T días en términos generales?",
+        "expected_answer": "En general, un aumento en la TIIE de Fondeo a 28 días incrementará el resultado de la fórmula, ya que el índice en el numerador aumentará, lo que puede resultar en una TIIE de Fondeo compuesta más alta a T días.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿En qué circunstancias se considera que la administración de la entidad no tiene expectativas razonables de recuperar un crédito?",
+        "expected_answer": "Cuando exista evidencia de que se han agotado las gestiones formales de cobro.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un crédito no se ha cancelado, ¿qué acciones deben haber sido agotadas previamente según el texto?",
+        "expected_answer": "Las gestiones formales de cobro.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Cómo se determina el valor razonable de un activo a la fecha de valuación según el texto?",
+        "expected_answer": "El precio de salida que se recibiría por vender un activo en una transacción ordenada entre participantes del mercado.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco necesita transferir un pasivo, ¿qué debe considerar para establecer su valor razonable según la definición del texto?",
+        "expected_answer": "El precio que se pagaría por transferir un pasivo en una transacción ordenada entre participantes del mercado.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco tiene activos financieros provenientes de operaciones de bursatilización que no cumplen con los requisitos para baja, ¿cómo debe presentar los efectos en resultados?",
+        "expected_answer": "De conformidad con el criterio de contabilidad que corresponda de acuerdo con la naturaleza de la partida de que se trate.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué criterios debe considerar un banco al presentar los efectos en resultados de obligaciones asumidas por operaciones de bursatilización?",
+        "expected_answer": "El criterio de contabilidad que corresponda de acuerdo con la naturaleza de la partida de que se trate.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución no envía el Anexo del Catálogo Mínimo dentro de los primeros ocho Días Hábiles Bancarios de cada mes, ¿cuáles podrían ser las implicaciones normativas que enfrentaría?",
+        "expected_answer": "La norma no especifica las implicaciones, pero podría incluir sanciones o la obligación de justificar la falta de cumplimiento.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué requisitos deben cumplirse para que el Anexo del Catálogo Mínimo sea considerado válido ante la Dirección de Información del Sistema Financiero del Banco de México?",
+        "expected_answer": "Deben presentarse conforme al formulario e instructivo que la Dirección les dé a conocer.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco tiene una operación de crédito vigente y necesita calcular el interés aplicable para un día específico, ¿qué fórmula debe usar y qué elemento es crucial para su cálculo?",
+        "expected_answer": "El monto principal de la operación de crédito que corresponda, por la tasa de interés aplicable a ese Día, dividida entre 360.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En el contexto de la citada operación de crédito, ¿qué implicaciones tiene el uso de 360 días en el cálculo del interés respecto a un año calendario?",
+        "expected_answer": "Implica que el interés se calcula sobre una base de 360 días, lo que puede resultar en un monto diferente al que se calcularía usando 365 días.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué condiciones debe observar una Institución al ofrecer Servicios de Nómina según las disposiciones del Banco de México?",
+        "expected_answer": "Las Instituciones deberán observar condiciones adecuadas de transparencia, sana competencia y demás aspectos de correcto comportamiento en dicho servicio.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una Institución no cumple con las disposiciones emitidas por el Banco de México en relación a los Servicios de Nómina, ¿cuáles podrían ser las implicaciones en su operación?",
+        "expected_answer": "Las implicaciones no se mencionan explícitamente en el texto, pero se puede inferir que no cumplir podría afectar la protección de los intereses del público y la correcta prestación de servicios.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco realiza cobros o recuperaciones posteriores que exceden el monto registrado en beneficios por recibir en operaciones de bursatilización, ¿cómo debe reconocer dichos montos?",
+        "expected_answer": "Atendiendo a la naturaleza de las partidas recibidas, debiendo seguir las normas de reconocimiento, valuación, presentación y revelación de conformidad con el criterio de contabilidad que corresponda contra los resultados del ejercicio.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué criterios deben seguirse para el reconocimiento de cobros o recuperaciones posteriores en operaciones de bursatilización?",
+        "expected_answer": "Las normas de reconocimiento, valuación, presentación y revelación de conformidad con el criterio de contabilidad que corresponda.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué medidas deben establecer las instituciones de crédito y cómo se relacionan con los prestadores de servicios o comisionistas en el contexto de la recepción de recursos?",
+        "expected_answer": "Las instituciones de crédito deberán establecer medidas básicas de seguridad para la recepción de recursos de sus clientes, en efectivo o cheque, en términos del artículo 46 Bis 1 de esta Ley, y estas medidas deberán ser sujetas a los lineamientos dictados por la Comisión Nacional Bancaria y de Valores.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Cuál es la función de la Comisión Nacional Bancaria y de Valores en relación con las medidas de seguridad que deben implementar las instituciones de crédito?",
+        "expected_answer": "La Comisión Nacional Bancaria y de Valores podrá dictar, mediante reglas de carácter general, los lineamientos a que se sujetarán las medidas básicas de seguridad y vigilará que las instituciones cumplan con las disposiciones aplicables en la materia.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué deben hacer las Instituciones si no han consultado la totalidad de la información reportada en las sociedades de información crediticia para el cálculo de las variables MESES_{i}^{0} y VECES_{i}^{0}?",
+        "expected_answer": "Las Instituciones deberán asignar valores a dichas variables.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una Institución consulta solo parte de la información de las sociedades de información crediticia, ¿qué implicaciones tiene esto para el cálculo de las variables mencionadas?",
+        "expected_answer": "Las Instituciones deberán asignar valores a dichas variables.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué consecuencias podría enfrentar una institución que no celebre los contratos mencionados en el plazo establecido por la Circular?",
+        "expected_answer": "Podría quedar excluida de participar en el procedimiento para la determinación de la Tasa de Interés Interbancaria de Equilibrio o en las subastas de liquidez.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución comienza a celebrar los contratos el día 15 del plazo, ¿puede considerar que tiene tiempo suficiente para cumplir con los requisitos de la Circular?",
+        "expected_answer": "No, porque el plazo es de veinte Días Hábiles Bancarios y solo le quedarían cinco días para completar el proceso.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco reporta intereses en moneda nacional, ¿cuál es el procedimiento que debe seguir para el abono según el texto?",
+        "expected_answer": "Los intereses en moneda nacional serán abonados por el Banco de México en la Cuenta Única que le lleva a la reportada, el Día Hábil Bancario en que hayan sido pagados por el emisor.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En caso de que los intereses sean denominados en divisas, ¿qué plazo tiene el Banco de México para instruir a su corresponsal sobre el abono de estos recursos?",
+        "expected_answer": "A más tardar, el Día Hábil Bancario Internacional siguiente a aquel en que hayan sido pagados por el emisor.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Bajo qué circunstancias el Banco de México puede decidir no celebrar operaciones de reporto solicitadas?",
+        "expected_answer": "Cuando tales solicitudes no se ajusten a lo señalado en estas Disposiciones, o bien, se encuentren incompletas o sean de alguna manera incorrectas.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una solicitud de reporto es considerada incompleta, ¿cuál es la acción que el Banco de México puede tomar según el texto?",
+        "expected_answer": "Abstenerse de celebrar las operaciones de reporto.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco clasifica un activo con una restricción, ¿qué tratamiento debe aplicar según el Anexo 7?",
+        "expected_answer": "Se dará el tratamiento del activo como si este no tuviera restricción o no hubiera sido otorgado en garantía, tomando en cuenta únicamente el plazo del activo.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Cómo se determina el factor para un activo que no tiene restricciones según lo mencionado en el texto?",
+        "expected_answer": "El factor será el que corresponda al activo según el Anexo 7.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué deberán presentar las personas morales que hayan obtenido autorización para organizarse como institución de banca múltiple pero que aún no tengan autorización para iniciar operaciones, y cuál es la fecha límite para ello?",
+        "expected_answer": "Un dictamen que cumpla con lo establecido en la SEGUNDA Transitoria de la presente Circular, a más tardar el 29 de junio de 2027.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una persona moral obtiene la autorización para operar como institución de banca múltiple después de la entrada en vigor de la Circular, ¿está obligada a presentar el dictamen mencionado y por qué?",
+        "expected_answer": "No, porque la obligación de presentar el dictamen aplica solo a las personas morales que a la entrada en vigor de la Circular ya habían obtenido la autorización para organizarse y operar.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco no reporta los tres mayores valores totales diarios de sus obligaciones con horario específico, ¿cuáles podrían ser las consecuencias regulatorias que enfrentaría?",
+        "expected_answer": "Podría enfrentar sanciones o requerimientos adicionales de información por parte de los supervisores.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En el caso de que un banco tenga fluctuaciones significativas en sus obligaciones con horario específico, ¿qué datos específicos debe incluir en su reporte para cumplir con la normativa?",
+        "expected_answer": "Debe incluir los tres mayores valores totales diarios y el valor total diario promedio en el periodo de reporte.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué implica que las entidades no adquieran los derechos y obligaciones contractuales relacionados con los activos financieros en custodia o administración?",
+        "expected_answer": "Implica que las entidades no asumen responsabilidades legales ni derechos de propiedad sobre dichos activos, a excepción del efectivo recibido para el pago de servicios por cuenta de terceros.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una entidad recibe efectivo para el pago de servicios por cuenta de terceros, ¿qué diferencia existe en su tratamiento respecto a los activos financieros en custodia o administración?",
+        "expected_answer": "El efectivo recibido para el pago de servicios se considera una excepción, ya que sí implica la adquisición de derechos y obligaciones contractuales, a diferencia de los otros activos financieros en custodia o administración.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un conjunto de personas morales se encuentra dentro del supuesto del artículo 2, fracción X, de la Ley del Mercado de Valores, ¿qué categoría se les atribuye según la normativa mencionada?",
+        "expected_answer": "Grupo Empresarial",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué diferencia fundamental se establece entre un Grupo Empresarial y un grupo financiero según la definición proporcionada?",
+        "expected_answer": "Un Grupo Empresarial es distinto al grupo financiero.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué consecuencias podrían enfrentar las Instituciones si las operaciones que celebren no se ajustan a las disposiciones emitidas por el Banco de México?",
+        "expected_answer": "Las Instituciones serán responsables de que las operaciones se ajusten a las disposiciones, lo que implica que podrían enfrentar sanciones o consecuencias legales si no lo hacen.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una Institución realiza una operación que no cumple con las disposiciones del Banco de México, ¿qué debe considerar en cuanto a la documentación que respalda dicha operación?",
+        "expected_answer": "La Institución debe asegurarse de que los documentos que amparen la operación también se ajusten estrictamente a las disposiciones emitidas por el Banco de México y a las demás que resulten aplicables.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué tipos de títulos pueden ser otorgados en prenda para cubrir las minusvalías en operaciones de reporto según lo estipulado en el texto?",
+        "expected_answer": "Los títulos otorgados en prenda bursátil y depósitos otorgados en prenda.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Según el texto, ¿qué normativa específica se debe consultar para entender las operaciones de reporto relacionadas con las garantías especiales?",
+        "expected_answer": "El Capítulo VIII, Título Tercero, de las presentes Disposiciones.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución financiera tiene operaciones pactadas en divisas que aún no han sido liquidadas, ¿qué información específica debe revelar sobre estas operaciones?",
+        "expected_answer": "El saldo por cobrar o por pagar, especificando que se trata de operaciones pactadas en las que queda pendiente su liquidación.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En el caso de reportes de operaciones con activos virtuales que aún no se han liquidado, ¿qué detalle adicional debe incluirse en la revelación de saldos?",
+        "expected_answer": "Se deberá especificar que se trata de operaciones pactadas en las que queda pendiente su liquidación.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué implicaciones tiene para la Institución si el tercero experto independiente tiene cuentas por cobrar vencidas con ella al momento de emitir su informe de revisión?",
+        "expected_answer": "La Institución podría enfrentar un conflicto de interés en la revisión, ya que la relación financiera con el tercero podría influir en la imparcialidad del informe.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si el tercero experto independiente tiene honorarios adeudados por servicios ya prestados, ¿qué medidas debería tomar la Institución antes de considerar el informe de revisión?",
+        "expected_answer": "La Institución debería evaluar si la existencia de cuentas por cobrar vencidas afecta la objetividad y la independencia del tercero experto en la elaboración del informe de revisión.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución utiliza una clave diferente para identificar un Producto-Crédito en un mes específico, ¿cuáles son las implicaciones para sus reportes en la Sección I?",
+        "expected_answer": "Los reportes en la Sección I no serán coherentes y podrían generar confusiones o errores en la identificación del Producto-Crédito.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En caso de que una institución no utilice una clave corta para identificar el Producto-Crédito, ¿qué consecuencias podría enfrentar en sus reportes?",
+        "expected_answer": "Podría enfrentar dificultades en la identificación y seguimiento del Producto-Crédito, afectando la claridad y la consistencia de sus reportes.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución establece un límite para celebrar reportos con una casa de bolsa, ¿qué procedimiento debe seguir para notificar al Banco de México?",
+        "expected_answer": "Notificar al Banco de México a través del Módulo RSP el límite autorizado.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En caso de que una institución desee modificar el límite previamente notificado a una casa de bolsa, ¿qué pasos debe tomar con respecto a la notificación al Banco de México?",
+        "expected_answer": "Deberá notificar nuevamente al Banco de México a través del Módulo RSP el nuevo límite.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué condiciones debe cumplir una Entidad para poder cancelar un crédito según el texto proporcionado?",
+        "expected_answer": "Contar con la evidencia de la imposibilidad de recuperar el mismo.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En el caso de que una Entidad cancele un crédito, ¿qué implicaciones tiene esto en relación con la reserva mencionada en el texto?",
+        "expected_answer": "La cancelación de cartera contra reserva implica que no se realizará ningún pago.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué condiciones deben cumplirse para que el saldo total dispuesto de una línea de crédito sea traspasado a la categoría inmediata siguiente con mayor riesgo de crédito?",
+        "expected_answer": "Si se concluyera que una o más de las disposiciones otorgadas al amparo de una línea de crédito deban traspasarse a la categoría inmediata siguiente con mayor riesgo de crédito, por efecto de su reestructura o renovación y tales disposiciones, de manera individual o en su conjunto, representen al menos el 25% del total del saldo dispuesto de la línea de crédito a la fecha de la reestructura o renovación.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si un banco reestructura una línea de crédito y las disposiciones afectadas representan menos del 25% del saldo total dispuesto, ¿qué deberá ocurrir con el saldo total dispuesto y las disposiciones posteriores?",
+        "expected_answer": "No deberán traspasarse a la categoría inmediata siguiente con mayor riesgo de crédito.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "¿Qué condiciones deben cumplirse para que una institución de crédito adquiera obligaciones subordinadas emitidas por otras instituciones de crédito?",
+        "expected_answer": "Dicha adquisición se haga con la previa autorización del Banco de México de conformidad con el artículo 64 de esta Ley.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución de crédito desea readquirir créditos a cargo de terceros que hubieren cedido, ¿en qué caso está exenta de cumplir con los requisitos establecidos en el texto?",
+        "expected_answer": "Salvo el caso de las operaciones previstas en el artículo 93 de esta Ley.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "Si una institución realiza operaciones crediticias de segundo piso, ¿a qué tipo de sectores puede canalizar recursos y qué características deben tener esos recursos?",
+        "expected_answer": "Puede canalizar recursos tanto al sector privado como al público, distinguiendo los que se otorguen con o sin subsidio.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    },
+    {
+        "query": "En el contexto de las operaciones de tesorería y banca de inversión, ¿qué tipo de actividades incluye la participación en el capital de riesgo de empresas?",
+        "expected_answer": "Incluye operaciones de inversión que realiza la institución por cuenta propia, tales como inversiones en instrumentos financieros, reportos, préstamos de valores e instrumentos financieros derivados.",
+        "metadata": {
+            "dificultad": "alta",
+            "tipo": "razonamiento"
+        }
+    }
 ]

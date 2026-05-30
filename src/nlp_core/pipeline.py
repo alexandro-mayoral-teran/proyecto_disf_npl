@@ -76,15 +76,15 @@ class PipelineRecuperacion:
         return docs_finales
 
     def _generar_multi_queries(self, query: str) -> list[str]:
-        from langchain_openai import ChatOpenAI
         from langchain_core.prompts import PromptTemplate
         import warnings
+        from src.nlp_core.config_llm import get_langchain_chat
         
         # Ignorar warnings de pydantic en Langchain
         warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
         
         print(f"Generando variantes (Multi-Query) para: '{query}'...")
-        llm = ChatOpenAI(temperature=0, model="gpt-4o", api_key=self.motor.api_key)
+        llm = get_langchain_chat(task="expansion", temperature=0)
         
         prompt = PromptTemplate(
             input_variables=["pregunta"],
@@ -108,11 +108,11 @@ Pregunta original: {pregunta}"""
             return [query]
 
     def _generar_hyde(self, query: str) -> list[str]:
-        from langchain_openai import ChatOpenAI
         from langchain_core.prompts import PromptTemplate
+        from src.nlp_core.config_llm import get_langchain_chat
         
         print(f"Generando documento hipotético (HyDE) para: '{query}'...")
-        llm = ChatOpenAI(temperature=0.3, model="gpt-4o-mini", api_key=self.motor.api_key)
+        llm = get_langchain_chat(task="qa", temperature=0.3)
         
         prompt = PromptTemplate(
             input_variables=["pregunta"],

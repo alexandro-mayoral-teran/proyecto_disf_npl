@@ -67,6 +67,25 @@ El MVP extrae y genera los siguientes artefactos:
 
 ---
 
+## 📚 Documentación Oficial
+
+El proyecto cuenta con una estructura formal de documentación técnica alojada en la carpeta `docs/` para guiar a analistas e ingenieros.
+
+### 🧪 Evaluaciones y Pruebas
+*   [Manual de Ejecución de Pruebas](docs/evaluaciones/manual_ejecucion_pruebas.md): Guía paso a paso para configurar y correr el pipeline de evaluación (Config-Driven).
+*   [Guía de Interpretación de Resultados](docs/evaluaciones/guia_interpretacion_resultados.md): Cómo leer y analizar las métricas (Recall, NDCG, Data Contamination y Error Breakdown).
+
+### 🏛️ Arquitectura y Modelos
+*   [Justificación Técnica del Modelo Local](docs/arquitectura/justificacion_modelo_local.md): Análisis comparativo y justificación de LLaMA 3.1 8B vs. alternativas del mercado.
+*   [Arquitectura RAG](docs/arquitectura/arquitectura_rag.md): Diseño detallado de los componentes de recuperación y vectorización.
+*   [Estrategia RAG](docs/arquitectura/estrategia_rag.md): Lineamientos generales sobre la búsqueda híbrida y re-ranking.
+
+### 💻 Setup y Entorno Local
+*   [Manual LLM Local](docs/setup/manual_llm_local.md): Configuración de los modelos open-source mediante Ollama.
+*   [Guía Notebook Local](docs/setup/guia_notebook_local.md): Lineamientos para análisis de datos usando los LLMs en local.
+
+---
+
 ## 🚀 Mapa de Ruta y Próximos Pasos
 
 | Fase | Estado | Descripción Técnica |
@@ -74,9 +93,10 @@ El MVP extrae y genera los siguientes artefactos:
 | **1. Cimentación y Dataset** | 🟢 Completado | Extracción a Markdown estructural y limpieza. Refactorización a Arquitectura OOP. |
 | **2. RAG Engine y Retrieval** | 🟢 Completado | Chunking jerárquico, Búsqueda Híbrida (RRF), Contextual Retrieval y Query Transformations. |
 | **3. Evaluación Cuantitativa** | 🟢 Completado | Construcción de Arena con 8 Pipelines, telemetría de latencia/tokens y Ground Truth. |
-| **4. Selección de Modelos (Avance 4)** | ⚪ Pendiente | **Siguientes pasos científicos:** Integración de LLMs Open-Source (Llama 3/Mistral vía Ollama) para residencia de datos local en el Banco. Pruebas Ciega (Data Contamination), Frontera de Pareto (Costo vs Precisión), Análisis Desagregado de Errores (Retrieval vs Alucinación) e Intervalos de Confianza. |
-| **5. Horizonte de Producción (API y UI)** | 🟢 Completado | Despliegue mediante **FastAPI** y una interfaz interactiva (**Vanilla JS + Flexbox**) estilo Banxico, con telemetría RAG en vivo y selectores dinámicos de pipeline. |
-
+| **4. Selección de Modelos (Avance 4)** | 🟢 Completado | Pruebas Ciegas, Trazabilidad Git, Multi-Doc, y Laboratorio de Telemetría (Cálculo TCO / Latencia). ¡Dataset expandido a 110 consultas! |
+| **5. Ensambles y Calibración (Avance 5)** | 🟡 En Progreso | **Siguientes pasos:** Cuantificar diversidad del ensamble RRF, calibrar salidas probabilísticas y justificar la Frontera de Pareto final. |
+| **6. Producción y Seguridad (Avance 6)** | ⚪ Pendiente | TCO a 12 meses, SLOs, Pruebas de Seguridad (Red-Teaming) y Plan de Handoff para el Banco de México. |
+| **7. Interfaz y Despliegue (MVP Final)** | 🟢 Completado | Despliegue mediante **FastAPI** y una interfaz interactiva (**Vanilla JS + Flexbox**) estilo Banxico, con telemetría RAG en vivo. |
 ---
 
 ## 🛠️ Stack Tecnológico
@@ -85,7 +105,7 @@ El MVP extrae y genera los siguientes artefactos:
 *   **Procesamiento y Telemetría:** Pandas, Tabulate, Expresiones Regulares (`re`), `tiktoken`.
 *   **Contrato de Datos:** Pydantic.
 *   **Vectorización y Retrieval (RAG):** ChromaDB, BM25 (`rank_bm25`), OpenAI Embeddings (`text-embedding-3-small`), Modelos Cross-Encoder.
-*   **Generación LLM:** OpenAI (`gpt-4o`, `gpt-4o-mini`). Próxima adaptación a Ollama / vLLM.
+*   **Generación LLM:** OpenAI (`gpt-4o`, `gpt-4o-mini`) y modelos locales Open-Source vía Ollama o vLLM (conmutación transparente mediante configuración en `.env`).
 *   **Despliegue Web:** FastAPI (Motor Backend) y Vanilla JS / CSS (Frontend Interactivo).
 
 ## ⚙️ Configuración del Entorno (Desarrollo Local)
