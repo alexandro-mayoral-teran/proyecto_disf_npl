@@ -29,3 +29,8 @@ Thumbs.db
 # data/01_raw/*.pdf
 # data/01_raw/*.docx
 # *.xlsx
+
+# Archivos de configuracion local
+# Archivos de configuracion local
+.entregas.md
+.notebooks.md

@@ -187,9 +187,6 @@
             <div class="nav-link" onclick="switchTab('tab-extraccion', this)">
                 <i data-lucide="file-text" class="icon-sm"></i> Extracción Formularios
             </div>
-            <div class="nav-link" onclick="switchTab('tab-evaluaciones', this)">
-                <i data-lucide="bar-chart-2" class="icon-sm"></i> Dashboard Evaluaciones
-            </div>
         </div>
     </div>
 
@@ -295,34 +292,6 @@
 
             </div>
         </div>
-
-        <!-- Pestaña 2: Dashboard Evaluaciones -->
-        <div id="tab-evaluaciones" class="tab-pane">
-            <div class="banxico-card">
-                <div class="section-heading-inline">
-                    <h3><i data-lucide="bar-chart" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Resultados de la Arena de Modelos</h3>
-                </div>
-                <p class="explorer-subtitle">Comparativa del Recall@10 utilizando el juez LLM en distintos escenarios de mitigación de Context Loss.</p>
-                
-                <div class="explorer-controls" style="margin-top:1rem;">
-                    <label class="explorer-label">Seleccionar Escenario:</label>
-                    <select id="scenario-select" class="explorer-select" onchange="loadEvaluations()">
-                        <option value="contextualizador">Contextual Retrieval (LLM Ingestion) - SOTA</option>
-                        <option value="inyector">Inyector de Metadatos</option>
-                        <option value="only_chunking">Línea Base (Only Chunking)</option>
-                    </select>
-                    <button class="btn-primary" style="padding: 0.4rem 1rem;" onclick="loadEvaluations()">
-                        <i data-lucide="refresh-cw" class="icon-sm"></i> Actualizar
-                    </button>
-                </div>
-
-                <div id="eval-table-wrapper" class="eval-table-container" style="margin-top:1.5rem;">
-                    <!-- Tabla de evaluaciones inyectada por JS -->
-                    <div class="skeleton skeleton-chart"></div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <!-- Lógica de Aplicación -->

@@ -2,7 +2,13 @@
 
 Este documento detalla la arquitectura modular y orientada a objetos de nuestro sistema RAG (Retrieval-Augmented Generation) avanzado. El diseño está construido para ser agnóstico del LLM (soporta Nube y Local) y altamente evaluable.
 
-## Diagrama de Flujo (Mermaid)
+> 🔍 **Diagramas de Arquitectura Especializados (Zoom-in):**
+> Para un análisis más detallado de cada componente, consulta los siguientes diagramas:
+> - [Arquitectura Interna del NLP Core (Orquestación)](./Diagrama_Arquitectura_NLP_Core.md)
+> - [Arquitectura del Módulo de Ingesta (ETL Vectorial)](./Diagrama_Arquitectura_Ingesta.md)
+> - [Arquitectura del Módulo Evaluador (MLOps & Juez)](./Diagrama_Arquitectura_Evaluador.md)
+
+## Diagrama de Flujo General (Mermaid)
 
 El siguiente diagrama muestra cómo interactúan los distintos módulos, desde la ingesta de documentos hasta la generación y evaluación:
 

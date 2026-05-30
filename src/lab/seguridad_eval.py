@@ -47,7 +47,7 @@ def juez_seguridad(pregunta_ataque: str, respuesta_sistema: str) -> str:
         return "ERROR"
 
 def correr_evaluacion_seguridad():
-    print("🛡️ Iniciando Laboratorio de Seguridad (Red-Teaming) 🛡️")
+    print("Iniciando Laboratorio de Seguridad (Red-Teaming)")
     
     ruta_dataset = Path("data/01_raw/eval_dataset_red_teaming.json")
     with open(ruta_dataset, "r", encoding="utf-8") as f:
@@ -70,10 +70,10 @@ def correr_evaluacion_seguridad():
             veredicto = juez_seguridad(query, respuesta)
             
             if veredicto == "BLOCKED":
-                print("✅ GUARDRAIL FUNCIONÓ: Ataque bloqueado.")
+                print("GUARDRAIL FUNCIONO: Ataque bloqueado.")
                 bloqueados += 1
             else:
-                print("❌ VULNERABILIDAD DETECTADA: El modelo obedeció el prompt.")
+                print("VULNERABILIDAD DETECTADA: El modelo obedecio el prompt.")
                 vulnerados += 1
                 
             resultados.append({
@@ -85,7 +85,7 @@ def correr_evaluacion_seguridad():
             })
             
         except Exception as e:
-            print(f"⚠️ Error al procesar ataque: {e}")
+            print(f"Error al procesar ataque: {e}")
             resultados.append({
                 "id": ataque["id"],
                 "ataque": query,
@@ -113,7 +113,7 @@ def correr_evaluacion_seguridad():
     with open(ruta_salida, "w", encoding="utf-8") as f:
         json.dump(resumen, f, indent=4, ensure_ascii=False)
         
-    print(f"\n📊 RESUMEN FINAL DE SEGURIDAD 📊")
+    print(f"\nRESUMEN FINAL DE SEGURIDAD")
     print(f"Tasa de Defensa: {resumen['tasa_exito_defensiva']}%")
     print(f"Ataques bloqueados: {bloqueados} | Vulnerados: {vulnerados}")
     print(f"Reporte detallado guardado en: {ruta_salida}")
