@@ -115,7 +115,32 @@ print("🛡️ Estrategias de Cost Containment inyectadas en la configuración d
 ## 4. Evolución del Dataset, Contextual Retrieval y Diversidad de Modelos
 
 ### 4.1 Modelos Alternativos y Residencia de Datos
+
 Para cumplir con los requerimientos, configuramos ≥6 arquitecturas LLM distintas, asegurando que al menos un candidato fuera **Self-Hostable** (Llama 3.1 8B vía Ollama). Esto garantiza a Banxico la **residencia de datos** (on-premise) e independencia del *vendor lock-in*.
+
+#### Justificación Técnica de LLaMA 3.1 8B (Frontera de Pareto)
+
+La elección de un modelo local para tareas NLP corporativas se reduce a un problema de optimización entre **Hardware Requerido vs. Razonamiento Lógico**. LLaMA 3.1 8B se sitúa exactamente en el "Sweet Spot" de esta frontera:
+
+**Ventajas Principales:**
+1. **Ventana de Contexto Masiva (128k Tokens):** Crítico para RAG, permite ingerir contextos gigantes sin colapsar.
+2. **Hardware de Consumo:** Cuantizado a 4 u 8 bits mediante Ollama, requiere entre 4.5 GB y 8 GB de VRAM.
+3. **Capacidad Multilingüe:** Manejo del español normativo/legal excepcionalmente fluido.
+4. **Instrucciones Estrictas:** Altamente ajustado para seguir reglas duras (vital para validación estricta Pydantic).
+
+**Comparativa contra Alternativas Descartadas:**
+- ❌ **Mistral v0.3 (7B) / Mixtral (8x7B):** Mistral 7B fue superado por Llama 3.1. Mixtral requiere ~24 GB de VRAM (inviable en laptops estándar).
+- ❌ **Gemma 2 (9B):** Excelente rendimiento, pero con licencia comercial más restrictiva y mayor consumo eléctrico.
+- ❌ **LLaMA 3.1 (70B):** Exige hardware empresarial de ultra-alta gama (Múltiples GPUs de 80GB).
+
+> [!IMPORTANT]
+> **Veredicto:** LLaMA 3.1 8B es la mejor opción estratégica actual para nuestro caso de uso. Provee un razonamiento casi a la par de los modelos frontera del año pasado de forma 100% privada y off-grid.
+
+#### Viabilidad de Inferencia Local: Ollama vs vLLM
+
+Para la ejecución física del modelo, el proyecto adopta una **Estrategia Híbrida de Inferencia**:
+1.  **Fase de Desarrollo y Evaluación:** Se utiliza **Ollama** (basado en `llama.cpp`). Es ideal porque tiene un consumo bajo demanda, no bloquea toda la memoria VRAM (*Memory Mapping* dinámico) y funciona de forma estable y nativa en Windows sin virtualización pesada.
+2.  **Fase de Producción (Escalabilidad):** Para soportar cientos de peticiones concurrentes de los analistas de la DISF, se migrará la inferencia a **vLLM** (en servidores Linux dedicados), el cual implementa *Continuous Batching* y *PagedAttention* para maximizar el *throughput* a nivel empresarial.
 
 ### 4.2 Ampliación del Golden Dataset (Rúbrica MA2 / B1)
 El esfuerzo humano para curar datos de calidad llevó el *Golden Dataset* de 30 a **110 consultas evaluables**, garantizando significancia estadística y rigor normativo.
@@ -175,14 +200,28 @@ En entornos financieros, la toma de decisiones tecnológicas rara vez es un prob
 > - **Cómo se interpreta:** Si trazas una curva imaginaria uniendo los modelos más eficientes, todos los puntos que caen *exactamente sobre la línea* son los candidatos viables (por ejemplo, uno muy barato pero de calidad media, o uno muy caro pero de calidad altísima). Cualquier modelo que caiga *por debajo o a la derecha* de la línea se considera un modelo "dominado" (subóptimo), ya que existe al menos otro modelo en la gráfica que es más barato y más preciso a la vez. Esto permite a Banxico seleccionar el "Top-2" descartando matemáticamente arquitecturas ineficientes.
 
 ```python
-# 6. Renderizado de la Frontera de Pareto
+# 6. Renderizado Maestro de la Frontera de Pareto (Nube + Local)
+import pandas as pd
 from src.lab.graficos import plot_frontera_pareto
 from pathlib import Path
 
-# Buscamos el CSV de resultados más reciente generado por el Orquestador
-carpeta_eval = project_root / "data" / "03_output" / "evaluaciones"
-plot_frontera_pareto(carpeta_eval)
-print("📈 Gráfico de Pareto generado exitosamente en data/03_output/pareto_frontier.png")
+# PASO MANUAL: Agrega las carpetas de tus corridas para compararlas
+carpetas_corridas = [
+    "oficiales/run_local",
+    "oficiales/run_nube"
+]
+
+resultados_maestros = []
+for nombre_carpeta in carpetas_corridas:
+    carpeta_eval = project_root / "data" / "03_output" / "evaluaciones" / nombre_carpeta
+    archivo_arena = list(carpeta_eval.glob("ARENA_RESULTADOS*.csv"))[0]
+    df_arena = pd.read_csv(archivo_arena)
+    
+    # Procesar y concatenar resultados con sufijo
+    # (Código acortado para reporte) ...
+
+plot_frontera_pareto(resultados_maestros, "pareto_frontier_comparativa_global.png")
+print("📈 Gráfico de Pareto Global generado exitosamente.")
 ```
 
 ---
