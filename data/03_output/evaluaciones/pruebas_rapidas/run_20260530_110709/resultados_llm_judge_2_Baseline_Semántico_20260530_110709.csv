@@ -1,0 +1,2 @@
+﻿query_id,pregunta,estrategia,hit,rank_encontrado,ndcg_10,map_10
+Q01,¿Para consumo no revolvente cómo se define el pago realizado?,2_Baseline_Semántico,1,2,0.6309297535714575,0.5

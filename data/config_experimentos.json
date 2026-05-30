@@ -1,0 +1,54 @@
+{
+    "pruebas_rapidas": [
+        {
+            "nombre": "1_Baseline_Léxico",
+            "base_retriever": "bow",
+            "query_expansion": null,
+            "post_processing": null
+        },
+        {
+            "nombre": "2_Baseline_Semántico",
+            "base_retriever": "embeddings",
+            "query_expansion": null,
+            "post_processing": null
+        }
+    ],
+    "exhaustivos": [
+        {
+            "nombre": "1_Baseline_Léxico",
+            "base_retriever": "bow",
+            "query_expansion": null,
+            "post_processing": null
+        },
+        {
+            "nombre": "2_Baseline_Semántico",
+            "base_retriever": "embeddings",
+            "query_expansion": null,
+            "post_processing": null
+        },
+        {
+            "nombre": "3_Híbrido_Simple",
+            "base_retriever": "hibrido",
+            "query_expansion": null,
+            "post_processing": null
+        },
+        {
+            "nombre": "4_Híbrido_Reranker",
+            "base_retriever": "hibrido",
+            "query_expansion": null,
+            "post_processing": "cross_encoder"
+        },
+        {
+            "nombre": "5_Semántico_Expandido",
+            "base_retriever": "embeddings",
+            "query_expansion": "ambos",
+            "post_processing": null
+        },
+        {
+            "nombre": "6_SOTA_Completo",
+            "base_retriever": "hibrido",
+            "query_expansion": "ambos",
+            "post_processing": "cross_encoder"
+        }
+    ]
+}

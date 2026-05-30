@@ -9,7 +9,7 @@ import sys
 # Agregar src al path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
-from src.nlp_core.agente import extraer_rag_simple, responder_rag_qa
+from src.nlp_core.generacion import extraer_rag_simple, responder_rag_qa
 
 app = FastAPI(title="API DISF - Especialista Digital Regulador")
 

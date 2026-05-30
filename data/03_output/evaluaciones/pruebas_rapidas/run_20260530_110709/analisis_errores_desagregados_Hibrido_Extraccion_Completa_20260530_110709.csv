@@ -1,0 +1,2 @@
+﻿query_id,pregunta,retrieval_exitoso,formato_exitoso,generacion_exitosa,categoria_error,detalle_error,modelo_extraccion_usado,prompt_version,prompt_hash
+Q01,¿Para consumo no revolvente cómo se define el pago realizado?,0,1,1,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,gpt-4o,1.0.0,2235d68ba4-cf8efde

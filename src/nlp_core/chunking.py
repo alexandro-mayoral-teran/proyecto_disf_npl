@@ -203,13 +203,10 @@ class ContextualizadorLLM(PostProcesadorChunk):
     Para cada chunk, llama a un LLM ligero (gpt-4o-mini) para que redacte
     una o dos oraciones de contexto, y las antepone al contenido.
     """
-    def __init__(self, modelo: str = "gpt-4o-mini", max_retries: int = 3):
-        load_dotenv()
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            raise ValueError("No se encontró OPENAI_API_KEY en el archivo .env")
-            
-        self.llm = ChatOpenAI(model=modelo, api_key=api_key, temperature=0)
+    def __init__(self, max_retries: int = 3):
+        from src.nlp_core.config_llm import get_langchain_chat
+        
+        self.llm = get_langchain_chat(task="qa", temperature=0.0)
         self.max_retries = max_retries
         self.prompt = PromptTemplate.from_template(
             "Eres un experto regulador financiero del Banco de México.\n"
