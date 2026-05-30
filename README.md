@@ -79,9 +79,9 @@ El proyecto cuenta con una estructura formal de documentación técnica alojada 
 *   [Arquitectura RAG (Hub de Diagramas)](docs/arquitectura/arquitectura_rag.md): Visión general de la arquitectura y punto de entrada a diagramas especializados.
 *   [Estrategia RAG y Justificación de Modelos](docs/arquitectura/estrategia_rag.md): Documento maestro sobre búsqueda híbrida (RRF), re-ranking, control de alucinaciones y la justificación formal del uso de Llama 3.1 8B vs Nube.
 *   **Diagramas Especializados (Mermaid):**
-    *   [Arquitectura Interna del NLP Core](docs/arquitectura/Diagrama_Arquitectura_NLP_Core.md)
-    *   [Pipeline del Módulo de Ingesta](docs/arquitectura/Diagrama_Arquitectura_Ingesta.md)
-    *   [Arquitectura del Juez Evaluador](docs/arquitectura/Diagrama_Arquitectura_Evaluador.md)
+    *   [Arquitectura Interna del NLP Core](docs/arquitectura/diagrama_arquitectura_nlp_core.md)
+    *   [Pipeline del Módulo de Ingesta](docs/arquitectura/diagrama_arquitectura_ingesta.md)
+    *   [Arquitectura del Juez Evaluador](docs/arquitectura/diagrama_arquitectura_evaluador.md)
 
 ### 💻 Setup y Entorno Local
 *   [Manual LLM Local](docs/setup/manual_llm_local.md): Configuración de los modelos open-source mediante Ollama y vLLM.
