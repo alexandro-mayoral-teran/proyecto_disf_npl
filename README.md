@@ -43,18 +43,18 @@ El proyecto sigue una arquitectura modular "API-First" implementando técnicas d
 
 ---
 
-## 📊 Metodología de Evaluación y Resultados (Arena de Modelos)
+## 📊 Metodología de Evaluación (Arquitectura Config-Driven)
 
-Se empleó un marco riguroso de evaluación cuantitativa basado en un **Golden Dataset de IR (Ground Truth)**. El evaluador implementa un patrón polimórfico con 3 modos: **Subcadena Exacta (`exact_match`)**, **Juez LLM (`llm_judge` - Context Relevance)**, y **Revisión Manual (Human-in-the-loop mediante plantillas exportadas en Excel)**.
+Nuestro marco de evaluación ha evolucionado hacia un modelo científico y riguroso, alineado a estándares MLOps, preparado para calcular la Frontera de Pareto y garantizar resultados estadísticamente significativos:
 
-### Resultados de la Arena 
-El desempeño del motor de búsqueda se evaluó bajo 3 escenarios evolutivos para mitigar la "pérdida de contexto", utilizando un juez LLM imparcial:
-1. **Only Chunking (Línea base):** Alcanzó un **60.0%** de *Recall@10* con Embeddings puros, sufriendo de "orfandad semántica".
-2. **Inyector de Metadatos:** Al concatenar la ruta jerárquica físicamente al chunk, el *Recall@10* subió al **66.67%**.
-3. **Contextual Retrieval (SOTA):** Usando un LLM en tiempo de ingesta para resumir y anteponer el contexto global al chunk, el *Recall@10* alcanzó un impresionante **73.33%**.
-4. **Súper RAG (Híbrido + Multi-Query/HyDE + Cross-Encoder):** La combinación exhaustiva de técnicas de expansión, fusión de rangos y re-ordenamiento elevó el *Recall@10* hasta un **90.0%**, estableciendo el límite superior de precisión del sistema.
-
-**Conclusión Técnica:** La estrategia seleccionada para producción base es **Embeddings Puros (con Contextual Retrieval)** por su balance (73.33% con ~0.55s de latencia). Sin embargo, el **Súper RAG** (90.0%) se mantiene configurado como el motor de "Alta Precisión" disponible a través de la Interfaz Visual, asumiendo una latencia mayor por el uso del *Cross-Encoder* y expansión doble.
+1. **Dataset Expandido (Golden Dataset):** El conjunto de validación creció a **109 consultas representativas** y balanceadas por complejidad, longitud y tipo de documento normativo.
+2. **Matriz de Pruebas Dinámica:** Se configuraron 6 estrategias de RAG independientes (desde baselines léxicos hasta Súper RAG con Expansión y Re-ranking), orquestadas directamente desde `config_experimentos.json` sin tocar código fuente.
+3. **Validación Estadística (Bootstrap CI):** Implementación de remuestreo Bootstrap (1,000 iteraciones) para generar Intervalos de Confianza al 95% sobre el *NDCG@10*, detectando empates estadísticos o superioridad real entre la Nube y ejecución Local.
+4. **Desagregación de Errores:** Se implementó una Prueba Ciega (Data Contamination) y una taxonomía automática de fallos para identificar cuellos de botella exactos:
+   - **Fallo Tipo A:** Error en la Recuperación (Retrieval no encontró el texto).
+   - **Fallo Tipo B:** Alucinación Generativa (El LLM falló a pesar de tener contexto).
+   - **Fallo Tipo C:** Error Estructural (Fallo al generar el JSON validado por Pydantic).
+5. **Telemetría y Costos (TCO):** Cada consulta registra latencia (P50/P95) y consumo de tokens, permitiendo cuantificar el costo por ejecución y analizar el espectro de **Vendor Lock-in** frente a modelos *Self-Hostable* (ej. Llama 3.1).
 
 ---
 

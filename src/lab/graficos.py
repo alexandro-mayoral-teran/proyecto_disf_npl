@@ -4,7 +4,7 @@ import seaborn as sns
 
 def plot_frontera_pareto(resultados: list, output_path: str):
     """
-    Genera el gráfico de la Frontera de Pareto (Costo vs NDCG) para MA7 y E5-C.
+    Genera el gráfico de la Frontera de Pareto (Costo vs NDCG).
     
     resultados: lista de dicts con:
       - 'modelo': str
@@ -70,4 +70,4 @@ def plot_frontera_pareto(resultados: list, output_path: str):
     plt.savefig(output_path, dpi=300)
     plt.close()
     
-    print(f"✅ Gráfico de Pareto guardado exitosamente en: {output_path}")
+    print(f"Grafico de Pareto guardado exitosamente en: {output_path}")

@@ -1,0 +1,110 @@
+﻿query_id,pregunta,estrategia,hit,rank_encontrado,ndcg_10,map_10
+Q01,¿Qué se entiende por Activos Líquidos Computables?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q02,¿En qué plazo debe reportarse el Coeficiente de Cobertura de Liquidez diario?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q03,¿Qué es el Flujo Neto Total de Salida de Efectivo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q04,¿Cómo se determina el flujo total de salida de efectivo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q05,¿Qué fecha deben tomar las Instituciones para determinar el plazo de las operaciones de salida?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q06,¿Qué operaciones se consideran para el flujo total de entrada de efectivo?,4_Híbrido_Reranker,1,3,0.5,0.3333333333333333
+Q07,¿Cuál es el límite máximo reconocido para el flujo total de entrada de efectivo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q08,¿Qué requisito de CCL debe cumplir una institución con más de 60 meses de operación para estar en Escenario I?,4_Híbrido_Reranker,1,7,0.3333333333333333,0.14285714285714285
+Q09,¿Cuándo se ubica una institución en Escenario III por recurrencia en Escenario II?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q10,¿Qué tratamiento de escenarios de liquidez reciben las instituciones en sus primeros 12 meses de operación?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q11,¿Cuál es el CCL mínimo para Escenario I en instituciones de entre 13 y 24 meses de operación?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q12,¿Qué medida debe tomar una institución en Escenario III respecto a sus operaciones?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q13,¿Qué restricciones de dividendos aplican en el Escenario IV de CCL?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q14,¿Cómo deben valuarse los títulos conservados a vencimiento para el CCL?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q15,¿Qué criterio aplica si una misma operación tiene más de un factor de salida en el Anexo 2?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q16,¿Cómo se determina la fecha de vencimiento para los flujos de entrada de efectivo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q17,¿Qué medida adicional se aplica a las Instituciones que se ubiquen en el escenario V de CCL?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q18,¿Cuál es la restricción al incluir activos líquidos de entidades extranjeras en el cálculo consolidado?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q19,¿Cómo debe considerarse la cartera de crédito para el cálculo del CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q20,¿Cómo se tratan las operaciones fecha valor en el CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q21,¿Cómo se calcula el plazo de las operaciones para el CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q22,¿Qué supuesto aplica para determinar el plazo remanente de los activos con opciones?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q23,¿Qué supuesto aplica para determinar el plazo remanente de los pasivos con opciones?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q24,¿Cómo se determina el plazo de pago para créditos de cuenta corriente dispuestos por tarjetas de crédito?,4_Híbrido_Reranker,1,3,0.5,0.3333333333333333
+Q25,¿Qué nivel de CFEN se requiere para estar en el Escenario I?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q26,¿Qué obligación surge cuando una Institución se ubica en un escenario distinto al I en 3 o más ocasiones en 12 meses?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q27,¿Qué plazo tiene una institución en Escenario II para presentar un plan de restauración de CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q28,¿Qué medida adicional aplica a las Instituciones en Escenario III de CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q29,¿Qué metodología se aplica para activos y pasivos por derivados en el CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q30,¿Qué ponderación de financiamiento estable disponible tienen los pasivos con plazo residual igual o mayor a un año?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q31,¿Cómo deben tratarse las amortizaciones parciales de capital en el cálculo del plazo para el CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q32,¿Qué factor de financiamiento estable requerido aplica a la cartera hipotecaria de vivienda con ponderación de riesgo menor o igual al 35%?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q33,"¿Cuál es el factor de financiamiento estable requerido para la caja, los billetes y las monedas?",4_Híbrido_Reranker,1,6,0.3562071871080222,0.16666666666666666
+Q34,¿Qué debe contener el informe detallado que presentan las Instituciones si se ubican en un escenario distinto al I en 3 ocasiones en 12 meses?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q35,"¿A qué se refiere el término ""Coeficientes"" en la regulación?",4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q36,¿Qué operaciones deben incluir las Instituciones para el cálculo individual y consolidado?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q37,¿Cuál es el criterio general para considerar el valor de las operaciones?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q38,¿Cómo se calcula la equivalencia en moneda nacional de montos en dólares de EE. UU.?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q39,¿Qué debe hacer una Institución si prevea ubicarse en un escenario distinto al I?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q40,¿En cuánto tiempo el Banco de México verificará los cálculos reportados?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q41,¿Cuál será el cálculo válido para todos los efectos legales?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q42,¿Cuál es el objetivo de los planes de restauración de los Coeficientes?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q43,¿Cuándo se considera que existe un incumplimiento a los requerimientos de liquidez?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q44,¿Qué información deben difundir trimestralmente las Instituciones en su página de Internet?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q45,¿Quién es el encargado de aprobar el plan de restauración de los Coeficientes?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q46,¿Cómo se realiza el cálculo de la equivalencia en moneda nacional de montos denominados en UDIs?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q47,¿Cómo se deben resolver las consultas sobre la aplicación de estas disposiciones?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q48,¿Cuál es el objetivo principal del Principio 8 establecido por el Comité de Basilea?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q49,¿Cuáles son las herramientas de monitoreo que deben aplicar todos los bancos informantes (Categoría A)?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q50,¿Qué datos deben reportar los bancos respecto a sus posiciones netas acumuladas negativas?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q51,¿Cuál es el propósito de la herramienta de Pagos totales?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q52,¿Qué implicaciones tiene el incumplimiento de las obligaciones con horario específico?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q53,¿Cuáles son las herramientas específicas para bancos que prestan servicios de corresponsalía bancaria?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q54,¿Qué detalles deben incluir los bancos corresponsales al reportar las líneas de crédito intradía otorgadas?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q55,¿Qué herramienta es exclusiva para los bancos que son participantes directos?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q56,¿Qué permite evaluar el ritmo de liquidación intradía?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q57,¿Cuáles son los escenarios de tensión que deben considerar los bancos?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q58,¿Qué efecto puede tener una tensión financiera propia en un participante directo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q59,¿A qué nivel de la estructura organizacional deben aplicarse típicamente estas herramientas?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q60,"En grupos bancarios transfronterizos, ¿cuál es la responsabilidad del supervisor de acogida respecto a una sucursal?",4_Híbrido_Reranker,1,1,1.0,1.0
+Q61,¿Cuál es la fecha de implementación y la frecuencia inicial de reporte?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q62,¿Quién es el responsable final de la presentación de los datos ante el supervisor?,4_Híbrido_Reranker,1,4,0.43067655807339306,0.25
+Q63,¿Qué elementos se consideran fuentes propias de liquidez intradía?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q64,¿Qué indica una combinación de baja liquidez inicial y alta proporción de obligaciones con horario específico?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q65,¿Para consumo no revolvente cómo se define el pago realizado?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q66,¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q67,¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q68,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q69,¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q70,¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q71,¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q72,¿Qué se consideraría un crédito personal?,4_Híbrido_Reranker,1,4,0.43067655807339306,0.25
+Q73,¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q74,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q75,¿Qué se entiendo por saldo a pagar?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q76,¿Cómo se determina la reservas para los créditos en etapa 2?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q77,¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q78,¿Se pueden reportar tasas de interés en cero?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q79,¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q80,¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Cobertura de Liquidez?,4_Híbrido_Reranker,1,5,0.38685280723454163,0.2
+Q81,¿Cómo se determina el flujo de salida contingente por operaciones con instrumentos financieros derivados?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q82,¿Cómo se calcula el flujo total de entrada de efectivo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q83,¿Qué factor de salida se aplica a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB?,4_Híbrido_Reranker,1,3,0.5,0.3333333333333333
+Q84,¿Cómo se registran las operaciones de compra-venta fecha valor para calcular el coeficiente de cobertura de liquidez?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q85,¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Financiamiento Estable Neto y cómo debe expresarse el resultado porcentual?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q86,¿Con qué periodicidad debe reportarse el CFEN al Banco de México y a qué fecha de cálculo corresponde?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q87,¿Qué se entiende por Monto de Financiamiento Estable Disponible para efectos del CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q88,¿Qué se entiende por Monto de Financiamiento Estable Requerido para efectos del CFEN?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q89,"¿Qué factor de financiamiento estable disponible se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año?",4_Híbrido_Reranker,1,1,1.0,1.0
+Q90,¿Cuál es la definición de liquidez intradía según las herramientas de monitoreo del Comité de Basilea?,4_Híbrido_Reranker,1,2,0.6309297535714575,0.5
+Q91,¿Cuáles son las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q92,¿Cómo se define un escenario de tensión de contraparte?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q93,¿Cómo se calcula el uso máximo diario de liquidez intradía a partir de la posición neta acumulada de pagos enviados y recibidos?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q94,¿Qué son las obligaciones con horario específico y por qué su incumplimiento puede generar riesgo financiero o reputacional?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q01,¿Para consumo no revolvente cómo se define el pago realizado?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q95,¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q96,¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q97,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q98,¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q99,¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q100,¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q101,¿Qué se consideraría un crédito personal?,4_Híbrido_Reranker,1,4,0.43067655807339306,0.25
+Q102,¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q103,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q104,¿Qué se entiende por saldo a pagar?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q105,¿Cómo se determina la reservas para los créditos en etapa 2?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q106,¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q107,¿Se pueden reportar tasas de interés en cero?,4_Híbrido_Reranker,1,1,1.0,1.0
+Q108,¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?,4_Híbrido_Reranker,1,1,1.0,1.0

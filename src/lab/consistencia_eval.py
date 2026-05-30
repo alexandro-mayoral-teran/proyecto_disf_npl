@@ -53,7 +53,7 @@ def correr_evaluacion_consistencia(query_prueba: str, n_runs: int = 3, temperatu
     Mide la calibración y 'Self-Consistency' de un modelo. 
     (Rúbrica ENS-E).
     """
-    print(f"🔄 Iniciando Prueba de Consistencia (Temperatura={temperatura}, Runs={n_runs})")
+    print(f"Iniciando Prueba de Consistencia (Temperatura={temperatura}, Runs={n_runs})")
     client = get_llm_client("qa")
     modelo = get_llm_model_name("qa")
     
@@ -84,9 +84,9 @@ def correr_evaluacion_consistencia(query_prueba: str, n_runs: int = 3, temperatu
     }
     
     print("-" * 50)
-    print(f"🔹 Modelo: {modelo}")
-    print(f"🔹 Score de Consistencia (Self-Consistency): {consistency_score*100:.2f}%")
-    print(f"🔹 Diagnóstico: {resumen['interpretacion']}")
+    print(f"Modelo: {modelo}")
+    print(f"Score de Consistencia (Self-Consistency): {consistency_score*100:.2f}%")
+    print(f"Diagnostico: {resumen['interpretacion']}")
     print("-" * 50)
     
     return resumen

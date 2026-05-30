@@ -10,7 +10,7 @@ def calcular_diversidad(ruta_csv_modelo_a: str, ruta_csv_modelo_b: str, nombre_a
     Calcula las métricas de diversidad (ENS-D) entre dos modelos basándose en sus resultados a nivel consulta.
     Compara si ambos acertaron (hit > 0), ambos fallaron, o si discreparon.
     """
-    print(f"📊 Calculando Diversidad: {nombre_a} vs {nombre_b}")
+    print(f"Calculando Diversidad: {nombre_a} vs {nombre_b}")
     
     df_a = pd.read_csv(ruta_csv_modelo_a)
     df_b = pd.read_csv(ruta_csv_modelo_b)
@@ -77,9 +77,9 @@ def calcular_diversidad(ruta_csv_modelo_a: str, ruta_csv_modelo_b: str, nombre_a
     
     # Imprimir Reporte
     print("-" * 50)
-    print(f"🔹 Disagreement Rate: {disagreement_rate*100:.2f}% (Tasa de discrepancia)")
-    print(f"🔹 Correlación de Errores: {correlacion_errores:.4f} (Si >0.8, el ensamble aporta poco)")
-    print(f"🔹 Oracle Gap: +{oracle_gap*100:.2f}% (Máximo Lift teórico si los ensamblamos)")
+    print(f"Disagreement Rate: {disagreement_rate*100:.2f}% (Tasa de discrepancia)")
+    print(f"Correlacion de Errores: {correlacion_errores:.4f} (Si >0.8, el ensamble aporta poco)")
+    print(f"Oracle Gap: +{oracle_gap*100:.2f}% (Maximo Lift teorico si los ensamblamos)")
     print("-" * 50)
     print(f"Ambos aciertan: {ambos_aciertan}")
     print(f"Ambos fallan : {ambos_fallan}")
@@ -90,7 +90,7 @@ def calcular_diversidad(ruta_csv_modelo_a: str, ruta_csv_modelo_b: str, nombre_a
         Path(ruta_salida).parent.mkdir(parents=True, exist_ok=True)
         with open(ruta_salida, "w", encoding="utf-8") as f:
             json.dump(resumen, f, indent=4, ensure_ascii=False)
-        print(f"✅ Reporte guardado en {ruta_salida}")
+        print(f"Reporte guardado en {ruta_salida}")
         
     return resumen
 

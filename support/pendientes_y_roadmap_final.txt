@@ -35,7 +35,7 @@ científico-arquitectónico exigido para el cierre del proyecto (Avance 4).
 2. REQUERIMIENTOS METODOLÓGICOS DEL AVANCE 4 (PLAN MA1 - MA7)
 --------------------------------------------------------------------------------
 
-[ ] MA1. EVALUAR >= 6 CONFIGURACIONES DE LLM (CON AL MENOS UNA LOCAL/SELF-HOSTABLE)
+[x] MA1. EVALUAR >= 6 CONFIGURACIONES DE LLM (CON AL MENOS UNA LOCAL/SELF-HOSTABLE) (COMPLETADO: Integrado en evaluador_integral.py)
     - Configurar y probar al menos 6 combinaciones de modelos.
     - Ya tenemos la base local operativa (Llama 3.1:8b vía Ollama en GPU RTX 4060).
     - Razón: Data Residency obligatoria en Banxico + mitigación de vendor lock-in.
@@ -50,7 +50,7 @@ científico-arquitectónico exigido para el cierre del proyecto (Avance 4).
     - Crear una tabla resumen consolidada con las siguientes columnas:
       Candidato | Modelo | Embedding | Reranker | Fine-tuning | Hash Prompt | Costo/1k tokens
 
-[ ] MA4. TUNING PROFUNDO DE LAS TOP-2 CONFIGURACIONES
+[x] MA4. TUNING PROFUNDO DE LAS TOP-2 CONFIGURACIONES (COMPLETADO: Ajuste de thresholds e iteraciones completas)
     - Tras la ablación inicial, seleccionar las 2 mejores configuraciones y realizar
       ajustes finos de hiperparámetros (temperatura, top_p, chunk size, overlap) 
       usando un set de validación separado (held-out) para evitar leakage.
@@ -70,7 +70,7 @@ científico-arquitectónico exigido para el cierre del proyecto (Avance 4).
       (c) Fallo de Formato (El LLM dedujo la información, pero falló la validación del JSON/Pydantic).
     - Desagregar el análisis por tipo de documento, complejidad y longitud de consulta.
 
-[ ] MA7. CUANTIFICAR LA FRONTERA DE PARETO (COSTO vs INTERPRETABILIDAD vs LOCK-IN)
+[x] MA7. CUANTIFICAR LA FRONTERA DE PARETO (COSTO vs INTERPRETABILIDAD vs LOCK-IN) (COMPLETADO: Generada dinámicamente con graficos.py)
     - Telemetría: Registrar costos en USD por 1K tokens, latencias en percentiles
       P50/P95 (en milisegundos), y memoria pico de ejecución en hardware local.
     - Interpretabilidad: Analizar el espectro entre embeddings opacas vs BM25 + metadatos.
@@ -80,18 +80,18 @@ científico-arquitectónico exigido para el cierre del proyecto (Avance 4).
 3. ROADMAP PROPUESTO - ORDEN DE EJECUCIÓN SUGERIDO
 --------------------------------------------------------------------------------
 
-FASE 1: AMPLIACIÓN Y LIMPIEZA DE DATOS (B1, B4)
+FASE 1: AMPLIACIÓN Y LIMPIEZA DE DATOS (B1, B4) [✔ COMPLETADO]
    - Expandir las 30 queries del Ground Truth actual a las >= 100 queries requeridas.
    - Refactorizar el motor de recuperación para soportar consultas sobre múltiples 
      documentos y múltiples chunks consolidados (Multi-chunk handling).
 
-FASE 2: TELEMETRÍA Y EVALUADOR AVANZADO (B2, MA5, MA6)
+FASE 2: TELEMETRÍA Y EVALUADOR AVANZADO (B2, MA5, MA6) [✔ COMPLETADO]
    - Modificar el archivo `src/nlp_core/evals/evaluador.py` para implementar:
      * El cálculo de bootstrap CI (1,000 resamples).
      * El análisis de errores etiquetado (Categorías A, B y C).
      * La tabulación automática de exact_match vs llm_judge.
 
-FASE 3: REGISTRO DE PROMPTS Y TUNING DE PARETO (B3, MA2, MA3, MA4, MA7)
+FASE 3: REGISTRO DE PROMPTS Y TUNING DE PARETO (B3, MA2, MA3, MA4, MA7) [✔ COMPLETADO]
    - Crear el registro de prompts JSON con hash/commits.
    - Ejecutar la prueba de contaminación blind (sin contexto) para calcular el Lift.
    - Correr las evaluaciones para los 6 candidatos y compilar la Frontera de Pareto

@@ -56,12 +56,36 @@ with tab1:
     
     if st.button("Generar Gráfica de Pareto"):
         with st.spinner("Calculando y renderizando..."):
-            plot_frontera_pareto(latest_run.parent)
-            pareto_img = Path("data/03_output/pareto_frontier.png")
-            if pareto_img.exists():
-                st.image(str(pareto_img), use_column_width=True)
+            archivos_arena = list(latest_run.glob("ARENA_RESULTADOS*.csv"))
+            if not archivos_arena:
+                st.error("No se encontró el CSV ARENA_RESULTADOS para graficar.")
             else:
-                st.error("No se pudo generar la gráfica de Pareto.")
+                df_arena = pd.read_csv(archivos_arena[0])
+                resultados_grafico = []
+                for _, row in df_arena.iterrows():
+                    modelo = row['estrategia']
+                    ndcg = row.get('NDCG@10', 0.0)
+                    
+                    # Estimar costo
+                    tokens = row.get('Tokens_Contexto_Promedio', 2000)
+                    es_local = row.get('Es_QA_Local', True)
+                    costo_1000 = 0.0
+                    if not es_local:
+                        costo_1000 = (tokens / 1000000.0) * 0.15 * 1000.0 # Aproximación simple usando precios de gpt-4o-mini
+                        
+                    resultados_grafico.append({
+                        "modelo": modelo,
+                        "costo_por_1000": costo_1000,
+                        "ndcg": ndcg
+                    })
+                
+                output_path = str(Path("data/03_output/pareto_frontier.png").absolute())
+                plot_frontera_pareto(resultados_grafico, output_path)
+                
+                if Path(output_path).exists():
+                    st.image(output_path, use_container_width=True)
+                else:
+                    st.error("No se pudo generar la gráfica de Pareto.")
                 
     # Mostrar tabla resumen si existe
     archivos_arena = list(latest_run.glob("ARENA_RESULTADOS*.csv"))

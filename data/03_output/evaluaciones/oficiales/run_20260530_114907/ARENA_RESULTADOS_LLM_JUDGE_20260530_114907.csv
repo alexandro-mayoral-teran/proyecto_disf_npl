@@ -1,0 +1,7 @@
+estrategia,modo_evaluacion,Recall@5,Recall@10,Recall@10_CI_95,MAP@10,MAP@10_CI_95,NDCG@10,NDCG@10_CI_95,Latencia_Promedio_Segundos,Tokens_Contexto_Promedio,LLM_Modelo_QA,Es_QA_Local,LLM_Modelo_Extraccion,Es_Extraccion_Local,Es_Juez_Local,Es_Expansion_Local
+1_Baseline_Léxico,llm_judge,93.58,98.17,"(95.41, 100.0)",0.804,"(0.7487, 0.8613)",0.8471,"(0.8009, 0.8914)",0.4042,2200.7,llama3.1:8b,True,llama3.1:8b,True,False,True
+2_Baseline_Semántico,llm_judge,99.08,100.0,"(100.0, 100.0)",0.8769,"(0.8303, 0.919)",0.908,"(0.8733, 0.9395)",0.3892,2179.7,llama3.1:8b,True,llama3.1:8b,True,False,True
+3_Híbrido_Simple,llm_judge,99.08,100.0,"(100.0, 100.0)",0.8949,"(0.8502, 0.9316)",0.9215,"(0.8881, 0.9488)",1.508,2204.7,llama3.1:8b,True,llama3.1:8b,True,False,True
+4_Híbrido_Reranker,llm_judge,98.17,100.0,"(100.0, 100.0)",0.8877,"(0.8362, 0.9302)",0.9157,"(0.877, 0.9473)",3.0284,2170.1,llama3.1:8b,True,llama3.1:8b,True,False,True
+5_Semántico_Expandido,llm_judge,98.17,100.0,"(100.0, 100.0)",0.8723,"(0.8234, 0.9182)",0.9043,"(0.868, 0.9391)",8.7969,2210.4,llama3.1:8b,True,llama3.1:8b,True,False,True
+6_SOTA_Completo,llm_judge,98.17,100.0,"(100.0, 100.0)",0.9037,"(0.8597, 0.9433)",0.9277,"(0.8948, 0.9576)",13.9032,2155.8,llama3.1:8b,True,llama3.1:8b,True,False,True

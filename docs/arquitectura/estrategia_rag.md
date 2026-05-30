@@ -169,30 +169,53 @@ Inspirado en arquitecturas de despliegue real, se contemplan las siguientes inte
 2. **Operaciones de Índice (Index Ops):** Módulo CRUD para ChromaDB, permitiendo actualizar únicamente los artículos que sufran reformas sin reprocesar todo el corpus.
 3. **Control de Acceso (RBAC):** Utilización de metadatos en ChromaDB para restringir la inyección de contexto según el perfil del analista dentro de la DISF.
 
-## 8. Siguientes Pasos (Alineación Avance 4 - Rúbrica Modificada LLM)
+## 8. Roadmap y Próximos Pasos
 
-Para cumplir con el rigor científico y arquitectónico exigido en la fase final de selección de modelos (Avance 4), el proyecto desarrollará los siguientes componentes:
+El seguimiento detallado de tareas, hitos a futuro (Avance 5 - Ensambles y Avance 6 - Producción) y el registro formal de requerimientos científicos implementados se maneja en un documento vivo independiente. 
 
-1. ✅ **Integración de Modelos Open-Source (Self-hostable) y Enfoque Híbrido:** Se implementó un módulo central de configuración (`config_llm.py`) que permite conectar el pipeline a LLMs de código abierto (ej. Llama 3 o Mistral vía Ollama/vLLM) de manera transparente usando la compatibilidad con la API de OpenAI. Esto garantiza la **residencia de datos** (requisito indispensable en entornos regulatorios como Banxico) y mitiga el riesgo de *vendor lock-in*. Puedes consultar el `manual_llm_local.md` para detalles de ejecución.
-    - *Mejores Prácticas (Enfoque Híbrido):* En la práctica de la industria financiera, no se usa un enfoque "100% Nube" ni "100% Local", sino un **Híbrido**. Para esto, el sistema ahora soporta configuración granular por tarea:
-        - **QA / Interacción RAG (`USE_LOCAL_QA=true`):** Se ejecuta localmente (ej. Llama 3) para garantizar que ninguna consulta del usuario (que podría contener datos sensibles) salga hacia internet.
-        - **Extracción Estructurada (`USE_LOCAL_EXTRACTION=false`):** Se delega a modelos de frontera en la nube (ej. GPT-4o) porque los modelos locales pequeños (8B) tienden a sufrir alucinaciones de formato (JSON/Pydantic) en reglas de negocio complejas. Dado que esta tarea se ejecuta sobre el texto normativo (público), no hay riesgo de privacidad.
-        - **Juez Evaluador (`USE_LOCAL_JUDGE=false`):** Para la evaluación cuantitativa de la arena, se prefieren modelos masivos (GPT-4o) por su superior capacidad de razonamiento lógico, evitando el *position bias* de los modelos pequeños.
-        - **Expansión de Consultas (`USE_LOCAL_EXPANSION=true`):** Tareas secundarias como Multi-Query o HyDE se ejecutan localmente para ahorrar drásticamente en los costos de tokens de la API.
-2. **Data Contamination Check (Evaluación Ciega):** Desarrollar un pipeline de control que ejecute el Ground Truth contra los LLMs candidatos *sin* el contexto inyectado por el RAG. Esto aislará cuántos aciertos provienen de la memorización pre-entrenada del modelo y demostrará matemáticamente el valor añadido de nuestro motor de búsqueda.
-3. **Frontera de Pareto (Costo vs Interpretabilidad vs Precisión):** Extender la telemetría actual para cuantificar el costo exacto por consulta (tokens procesados $\times$ tabulador de API) y latencia (P50/P95). Los 6 modelos candidatos se graficarán en una Frontera de Pareto para fundamentar la selección técnica desde una óptica financiera y de arquitectura de software.
-4. **Análisis de Errores Desagregado por Etapa:** Ampliar el módulo evaluador para etiquetar sistemáticamente la procedencia de la degradación del NDCG en tres categorías:
-   - *(a) Fallo de Retrieval:* El documento clave no se ubicó en el Top K.
-   - *(b) Alucinación Generativa:* El documento clave fue recuperado, pero el LLM emitió un fallo.
-   - *(c) Fallo de Formato:* El LLM dedujo la información correcta, pero falló la validación del parser estructurado (JSON/Pydantic).
-5. **Significancia Estadística:** Modificar los parámetros deterministas (pasar a `temperature > 0`) o aplicar técnicas de remuestreo (*bootstrap*) durante las evaluaciones para generar Intervalos de Confianza, demostrando que la superioridad del modelo final no obedece a fluctuaciones aleatorias.
-6. **Viabilidad Financiera y Costo de Revisión Humana a Escala (BL5):** Estimar empíricamente el tiempo de auditoría (ej. 5 minutos promedio por extracción) al procesar la normativa a escala. Esto permitirá sustentar que, a pesar del costo en tokens del LLM, el ROI general del proyecto es justificable al liberar a los analistas de la DISF de la revisión inicial y enfocar su tiempo estrictamente en validación por excepción.
+Para revisar el cronograma técnico actualizado y las rúbricas completadas, consulta el archivo: **[`support/pendientes_y_roadmap_final.txt`](../../support/pendientes_y_roadmap_final.txt)**
 
-## 9. Viabilidad de Inferencia Local: Ollama vs vLLM en Hardware de Consumo
+## 9. Justificación Técnica del Modelo Local: LLaMA 3.1 (8B)
 
-En esta sección se documenta el análisis técnico de viabilidad y los trade-offs de los motores de inferencia local en hardware de consumo típico de desarrollo (como una laptop con procesador Intel Core Ultra 7 155H, 24 GB de RAM y GPU NVIDIA GeForce RTX 4060 Laptop con 8 GB de VRAM).
+En la arquitectura de nuestro pipeline RAG Híbrido, hemos seleccionado el modelo **LLaMA 3.1 de 8 mil millones de parámetros (`llama3.1:8b`)** de Meta para operar localmente a través de Ollama. 
 
-### 9.1 Comparativa Técnica de Motores: Ollama vs vLLM
+A continuación, se documenta la justificación formal para esta decisión de diseño arquitectónico, evaluando sus ventajas, desventajas y comparativa con el mercado, con el fin de tener certidumbre técnica frente a los *sponsors* del proyecto.
+
+### 9.1 ¿Por qué LLaMA 3.1 8B es la mejor opción actual? (Frontera de Pareto)
+
+La elección de un modelo local para tareas NLP corporativas (como normativas de Banxico/DISF) se reduce a un problema de optimización entre **Hardware Requerido vs. Razonamiento Lógico**. LLaMA 3.1 8B se sitúa exactamente en el "Sweet Spot" de esta frontera:
+
+**Ventajas Principales:**
+1. **Ventana de Contexto Masiva (128k Tokens):** A diferencia de modelos anteriores que colapsaban a los 4k u 8k tokens, LLaMA 3.1 puede ingerir hasta 128,000 tokens. Esto es crítico para RAG.
+2. **Hardware de Consumo:** Al estar cuantizado a 4-bits o 8-bits mediante Ollama, este modelo requiere entre 4.5 GB y 8 GB de RAM/VRAM para funcionar.
+3. **Capacidad Multilingüe Mejorada:** Manejo del español normativo/legal excepcionalmente fluido.
+4. **Instrucciones Estrictas:** Ajustado para seguir reglas duras (vital para HyDE y Pydantic).
+
+**Desventajas:**
+1. **Extracción Estructurada Profunda:** Aún se queda ligeramente atrás de modelos gigantes como GPT-4o en JSONs anidados complejos (por ello, delegamos esto a la nube).
+
+### 9.2 Comparativa contra Alternativas (Por qué los descartamos)
+
+- ❌ **Mistral v0.3 (7B) / Mixtral (8x7B):** Mistral 7B fue superado drásticamente por Llama 3.1. Mixtral requiere mucha más memoria (~24 GB de VRAM).
+- ❌ **Gemma 2 (9B):** Excelente rendimiento, pero licencia comercial más restrictiva y mayor consumo computacional.
+- ❌ **LLaMA 3.1 (70B):** Exige hardware empresarial de ultra-alta gama (Múltiples GPUs de 80GB).
+
+### 9.3 Conclusión Contundente
+
+> [!IMPORTANT]
+> **Veredicto:** LLaMA 3.1 8B es la mejor opción estratégica actual para nuestro caso de uso prototipo (MVP). Nos provee un nivel de razonamiento a la par de GPT-3.5 de forma 100% privada.
+
+### 9.4 Glosario Rápido
+- **Cuantización:** Compresión de pesos matemáticos a 4/8 bits para ahorrar RAM.
+- **Open-Weights:** Modelos descargables y ejecutables sin depender de APIs externas.
+
+---
+
+## 10. Viabilidad de Inferencia Local: Ollama vs vLLM en Hardware de Consumo
+
+En esta sección se documenta el análisis técnico de viabilidad y los trade-offs de los motores de inferencia local en hardware de consumo típico de desarrollo.
+
+### 10.1 Comparativa Técnica de Motores: Ollama vs vLLM
 
 | Criterio | Ollama (Basado en `llama.cpp`) | vLLM (Inferencia de Producción) |
 | :--- | :--- | :--- |
@@ -202,29 +225,22 @@ En esta sección se documenta el análisis técnico de viabilidad y los trade-of
 | **Gestión de Memoria** | Dinámica. Carga el modelo en VRAM y el excedente en RAM. Libera recursos al estar en reposo. | Estática. Se adueña del 90% (por defecto) de la VRAM desde la inicialización, independientemente del uso. |
 | **Rendimiento (Latency / Throughput)** | Excelente latencia para un usuario (~45-55 tokens/s con RTX 4060 en 8B). | Altísimo throughput bajo alta concurrencia (cientos de consultas simultáneas). |
 
-### 9.2 Ventajas y Desventajas en Entornos de Desarrollo Local
+### 10.2 Ventajas y Desventajas en Entornos de Desarrollo Local
 
 #### Ollama (La Opción Elegida para Desarrollo)
-*   **Ventajas:**
-    *   **Consumo de recursos bajo demanda:** Solo utiliza recursos computacionales pesados mientras responde consultas. Al terminar, entra en reposo y libera memoria.
-    *   **Alta tolerancia de hardware:** Al poder balancear pesos entre VRAM (GPU) y RAM del sistema (CPU), nunca congela la máquina por falta de memoria.
-    *   **Estabilidad del sistema operativo:** Corre de manera nativa en Windows 11 sin necesidad de capas de virtualización como Docker o WSL2.
-*   **Desventajas:**
-    *   No está optimizado para servir a cientos de usuarios en paralelo (su *throughput* general decae si hay concurrencia masiva).
+*   **Ventajas:** Consumo bajo demanda y estabilidad nativa en Windows sin virtualización pesada.
+*   **Desventajas:** No optimizado para cientos de usuarios paralelos.
 
 #### vLLM (La Opción Recomendada para Producción)
-*   **Ventajas:**
-    *   **Máximo rendimiento concurrente:** Es el estándar actual del estado del arte (SOTA) para exponer modelos OSS en producción con alta concurrencia gracias a *PagedAttention*.
-*   **Desventajas e Impacto en Laptops de Consumo:**
-    *   **Riesgo de inestabilidad / Congelamiento:** Al reservar permanentemente casi el 90% de la memoria de video (VRAM) de la tarjeta gráfica RTX 4060, el sistema operativo Windows se queda sin memoria para la aceleración por hardware de navegadores, IDEs (VS Code) o la interfaz gráfica del proyecto. Esto provoca parpadeos, caídas del driver gráfico o cuellos de botella severos.
-    *   **Fricción de setup (WSL2):** Requiere un entorno Linux completo corriendo sobre Windows, lo que añade capas de consumo de memoria RAM (la máquina virtual de WSL2 fácilmente se apropia de 8-12 GB de la RAM del sistema), dejando muy poco margen para el resto de aplicaciones en una laptop de 24 GB de RAM.
+*   **Ventajas:** Máximo rendimiento concurrente (SOTA).
+*   **Desventajas e Impacto en Laptops:** Congela la máquina al adueñarse de la VRAM. Fricción de WSL2/Linux.
 
-### 9.3 Justificación de la Estrategia Híbrida de Inferencia
+### 10.3 Justificación de la Estrategia Híbrida de Inferencia
 Para el proyecto DISF, se adopta un **Enfoque de Inferencia Evolutivo**:
-1.  **Fase de Desarrollo y Prototipado (Local):** Se utiliza **Ollama** con el modelo `llama.1:8b`. Esto permite a los ingenieros de IA trabajar de forma ágil, segura y local, aprovechando la potencia física de la GPU RTX 4060 sin comprometer la estabilidad del sistema.
-2.  **Fase de Despliegue en Producción:** Se migrará a **vLLM** alojado en un contenedor Docker en un servidor dedicado o instancia de nube (ej. GCP/AWS con GPU dedicada L4 de 24GB de VRAM). Debido a que vLLM expone exactamente la misma API compatible con OpenAI que Ollama, **el cambio es 100% transparente en el archivo `.env`** (solo se cambia la variable `LOCAL_LLM_URL` de `http://localhost:11434/v1` a `http://servidor-produccion:8000/v1` sin modificar una sola línea de código Python).
+1.  **Fase de Desarrollo y Prototipado (Local):** Se utiliza **Ollama** con el modelo `llama3.1:8b`. 
+2.  **Fase de Despliegue en Producción:** Se migrará a **vLLM** alojado en un contenedor Docker en un servidor dedicado (ej. AWS/GCP con L4). Es 100% compatible con OpenAI API.
 
-## 10. Estrategias de Ensambles y Calibración (Avance 5 - ENS)
+## 11. Estrategias de Ensambles y Calibración (Avance 5 - ENS)
 
 Para maximizar la robustez del sistema y cumplir con las rúbricas avanzadas, el proyecto adopta una estrategia de **Ensambles Heterogéneos**.
 
@@ -232,7 +248,7 @@ Para maximizar la robustez del sistema y cumplir con las rúbricas avanzadas, el
 2. **Diversidad Cuantificada (ENS-D):** Para garantizar que el ensamble realmente aporta valor, se evalúa empíricamente la tasa de desacuerdo (*Disagreement Rate*) entre los modelos individuales. Si ambos modelos fallan en los mismos casos (Correlación de errores > 0.8), el ensamble es redundante.
 3. **Calibración y Consistencia (ENS-E):** En entornos regulatorios, la certeza es primordial. Se empleará la técnica de *Self-Consistency* (ejecutar la misma consulta múltiples veces con `temperature > 0`) para medir si las respuestas del LLM se mantienen estables o si divergen ante el mismo contexto, lo que indicaría miscalibración o "alucinación latente".
 
-## 11. Arquitectura de Producción y Seguridad Cloud (Avance 6 - DEP)
+## 12. Arquitectura de Producción y Seguridad Cloud (Avance 6 - DEP)
 
 La transición de un entorno de evaluación (Eval) a un sistema productivo exige rigurosos controles operacionales y de seguridad.
 

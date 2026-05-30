@@ -31,9 +31,7 @@ function switchTab(tabId, navElement) {
     // Mostrar el seleccionado
     document.getElementById(tabId).classList.add('active');
 
-    if (tabId === 'tab-evaluaciones') {
-        loadEvaluations();
-    }
+    // Pestaña de evaluaciones eliminada (movida a Jupyter)
 }
 
 // Función Genérica para agregar mensajes al chat
@@ -294,61 +292,5 @@ chatForm.addEventListener('submit', async (e) => {
 
 
 // ----------------------------------------------------
-// LÓGICA: Pestaña 2 - Dashboard Evaluaciones
+// (El módulo de evaluaciones se trasladó a Jupyter Notebook)
 // ----------------------------------------------------
-async function loadEvaluations() {
-    const select = document.getElementById('scenario-select');
-    const wrapper = document.getElementById('eval-table-wrapper');
-    const scenario = select.value;
-
-    wrapper.innerHTML = `<div class="skeleton skeleton-chart"></div>`;
-
-    try {
-        const res = await fetch('/api/evaluaciones');
-        const data = await res.json();
-        
-        if(data.status === 'success') {
-            const tableData = data.scenarios[scenario];
-            renderEvalTable(tableData, wrapper);
-        } else {
-            wrapper.innerHTML = `<div class="callout callout-important">Error cargando evaluaciones</div>`;
-        }
-    } catch (e) {
-        wrapper.innerHTML = `<div class="callout callout-important">No se pudo conectar a /api/evaluaciones. Verifica que el backend esté corriendo.</div>`;
-    }
-}
-
-function renderEvalTable(dataList, container) {
-    if(!dataList || dataList.length === 0) {
-        container.innerHTML = `<p>No hay datos disponibles.</p>`;
-        return;
-    }
-    
-    let html = `<table class="data-table">
-        <thead>
-            <tr>
-                <th>Estrategia</th>
-                <th>Recall@5</th>
-                <th>Recall@10</th>
-                <th>NDCG@10</th>
-                <th>Latencia Prom (s)</th>
-            </tr>
-        </thead>
-        <tbody>`;
-        
-    dataList.forEach(row => {
-        let isBest = row['NDCG@10'] >= 0.7;
-        let trStyle = isBest ? `style="background-color: rgba(0, 139, 139, 0.05); font-weight: 600;"` : "";
-        
-        html += `<tr ${trStyle}>
-            <td>${row.estrategia}</td>
-            <td>${row['Recall@5']}%</td>
-            <td>${row['Recall@10']}%</td>
-            <td>${row['NDCG@10']}</td>
-            <td>${row['Latencia_Promedio_Segundos']}s</td>
-        </tr>`;
-    });
-    
-    html += `</tbody></table>`;
-    container.innerHTML = html;
-}
