@@ -76,13 +76,15 @@ El proyecto cuenta con una estructura formal de documentación técnica alojada 
 *   [Guía de Interpretación de Resultados](docs/evaluaciones/guia_interpretacion_resultados.md): Cómo leer y analizar las métricas (Recall, NDCG, Data Contamination y Error Breakdown).
 
 ### 🏛️ Arquitectura y Modelos
-*   [Justificación Técnica del Modelo Local](docs/arquitectura/justificacion_modelo_local.md): Análisis comparativo y justificación de LLaMA 3.1 8B vs. alternativas del mercado.
-*   [Arquitectura RAG](docs/arquitectura/arquitectura_rag.md): Diseño detallado de los componentes de recuperación y vectorización.
-*   [Estrategia RAG](docs/arquitectura/estrategia_rag.md): Lineamientos generales sobre la búsqueda híbrida y re-ranking.
+*   [Arquitectura RAG (Hub de Diagramas)](docs/arquitectura/arquitectura_rag.md): Visión general de la arquitectura y punto de entrada a diagramas especializados.
+*   [Estrategia RAG y Justificación de Modelos](docs/arquitectura/estrategia_rag.md): Documento maestro sobre búsqueda híbrida (RRF), re-ranking, control de alucinaciones y la justificación formal del uso de Llama 3.1 8B vs Nube.
+*   **Diagramas Especializados (Mermaid):**
+    *   [Arquitectura Interna del NLP Core](docs/arquitectura/Diagrama_Arquitectura_NLP_Core.md)
+    *   [Pipeline del Módulo de Ingesta](docs/arquitectura/Diagrama_Arquitectura_Ingesta.md)
+    *   [Arquitectura del Juez Evaluador](docs/arquitectura/Diagrama_Arquitectura_Evaluador.md)
 
 ### 💻 Setup y Entorno Local
-*   [Manual LLM Local](docs/setup/manual_llm_local.md): Configuración de los modelos open-source mediante Ollama.
-*   [Guía Notebook Local](docs/setup/guia_notebook_local.md): Lineamientos para análisis de datos usando los LLMs en local.
+*   [Manual LLM Local](docs/setup/manual_llm_local.md): Configuración de los modelos open-source mediante Ollama y vLLM.
 
 ---
 
@@ -93,7 +95,7 @@ El proyecto cuenta con una estructura formal de documentación técnica alojada 
 | **1. Cimentación y Dataset** | 🟢 Completado | Extracción a Markdown estructural y limpieza. Refactorización a Arquitectura OOP. |
 | **2. RAG Engine y Retrieval** | 🟢 Completado | Chunking jerárquico, Búsqueda Híbrida (RRF), Contextual Retrieval y Query Transformations. |
 | **3. Evaluación Cuantitativa** | 🟢 Completado | Construcción de Arena con 8 Pipelines, telemetría de latencia/tokens y Ground Truth. |
-| **4. Selección de Modelos (Avance 4)** | 🟢 Completado | Pruebas Ciegas, Trazabilidad Git, Multi-Doc, y Laboratorio de Telemetría (Cálculo TCO / Latencia). ¡Dataset expandido a 110 consultas! |
+| **4. Evaluación y Selección (Avance 4)** | 🟢 Completado | Frontera de Pareto, Bootstrapping (95% CI), Taxonomía de Errores (A/B/C), Contaminación Ciega (Lift). Dataset de 110 consultas. |
 | **5. Ensambles y Calibración (Avance 5)** | 🟡 En Progreso | **Siguientes pasos:** Cuantificar diversidad del ensamble RRF, calibrar salidas probabilísticas y justificar la Frontera de Pareto final. |
 | **6. Producción y Seguridad (Avance 6)** | ⚪ Pendiente | TCO a 12 meses, SLOs, Pruebas de Seguridad (Red-Teaming) y Plan de Handoff para el Banco de México. |
 | **7. Interfaz y Despliegue (MVP Final)** | 🟢 Completado | Despliegue mediante **FastAPI** y una interfaz interactiva (**Vanilla JS + Flexbox**) estilo Banxico, con telemetría RAG en vivo. |
