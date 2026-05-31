@@ -165,7 +165,7 @@ Para evitar la "orfandad" semántica de fórmulas en incisos profundos, migramos
 
 ---
 
-## 5. Prueba Ciega y Contaminación de Datos por Candidato (Rúbrica MA2)
+## 5. Prueba Ciega y Contaminación de Datos por Candidato
 
 Cumpliendo con lo indicado, corrimos una prueba de *No-Context Test* **por cada candidato LLM**. Aislando al LLM del buscador, forzamos respuestas basadas solo en su corpus de entrenamiento original.
 **Resultado:** Todos alucinaron regulaciones europeas, demostrando que el RAG es estrictamente necesario.
@@ -226,7 +226,7 @@ print("📈 Gráfico de Pareto Global generado exitosamente.")
 
 ---
 
-## 7. Rúbrica MA6: Taxonomía y Desagregación de Errores
+## 7. Taxonomía y Desagregación de Errores
 
 En el desarrollo de sistemas RAG empresariales, una métrica global (como un 80% de precisión) es insuficiente porque te dice *que* el sistema falló, pero no *dónde* ni *por qué*. ¿Falló el modelo matemático de búsqueda o falló el razonamiento del LLM? 
 
@@ -253,7 +253,7 @@ print(conteo_errores)
 
 ---
 
-## 8. Conclusión del Avance 4: Hacia la Producción Empresarial
+## 8. Conclusión del Avance 4:
 
 La transición de un prototipo RAG a un sistema de grado *Enterprise* (apto para Banco de México) requiere abandonar las decisiones basadas en intuición para adoptar métricas de ingeniería pura. Este avance demuestra una mejora técnica integral en múltiples frentes:
 
