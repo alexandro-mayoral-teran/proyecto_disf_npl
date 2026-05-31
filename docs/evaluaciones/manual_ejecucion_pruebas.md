@@ -20,10 +20,21 @@ USE_LOCAL_JUDGE=true
 
 **Para pruebas Híbridas (Recomendado para Producción):**
 ```env
+USE_LOCAL_LLM=true          # Activa el enrutador local/nube
 USE_LOCAL_QA=true           # Privacidad en los documentos recuperados
 USE_LOCAL_EXPANSION=true    # Ahorro en reescritura de queries
 USE_LOCAL_EXTRACTION=false  # Extracción compleja JSON a cargo de GPT-4o
 USE_LOCAL_JUDGE=false       # Evaluación rigurosa a cargo de GPT-4o
+```
+
+**Para pruebas 100% Nube (Máxima Precisión, Mayor Costo):**
+Ideal para construir el "techo de cristal" en tu Frontera de Pareto.
+```env
+USE_LOCAL_LLM=false
+USE_LOCAL_QA=false
+USE_LOCAL_EXPANSION=false
+USE_LOCAL_EXTRACTION=false
+USE_LOCAL_JUDGE=false
 ```
 
 ---
@@ -67,6 +78,20 @@ python src/lab/evaluador_integral.py --exhaustivo
 ```
 - **¿Qué hace?** Lee el bloque `"exhaustivos"` del JSON. Ejecuta las **110 consultas** completas de tu dataset de evaluación, iterando por cada una de las estrategias que hayas definido.
 - **¿Dónde guarda los resultados?** `data/03_output/evaluaciones/oficiales/`
+
+### C) Modo Segmentado por Fases (Avanzado)
+La Fase 3 (Análisis Desagregado) es muy pesada computacionalmente. Puedes prender y apagar fases a voluntad agregando flags (aplica tanto para `--rapido` como para `--exhaustivo`):
+
+```bash
+# Correr TODO (Mismo que no poner flags)
+python src/lab/evaluador_integral.py --exhaustivo
+
+# Correr SOLO Fase 1 (Arena) y Fase 2 (Contaminación Ciega)
+python src/lab/evaluador_integral.py --exhaustivo --fase1 --fase2
+
+# Correr SOLO Fase 3 (Análisis de Errores Desagregado)
+python src/lab/evaluador_integral.py --exhaustivo --fase3
+```
 
 ---
 

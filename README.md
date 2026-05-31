@@ -30,7 +30,8 @@ El proyecto sigue una arquitectura modular "API-First" implementando técnicas d
 *   **Ingesta con BlazeDocs (`src/ingesta/`):** Se transforman los documentos normativos a un formato Markdown (`.md`) estructural. Esto preserva la jerarquía semántica (títulos, subtítulos) y convierte las tablas visuales en texto legible por máquina.
 *   **Limpieza de Ruido Institucional:** Uso de expresiones regulares para eliminar firmas, marcas de agua del "Diario Oficial", y numeración de páginas sin alterar la estructura Markdown.
 
-### 2. Pipeline Modular RAG (State of the Art)
+### 2. Pipeline Modular RAG y Model Cascading
+La arquitectura opera bajo el patrón de diseño **Factory** (`config_llm.py`), permitiendo conmutar al vuelo entre motores en Nube y Motores Locales para implementar **Model Cascading** (usar Llama 3.1 local para recuperación gratuita, y GPT-4o en Nube para síntesis estricta y evaluación).
 *   **Fragmentación Estructural (Chunking):** Se utiliza `MarkdownHeaderTextSplitter` para fragmentar manteniendo la coherencia jerárquica (Títulos, Capítulos, Artículos).
 *   **Diagnóstico y Mitigación de Pérdida de Contexto:** Se implementaron inyectores de metadatos y **Contextual Retrieval** con LLMs ligeros (`gpt-4o-mini`) para anteponer un resumen de contexto antes de vectorizar el *chunk*, resolviendo la "orfandad" semántica de fragmentos profundos (como fórmulas matemáticas específicas en incisos).
 *   **Consulta y Extracción Híbrida (Hybrid Search RRF):** Búsqueda en paralelo mediante semántica pura (ChromaDB + OpenAI Embeddings) y léxica exacta (BM25), uniendo resultados bajo *Reciprocal Rank Fusion (RRF)* para capturar la terminología y jerga financiera exacta de forma democrática.
@@ -54,7 +55,7 @@ Nuestro marco de evaluación ha evolucionado hacia un modelo científico y rigur
    - **Fallo Tipo A:** Error en la Recuperación (Retrieval no encontró el texto).
    - **Fallo Tipo B:** Alucinación Generativa (El LLM falló a pesar de tener contexto).
    - **Fallo Tipo C:** Error Estructural (Fallo al generar el JSON validado por Pydantic).
-5. **Telemetría y Costos (TCO):** Cada consulta registra latencia (P50/P95) y consumo de tokens, permitiendo cuantificar el costo por ejecución y analizar el espectro de **Vendor Lock-in** frente a modelos *Self-Hostable* (ej. Llama 3.1).
+5. **Telemetría Transparente y Dashboard (TCO):** Cada consulta registra latencia (P50/P95) y consumo de tokens usando `tiktoken`. Estos logs persisten en formato `.jsonl` y son monitorizados en tiempo real mediante un **Dashboard Interactivo en Streamlit**, permitiendo controlar el Gasto Operativo (OPEX) y contrastar la eficacia (Model Cascading) del ecosistema en Nube vs Local.
 
 ---
 

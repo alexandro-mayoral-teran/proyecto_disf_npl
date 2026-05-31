@@ -180,8 +180,8 @@ Para evitar la "orfandad" semántica de fórmulas en incisos profundos, migramos
 
 ## 5. Prueba Ciega y Contaminación de Datos por Candidato
 
-Cumpliendo con lo indicado, corrimos una prueba de *No-Context Test* **por cada candidato LLM**. Aislando al LLM del buscador, forzamos respuestas basadas solo en su corpus de entrenamiento original.
-**Resultado:** Todos alucinaron regulaciones europeas, demostrando que el RAG es estrictamente necesario.
+Cumpliendo con lo indicado, corrimos una prueba automatizada de *No-Context Test* (evaluada contra Ground Truth) **por cada candidato LLM**. Aislando al LLM del buscador, forzamos respuestas basadas solo en su corpus de entrenamiento original (memoria paramétrica).
+**Resultado Cuantitativo:** La telemetría en la Nube (GPT-4o) arrojó una tasa de contaminación de apenas **5.5%**. En el 94.5% restante de las consultas, el modelo alucinó leyes generales o respondió con regulaciones europeas, demostrando empíricamente que el RAG es estrictamente necesario y que Banxico opera sobre un dominio de conocimiento cerrado. *(Revisar Sección 8 al final del documento para ver el análisis avanzado de Leniency Bias en el 37.6% reportado por el modelo local).*
 
 > 💡 *Concepto Técnico:* En lugar de pasar los Chunks recuperados de la Base de Datos Vectorial, la variable de contexto se inyecta intencionalmente como un string vacío `contexto_recuperado=""`. Esto fuerza al LLM a recaer en su "memoria paramétrica" (pesos neuronales adquiridos durante el pre-entrenamiento global) y expone si la respuesta viene del modelo o del archivo legal de Banxico.
 
@@ -278,10 +278,15 @@ else:
     print("❌ No hay datos para generar el gráfico de Pareto.")
 ```
 
-> 💡 **Análisis de la Frontera de Pareto (Ejecución Local)**
-> - **Costo Operativo (Eje X):** Ambos puntos (Baseline Léxico y SOTA Completo) se sitúan exactamente en `$0.00 USD`. Esto valida empíricamente la hipótesis financiera: utilizar Llama 3.1 8B de forma local mantiene el costo marginal por consulta en cero.
-> - **Precisión NDCG@10 (Eje Y):** La estrategia `6_SOTA_Completo` (Búsqueda Híbrida + Reranking) demuestra una clara superioridad sobre el `1_Baseline_Léxico`. 
-> - **Conclusión MLOps:** Al implementar técnicas avanzadas de recuperación, logramos incrementar la calidad y relevancia de los contextos extraídos sin impactar el OPEX. Es decir, aumentamos drásticamente el valor de negocio de la aplicación sin gastar un solo centavo adicional por iteración, validando la viabilidad de una arquitectura de código abierto local para datos sensibles.
+> 💡 **Análisis de la Frontera de Pareto (Híbrido/Nube vs Local)**
+> 
+> Al comparar las métricas extraídas de las corridas locales (Llama 3.1) contra las corridas en la Nube (GPT-4o-mini), la gráfica de Pareto nos revela tres verdades inmutables sobre nuestra arquitectura MLOps:
+> 
+> 1. **La Discrepancia del Juez (El sesgo de benevolencia):** Curiosamente, el modelo local (`llama3.1:8b`) actuando como LLM-Judge tiende a ser más benevolente, otorgando métricas superiores (NDCG@10 ~0.92 para el SOTA). Al cambiar el juez a `gpt-4o-mini` (Nube), la evaluación se vuelve mucho más estricta (NDCG@10 ~0.84 para el SOTA). Esto valida que para tareas de *Evaluación*, un modelo de frontera (Nube) es indispensable por su mayor rigor analítico.
+> 2. **El Costo Operativo y la Selección del Modelo (Eje X):** La ejecución 100% local mantiene el costo matemático en **$0.00 USD**. Externalizar el *Retrieval y QA* a la nube mediante `gpt-4o-mini` cuesta aproximadamente **~$0.51 USD por cada 1,000 consultas**. Es crucial notar que si utilizáramos un modelo más potente como `gpt-4o` para la tarea rutinaria de responder (QA), el costo se multiplicaría por 33 (disparándose a más de ~$16.00 USD por cada 1k consultas). `gpt-4o-mini` ofrece la precisión necesaria para lectura y síntesis sin penalizar financieramente el proyecto.
+> 3. **Dominancia del SOTA (Eje Y):** Sin importar qué modelo actúe como juez (Local o Nube), la estrategia `6_SOTA_Completo` (Híbrido + Reranker Cross-Encoder) **siempre domina absolutamente** a los Baselines Léxicos y Semánticos.
+> 
+> **Conclusión MLOps Final:** La arquitectura ideal y viable para Producción (Banxico) no es "Todo Nube" (por su costo y exposición de datos) ni "Todo Local" (por su debilidad en tareas de alto razonamiento), sino un **Model Cascading Híbrido**: Se debe utilizar Ollama local para las búsquedas (Reranking) garantizando Cero OPEX y Privacidad Absoluta sobre los documentos recuperados, y derivar las llamadas de Extracción Estructurada Compleja y Evaluación Juez a los modelos frontera de OpenAI.
 
 ---
 
@@ -319,15 +324,45 @@ else:
     print("⚠️ No se encontró el archivo de análisis de errores.")
 ```
 
-> 💡 **Análisis de la Taxonomía de Errores (Ejecución Local)**
-> - **Éxitos Absolutos:** Se lograron 61 extracciones perfectas donde el JSON cumplió con el formato y los datos requeridos.
-> - **Formato Estructural (Error C - 1 caso):** El modelo casi nunca alucina la estructura JSON (solo 1 error). Esto confirma que el uso de *Structured Outputs* o prompteo estricto es sumamente eficaz para garantizar esquemas Pydantic robustos.
-> - **Contexto Insuficiente (Error A - 47 casos):** El área de oportunidad principal está altamente concentrada aquí. Esto indica que el LLM funciona correctamente, pero el motor de *Retrieval* (Búsqueda Vectorial) no logró traer el fragmento normativo exacto requerido para llenar los campos.
-> - **Conclusión MLOps:** El modelo generativo es sólido; los esfuerzos de optimización para el próximo ciclo no deben centrarse en el LLM, sino en refinar el *Chunking* (partición de documentos regulatorios), mejorar los *Embeddings*, o integrar la nube para casos complejos donde el modelo local no puede inferir correctamente.
+> 💡 **Análisis de la Taxonomía de Errores (Comparativa Nube vs Local)**
+> 
+> Al analizar los resultados de la Fase 3, nos encontramos con un fenómeno documentado empíricamente en la literatura de MLOps conocido como **"LLM-as-a-Judge Leniency Bias" (Sesgo de Benevolencia del Juez)**. 
+> 
+> Si comparamos las corridas en la Nube (donde `gpt-4o` fungió como extractor y juez) contra las corridas Locales (donde `llama3.1` fungió como extractor y juez), observamos lo siguiente:
+> 
+> *   **Errores A (Retrieval):** Idénticos en ambos escenarios (ej. 47 fallos). Esto demuestra consistencia determinista; ChromaDB y los Embeddings recuperaron los mismos fragmentos en ambos entornos independientemente del LLM generador.
+> *   **Errores B (Generación/Alucinación):** En la Nube, `gpt-4o` detectó **43 Errores tipo B**. En cambio, el Juez Local (`llama3.1`) detectó **0 Errores B** y catalogó casi todo el resto como "Éxito" absoluto.
+> 
+> **¿Por qué la Nube detectó fallos masivos que el modelo Local ignoró?**
+> Esto no significa que el modelo local sea perfecto. Al contrario, demuestra el peligro de usar LLMs pequeños (como Llama de 8B parámetros) como **Jueces Evaluadores** en tareas complejas de extracción JSON. 
+> 
+> El modelo local evaluó *sus propias respuestas incompletas* y, al carecer de rigor analítico profundo, simplemente validó su propio trabajo como correcto (Éxito). En contraste, `gpt-4o` en la nube operó de manera implacable, detectando sutilezas lógicas y omisiones de campos frente al *Ground Truth* y catalogando las fallas como Error B.
+> 
+> **Conclusión Estratégica:** Este hallazgo justifica arquitectónicamente nuestra decisión de aislar la validación y evaluación mediante "Model Cascading". Se recomienda encarecidamente utilizar Modelos Frontera (`gpt-4o`) para la telemetría evaluativa y como Jueces, dejando a los modelos locales enfocados exclusivamente en tareas operativas de baja fricción donde el riesgo sea tolerable.
 
 ---
 
-## 8. Conclusión del Avance 4:
+## 8. Análisis de Contaminación de Datos y Leniency Bias
+
+Para cerrar la fase de validación del MLOps, ejecutamos una prueba de **Contaminación de Datos Ciega**. En esta prueba, le pedimos al LLM responder preguntas altamente específicas sobre la regulación financiera *sin proporcionarle ningún contexto de recuperación*. 
+
+El objetivo era verificar si el modelo ya se sabía la respuesta "de memoria" (contaminación) o si dependía estrictamente del sistema RAG.
+
+### 💡 Resultados Nube vs Local (Leniency Bias)
+Al comparar las métricas de la evaluación automatizada (LLM-as-a-Judge) sobre las respuestas ciegas, encontramos una discrepancia monumental impulsada por el sesgo del juez:
+- **Nube (Juez GPT-4o):** Detectó solo **6 falsos positivos (5.5%)** donde el modelo acertó sin contexto.
+- **Local (Juez Llama 3.1):** Detectó **41 falsos positivos (37.6%)** aprobando respuestas vagas como "Éxito".
+
+Este fenómeno, junto con la omisión de Errores Tipo B en la taxonomía local, confirma matemáticamente el **"LLM-as-a-Judge Leniency Bias" (Sesgo de Benevolencia)**. El modelo pequeño asume que sus propias respuestas son correctas, evaluando de forma indulgente, mientras que el Modelo Frontera (GPT-4o) es estricto y riguroso.
+
+### 📚 Referencias Académicas
+Esta evidencia empírica encontrada en nuestros laboratorios valida el marco teórico de las siguientes investigaciones del estado del arte, justificando el uso obligatorio de "Model Cascading" para evaluaciones MLOps:
+1. **Zheng, L. et al. (2023).** *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena*. ArXiv. (Evidencia del "Self-Enhancement Bias").
+2. **Wang, P. et al. (2023).** *Large Language Models are not Fair Evaluators*. ArXiv. (Evidencia sistemática del "Leniency Bias" en modelos pequeños).
+
+---
+
+## 9. Conclusión del Avance 4:
 
 La transición de un prototipo RAG a un sistema de grado *Enterprise* (apto para Banco de México) requiere abandonar las decisiones basadas en intuición para adoptar métricas de ingeniería pura. Este avance demuestra una mejora técnica integral en múltiples frentes:
 
