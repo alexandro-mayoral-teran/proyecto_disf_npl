@@ -260,3 +260,29 @@ La transición de un entorno de evaluación (Eval) a un sistema productivo exige
    - **Prompt Injection & Jailbreaks:** Pruebas documentadas intentando "romper" los guardrails del Agente (ej. forzar respuestas destructivas).
    - **Manejo de PII:** Dado que es un sistema para analistas bancarios, la inferencia local (Llama 3) funge como escudo primario para consultas sensibles, aislando los datos de la nube pública.
 4. **Plan de Handoff (DEP-E):** Entrega documentada de artefactos serializados (Base vectorial indexada en ChromaDB, Registro de Prompts en JSON), garantizando que el sponsor institucional pueda operar, detener o destruir limpiamente los activos del proyecto (*Decommissioning plan*).
+
+
+## 10. Evolución Arquitectónica (Fase 4): Telemetría, Model Cascading y Análisis de Sesgos
+
+A medida que el proyecto migró hacia métricas de producción, la arquitectura se ajustó para solucionar deficiencias empíricas y optimizar el Costo Total de Propiedad (TCO) y el rigor evaluativo:
+
+### 10.1 Telemetría en Vivo y Dashboard Operativo
+Se desarrolló un módulo de telemetría inyectado (`RastreadorTelemetria`) que intercepta las llamadas al LLM, midiendo latencia en milisegundos y tokens consumidos vía `tiktoken`. Esta información se persiste localmente en un formato de logs de alta eficiencia (`telemetria_llm.jsonl`) y se expone mediante un **Dashboard de Streamlit** (`dashboard/app_evaluaciones.py`). El dashboard permite al equipo monitorizar el TCO acumulado, los tiempos de inferencia y la distribución taxonómica de errores en tiempo real.
+
+### 10.2 Abstracción de Modelos (Factory Pattern)
+Se implementó `config_llm.py` usando el patrón *Factory*. A través de la variable de entorno `USE_LOCAL_LLM`, el orquestador conmuta dinámicamente entre el cliente de OpenAI (Nube) y los wrappers de Ollama (Local) sin refactorizar el código base.
+
+### 10.3 Taxonomía de Errores (El fin del Blind Debugging)
+Cuando el *LLM-as-a-Judge* dictamina que una extracción falló, un módulo subsecuente analiza el texto recuperado por ChromaDB y subdivide el fallo en:
+*   **Error Tipo A (Retrieval):** El documento correcto nunca llegó al contexto. (Problema de Embeddings/Chunking).
+*   **Error Tipo B (Generación/Leniency):** El documento sí llegó, pero el LLM lo ignoró, alucinó o falló su lógica matemática.
+*   **Error Tipo C (Estructural):** Ruptura del contrato JSON (Pydantic).
+
+### 10.4 Descubrimiento Empírico: LLM-as-a-Judge Leniency Bias
+Durante las evaluaciones cruzadas de la Prueba Ciega (Data Contamination) y la Taxonomía, descubrimos un fenómeno documentado académicamente: **El sesgo de benevolencia**.
+Cuando `llama3.1` (8B) actuó como juez evaluando sus propias respuestas, dictaminó 0 Errores B y aprobó como válidas el 37.6% de respuestas sin contexto (alucinadas). Sin embargo, cuando `gpt-4o` operó como juez sobre los mismos datos, fue implacable, detectando 43 Errores B y permitiendo solo un 5.5% de contaminación.
+
+### 10.5 Arquitectura Definitiva: Model Cascading
+Ante la evidencia matemática de la incapacidad del modelo pequeño para fungir como Juez de alto rigor, y el costo prohibitivo ($16 USD / 1k queries) de operar todo el flujo de extracción en `gpt-4o`, la arquitectura RAG adopta la estrategia de **Model Cascading (Enrutamiento Dinámico)**:
+*   **Local (Llama 3.1):** Utilizado para tareas operativas de baja fricción, generación sintética base y re-ranking de búsquedas, manteniendo TCO=$0 y garantizando la privacidad de los datos extraídos (Residencia de Datos).
+*   **Nube (GPT-4o-mini / GPT-4o):** Restringido exclusivamente como motor de Extracción Estructurada profunda y como **Juez Evaluador (Evaluator LLM)**, donde se requiere precisión quirúrgica en el seguimiento de esquemas Pydantic y detección de alucinaciones.

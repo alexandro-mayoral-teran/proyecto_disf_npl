@@ -78,6 +78,8 @@ def load_taxonomy_data(runs):
                 col_error = 'Tipo_Error'
             elif 'Categoría Error (A/B/C)' in df.columns:
                 col_error = 'Categoría Error (A/B/C)'
+            elif 'categoria_error' in df.columns:
+                col_error = 'categoria_error'
                 
             if col_error:
                 conteo = df[col_error].value_counts().reset_index()
@@ -92,12 +94,41 @@ def load_taxonomy_data(runs):
 df_arena = load_arena_data(selected_runs)
 df_errores = load_taxonomy_data(selected_runs)
 
+@st.cache_data(ttl=10) # Refrescar cada 10 segundos
+def load_telemetry_in_vivo():
+    telemetria_path = project_root / "data" / "03_output" / "telemetria_llm.jsonl"
+    if telemetria_path.exists():
+        try:
+            df = pd.read_json(telemetria_path, lines=True)
+            # Calcular costos dinámicamente si no están
+            def calcular_costo(row):
+                mod = str(row.get('modelo', '')).lower()
+                in_tok = row.get('prompt_tokens', 0)
+                out_tok = row.get('completion_tokens', 0)
+                if 'mini' in mod:
+                    return (in_tok / 1e6) * 0.15 + (out_tok / 1e6) * 0.60
+                elif 'gpt-4o' in mod:
+                    return (in_tok / 1e6) * 5.0 + (out_tok / 1e6) * 15.0
+                return 0.0 # Llama local u otro
+                
+            df['costo_estimado_usd'] = df.apply(calcular_costo, axis=1)
+            # Asegurar datetime
+            if 'timestamp' in df.columns:
+                df['timestamp'] = pd.to_datetime(df['timestamp'])
+            return df
+        except Exception as e:
+            st.error(f"Error leyendo telemetría en vivo: {e}")
+    return pd.DataFrame()
+
+df_telemetria = load_telemetry_in_vivo()
+
 # --- PESTAÑAS ---
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📈 Pareto y Telemetría (ENS-B/C)", 
     "🧩 Taxonomía Errores (MA6)", 
     "🔀 Diversidad (ENS-D)", 
-    "🛡️ Red-Teaming (DEP-D)"
+    "🛡️ Red-Teaming (DEP-D)",
+    "⏱️ Telemetría en Vivo (Operación)"
 ])
 
 # --- PESTAÑA 1: Frontera de Pareto (NUEVA VERSIÓN PLOTLY INTERACTIVA) ---
@@ -213,3 +244,55 @@ with tab4:
         st.dataframe(df_rt.style.map(highlight_veredicto, subset=['veredicto']))
     else:
         st.info("No se ha ejecutado el módulo de seguridad (`src/lab/seguridad_eval.py`).")
+
+# --- PESTAÑA 5: Telemetría en Vivo (Operación) ---
+with tab5:
+    st.header("⏱️ Monitoreo de Telemetría en Vivo (Operacional)")
+    if df_telemetria.empty:
+        st.info("No hay datos de telemetría en vivo. Ejecuta pruebas con la aplicación para generarlos.")
+    else:
+        st.markdown("Métricas capturadas en tiempo real de la base de datos de logs operativos.")
+        
+        # 1. KPIs
+        costo_total = df_telemetria['costo_estimado_usd'].sum()
+        total_consultas = len(df_telemetria)
+        avg_latencia = df_telemetria['latencia_total_seg'].mean() if 'latencia_total_seg' in df_telemetria.columns else 0
+        total_tokens = df_telemetria['total_tokens'].sum() if 'total_tokens' in df_telemetria.columns else 0
+        
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Costo Total Acumulado", f"${costo_total:.4f} USD")
+        c2.metric("Consultas Procesadas", f"{total_consultas}")
+        c3.metric("Latencia Promedio", f"{avg_latencia:.2f} s")
+        c4.metric("Tokens Consumidos", f"{total_tokens:,}")
+        
+        st.divider()
+        
+        col_graf_1, col_graf_2 = st.columns(2)
+        
+        # 2. Distribución de Latencia por Estrategia
+        with col_graf_1:
+            st.subheader("Latencia por Estrategia")
+            if 'estrategia' in df_telemetria.columns and 'latencia_total_seg' in df_telemetria.columns:
+                fig_lat = px.box(df_telemetria, x="estrategia", y="latencia_total_seg", color="estrategia",
+                                 title="Distribución de Latencias (Búsqueda + Generación)")
+                st.plotly_chart(fig_lat, use_container_width=True)
+                
+        # 3. Consumo de Tokens
+        with col_graf_2:
+            st.subheader("Consumo de Tokens")
+            if 'modelo' in df_telemetria.columns and 'total_tokens' in df_telemetria.columns:
+                fig_tok = px.histogram(df_telemetria, x="modelo", y="total_tokens", color="estrategia",
+                                       title="Tokens Acumulados por Modelo", barmode="group")
+                st.plotly_chart(fig_tok, use_container_width=True)
+                
+        # 4. Línea de tiempo
+        st.subheader("Línea de Tiempo Operativa")
+        if 'timestamp' in df_telemetria.columns and 'costo_estimado_usd' in df_telemetria.columns:
+            df_temp = df_telemetria.sort_values('timestamp')
+            df_temp['Costo_Acumulado'] = df_temp['costo_estimado_usd'].cumsum()
+            fig_line = px.line(df_temp, x="timestamp", y="Costo_Acumulado", markers=True,
+                               title="Evolución del Costo Operativo USD a lo largo del tiempo")
+            st.plotly_chart(fig_line, use_container_width=True)
+            
+        st.subheader("Registro Bruto de Logs")
+        st.dataframe(df_telemetria.sort_values('timestamp', ascending=False).head(50), use_container_width=True)

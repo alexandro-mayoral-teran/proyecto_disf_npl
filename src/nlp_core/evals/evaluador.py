@@ -248,6 +248,19 @@ class EvaluadorRAG:
             recall_avg, recall_inf, recall_sup = self.calcular_bootstrap_ci(recall_scores)
             map_avg, map_inf, map_sup = self.calcular_bootstrap_ci(map_scores)
             
+            # Estimar Costo Operativo
+            costo_total_usd = 0.0
+            if metadatos_llm and not metadatos_llm.get("Es_QA_Local", True):
+                modelo_qa = metadatos_llm.get("LLM_Modelo_QA", "gpt-4o-mini")
+                # Precios estándar por 1 Millón de tokens (estimado para Arena)
+                precio_in = 0.15 if "mini" in modelo_qa else 5.0
+                precio_out = 0.60 if "mini" in modelo_qa else 15.0
+                
+                # Para la Arena (evaluación de retrieval), estimamos el costo de lo que
+                # costaría enviar este contexto (avg_tokens) + generar una respuesta corta (~300 tokens)
+                costo_por_consulta = (avg_tokens / 1_000_000) * precio_in + (300 / 1_000_000) * precio_out
+                costo_total_usd = costo_por_consulta * 1000 # Costo proyectado por cada 1,000 consultas
+            
             metricas = {
                 "estrategia": estrategia_nombre,
                 "modo_evaluacion": modo_evaluacion,
@@ -259,7 +272,8 @@ class EvaluadorRAG:
                 "NDCG@10": round(resultados_metricas["sum_ndcg_10"] / n, 4) if n > 0 else 0,
                 "NDCG@10_CI_95": (round(ndcg_inf, 4), round(ndcg_sup, 4)),
                 "Latencia_Promedio_Segundos": round(avg_latencia, 4),
-                "Tokens_Contexto_Promedio": round(avg_tokens, 1)
+                "Tokens_Contexto_Promedio": round(avg_tokens, 1),
+                "Costo_Total_USD": round(costo_total_usd, 4)
             }
             
             # Integrar metadatos (Modelos, Local vs Nube)

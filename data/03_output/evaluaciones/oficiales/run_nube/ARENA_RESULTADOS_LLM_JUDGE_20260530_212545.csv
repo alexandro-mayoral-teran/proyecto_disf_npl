@@ -1,0 +1,7 @@
+estrategia,modo_evaluacion,Recall@5,Recall@10,Recall@10_CI_95,MAP@10,MAP@10_CI_95,NDCG@10,NDCG@10_CI_95,Latencia_Promedio_Segundos,Tokens_Contexto_Promedio,Costo_Total_USD,LLM_Modelo_QA,Es_QA_Local,LLM_Modelo_Extraccion,Es_Extraccion_Local,Es_Juez_Local,Es_Expansion_Local
+1_Baseline_Léxico,llm_judge,84.4,91.74,"(86.24, 96.33)",0.6485,"(0.5781, 0.7148)",0.714,"(0.6511, 0.7724)",0.3033,2200.7,0.5101,gpt-4o-mini,False,gpt-4o,False,False,False
+2_Baseline_Semántico,llm_judge,96.33,99.08,"(97.25, 100.0)",0.7975,"(0.7416, 0.8535)",0.8457,"(0.8008, 0.8891)",0.2802,2179.7,0.507,gpt-4o-mini,False,gpt-4o,False,False,False
+3_Híbrido_Simple,llm_judge,93.58,99.08,"(97.25, 100.0)",0.7715,"(0.7137, 0.83)",0.8261,"(0.7797, 0.8714)",0.5077,2205.8,0.5109,gpt-4o-mini,False,gpt-4o,False,False,False
+4_Híbrido_Reranker,llm_judge,95.41,97.25,"(94.5, 100.0)",0.7827,"(0.728, 0.842)",0.8301,"(0.787, 0.877)",2.824,2170.5,0.5056,gpt-4o-mini,False,gpt-4o,False,False,False
+5_Semántico_Expandido,llm_judge,96.33,99.08,"(97.25, 100.0)",0.7952,"(0.7399, 0.8505)",0.8439,"(0.8007, 0.8869)",4.8374,2206.6,0.511,gpt-4o-mini,False,gpt-4o,False,False,False
+6_SOTA_Completo,llm_judge,95.41,98.17,"(95.41, 100.0)",0.7941,"(0.74, 0.8522)",0.8407,"(0.7956, 0.8856)",9.3773,2148.4,0.5023,gpt-4o-mini,False,gpt-4o,False,False,False

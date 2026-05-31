@@ -1,0 +1,1040 @@
+﻿query_id,pregunta,respuesta_ciega,texto_clave_esperado,hit_ciego,duracion_segundos
+Q01,¿Qué se entiende por Activos Líquidos Computables?,"Los Activos Líquidos Computables son aquellos activos que una entidad financiera puede convertir rápidamente en efectivo sin una pérdida significativa de valor. Estos activos son fundamentales para cumplir con los requisitos de liquidez establecidos por los reguladores, como los que se encuentran en el marco de Basilea III.
+
+Los Activos Líquidos Computables se dividen generalmente en dos categorías:
+
+1. **Activos Líquidos de Nivel 1**: Son los más seguros y líquidos, como el efectivo, los depósitos en bancos centrales y los bonos del gobierno de alta calidad. Estos activos pueden ser utilizados para cumplir con los requisitos de liquidez de manera inmediata.
+
+2. **Activos Líquidos de Nivel 2**: Incluyen activos que son menos líquidos que los de Nivel 1, como ciertos bonos corporativos y otros instrumentos financieros de alta calidad. Estos activos pueden ser utilizados para cumplir con los requisitos de liquidez, pero están sujetos a descuentos en su valor para reflejar su menor liquidez.
+
+La regulación exige que las entidades mantengan un cierto nivel de Activos Líquidos Computables para asegurar que puedan hacer frente a sus obligaciones financieras a corto plazo, especialmente en situaciones de estrés financiero.","Al monto total correspondiente al valor de los Activos Líquidos Elegibles que, conforme a las presentes disposiciones, se incluyan en el cálculo del Coeficiente de Cobertura de Liquidez, con los límites y factores de descuento establecidos en las presentes disposiciones.",0,2.8821
+Q02,¿En qué plazo debe reportarse el Coeficiente de Cobertura de Liquidez diario?,"El Coeficiente de Cobertura de Liquidez (LCR, por sus siglas en inglés) debe ser reportado diariamente por las entidades bancarias. Este coeficiente es una medida que asegura que los bancos mantengan un nivel adecuado de activos líquidos de alta calidad para cubrir sus salidas de efectivo durante un período de 30 días en condiciones de estrés. La regulación que establece este requerimiento proviene de Basilea III, que busca fortalecer la regulación, supervisión y gestión de riesgos en el sector bancario.",El Coeficiente de Cobertura de Liquidez que corresponda a cada día deberá reportarse durante los diez Días Hábiles posteriores a dicho día.,0,1.7709
+Q03,¿Qué es el Flujo Neto Total de Salida de Efectivo?,"El Flujo Neto Total de Salida de Efectivo se refiere a la cantidad total de efectivo que sale de una entidad, como un banco o una empresa, durante un período específico, menos la cantidad de efectivo que entra en la misma entidad durante ese mismo período. Este indicador es crucial para evaluar la liquidez y la salud financiera de una institución, ya que un flujo neto negativo puede indicar problemas de liquidez, mientras que un flujo neto positivo sugiere que la entidad está generando más efectivo del que está gastando. En el contexto bancario, este flujo puede incluir salidas de efectivo por préstamos, pagos de intereses, gastos operativos y otras obligaciones, mientras que las entradas pueden provenir de depósitos, ingresos por intereses y otras fuentes de ingresos.","Al monto que resulte de restar el flujo total de entrada de efectivo de una Institución del flujo total de salida de efectivo de esa misma Institución, determinados de conformidad con las presentes disposiciones.",0,3.027
+Q04,¿Cómo se determina el flujo total de salida de efectivo?,"El flujo total de salida de efectivo se determina mediante la identificación y cuantificación de todas las salidas de efectivo de una entidad durante un período específico. Este proceso generalmente implica los siguientes pasos:
+
+1. **Identificación de las categorías de salidas de efectivo**: Las salidas de efectivo se pueden clasificar en varias categorías, como:
+   - **Operativas**: Pagos a proveedores, salarios, impuestos, y otros gastos operativos.
+   - **Inversión**: Compras de activos fijos, inversiones en otras empresas, y gastos de capital.
+   - **Financiamiento**: Pagos de deudas, dividendos a accionistas, y otros costos relacionados con la financiación.
+
+2. **Recolección de datos**: Se recopilan los datos de las transacciones que generan salidas de efectivo. Esto puede incluir extractos bancarios, registros contables, y facturas.
+
+3. **Cálculo de las salidas de efectivo**: Se suman todas las salidas de efectivo identificadas en cada categoría durante el período analizado. Esto puede hacerse utilizando métodos contables, como el método directo, que registra las entradas y salidas de efectivo, o el método indirecto, que ajusta el resultado neto para reflejar las variaciones en el efectivo.
+
+4. **Análisis y reporte**: Finalmente, se presenta el flujo total de salida de efectivo en un estado de flujo de efectivo, que proporciona una visión clara de cómo se ha utilizado el efectivo en las operaciones, inversiones y financiamiento de la entidad.
+
+Este análisis es crucial para la gestión financiera, ya que permite a las entidades evaluar su liquidez y capacidad para cumplir con sus obligaciones financieras.","El flujo total de salida de efectivo será el que resulte de sumar todas las operaciones pasivas con vencimiento igual o menor a treinta días multiplicadas por su correspondiente factor de salida, de conformidad con lo establecido en el Anexo 2 de estas disposiciones.",0,3.8306
+Q05,¿Qué fecha deben tomar las Instituciones para determinar el plazo de las operaciones de salida?,"En el contexto de la regulación financiera bancaria, las instituciones deben tomar como referencia la fecha de valor o la fecha de liquidación de la operación para determinar el plazo de las operaciones de salida. Esta fecha es crucial, ya que marca el momento en que se efectúa la transferencia de fondos o activos y se considera el inicio del plazo para cualquier obligación relacionada con la operación. Es importante que las instituciones sigan las normativas específicas de su jurisdicción y las directrices de los organismos reguladores pertinentes al respecto.","Las Instituciones deberán tomar como fecha de vencimiento la fecha más próxima en que dichas operaciones pueden ser exigibles contractualmente, para lo cual deberán considerar si el contrato respectivo permite a la contraparte adelantar la exigibilidad de dichas operaciones.",0,1.2862
+Q06,¿Qué operaciones se consideran para el flujo total de entrada de efectivo?,"El flujo total de entrada de efectivo en el contexto de la regulación financiera bancaria se refiere a todas las fuentes de efectivo que ingresan a una entidad financiera. Las operaciones que se consideran para calcular este flujo incluyen:
+
+1. **Intereses recibidos**: Ingresos generados por préstamos otorgados a clientes y otras inversiones.
+
+2. **Comisiones y tarifas**: Ingresos por servicios bancarios, como comisiones por transacciones, mantenimiento de cuentas y otros servicios financieros.
+
+3. **Venta de activos**: Ingresos obtenidos por la venta de activos financieros, como bonos, acciones o propiedades.
+
+4. **Depósitos de clientes**: Aumentos en los depósitos de clientes, que representan efectivo que entra al banco.
+
+5. **Financiamiento externo**: Fondos obtenidos a través de la emisión de deuda o acciones, así como préstamos de otras instituciones financieras.
+
+6. **Inversiones**: Ingresos por inversiones en otras entidades o instrumentos financieros.
+
+7. **Recuperación de préstamos**: Pagos recibidos de clientes que han pagado sus préstamos.
+
+Estas operaciones son fundamentales para evaluar la liquidez y la salud financiera de una entidad bancaria, así como para cumplir con los requisitos regulatorios establecidos por las autoridades financieras.","Considerarán todas las operaciones vigentes conforme a los Criterios Contables que no presenten pagos vencidos de principal o intereses, que, derivado de los contratos que al efecto tenga celebrados, generarán un flujo de entrada de efectivo en los treinta días siguientes a la fecha de cálculo del Coeficiente de Cobertura de Liquidez.",0,3.5853
+Q07,¿Cuál es el límite máximo reconocido para el flujo total de entrada de efectivo?,"El límite máximo reconocido para el flujo total de entrada de efectivo puede variar según la regulación específica de cada país y el contexto en el que se aplique. Sin embargo, en términos generales, no existe un límite universalmente establecido para el flujo total de entrada de efectivo en el ámbito bancario. Las regulaciones pueden establecer límites en relación con transacciones específicas, como transferencias internacionales o depósitos en efectivo, pero estos límites son determinados por las autoridades regulatorias de cada jurisdicción y pueden estar sujetos a cambios.
+
+Es importante consultar la normativa local y las directrices de los organismos reguladores pertinentes, como el Banco Central o la autoridad de supervisión financiera, para obtener información precisa sobre los límites aplicables en un contexto específico.","El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo calculado conforme el artículo 11 de las presentes disposiciones.",0,1.6827
+Q08,¿Qué requisito de CCL debe cumplir una institución con más de 60 meses de operación para estar en Escenario I?,"Para que una institución bancaria con más de 60 meses de operación esté en Escenario I según la regulación de Capital de Nivel 1 (CCL), debe cumplir con un requisito de capital mínimo del 4% de su activo ponderado por riesgo. Este escenario se refiere a un marco regulatorio que busca asegurar la solidez financiera de las instituciones y su capacidad para absorber pérdidas. Además, es importante que la entidad mantenga un nivel adecuado de liquidez y cumpla con otros requisitos prudenciales establecidos por la autoridad reguladora correspondiente.",Escenario I cuando el Coeficiente de Cobertura de Liquidez correspondiente a cada día del mes calendario inmediato anterior sea al menos de 100 por ciento.,0,1.6469
+Q09,¿Cuándo se ubica una institución en Escenario III por recurrencia en Escenario II?,"En el contexto de la regulación financiera bancaria, específicamente bajo el marco de Basilea III, una institución se ubica en Escenario III por recurrencia en Escenario II cuando ha experimentado múltiples incumplimientos de los requisitos de capital o de liquidez establecidos en el Escenario II durante un período determinado. Esto implica que la entidad ha mostrado una debilidad persistente en su capacidad para mantener los estándares regulatorios, lo que puede llevar a una supervisión más estricta y a la implementación de medidas correctivas por parte de las autoridades regulatorias. La transición a Escenario III generalmente conlleva mayores exigencias en términos de capital y una vigilancia más intensa para asegurar la estabilidad financiera de la institución.","En el escenario III cuando, de acuerdo a lo establecido en la fracción II del presente artículo, les corresponda ubicarse en el escenario II y, adicionalmente, hubieren actualizado durante los últimos seis meses el escenario II o superior en tres o más ocasiones.",0,1.6278
+Q10,¿Qué tratamiento de escenarios de liquidez reciben las instituciones en sus primeros 12 meses de operación?,"En los primeros 12 meses de operación, las instituciones financieras, especialmente los bancos, suelen estar sujetas a un tratamiento específico en cuanto a la gestión de la liquidez. Este tratamiento puede variar según la regulación del país y el marco normativo aplicable, pero generalmente incluye los siguientes aspectos:
+
+1. **Requisitos de Liquidez Inicial**: Las nuevas instituciones pueden tener requisitos de liquidez más flexibles en sus primeros meses de operación, permitiendo un período de adaptación mientras establecen su base de clientes y flujos de efectivo.
+
+2. **Plan de Liquidez**: Se espera que las nuevas entidades desarrollen un plan de gestión de liquidez que contemple escenarios de estrés y proyecciones de flujos de efectivo. Este plan debe ser revisado y aprobado por la alta dirección y, en algunos casos, por el regulador.
+
+3. **Monitoreo de Liquidez**: Aunque pueden tener un tratamiento más flexible, las instituciones deben comenzar a implementar sistemas de monitoreo de liquidez desde el inicio de sus operaciones para asegurar que puedan cumplir con sus obligaciones a corto plazo.
+
+4. **Escenarios de Estrés**: Las instituciones deben realizar pruebas de estrés de liquidez que simulen diferentes escenarios adversos, aunque la profundidad y frecuencia de estas pruebas pueden ser menos rigurosas en los primeros meses.
+
+5. **Supervisión Reguladora**: Las autoridades regulatorias suelen supervisar de cerca a las nuevas instituciones, lo que puede incluir revisiones periódicas de su posición de liquidez y su capacidad para manejar situaciones de crisis.
+
+En resumen, aunque las nuevas instituciones pueden tener un tratamiento más flexible en sus primeros 12 meses, deben establecer prácticas sólidas de gestión de liquidez y cumplir con los requisitos regulatorios básicos para asegurar su estabilidad financiera.","A partir del primer día y hasta el último día del decimosegundo mes posterior a la fecha en que hubieren comenzado operaciones, no les serán aplicables los escenarios de liquidez señalados en el presente artículo.",0,3.28
+Q11,¿Cuál es el CCL mínimo para Escenario I en instituciones de entre 13 y 24 meses de operación?,"El CCL (Coeficiente de Capital de Nivel 1) mínimo para el Escenario I en instituciones bancarias que tienen entre 13 y 24 meses de operación es del 4%. Este requerimiento es parte de las regulaciones establecidas para asegurar la solidez y estabilidad del sistema financiero. Sin embargo, es importante verificar la normativa específica vigente en el país o región correspondiente, ya que puede haber variaciones o actualizaciones en las regulaciones.","Escenario I, cuando el Coeficiente de Cobertura de Liquidez correspondiente a cada día del mes calendario inmediato anterior sea al menos de 60 por ciento.",0,1.2584
+Q12,¿Qué medida debe tomar una institución en Escenario III respecto a sus operaciones?,"En el contexto de regulación financiera bancaria, el ""Escenario III"" generalmente se refiere a un entorno de estrés o crisis económica donde las instituciones financieras enfrentan desafíos significativos. En este escenario, una medida clave que debe tomar una institución es fortalecer su capital y liquidez. Esto puede incluir:
+
+1. **Aumentar el capital regulatorio**: Asegurarse de que el capital disponible cumpla con los requisitos regulatorios y que haya un colchón adicional para absorber pérdidas.
+
+2. **Revisar la gestión de riesgos**: Implementar o reforzar políticas de gestión de riesgos para identificar, medir y mitigar riesgos potenciales en sus operaciones.
+
+3. **Mejorar la liquidez**: Aumentar la reserva de activos líquidos para garantizar que la institución pueda cumplir con sus obligaciones a corto plazo.
+
+4. **Reducir la exposición a activos de alto riesgo**: Reevaluar y, si es necesario, desinvertir en activos que presenten un alto riesgo de impago o que sean volátiles.
+
+5. **Fortalecer la comunicación con reguladores**: Mantener un diálogo abierto con las autoridades regulatorias para asegurar que se cumplan las expectativas y se tomen medidas adecuadas en caso de deterioro de la situación financiera.
+
+Estas medidas son fundamentales para asegurar la estabilidad de la institución y proteger los intereses de los depositantes y otras partes interesadas.","Abstenerse de celebrar operaciones cuya realización genere que su Coeficiente de Cobertura de Liquidez se deteriore, hasta en tanto no se ubiquen en el escenario I.",0,2.5238
+Q13,¿Qué restricciones de dividendos aplican en el Escenario IV de CCL?,"En el contexto de la regulación financiera bancaria, el Escenario IV de CCL (Capital Conservation Buffer) se refiere a un marco regulatorio que establece restricciones sobre la distribución de dividendos y otras formas de remuneración a los accionistas en situaciones de estrés financiero. 
+
+En este escenario, las entidades bancarias deben cumplir con ciertos requisitos de capital y, si no alcanzan los niveles mínimos establecidos, se les restringe la capacidad de pagar dividendos. Generalmente, las restricciones pueden incluir:
+
+1. **Limitación en el pago de dividendos**: Los bancos pueden estar prohibidos de pagar dividendos si su capital regulatorio cae por debajo de un umbral específico.
+2. **Requerimientos de capital**: Los bancos deben mantener un nivel de capital por encima de los requisitos mínimos establecidos por las autoridades regulatorias. Si no lo hacen, se les puede exigir que retengan ganancias en lugar de distribuirlas.
+3. **Ajustes en la remuneración**: Además de los dividendos, puede haber restricciones en la remuneración de los ejecutivos y otros pagos a los accionistas.
+
+Estas medidas están diseñadas para asegurar que los bancos mantengan suficiente capital para absorber pérdidas y seguir operando de manera estable, especialmente en tiempos de crisis económica.","Suspender el pago de dividendos, así como cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se ubique en el escenario I.",0,2.7982
+Q14,¿Cómo deben valuarse los títulos conservados a vencimiento para el CCL?,"Los títulos conservados a vencimiento para el CCL (Contabilidad de Cuentas de Liquidación) deben valuarse al costo amortizado. Esto implica que se deben registrar al costo de adquisición, ajustado por los pagos de principal y los intereses devengados, menos cualquier deterioro por pérdidas esperadas. La valuación al costo amortizado se utiliza para reflejar de manera más precisa el valor de los activos a lo largo del tiempo, considerando los flujos de efectivo esperados y el rendimiento efectivo de los títulos.",Las Instituciones deberán valuar los títulos conservados a vencimiento a su valor de mercado.,0,1.3313
+Q15,¿Qué criterio aplica si una misma operación tiene más de un factor de salida en el Anexo 2?,"En el contexto de la regulación financiera bancaria, específicamente en relación con el Anexo 2 de la normativa que regula las operaciones y su clasificación, si una misma operación tiene más de un factor de salida, se debe aplicar el criterio de jerarquía o prelación. Esto implica que se debe identificar cuál de los factores de salida es el más relevante o significativo para la operación en cuestión.
+
+Generalmente, se prioriza el factor que tenga un mayor impacto en la evaluación del riesgo o en la clasificación de la operación. Si no se puede determinar un factor predominante, se puede considerar la posibilidad de aplicar un enfoque proporcional o ponderado, evaluando la relevancia de cada factor en el contexto específico de la operación.
+
+Es importante consultar la normativa específica aplicable y cualquier guía emitida por la autoridad reguladora correspondiente para asegurar el cumplimiento adecuado de los criterios establecidos.","En caso de que, de conformidad con lo previsto por el Anexo 2 de las presentes disposiciones, a una misma operación le corresponda más de un factor de salida, la Institución deberá utilizar el factor de salida más alto.",0,2.5544
+Q16,¿Cómo se determina la fecha de vencimiento para los flujos de entrada de efectivo?,"La fecha de vencimiento para los flujos de entrada de efectivo en el contexto de la regulación financiera bancaria se determina generalmente en función de varios factores, que incluyen:
+
+1. **Tipo de instrumento financiero**: Dependiendo de si se trata de préstamos, bonos, depósitos u otros instrumentos, la fecha de vencimiento puede estar estipulada en el contrato o acuerdo correspondiente.
+
+2. **Condiciones contractuales**: Los términos específicos acordados entre las partes involucradas, como tasas de interés, plazos de pago y condiciones de amortización, influirán en la fecha de vencimiento.
+
+3. **Regulaciones y normativas**: Las regulaciones financieras y contables aplicables pueden establecer requisitos sobre cómo y cuándo se deben reconocer los flujos de efectivo, lo que puede afectar la determinación de la fecha de vencimiento.
+
+4. **Ciclo de negocio**: En algunos casos, la fecha de vencimiento puede estar alineada con el ciclo operativo de la entidad, considerando factores como la estacionalidad o la previsión de ingresos.
+
+5. **Prácticas del mercado**: Las convenciones del mercado y las prácticas estándar en la industria también pueden influir en la determinación de las fechas de vencimiento.
+
+En resumen, la fecha de vencimiento para los flujos de entrada de efectivo se establece a partir de una combinación de factores contractuales, regulatorios y de mercado.","Para determinar el plazo de las operaciones a que hace referencia la fracción I del presente artículo, las Instituciones deberán tomar como fecha de vencimiento la última fecha en que contractualmente podrían exigir su pago.",0,4.4957
+Q17,¿Qué medida adicional se aplica a las Instituciones que se ubiquen en el escenario V de CCL?,"En el contexto de la regulación financiera bancaria, el escenario V de CCL (Condiciones de Capital y Liquidez) se refiere a un marco específico que puede implicar condiciones más estrictas para las instituciones financieras. Aunque no tengo acceso a información específica sobre el escenario V de CCL, en general, las medidas adicionales que se aplican a las instituciones en escenarios de mayor riesgo suelen incluir:
+
+1. **Requerimientos de capital más altos**: Las instituciones pueden estar obligadas a mantener un nivel de capital adicional para absorber pérdidas potenciales.
+
+2. **Pruebas de estrés más rigurosas**: Se pueden requerir simulaciones más exhaustivas para evaluar la resiliencia de la institución ante escenarios adversos.
+
+3. **Limitaciones en la distribución de dividendos**: Puede haber restricciones sobre la capacidad de la institución para distribuir utilidades a los accionistas.
+
+4. **Monitoreo y supervisión más intensivos**: Las autoridades regulatorias pueden aumentar la frecuencia y profundidad de la supervisión.
+
+5. **Planes de recuperación y resolución**: Se puede exigir que las instituciones desarrollen y mantengan planes detallados para abordar situaciones de crisis.
+
+Es importante consultar la normativa específica y las directrices emitidas por las autoridades regulatorias pertinentes para obtener información precisa sobre las medidas aplicables en el escenario V de CCL.","En el escenario V, además de las medidas aplicables a las Instituciones que se ubiquen en el escenario IV, la suspensión del pago de dividendos, así como de cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se dé cabal cumplimiento al Plan de Restauración de Liquidez.",0,3.5549
+Q18,¿Cuál es la restricción al incluir activos líquidos de entidades extranjeras en el cálculo consolidado?,"La restricción al incluir activos líquidos de entidades extranjeras en el cálculo consolidado se basa principalmente en la necesidad de garantizar la calidad y la liquidez de dichos activos. En muchos marcos regulatorios, como Basilea III, se establece que los activos líquidos deben ser de alta calidad y fácilmente convertibles en efectivo sin una pérdida significativa de valor. 
+
+Además, los activos líquidos de entidades extranjeras pueden estar sujetos a riesgos adicionales, como el riesgo de cambio y la falta de acceso a mercados locales, lo que puede afectar su liquidez en situaciones de estrés. Por lo tanto, las regulaciones suelen limitar la inclusión de estos activos en el cálculo de los requisitos de liquidez, exigiendo que sean activos que cumplan con criterios específicos de calidad y que estén denominados en la moneda de la jurisdicción del banco o en monedas de alta calidad. 
+
+En resumen, la restricción se centra en asegurar que los activos líquidos considerados en el cálculo consolidado sean de alta calidad y que su liquidez no esté comprometida por factores externos.",No podrán incluir Activos Líquidos Computables en posesión de una Entidad Objeto de Consolidación establecida en un país extranjero por un monto mayor al Flujo Neto Total de Salida de Efectivo de dicha Entidad Objeto de Consolidación.,0,2.8936
+Q19,¿Cómo debe considerarse la cartera de crédito para el cálculo del CFEN?,"La cartera de crédito debe considerarse en el cálculo del Capital de Primera Clase (CFEN) de acuerdo con las normativas establecidas por los organismos reguladores, como Basilea III. En este contexto, la cartera de crédito se evalúa en función de su riesgo crediticio, lo que implica clasificar los activos en diferentes categorías de riesgo.
+
+Para el cálculo del CFEN, se deben tener en cuenta los siguientes aspectos:
+
+1. **Clasificación de Activos**: Los créditos deben ser clasificados según su riesgo, lo que incluye la evaluación de la calidad crediticia de los prestatarios y la probabilidad de incumplimiento.
+
+2. **Ponderación por Riesgo**: Cada categoría de activos tiene una ponderación de riesgo asignada, que se utiliza para calcular el riesgo ponderado de los activos (RWA, por sus siglas en inglés). Esto implica que los créditos de mayor riesgo tendrán un mayor impacto en el cálculo del CFEN.
+
+3. **Provisión para Pérdidas**: Las provisiones para pérdidas crediticias deben ser consideradas, ya que afectan la cantidad de capital que se requiere mantener para cubrir posibles pérdidas.
+
+4. **Requerimientos de Capital**: El CFEN se calcula como un porcentaje del total de los activos ponderados por riesgo, y la cartera de crédito es un componente clave en este cálculo. Los bancos deben mantener un nivel mínimo de capital en relación con su cartera de crédito para asegurar su solvencia y estabilidad.
+
+En resumen, la cartera de crédito se considera fundamental en el cálculo del CFEN, ya que su riesgo asociado influye directamente en los requerimientos de capital que deben cumplir las entidades bancarias.",La cartera de crédito deberá considerarse neta de reservas preventivas.,0,3.4693
+Q20,¿Cómo se tratan las operaciones fecha valor en el CFEN?,"En el contexto del CFEN (Centro de Finanzas y Economía Nacional) en algunos países, las operaciones de fecha valor se refieren a transacciones financieras que se registran en una fecha diferente a la fecha en que se efectúa el pago o la liquidación. Estas operaciones son comunes en el ámbito bancario y financiero, ya que permiten a las instituciones gestionar su liquidez y sus posiciones de efectivo de manera más eficiente.
+
+En general, las operaciones de fecha valor se tratan de la siguiente manera:
+
+1. **Registro Contable**: Las transacciones se registran en los libros contables de la entidad en la fecha en que se efectúan, pero el efecto en la cuenta de efectivo se realiza en la fecha valor acordada. Esto implica que, aunque la transacción se contabiliza en un momento, su impacto en la liquidez se refleja en otro.
+
+2. **Cálculo de Intereses**: Dependiendo de la naturaleza de la operación, se pueden calcular intereses sobre el monto involucrado desde la fecha de la operación hasta la fecha valor. Esto es especialmente relevante en operaciones de crédito o inversión.
+
+3. **Reportes y Regulaciones**: Las entidades deben asegurarse de que estas operaciones se reporten adecuadamente en sus estados financieros y cumplan con las regulaciones pertinentes. Esto incluye la divulgación de la naturaleza de las operaciones de fecha valor y su impacto en la posición financiera de la entidad.
+
+4. **Gestión de Riesgos**: Las operaciones de fecha valor pueden implicar riesgos de liquidez y de tasa de interés, por lo que es fundamental que las instituciones implementen políticas adecuadas para gestionar estos riesgos.
+
+Es importante que cada entidad financiera siga las normativas específicas que rigen las operaciones de fecha valor en su jurisdicción, así como las directrices del regulador correspondiente.","Las operaciones fecha valor se consideran como si estas ya hubieran sido liquidadas, es decir, los activos a recibir por operaciones fecha valor tendrán el tratamiento como si ya se encontraran en la tenencia de la Institución y los activos a entregar como si ya se hubieran entregado.",0,3.7097
+Q21,¿Cómo se calcula el plazo de las operaciones para el CFEN?,"El plazo de las operaciones para el Comité de Supervisión Bancaria de Basilea (CFEN) se calcula considerando la duración de las transacciones financieras, que puede incluir préstamos, depósitos y otros instrumentos financieros. Generalmente, el plazo se determina a partir de la fecha de inicio de la operación hasta la fecha de vencimiento o liquidación.
+
+Para calcularlo, se deben seguir estos pasos:
+
+1. **Identificación de la operación**: Determinar el tipo de operación financiera y sus características específicas.
+2. **Fecha de inicio**: Establecer la fecha en que se inicia la operación.
+3. **Fecha de vencimiento**: Identificar la fecha en que la operación debe ser liquidada o finalizada.
+4. **Cálculo del plazo**: Restar la fecha de inicio de la fecha de vencimiento para obtener la duración total de la operación, que se puede expresar en días, meses o años, según sea necesario.
+
+Es importante tener en cuenta que, en el contexto de la regulación financiera, el plazo puede influir en la evaluación del riesgo y en la gestión de la liquidez de las instituciones financieras.","Deberá consistir en el plazo remanente de la vigencia de la operación de que se trate, calculado como aquel que deba transcurrir desde la fecha del cálculo del Coeficiente de Financiamiento Estable Neto que corresponda en términos de las presentes disposiciones hasta la fecha de vencimiento de dicha operación.",0,3.6296
+Q22,¿Qué supuesto aplica para determinar el plazo remanente de los activos con opciones?,"En el contexto de la regulación financiera bancaria, el supuesto que se aplica para determinar el plazo remanente de los activos con opciones es el de la ""opción de ejercicio"". Esto implica que se considera el plazo hasta la fecha de ejercicio de la opción, en lugar del vencimiento final del activo subyacente. 
+
+En particular, para los activos con opciones de compra (call) o de venta (put), se evalúa el plazo remanente en función de la fecha en que se espera que la opción sea ejercida, lo que puede ser antes del vencimiento del activo. Esto es relevante para la gestión del riesgo de liquidez y la evaluación de la duración de los activos en el balance de una entidad financiera. 
+
+Además, en la regulación de Basilea, se pueden aplicar métodos específicos para calcular el riesgo de tasa de interés en los activos con opciones, considerando su comportamiento y la probabilidad de ejercicio de las opciones.",Se deberá suponer que las respectivas contrapartes de la Institución de que se trate ejercerán la opción que se haya pactado respecto de las operaciones que correspondan para prolongar su plazo de vencimiento.,0,2.2559
+Q23,¿Qué supuesto aplica para determinar el plazo remanente de los pasivos con opciones?,"El supuesto que se aplica para determinar el plazo remanente de los pasivos con opciones es el de la ""opción de ejercicio anticipado"". Esto implica que se considera la posibilidad de que el titular de la opción ejerza su derecho antes de la fecha de vencimiento. En el caso de los pasivos con opciones, como los depósitos a la vista o ciertos tipos de bonos, se evalúa el comportamiento histórico y las condiciones del mercado para estimar el plazo remanente, teniendo en cuenta la probabilidad de que los titulares ejerzan sus opciones en diferentes momentos. Esto permite a las instituciones financieras gestionar adecuadamente el riesgo de liquidez y la duración de sus pasivos.",Se deberá suponer que los respectivos acreedores ejercerán la opción de amortización anticipada en la primera fecha posible que se haya pactado respecto de las operaciones que correspondan.,0,1.6575
+Q24,¿Cómo se determina el plazo de pago para créditos de cuenta corriente dispuestos por tarjetas de crédito?,"El plazo de pago para créditos de cuenta corriente dispuestos por tarjetas de crédito se determina generalmente por las políticas del emisor de la tarjeta y puede variar según varios factores. A continuación, se describen algunos de los elementos que influyen en la determinación de este plazo:
+
+1. **Condiciones del contrato**: Al momento de la emisión de la tarjeta, el titular acepta un contrato que especifica las condiciones de uso, incluyendo el plazo de pago. Este plazo puede ser mensual y suele estar relacionado con el ciclo de facturación.
+
+2. **Ciclo de facturación**: Las tarjetas de crédito tienen ciclos de facturación que suelen ser de 30 días. Al final de cada ciclo, el emisor envía un estado de cuenta que detalla el saldo, los pagos mínimos requeridos y la fecha de vencimiento para el pago total o mínimo.
+
+3. **Tasa de interés**: Si el saldo no se paga en su totalidad antes de la fecha de vencimiento, se aplican intereses sobre el saldo pendiente. La tasa de interés puede influir en la decisión del titular sobre el plazo de pago, ya que un saldo mayor puede resultar en mayores costos financieros.
+
+4. **Políticas del emisor**: Cada entidad financiera puede tener políticas diferentes respecto a los plazos de pago, incluyendo promociones que ofrecen períodos de gracia o tasas de interés reducidas por pagos anticipados.
+
+5. **Regulaciones locales**: En algunos países, las regulaciones financieras pueden establecer límites o requisitos sobre los plazos de pago y las tasas de interés aplicables a los créditos de tarjetas de crédito.
+
+En resumen, el plazo de pago para créditos de cuenta corriente dispuestos por tarjetas de crédito se establece en función de las condiciones contractuales, el ciclo de facturación, las políticas del emisor y las regulaciones aplicables.",Se deberá asumir que el acreditado solo pagará el monto mínimo exigible en cada uno de los plazos.,0,4.8733
+Q25,¿Qué nivel de CFEN se requiere para estar en el Escenario I?,"El Escenario I en el contexto de la regulación financiera bancaria, específicamente en relación con el cálculo del Capital de Primera Clase (CFEN), generalmente se refiere a un nivel mínimo de capital que las entidades deben mantener para asegurar su solvencia y estabilidad. Sin embargo, el nivel específico de CFEN requerido puede variar según la jurisdicción y el marco regulatorio aplicable.
+
+En muchos casos, el Escenario I puede implicar que las entidades deben mantener un CFEN que cumpla con los requisitos mínimos establecidos por los acuerdos de Basilea, que suelen ser del 4% del riesgo ponderado de activos (RWA) para el capital de nivel 1. Es importante consultar la normativa específica del país o región en cuestión para obtener el porcentaje exacto y los requisitos adicionales que puedan aplicarse.
+
+Si necesitas información más detallada o específica sobre un país o regulación particular, por favor indícalo.",Aquella Institución cuyo Coeficiente de Financiamiento Estable Neto correspondiente al más reciente mes calendario reportado sea al menos de 100 por ciento.,0,1.9973
+Q26,¿Qué obligación surge cuando una Institución se ubica en un escenario distinto al I en 3 o más ocasiones en 12 meses?,"Cuando una institución bancaria se ubica en un escenario distinto al I (que generalmente se refiere a un escenario de riesgo bajo o normal) en 3 o más ocasiones en un período de 12 meses, surge la obligación de implementar un plan de acción correctivo. Esto puede incluir la necesidad de mejorar sus prácticas de gestión de riesgos, aumentar sus reservas de capital, o cumplir con requisitos regulatorios adicionales establecidos por la autoridad supervisora correspondiente. La intención de esta obligación es asegurar que la institución mantenga su estabilidad financiera y proteja los intereses de los depositantes y del sistema financiero en general.","Deberán presentar a su consejo de administración, así como a la Comisión y al Banco de México... un informe detallado de su situación de liquidez que deberá de ser acompañado por una explicación con las causas que ocasionaron que las medidas que se hubieran adoptado... no hayan resultado efectivas.",0,1.4722
+Q27,¿Qué plazo tiene una institución en Escenario II para presentar un plan de restauración de CFEN?,"En el contexto de la regulación financiera bancaria, específicamente bajo el Escenario II del marco de recuperación y resolución, una institución tiene un plazo de 60 días para presentar un plan de restauración de su capital y fondos propios (CFEN) ante la autoridad competente. Este plazo es crucial para asegurar que la entidad pueda abordar de manera efectiva cualquier situación de deterioro en su capital y mantener la estabilidad financiera.",Un plan de restauración del Coeficiente de Financiamiento Estable Neto en un plazo no mayor a cinco Días Hábiles contado a partir del día en que la Institución se haya ubicado en el citado escenario.,0,1.5111
+Q28,¿Qué medida adicional aplica a las Instituciones en Escenario III de CFEN?,"En el contexto de la regulación financiera bancaria en México, el Escenario III de la Clasificación de la Situación Financiera de las Instituciones (CFEN) se refiere a un estado de deterioro significativo en la situación financiera de una institución. En este escenario, se aplican medidas adicionales como la obligación de presentar un plan de recuperación o reestructuración, que debe ser aprobado por la autoridad reguladora. Además, se pueden imponer restricciones en la distribución de dividendos y en la realización de nuevas operaciones, así como la necesidad de aumentar el capital o mejorar la calidad de los activos. Estas medidas buscan proteger la estabilidad del sistema financiero y asegurar que la institución pueda recuperar su salud financiera.","Suspender el pago de dividendos, así como cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se ubique en el escenario I.",0,1.5204
+Q29,¿Qué metodología se aplica para activos y pasivos por derivados en el CFEN?,"En el contexto del CFEN (Contabilidad Financiera y Normativa), la metodología que se aplica para activos y pasivos por derivados se basa en la valoración a valor razonable. Esto implica que los derivados se registran inicialmente al valor de mercado en el momento de su adquisición y posteriormente se ajustan a su valor razonable en cada fecha de reporte.
+
+Los cambios en el valor razonable de los derivados se reconocen en el resultado del periodo, a menos que el derivado esté designado como un instrumento de cobertura, en cuyo caso se aplican las normas de contabilidad de coberturas. En este último caso, se puede diferir el reconocimiento de las ganancias o pérdidas en el valor razonable hasta que se reconozca el efecto de la transacción cubierta en los estados financieros.
+
+Es importante también considerar la clasificación de los derivados, ya que pueden ser utilizados para fines de especulación o para la gestión de riesgos, lo que influye en su tratamiento contable y en la presentación de la información financiera.",Aplicar la metodología descrita en el Anexo 9 de las presentes disposiciones para la determinación de los activos y pasivos por operaciones con instrumentos financieros derivados.,0,2.1007
+Q30,¿Qué ponderación de financiamiento estable disponible tienen los pasivos con plazo residual igual o mayor a un año?,"En el contexto de la regulación financiera bancaria, específicamente bajo el marco de Basilea III, los pasivos con un plazo residual igual o mayor a un año generalmente tienen una ponderación de financiamiento estable disponible del 100%. Esto significa que se consideran completamente estables y se pueden contar en su totalidad para el cálculo del financiamiento estable disponible en relación con el financiamiento estable requerido. Sin embargo, es importante tener en cuenta que la regulación puede variar según la jurisdicción y las normativas específicas de cada país.",Los pasivos con plazo residual igual o mayor a un año (tienen un factor del 100%).,1,1.117
+Q31,¿Cómo deben tratarse las amortizaciones parciales de capital en el cálculo del plazo para el CFEN?,"En el contexto de la regulación financiera bancaria, específicamente en relación con el cálculo del Capital de Fondo Efectivo Neto (CFEN), las amortizaciones parciales de capital deben ser tratadas de manera que reflejen adecuadamente la reducción del capital disponible. 
+
+Cuando se realizan amortizaciones parciales de capital, estas reducen el monto total del capital que se considera para el cálculo del CFEN. Por lo general, el plazo para el CFEN se ajusta en función de la nueva estructura de capital tras la amortización. Esto implica que, al calcular el CFEN, se debe considerar el capital neto restante después de las amortizaciones, así como el impacto que estas tienen en la capacidad de la entidad para cumplir con sus obligaciones financieras.
+
+Es importante también tener en cuenta las normativas específicas que puedan aplicar en cada jurisdicción, ya que pueden existir requisitos adicionales sobre cómo contabilizar y reportar estas amortizaciones en el contexto del CFEN. En resumen, las amortizaciones parciales de capital deben ser reflejadas en el cálculo del CFEN ajustando el capital disponible y considerando su efecto en el plazo de cumplimiento de las obligaciones.","Tratándose de los créditos respecto de los cuales se hayan pactado amortizaciones parciales de capital, se deberán considerar las amortizaciones parciales del principal en el plazo en que deban realizarse dichas amortizaciones.",0,2.2522
+Q32,¿Qué factor de financiamiento estable requerido aplica a la cartera hipotecaria de vivienda con ponderación de riesgo menor o igual al 35%?,"El factor de financiamiento estable requerido que aplica a la cartera hipotecaria de vivienda con una ponderación de riesgo menor o igual al 35% es del 0%. Esto significa que los bancos no necesitan mantener un capital adicional para esta categoría de activos, dado que se considera que tienen un riesgo relativamente bajo. Sin embargo, es importante tener en cuenta que las regulaciones pueden variar según la jurisdicción y el marco regulatorio específico aplicable.","Activos con ponderación del 65%: Cartera hipotecaria de vivienda con riesgo de crédito etapa 1 y etapa 2... elegible para un tratamiento de ponderación por riesgo crédito igual o menor al 35%, con plazo remanente mayor a un año.",0,1.183
+Q33,"¿Cuál es el factor de financiamiento estable requerido para la caja, los billetes y las monedas?","El factor de financiamiento estable requerido para la caja, los billetes y las monedas se refiere a la proporción de financiamiento que las entidades bancarias deben mantener en relación con sus activos líquidos, como el efectivo y los depósitos en caja. En el contexto de la regulación financiera, este factor se establece para asegurar que los bancos mantengan un nivel adecuado de liquidez y estabilidad financiera.
+
+En términos generales, el factor de financiamiento estable (Stable Funding Ratio, SFR) se utiliza para evaluar la capacidad de una institución financiera para financiar sus activos a largo plazo con fuentes de financiamiento estables. Sin embargo, para la caja, los billetes y las monedas específicamente, no hay un porcentaje fijo universalmente aplicable, ya que puede variar según la regulación de cada país y las políticas del banco central correspondiente.
+
+Es importante consultar la normativa específica del país o la región en cuestión para obtener el factor exacto que se aplica a estos activos.","Activos con ponderación del 0%: Caja, billetes y monedas.",0,3.1208
+Q34,¿Qué debe contener el informe detallado que presentan las Instituciones si se ubican en un escenario distinto al I en 3 ocasiones en 12 meses?,"El informe detallado que deben presentar las instituciones financieras si se ubican en un escenario distinto al I en tres ocasiones dentro de un período de 12 meses debe contener, al menos, los siguientes elementos:
+
+1. **Descripción del Escenario**: Un análisis claro de las condiciones que llevaron a la institución a ubicarse en un escenario distinto al I, incluyendo factores internos y externos que influyeron en esta situación.
+
+2. **Análisis de Riesgos**: Evaluación de los riesgos asociados con el cambio de escenario, incluyendo riesgos de crédito, de mercado, de liquidez y operativos. Debe incluir una valoración del impacto potencial en la estabilidad financiera de la institución.
+
+3. **Medidas Correctivas**: Un plan de acción que detalle las medidas que la institución está implementando o planea implementar para volver a un escenario I. Esto puede incluir ajustes en la gestión de riesgos, cambios en la estrategia de negocio o en la estructura de capital.
+
+4. **Proyecciones Financieras**: Proyecciones sobre el desempeño financiero futuro de la institución, considerando el nuevo escenario y las medidas correctivas propuestas.
+
+5. **Cumplimiento Regulatorio**: Información sobre cómo la institución está cumpliendo con los requisitos regulatorios aplicables en el nuevo escenario, así como cualquier acción que se esté tomando para asegurar el cumplimiento continuo.
+
+6. **Cronograma de Implementación**: Un cronograma que indique los plazos para la implementación de las medidas correctivas y la evaluación de su efectividad.
+
+7. **Monitoreo y Reporte**: Un plan para el monitoreo continuo de la situación financiera de la institución y la presentación de informes regulares a las autoridades regulatorias sobre el progreso en la implementación de las medidas correctivas.
+
+Este informe debe ser claro, conciso y respaldado por datos cuantitativos y cualitativos que permitan a las autoridades regulatorias evaluar la situación de la institución y su capacidad para manejar los riesgos asociados con el cambio de escenario.","Una explicación con las causas que ocasionaron que las medidas que se hubieran adoptado... no hayan resultado efectivas para impedir la variabilidad de su Coeficiente de Financiamiento Estable Neto, así como de las medidas de gestión de riesgos que implementará para reducir dicha variabilidad.",0,3.7902
+Q35,"¿A qué se refiere el término ""Coeficientes"" en la regulación?","En el contexto de la regulación financiera bancaria, el término ""coeficientes"" se refiere a las relaciones numéricas que los bancos deben cumplir para asegurar su solidez financiera y estabilidad. Estos coeficientes son utilizados para medir diferentes aspectos de la salud financiera de una institución bancaria y pueden incluir:
+
+1. **Coeficiente de Capital**: Este coeficiente mide la cantidad de capital que un banco tiene en relación con sus activos ponderados por riesgo. Es fundamental para evaluar la capacidad del banco para absorber pérdidas. Un ejemplo es el Coeficiente de Capital de Nivel 1 (CET1), que se centra en el capital más básico.
+
+2. **Coeficiente de Liquidez**: Este coeficiente evalúa la capacidad de un banco para cumplir con sus obligaciones a corto plazo. Un ejemplo es el Coeficiente de Cobertura de Liquidez (LCR), que mide la cantidad de activos líquidos de alta calidad en relación con las salidas de efectivo esperadas.
+
+3. **Coeficiente de Apalancamiento**: Este coeficiente mide la relación entre el capital de un banco y su total de activos, sin tener en cuenta el riesgo. Es una medida de la capacidad del banco para soportar pérdidas.
+
+Estos coeficientes son parte de los requerimientos establecidos por regulaciones como Basilea III, que busca fortalecer la regulación, supervisión y gestión de riesgos en el sector bancario.","Al Coeficiente de Cobertura de Liquidez y al Coeficiente de Financiamiento Estable Neto, conjunta o separadamente.",0,3.2493
+Q36,¿Qué operaciones deben incluir las Instituciones para el cálculo individual y consolidado?,"Para el cálculo individual y consolidado de las instituciones financieras, se deben incluir diversas operaciones y elementos que reflejan la situación financiera y el riesgo de la entidad. A continuación, se detallan las principales operaciones que deben considerarse:
+
+1. **Activos**: Todos los activos que posee la institución, incluyendo:
+   - Préstamos y cuentas por cobrar.
+   - Inversiones en valores.
+   - Efectivo y equivalentes de efectivo.
+   - Activos fijos y otros activos tangibles e intangibles.
+
+2. **Pasivos**: Todas las obligaciones financieras, que incluyen:
+   - Depósitos de clientes.
+   - Deuda emitida (bonos, préstamos interbancarios).
+   - Otras cuentas por pagar y provisiones.
+
+3. **Patrimonio**: El capital propio de la institución, que incluye:
+   - Capital social.
+   - Reservas y utilidades retenidas.
+
+4. **Resultados**: Ingresos y gastos que afectan el resultado del ejercicio, incluyendo:
+   - Ingresos por intereses y comisiones.
+   - Gastos operativos y provisiones para pérdidas crediticias.
+
+5. **Operaciones con partes relacionadas**: Transacciones con entidades del mismo grupo que pueden afectar la consolidación.
+
+6. **Instrumentos financieros derivados**: Cualquier operación que involucre derivados que pueda impactar el riesgo y la exposición de la institución.
+
+7. **Riesgos**: Evaluación de riesgos crediticios, de mercado, operativos y de liquidez que deben ser considerados en el cálculo de capital regulatorio.
+
+8. **Normativas y regulaciones**: Cumplimiento con las normativas locales e internacionales (como Basilea III) que establecen requisitos de capital y liquidez.
+
+El cálculo consolidado implica sumar y ajustar las operaciones de la entidad matriz y sus subsidiarias, eliminando transacciones intercompañía para evitar la doble contabilización. Esto proporciona una visión más completa de la salud financiera del grupo en su conjunto.","Incluir todas sus operaciones para el cálculo individual, e incluir para el cálculo consolidado las operaciones tanto del cálculo individual como las operaciones realizadas por las Entidades Objeto de Consolidación.",0,4.0763
+Q37,¿Cuál es el criterio general para considerar el valor de las operaciones?,"El criterio general para considerar el valor de las operaciones en el contexto de la regulación financiera bancaria se basa en la valoración justa (fair value) de los activos y pasivos. Esto implica que las operaciones deben ser evaluadas a su precio de mercado o, en su defecto, a un valor que refleje el precio que se recibiría por vender un activo o el precio que se pagaría por transferir un pasivo en una transacción ordenada entre participantes del mercado.
+
+Además, las instituciones financieras deben seguir principios contables y normativas específicas, como las Normas Internacionales de Información Financiera (NIIF) o los Principios de Contabilidad Generalmente Aceptados (GAAP), que establecen directrices sobre cómo medir y presentar el valor de las operaciones. Esto incluye considerar factores como la liquidez, el riesgo de crédito, y la duración de los activos y pasivos.
+
+En resumen, el valor de las operaciones se determina principalmente a través de la valoración justa, siguiendo las normativas contables aplicables y considerando las condiciones del mercado.","Salvo que en las presentes disposiciones se especifique lo contrario, considerar el valor de sus operaciones conforme a los Criterios Contables.",0,2.482
+Q38,¿Cómo se calcula la equivalencia en moneda nacional de montos en dólares de EE. UU.?,"La equivalencia en moneda nacional de montos en dólares de EE. UU. se calcula utilizando el tipo de cambio vigente entre el dólar estadounidense (USD) y la moneda nacional correspondiente. El proceso es el siguiente:
+
+1. **Obtener el tipo de cambio**: Se debe conocer el tipo de cambio actual entre el dólar estadounidense y la moneda nacional. Este tipo de cambio puede variar diariamente y se puede obtener de fuentes como bancos, casas de cambio o plataformas financieras.
+
+2. **Multiplicar el monto en dólares por el tipo de cambio**: Una vez que se tiene el tipo de cambio, se multiplica el monto en dólares por este valor. La fórmula es la siguiente:
+
+   \[
+   \text{Monto en moneda nacional} = \text{Monto en USD} \times \text{Tipo de cambio}
+   \]
+
+Por ejemplo, si el tipo de cambio es 20 unidades de moneda nacional por 1 USD y se desea convertir 100 USD, el cálculo sería:
+
+\[
+\text{Monto en moneda nacional} = 100 \, \text{USD} \times 20 \, \text{(moneda nacional/USD)} = 2000 \, \text{(moneda nacional)}
+\]
+
+Es importante tener en cuenta que los tipos de cambio pueden ser diferentes para transacciones de compra y venta, y que pueden existir comisiones o tarifas adicionales que afecten el monto final recibido en moneda nacional.",Se realizará tomando en cuenta el tipo de cambio aplicable conforme a lo dispuesto en los Criterios Contables.,0,3.9735
+Q39,¿Qué debe hacer una Institución si prevea ubicarse en un escenario distinto al I?,"En el contexto de la regulación financiera bancaria, si una institución prevé ubicarse en un escenario distinto al I (que generalmente se refiere a un escenario de estabilidad o normalidad en la regulación), debe considerar varias acciones clave:
+
+1. **Evaluación de Riesgos**: Realizar un análisis exhaustivo de los riesgos asociados con el nuevo escenario, incluyendo riesgos de crédito, mercado, liquidez y operativos.
+
+2. **Revisión de Políticas y Procedimientos**: Ajustar sus políticas internas y procedimientos operativos para alinearse con las nuevas condiciones del mercado y los requisitos regulatorios.
+
+3. **Fortalecimiento de Capital**: Asegurarse de que cuenta con suficiente capital regulatorio para soportar posibles pérdidas en el nuevo escenario, lo que puede incluir la emisión de capital adicional o la retención de ganancias.
+
+4. **Plan de Contingencia**: Desarrollar y mantener un plan de contingencia que contemple diferentes escenarios adversos, asegurando que la institución esté preparada para responder de manera efectiva.
+
+5. **Cumplimiento Normativo**: Mantenerse al tanto de los cambios en la regulación que puedan surgir en el nuevo escenario y asegurarse de que se cumplen todos los requisitos regulatorios aplicables.
+
+6. **Comunicación con Reguladores**: Establecer un canal de comunicación proactivo con las autoridades regulatorias para informar sobre la situación de la institución y recibir orientación.
+
+7. **Formación y Capacitación**: Capacitar al personal sobre los nuevos riesgos y procedimientos para garantizar que todos estén preparados para operar en el nuevo entorno.
+
+8. **Monitoreo Continuo**: Implementar un sistema de monitoreo continuo para evaluar el impacto del nuevo escenario en la institución y ajustar las estrategias según sea necesario.
+
+Estas acciones ayudarán a la institución a adaptarse y gestionar los desafíos que puedan surgir al operar en un entorno diferente al inicialmente previsto.","Deberá reportar al Banco de México y a la Comisión el cálculo del Coeficiente que corresponda, al Día Hábil siguiente a aquel en que se presente alguna de estas situaciones.",0,5.9853
+Q40,¿En cuánto tiempo el Banco de México verificará los cálculos reportados?,"El Banco de México, al igual que otras autoridades regulatorias, tiene plazos específicos para la verificación de los cálculos reportados por las instituciones financieras. Sin embargo, el tiempo exacto puede variar dependiendo del tipo de reporte y de la complejidad de la información presentada. Generalmente, el proceso de revisión puede tomar desde unas pocas semanas hasta varios meses. Para obtener información precisa y actualizada, se recomienda consultar directamente las normativas y guías emitidas por el Banco de México.",Dentro de los cinco Días Hábiles posteriores a la recepción de la información correspondiente.,0,1.4751
+Q41,¿Cuál será el cálculo válido para todos los efectos legales?,"El cálculo válido para todos los efectos legales en el contexto de la regulación financiera bancaria puede referirse a varios aspectos, dependiendo del marco regulatorio específico y del tipo de cálculo en cuestión. Sin embargo, uno de los cálculos más relevantes en la regulación bancaria es el cálculo del capital regulatorio, que se utiliza para determinar si un banco cumple con los requisitos de capital establecidos por las autoridades regulatorias.
+
+Un cálculo comúnmente utilizado es el de la relación de capital, que se expresa como:
+
+\[ \text{Ratio de Capital} = \frac{\text{Capital Total}}{\text{Activos Ponderados por Riesgo}} \]
+
+Donde:
+- **Capital Total** incluye el capital de nivel 1 (capital básico) y el capital de nivel 2 (capital complementario).
+- **Activos Ponderados por Riesgo** son los activos del banco ajustados por el riesgo asociado a cada tipo de activo.
+
+Este cálculo es fundamental para evaluar la solvencia de un banco y su capacidad para absorber pérdidas, y es un requisito clave bajo los acuerdos de Basilea III. Es importante que los bancos realicen estos cálculos de manera precisa y conforme a las normativas aplicables para asegurar su cumplimiento legal y regulatorio.","El cálculo de los Coeficientes reportado por las Instituciones, y verificado por el Banco de México conforme a lo señalado en las presentes disposiciones, será el cálculo válido para todos los efectos legales conducentes.",0,3.3667
+Q42,¿Cuál es el objetivo de los planes de restauración de los Coeficientes?,"El objetivo de los planes de restauración de los coeficientes en el contexto de la regulación financiera bancaria es asegurar que las entidades financieras mantengan niveles adecuados de capital y liquidez para enfrentar situaciones de estrés financiero. Estos planes son requeridos cuando un banco no cumple con los requisitos mínimos de capital establecidos por las autoridades regulatorias, como los coeficientes de capital (por ejemplo, el coeficiente de capital básico o CET1) o los coeficientes de liquidez.
+
+Los planes de restauración tienen como finalidad:
+
+1. **Recuperar la Solvencia**: Permitir que la entidad restablezca su posición de capital a niveles aceptables para garantizar su solvencia y estabilidad.
+
+2. **Proteger a los Acreedores y Depositantes**: Asegurar que los intereses de los acreedores y depositantes estén protegidos, minimizando el riesgo de quiebra o insolvencia.
+
+3. **Mantener la Confianza del Mercado**: Reforzar la confianza de los inversores y del mercado en la estabilidad del banco y del sistema financiero en general.
+
+4. **Cumplir con la Regulación**: Alinear las operaciones del banco con los requisitos regulatorios establecidos por las autoridades competentes, evitando sanciones o medidas más severas.
+
+5. **Planificación Estratégica**: Facilitar una planificación a largo plazo que contemple medidas correctivas y estrategias para mejorar la gestión de riesgos y la rentabilidad.
+
+En resumen, los planes de restauración son herramientas clave para garantizar la estabilidad y la resiliencia del sistema financiero, promoviendo la salud a largo plazo de las instituciones bancarias.","Tendrán como objetivo que la Institución implemente las modificaciones a su gestión de liquidez de manera que sea capaz de mantener de manera consistente un Coeficiente de Cobertura de Liquidez, un Coeficiente de Financiamiento Estable Neto, o ambos, que la ubiquen en el escenario I correspondiente",0,3.4426
+Q43,¿Cuándo se considera que existe un incumplimiento a los requerimientos de liquidez?,"Un incumplimiento a los requerimientos de liquidez se considera que ocurre cuando una entidad bancaria no cumple con los niveles mínimos establecidos de activos líquidos que debe mantener para hacer frente a sus obligaciones financieras a corto plazo. Esto puede incluir situaciones en las que:
+
+1. **Ratio de Liquidez**: La entidad no cumple con los ratios de liquidez requeridos, como el Liquidity Coverage Ratio (LCR) o el Net Stable Funding Ratio (NSFR), que son establecidos por regulaciones como Basilea III.
+
+2. **Falta de Activos Líquidos**: La entidad no tiene suficientes activos líquidos de alta calidad que puedan ser convertidos rápidamente en efectivo para cubrir salidas de efectivo inesperadas.
+
+3. **Incumplimiento de Plazos**: La entidad no puede cumplir con sus obligaciones de pago en los plazos establecidos, lo que puede incluir el incumplimiento de pagos a depositantes o acreedores.
+
+4. **Alertas Regulatorias**: La entidad recibe advertencias o sanciones de las autoridades regulatorias debido a su situación de liquidez.
+
+En resumen, el incumplimiento se refiere a la incapacidad de la entidad para mantener los niveles de liquidez requeridos por la normativa vigente, lo que puede poner en riesgo su estabilidad financiera y la confianza de los depositantes.","Cuando las Instituciones se ubiquen en los escenarios III, IV o V en términos del Título II... en el caso del Coeficiente de Cobertura de Liquidez y cuando las Instituciones se ubiquen en los escenarios III o IV en términos del Título III... tratándose del Coeficiente de Financiamiento Estable Neto.",0,3.2066
+Q44,¿Qué información deben difundir trimestralmente las Instituciones en su página de Internet?,"Las instituciones financieras, especialmente los bancos, deben difundir trimestralmente en su página de Internet información relevante que incluye, pero no se limita a:
+
+1. **Estados Financieros**: Balance general, estado de resultados y estado de flujos de efectivo, que reflejan la situación financiera y el desempeño de la institución.
+
+2. **Indicadores de Solvencia y Liquidez**: Información sobre ratios como el capital regulatorio, el índice de liquidez y otros indicadores que muestren la capacidad de la institución para cumplir con sus obligaciones.
+
+3. **Calificaciones de Riesgo**: Resultados de las calificaciones de riesgo otorgadas por agencias calificadoras, si corresponde.
+
+4. **Información sobre Préstamos y Provisión para Pérdidas**: Detalles sobre la cartera de préstamos, incluyendo la morosidad y las provisiones para pérdidas crediticias.
+
+5. **Cumplimiento Normativo**: Información sobre el cumplimiento de las regulaciones prudenciales y cualquier sanción o medida correctiva impuesta por las autoridades regulatorias.
+
+6. **Estrategias y Políticas de Gestión de Riesgos**: Resumen de las políticas de gestión de riesgos y cómo se están implementando.
+
+7. **Transacciones Significativas**: Información sobre transacciones significativas que puedan afectar la situación financiera de la institución.
+
+8. **Cambios en la Administración**: Información sobre cambios en la alta dirección o en el consejo de administración.
+
+Es importante señalar que los requisitos específicos pueden variar según la jurisdicción y la regulación aplicable en cada país.","La información relativa tanto al Coeficiente de Cobertura de Liquidez como al Coeficiente de Financiamiento Estable Neto, en ambos casos, la relacionada al trimestre que se reporte, de conformidad con los formatos comprendidos en los Anexos 5 y 10, respectivamente.",0,3.6058
+Q45,¿Quién es el encargado de aprobar el plan de restauración de los Coeficientes?,"El encargado de aprobar el plan de restauración de los coeficientes en el contexto de la regulación financiera bancaria suele ser el regulador o supervisor bancario correspondiente en cada país. En muchos casos, esto puede incluir entidades como el Banco Central o la autoridad de supervisión financiera. Estas entidades son responsables de garantizar la estabilidad del sistema financiero y de supervisar que las instituciones bancarias cumplan con los requisitos de capital y otros estándares regulatorios.",El plan de restauración de los Coeficientes... tendrá como objetivo que la Institución implemente las modificaciones a su gestión de liquidez... y deberá ser aprobado por el consejo de administración de la Institución de que se trate.,0,1.6271
+Q46,¿Cómo se realiza el cálculo de la equivalencia en moneda nacional de montos denominados en UDIs?,"La equivalencia en moneda nacional de montos denominados en UDIs (Unidades de Inversión) se realiza multiplicando el monto en UDIs por el valor de la UDI en pesos mexicanos. 
+
+El valor de la UDI se actualiza diariamente y se puede consultar en el sitio web del Banco de México. La fórmula básica es:
+
+\[ \text{Monto en pesos} = \text{Monto en UDIs} \times \text{Valor de la UDI en pesos} \]
+
+Es importante tener en cuenta que el valor de la UDI se ajusta con base en la inflación, por lo que su valor en pesos puede variar con el tiempo. Para obtener un cálculo preciso, se debe utilizar el valor de la UDI correspondiente a la fecha en la que se desea realizar la conversión.",Se realizará tomando en cuenta el tratamiento para la valorización establecido en los Criterios Contables de las Disposiciones.,0,1.9284
+Q47,¿Cómo se deben resolver las consultas sobre la aplicación de estas disposiciones?,"Las consultas sobre la aplicación de disposiciones en regulación financiera bancaria deben resolverse a través de los siguientes pasos:
+
+1. **Revisión de la Normativa**: Es fundamental revisar la normativa aplicable, incluyendo leyes, regulaciones y directrices emitidas por las autoridades competentes, como bancos centrales o entidades reguladoras.
+
+2. **Interpretación Legal**: Se debe realizar una interpretación adecuada de las disposiciones, considerando el contexto y los objetivos de la regulación. Esto puede incluir la consulta de documentos interpretativos o guías emitidas por las autoridades.
+
+3. **Consulta a Expertos**: En caso de dudas, es recomendable consultar a expertos en regulación financiera, como abogados especializados o consultores en cumplimiento normativo.
+
+4. **Contacto con la Autoridad Reguladora**: Si la consulta persiste, se puede contactar directamente a la autoridad reguladora correspondiente para obtener aclaraciones o interpretaciones oficiales sobre la aplicación de las disposiciones.
+
+5. **Documentación de la Consulta**: Es importante documentar el proceso de consulta y las respuestas obtenidas, para asegurar la trazabilidad y el cumplimiento normativo.
+
+6. **Implementación de Recomendaciones**: Finalmente, se deben implementar las recomendaciones o aclaraciones recibidas, asegurando que se cumpla con la normativa vigente.
+
+Este enfoque garantiza que las consultas se manejen de manera adecuada y conforme a las mejores prácticas en el ámbito de la regulación financiera bancaria.","Serán resueltas por la Comisión o el Banco de México. La autoridad que reciba la consulta, deberá obtener la previa opinión favorable de la otra, a fin de resolver lo conducente.",0,4.2985
+Q48,¿Cuál es el objetivo principal del Principio 8 establecido por el Comité de Basilea?,"El objetivo principal del Principio 8 establecido por el Comité de Basilea es asegurar que las instituciones financieras mantengan un marco de gestión de riesgos efectivo y que se lleve a cabo una supervisión adecuada de la gestión de riesgos. Este principio enfatiza la importancia de que los bancos tengan políticas y procedimientos sólidos para identificar, medir, monitorear y controlar los riesgos a los que están expuestos, así como la necesidad de que la alta dirección y el consejo de administración estén involucrados en la gestión de riesgos. En resumen, busca promover una cultura de gestión de riesgos que contribuya a la estabilidad financiera y a la solidez de las instituciones bancarias.","Un banco debe gestionar activamente sus posiciones y riesgos de liquidez intradía para cumplir oportunamente sus obligaciones de pago y liquidación, tanto en condiciones normales como de tensión, y contribuir así al buen funcionamiento de los sistemas de pago y liquidación.",0,2.194
+Q49,¿Cuáles son las herramientas de monitoreo que deben aplicar todos los bancos informantes (Categoría A)?,"Los bancos informantes de Categoría A, que son aquellos que tienen un mayor impacto en el sistema financiero y están sujetos a regulaciones más estrictas, deben aplicar diversas herramientas de monitoreo para asegurar el cumplimiento de las normativas y la gestión adecuada de riesgos. Algunas de estas herramientas incluyen:
+
+1. **Análisis de Riesgo de Crédito**: Evaluar la calidad de la cartera de préstamos y la capacidad de los prestatarios para cumplir con sus obligaciones.
+
+2. **Monitoreo de Liquidez**: Implementar métricas como el coeficiente de liquidez y el análisis de flujos de efectivo para asegurar que el banco pueda cumplir con sus obligaciones a corto plazo.
+
+3. **Gestión de Riesgo de Mercado**: Utilizar modelos de valoración y simulaciones para evaluar la exposición a cambios en tasas de interés, tipos de cambio y otros factores de mercado.
+
+4. **Cumplimiento Normativo**: Establecer sistemas de control interno para garantizar que se cumplan todas las regulaciones aplicables, incluyendo las relacionadas con la prevención del lavado de dinero (AML) y la financiación del terrorismo (CFT).
+
+5. **Auditorías Internas**: Realizar auditorías periódicas para evaluar la efectividad de los controles internos y la gestión de riesgos.
+
+6. **Informes Regulares**: Generar informes periódicos sobre la situación financiera, el riesgo y el cumplimiento normativo para la alta dirección y los reguladores.
+
+7. **Evaluación de Riesgo Operativo**: Identificar y evaluar los riesgos operativos que pueden afectar la continuidad del negocio y la integridad de las operaciones.
+
+8. **Monitoreo de Indicadores de Desempeño**: Establecer y seguir indicadores clave de desempeño (KPIs) que reflejen la salud financiera y operativa del banco.
+
+Estas herramientas son esenciales para que los bancos informantes de Categoría A puedan gestionar adecuadamente sus riesgos y cumplir con las expectativas regulatorias.",A(i) Uso máximo diario de liquidez intradía A(ii) Liquidez intradía disponible al inicio del día hábil A(iii) Pagos totales A(iv) Obligaciones con horario específico,0,4.4884
+Q50,¿Qué datos deben reportar los bancos respecto a sus posiciones netas acumuladas negativas?,"Los bancos deben reportar sus posiciones netas acumuladas negativas en el contexto de la regulación financiera, específicamente bajo los marcos establecidos por entidades como Basilea III y las regulaciones locales pertinentes. Los datos que generalmente deben reportar incluyen:
+
+1. **Monto Total de Posiciones Netas Acumuladas Negativas**: La cifra total que representa las pérdidas acumuladas en sus posiciones.
+
+2. **Desglose por Tipo de Activo**: Información sobre las posiciones negativas desglosadas por categorías de activos, como derivados, préstamos, inversiones, etc.
+
+3. **Duración y Plazo**: Detalles sobre la duración de las posiciones negativas y los plazos asociados a los activos subyacentes.
+
+4. **Impacto en el Capital Regulador**: Evaluación de cómo estas posiciones afectan el capital regulador del banco, incluyendo el capital de nivel 1 y el capital total.
+
+5. **Provisión para Pérdidas**: Información sobre las provisiones que el banco ha establecido para cubrir estas posiciones negativas.
+
+6. **Análisis de Sensibilidad**: Evaluaciones sobre cómo cambios en las condiciones del mercado podrían afectar estas posiciones.
+
+7. **Cumplimiento de Límites Regulatorios**: Confirmación de que las posiciones netas acumuladas negativas están dentro de los límites establecidos por las autoridades regulatorias.
+
+8. **Revelaciones en los Estados Financieros**: Información adicional que debe ser divulgada en los estados financieros, incluyendo notas explicativas sobre la naturaleza y el riesgo asociado a estas posiciones.
+
+Estos reportes son esenciales para la supervisión prudencial y para garantizar la transparencia en la gestión de riesgos de los bancos.","Los bancos deben reportar sus tres mayores posiciones netas acumuladas negativas diarias en sus cuentas de liquidación o corresponsalía durante el periodo de reporte, así como el promedio diario de la posición neta acumulada negativa durante el periodo.",0,4.7041
+Q51,¿Cuál es el propósito de la herramienta de Pagos totales?,"La herramienta de Pagos Totales, en el contexto de la regulación financiera bancaria, tiene como propósito principal proporcionar una visión clara y completa de las obligaciones de pago de una entidad financiera. Esto incluye la recopilación y el análisis de todos los pagos que una institución debe realizar, ya sea a clientes, proveedores o en cumplimiento de regulaciones. 
+
+El objetivo es asegurar la transparencia y la gestión adecuada de los flujos de efectivo, lo que permite a los reguladores y a la propia entidad evaluar la solvencia y la liquidez. Además, esta herramienta ayuda a identificar riesgos potenciales relacionados con la capacidad de la entidad para cumplir con sus obligaciones financieras, contribuyendo así a la estabilidad del sistema financiero en su conjunto.",Esta herramienta permitirá a los supervisores monitorear la escala general de la actividad de pagos de un banco.,0,1.6643
+Q52,¿Qué implicaciones tiene el incumplimiento de las obligaciones con horario específico?,"El incumplimiento de las obligaciones con horario específico en el contexto de la regulación financiera bancaria puede tener varias implicaciones significativas:
+
+1. **Sanciones Regulatorias**: Las entidades bancarias que no cumplan con las obligaciones establecidas en horarios específicos pueden enfrentar sanciones por parte de los reguladores financieros. Estas sanciones pueden incluir multas, restricciones operativas o incluso la revocación de licencias.
+
+2. **Impacto en la Liquidez**: El incumplimiento puede afectar la gestión de la liquidez del banco, ya que las obligaciones no cumplidas pueden generar desconfianza entre los inversores y depositantes, lo que podría llevar a retiros masivos de fondos.
+
+3. **Reputación**: La reputación del banco puede verse dañada, lo que puede afectar su capacidad para atraer nuevos clientes y mantener la confianza de los existentes. La percepción de ineficiencia o falta de cumplimiento puede ser perjudicial en un sector donde la confianza es fundamental.
+
+4. **Consecuencias Contractuales**: El incumplimiento de obligaciones específicas puede dar lugar a acciones legales por parte de contrapartes o clientes, lo que podría resultar en litigios costosos y en la obligación de indemnizar daños.
+
+5. **Efectos en la Solvencia**: Si el incumplimiento lleva a pérdidas financieras significativas, esto puede afectar la solvencia del banco, lo que a su vez puede desencadenar una supervisión más estricta por parte de los reguladores.
+
+6. **Revisión de Políticas Internas**: Las entidades pueden verse obligadas a revisar y ajustar sus políticas y procedimientos internos para evitar futuros incumplimientos, lo que puede implicar costos adicionales y cambios operativos.
+
+En resumen, el incumplimiento de obligaciones con horario específico puede tener repercusiones financieras, legales y reputacionales significativas para las instituciones bancarias, lo que subraya la importancia de la adherencia a las regulaciones y plazos establecidos.","La falta de liquidación oportuna de estas obligaciones podría generar una penalización financiera, daño reputacional para el banco o pérdida de negocio futuro.",0,5.9064
+Q53,¿Cuáles son las herramientas específicas para bancos que prestan servicios de corresponsalía bancaria?,"Las herramientas específicas para bancos que prestan servicios de corresponsalía bancaria incluyen:
+
+1. **Cuentas de corresponsalía**: Son cuentas que un banco mantiene en otro banco para facilitar transacciones y liquidaciones en diferentes monedas.
+
+2. **Plataformas de pago y liquidación**: Sistemas que permiten la transferencia de fondos entre bancos corresponsales, como SWIFT, que facilita la comunicación y el envío de instrucciones de pago.
+
+3. **Acuerdos de compensación**: Acuerdos que permiten a los bancos compensar transacciones entre ellos, reduciendo la necesidad de liquidar cada transacción individualmente.
+
+4. **Servicios de cambio de divisas**: Herramientas que permiten a los bancos ofrecer servicios de conversión de moneda para facilitar transacciones internacionales.
+
+5. **Gestión de riesgos**: Herramientas y políticas para evaluar y mitigar riesgos asociados con la corresponsalía, como el riesgo de crédito y el riesgo de cumplimiento normativo.
+
+6. **Cumplimiento normativo y debida diligencia**: Sistemas y procesos para asegurar que las transacciones cumplan con las regulaciones locales e internacionales, incluyendo la prevención de lavado de dinero (AML) y la financiación del terrorismo (CFT).
+
+7. **Tecnología de la información y sistemas de gestión**: Software y plataformas que permiten la gestión eficiente de las operaciones de corresponsalía, incluyendo la trazabilidad de transacciones y la gestión de datos.
+
+Estas herramientas son esenciales para que los bancos puedan operar de manera efectiva en el ámbito de la corresponsalía bancaria, facilitando el comercio internacional y las transferencias de fondos entre diferentes jurisdicciones.",B(i) Valor de los pagos realizados en nombre de clientes de corresponsalía bancaria B(ii) Líneas de crédito intradía otorgadas a clientes,0,3.3636
+Q54,¿Qué detalles deben incluir los bancos corresponsales al reportar las líneas de crédito intradía otorgadas?,"Al reportar las líneas de crédito intradía otorgadas, los bancos corresponsales deben incluir varios detalles clave para asegurar la transparencia y el cumplimiento regulatorio. Estos detalles generalmente incluyen:
+
+1. **Identificación de las partes**: Nombres y detalles de contacto de los bancos corresponsales y de las instituciones que reciben el crédito.
+
+2. **Monto de la línea de crédito**: El importe total de la línea de crédito intradía otorgada.
+
+3. **Condiciones del crédito**: Términos y condiciones bajo los cuales se otorga la línea de crédito, incluyendo tasas de interés aplicables y cualquier cargo adicional.
+
+4. **Duración**: El período durante el cual la línea de crédito está disponible, especificando si es renovable o si tiene un vencimiento específico.
+
+5. **Propósito del crédito**: Descripción del uso previsto de la línea de crédito, como la gestión de liquidez o la facilitación de transacciones específicas.
+
+6. **Colateral**: Información sobre cualquier garantía o colateral que se requiera para asegurar la línea de crédito.
+
+7. **Cumplimiento normativo**: Confirmación de que la línea de crédito cumple con las regulaciones locales e internacionales aplicables, incluyendo las normas de prevención de lavado de dinero (AML) y financiamiento del terrorismo (CFT).
+
+8. **Historial de uso**: Datos sobre el uso previo de la línea de crédito, si corresponde, incluyendo montos utilizados y pagos realizados.
+
+9. **Riesgos asociados**: Evaluación de los riesgos asociados con la línea de crédito, incluyendo el riesgo de contraparte.
+
+10. **Informes periódicos**: Detalles sobre la frecuencia y el formato de los informes que se proporcionarán a las autoridades regulatorias.
+
+Estos elementos son esenciales para garantizar que las operaciones de crédito intradía se realicen de manera segura y conforme a las normativas vigentes.","Los bancos corresponsales deben reportar las tres mayores líneas de crédito intradía otorgadas a sus clientes en el periodo de reporte, indicando si dichas líneas son garantizadas o comprometidas y el uso de esas líneas en su punto máximo.",0,4.0355
+Q55,¿Qué herramienta es exclusiva para los bancos que son participantes directos?,"La herramienta que es exclusiva para los bancos que son participantes directos es el acceso a la ventana de descuento o ""discount window"" de la Reserva Federal (en el caso de Estados Unidos). Esta herramienta permite a los bancos obtener préstamos a corto plazo para satisfacer sus necesidades de liquidez, utilizando sus activos como colateral. Solo los bancos que son miembros del sistema de la Reserva Federal y que tienen acceso directo a esta ventana pueden utilizarla, lo que les proporciona una fuente de financiamiento en situaciones de necesidad.",C(i) Ritmo de liquidación intradía,0,1.1868
+Q56,¿Qué permite evaluar el ritmo de liquidación intradía?,"El ritmo de liquidación intradía se puede evaluar a través de varios indicadores y métricas que analizan la eficiencia y la velocidad con la que se procesan las transacciones financieras durante el día. Algunos de los aspectos clave que permiten esta evaluación incluyen:
+
+1. **Volumen de transacciones**: La cantidad total de transacciones procesadas en un día puede indicar la capacidad del sistema para manejar operaciones en tiempo real.
+
+2. **Tiempo de liquidación**: Se mide el tiempo promedio que tarda una transacción en ser liquidada desde su inicio hasta su finalización. Un tiempo de liquidación más corto sugiere un ritmo más eficiente.
+
+3. **Tasa de éxito de liquidación**: Este indicador muestra el porcentaje de transacciones que se liquidan con éxito en comparación con el total de transacciones iniciadas. Una alta tasa de éxito es un signo de un sistema robusto.
+
+4. **Capacidad del sistema**: La infraestructura tecnológica y los sistemas de compensación y liquidación utilizados por las instituciones financieras también juegan un papel crucial en la evaluación del ritmo de liquidación intradía.
+
+5. **Regulaciones y estándares**: Las normativas impuestas por entidades reguladoras pueden establecer requisitos sobre los tiempos de liquidación y la eficiencia operativa, lo que también influye en la evaluación del ritmo de liquidación.
+
+6. **Análisis de cuellos de botella**: Identificar y analizar los puntos en el proceso de liquidación donde se producen retrasos puede ayudar a mejorar el ritmo de liquidación.
+
+Estos elementos, entre otros, permiten a las instituciones financieras y a los reguladores evaluar y mejorar el ritmo de liquidación intradía, asegurando así la estabilidad y eficiencia del sistema financiero.",Esta herramienta permitirá a los supervisores monitorear el ritmo de liquidación de la actividad diaria de pagos de un participante directo a través de su cuenta de liquidación.,0,3.1708
+Q57,¿Cuáles son los escenarios de tensión que deben considerar los bancos?,"Los bancos deben considerar varios escenarios de tensión que pueden afectar su estabilidad y operación. Algunos de los más relevantes son:
+
+1. **Crisis de liquidez**: Situaciones en las que un banco no puede cumplir con sus obligaciones de pago a corto plazo debido a la falta de fondos disponibles.
+
+2. **Crisis de solvencia**: Ocurre cuando un banco tiene más pasivos que activos, lo que pone en riesgo su capacidad para continuar operando.
+
+3. **Riesgo de crédito**: Aumento en la morosidad de los préstamos, lo que puede llevar a pérdidas significativas y afectar la rentabilidad del banco.
+
+4. **Riesgo de mercado**: Fluctuaciones adversas en los precios de los activos, tasas de interés o tipos de cambio que pueden impactar negativamente en el valor de la cartera del banco.
+
+5. **Crisis de confianza**: Pérdida de confianza por parte de los depositantes o inversores, que puede llevar a retiros masivos de depósitos (bank run).
+
+6. **Riesgos operativos**: Fallos en los sistemas internos, fraudes, o eventos externos que pueden interrumpir las operaciones del banco.
+
+7. **Riesgo regulatorio**: Cambios en la normativa que pueden afectar la operación del banco, incluyendo requisitos de capital y liquidez.
+
+8. **Crisis macroeconómica**: Recesiones o desaceleraciones económicas que pueden impactar la calidad de los activos y la demanda de crédito.
+
+9. **Riesgo cibernético**: Amenazas relacionadas con la seguridad de la información y la infraestructura tecnológica del banco.
+
+10. **Riesgo reputacional**: Daño a la imagen del banco que puede resultar de escándalos, malas prácticas o incidentes negativos en la atención al cliente.
+
+Los bancos deben implementar estrategias de gestión de riesgos y planes de contingencia para mitigar el impacto de estos escenarios de tensión.","(i) Tensión financiera propia: el banco sufre, o se percibe que sufre, un evento de tensión (ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos (iii) Tensión de un banco cliente: un banco cliente de un banco corresponsal sufre un evento de tensión (iv) Tensión crediticia o de liquidez a nivel de mercado",0,4.4341
+Q58,¿Qué efecto puede tener una tensión financiera propia en un participante directo?,"Una tensión financiera propia en un participante directo, como un banco o una institución financiera, puede tener varios efectos significativos:
+
+1. **Reducción de la Liquidez**: La tensión financiera puede llevar a una disminución en la disponibilidad de liquidez, lo que dificulta la capacidad del participante para cumplir con sus obligaciones a corto plazo.
+
+2. **Aumento del Riesgo de Crédito**: Si un participante enfrenta tensiones financieras, puede volverse más reacio a otorgar créditos, lo que puede afectar la disponibilidad de financiamiento para otros actores en el mercado.
+
+3. **Impacto en la Confianza del Mercado**: La percepción de problemas financieros puede erosionar la confianza de los inversores y depositantes, lo que podría resultar en retiros masivos de fondos o en una caída en el precio de las acciones de la institución.
+
+4. **Restricciones Regulatorias**: Las tensiones financieras pueden llevar a una mayor supervisión y regulación por parte de las autoridades, lo que podría limitar la capacidad del participante para operar de manera flexible.
+
+5. **Efecto en la Rentabilidad**: La tensión financiera puede resultar en mayores costos de financiamiento y en la necesidad de provisiones para pérdidas, lo que impacta negativamente en la rentabilidad del participante.
+
+6. **Contagio Financiero**: Si el participante es significativo en el sistema financiero, sus problemas pueden tener efectos en cadena, afectando a otras instituciones y al sistema en su conjunto.
+
+En resumen, una tensión financiera propia puede comprometer la estabilidad operativa y financiera de un participante directo, con repercusiones que pueden extenderse a todo el sistema financiero.","la tensión financiera y/u operativa propia puede provocar que las contrapartes difieran pagos y/o retiren líneas de crédito intradía. Esto, a su vez, puede ocasionar que el banco tenga que financiar una mayor parte de sus pagos con sus propias fuentes de liquidez intradía para evitar diferir sus propios pagos.",0,4.1586
+Q59,¿A qué nivel de la estructura organizacional deben aplicarse típicamente estas herramientas?,"Las herramientas de regulación financiera bancaria deben aplicarse típicamente a nivel de la alta dirección y la junta directiva de la institución. Esto se debe a que la alta dirección es responsable de establecer políticas y estrategias que aseguren el cumplimiento normativo y la gestión de riesgos. Además, la implementación de estas herramientas también debe extenderse a los niveles operativos y de cumplimiento, donde se llevan a cabo las actividades diarias y se monitorea el cumplimiento de las regulaciones. Sin embargo, la responsabilidad última recae en la alta dirección, que debe garantizar que la cultura de cumplimiento y la gestión de riesgos se integren en toda la organización.",se espera que las herramientas de monitoreo se apliquen típicamente al nivel de entidad jurídica individual significativa.,0,1.5472
+Q60,"En grupos bancarios transfronterizos, ¿cuál es la responsabilidad del supervisor de acogida respecto a una sucursal?","En grupos bancarios transfronterizos, la responsabilidad del supervisor de acogida respecto a una sucursal implica supervisar y regular las actividades de la sucursal en su jurisdicción. Esto incluye asegurarse de que la sucursal cumpla con las normativas locales en materia de solvencia, liquidez, protección al consumidor y prevención del lavado de dinero, entre otros aspectos. 
+
+El supervisor de acogida también debe coordinarse con el supervisor del país de origen del grupo bancario para garantizar una supervisión efectiva y coherente, especialmente en lo que respecta a la gestión de riesgos y la estabilidad financiera. Sin embargo, la responsabilidad última sobre la solvencia y la gestión del grupo bancario recae en el supervisor del país de origen.","El supervisor de acogida debe tener la opción de requerir que las sucursales extranjeras en su jurisdicción le reporten herramientas de liquidez intradía, sujeto a materialidad.",0,2.262
+Q61,¿Cuál es la fecha de implementación y la frecuencia inicial de reporte?,"La fecha de implementación y la frecuencia inicial de reporte pueden variar dependiendo de la regulación específica a la que te refieras. Por ejemplo, en el contexto de Basilea III, que es un marco regulatorio internacional para la regulación bancaria, la implementación comenzó en 2013, con un período de transición que se extendió hasta 2019. En cuanto a la frecuencia de reporte, las entidades bancarias suelen reportar de manera trimestral y anualmente, dependiendo de los requisitos específicos de cada jurisdicción y de la naturaleza de los informes requeridos.
+
+Si te refieres a una regulación específica, por favor proporciona más detalles para ofrecerte una respuesta más precisa.","El reporte de las herramientas de monitoreo comenzará con periodicidad mensual a partir del 1 de enero de 2015, para coincidir con la implementación de los requerimientos de reporte del LCR.",0,1.5476
+Q62,¿Quién es el responsable final de la presentación de los datos ante el supervisor?,"El responsable final de la presentación de los datos ante el supervisor en el ámbito de la regulación financiera bancaria es generalmente el consejo de administración de la entidad bancaria. Este consejo es el encargado de garantizar que la información presentada sea precisa, completa y cumpla con las normativas aplicables. Sin embargo, en la práctica, la responsabilidad puede delegarse a la alta dirección o a un departamento específico, como el de cumplimiento normativo o el de informes financieros, pero la responsabilidad última recae en el consejo de administración.",la administración del banco será responsable de recopilar y presentar a su supervisor bancario los datos de monitoreo correspondientes a las herramientas.,0,1.8411
+Q63,¿Qué elementos se consideran fuentes propias de liquidez intradía?,"Las fuentes propias de liquidez intradía en el contexto de la regulación financiera bancaria se refieren a los recursos que una entidad financiera puede utilizar para satisfacer sus necesidades de liquidez durante el día de operaciones. Algunos de los elementos que se consideran como fuentes propias de liquidez intradía incluyen:
+
+1. **Reservas en el banco central**: Los saldos que una entidad mantiene en su cuenta en el banco central son una fuente clave de liquidez, ya que pueden ser utilizados para cumplir con obligaciones inmediatas.
+
+2. **Activos líquidos**: Estos son activos que pueden ser rápidamente convertidos en efectivo sin una pérdida significativa de valor. Ejemplos incluyen bonos del gobierno y otros instrumentos de deuda de alta calidad.
+
+3. **Líneas de crédito**: Las líneas de crédito disponibles con otras instituciones financieras pueden ser consideradas como una fuente de liquidez, ya que permiten acceder a fondos adicionales cuando sea necesario.
+
+4. **Depósitos a la vista**: Los depósitos de los clientes que pueden ser retirados en cualquier momento también constituyen una fuente de liquidez, ya que representan fondos que la entidad puede utilizar para hacer frente a sus obligaciones.
+
+5. **Instrumentos de mercado monetario**: Ciertos instrumentos financieros que tienen vencimientos a corto plazo y son fácilmente negociables pueden ser utilizados para obtener liquidez rápidamente.
+
+Estos elementos son fundamentales para que las entidades financieras gestionen adecuadamente su liquidez y cumplan con los requisitos regulatorios establecidos por las autoridades competentes.","Saldos de reserva en el banco central; Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía; Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía; Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía; Saldos con otros bancos que puedan utilizarse para liquidación intradía.",0,3.1322
+Q64,¿Qué indica una combinación de baja liquidez inicial y alta proporción de obligaciones con horario específico?,"Una combinación de baja liquidez inicial y alta proporción de obligaciones con horario específico indica que una entidad financiera podría enfrentar dificultades para cumplir con sus obligaciones a corto plazo. La baja liquidez inicial sugiere que la entidad tiene pocos activos líquidos disponibles para hacer frente a sus pasivos inmediatos. Por otro lado, una alta proporción de obligaciones con horario específico implica que la entidad tiene compromisos de pago que deben cumplirse en momentos determinados, lo que puede generar presión sobre su flujo de caja.
+
+En conjunto, esta situación puede aumentar el riesgo de insolvencia o de problemas de liquidez, ya que la entidad podría no tener suficientes recursos disponibles en el momento en que se vencen sus obligaciones. Esto podría llevar a la necesidad de buscar financiamiento adicional, vender activos o reestructurar deudas, lo que podría afectar su estabilidad financiera y su reputación en el mercado.","Si una alta proporción de la actividad de pagos de un banco es crítica en términos de tiempo, el banco tiene menor flexibilidad para enfrentar choques inesperados mediante la gestión de sus flujos de pagos, especialmente cuando su monto de liquidez intradía disponible al inicio del día hábil suele ser bajo.",0,1.9178
+Q65,¿Para consumo no revolvente cómo se define el pago realizado?,"En el contexto de la regulación financiera bancaria, un consumo no revolvente se refiere a un tipo de crédito o préstamo en el que el monto utilizado no se puede volver a utilizar una vez que se ha pagado. En este caso, el pago realizado se define como la cantidad que el prestatario abona para amortizar el capital del préstamo y, en su caso, los intereses generados hasta ese momento.
+
+El pago puede incluir:
+
+1. **Amortización del capital**: Es la parte del pago que reduce el saldo principal del préstamo.
+2. **Intereses**: Es la compensación que el prestamista recibe por el uso del dinero prestado, calculada sobre el saldo pendiente.
+
+En un préstamo no revolvente, una vez que se realiza el pago, el saldo del préstamo disminuye y no se puede volver a utilizar el monto pagado, a diferencia de un crédito revolvente donde el prestatario puede volver a utilizar el crédito disponible tras realizar un pago.",Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación,0,2.4802
+Q66,¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?,"La Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2 se puede calcular utilizando modelos estadísticos y de riesgo crediticio, como el modelo de puntuación de crédito o modelos de regresión logística. Sin embargo, no hay una fórmula única y universal, ya que la PI depende de diversos factores, como el historial crediticio del prestatario, su capacidad de pago, condiciones económicas, entre otros.
+
+En términos generales, la PI se puede estimar a partir de la siguiente relación:
+
+\[ \text{PI} = \frac{\text{Número de incumplimientos}}{\text{Número total de créditos}} \]
+
+Para un enfoque más sofisticado, se pueden utilizar modelos de scoring que integran variables explicativas y se ajustan a los datos históricos para predecir la probabilidad de incumplimiento. Estos modelos pueden incluir variables como ingresos, deudas, antigüedad laboral, entre otros.
+
+En el contexto de la regulación financiera, especialmente bajo normativas como Basilea III, la PI también puede ser parte de un enfoque más amplio que incluye la evaluación de la exposición al riesgo y la pérdida esperada.",PI_i^N = \frac{1}{1 + e^{-Z_i^N}},0,3.819
+Q67,¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?,"Un crédito de nómina puede clasificarse directamente en la Etapa 3 de riesgo, que indica un deterioro significativo en la calidad crediticia, bajo las siguientes condiciones:
+
+1. **Incumplimiento en el pago**: Si el deudor no realiza el pago de la obligación crediticia durante un período específico, generalmente 90 días o más, se considera que el crédito ha entrado en un estado de incumplimiento.
+
+2. **Indicadores de insolvencia**: Si hay evidencia de que el deudor enfrenta dificultades financieras significativas, como la pérdida de empleo o una reducción sustancial en sus ingresos, esto puede llevar a la clasificación del crédito en la Etapa 3.
+
+3. **Reestructuración del crédito**: Si el crédito ha sido reestructurado debido a la incapacidad del deudor para cumplir con los términos originales, esto puede ser un indicativo de que el riesgo ha aumentado y, por lo tanto, puede clasificarse en la Etapa 3.
+
+4. **Evaluación de la capacidad de pago**: Si, tras una evaluación, se determina que el deudor no tiene la capacidad de cumplir con sus obligaciones futuras, el crédito puede ser clasificado en la Etapa 3.
+
+Es importante que las instituciones financieras sigan las normativas y directrices establecidas por los organismos reguladores para la clasificación de activos y la gestión del riesgo crediticio.",Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3,0,2.6795
+Q68,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?,"Las instituciones financieras deben clasificar los créditos en diferentes etapas de riesgo de crédito siguiendo un enfoque basado en la evaluación de la calidad crediticia de los prestatarios. Este enfoque se alinea con las normas establecidas por la normativa internacional, como las Normas de Basilea y la NIIF 9 (Norma Internacional de Información Financiera 9).
+
+### Clasificación en etapas:
+
+1. **Etapa 1**: Créditos que no presentan un aumento significativo en el riesgo de crédito desde el reconocimiento inicial. Estos créditos se consideran de bajo riesgo y, generalmente, se les aplica un cálculo de provisiones basado en pérdidas esperadas a 12 meses.
+
+2. **Etapa 2**: Créditos que han experimentado un aumento significativo en el riesgo de crédito desde el reconocimiento inicial, pero que no están en default. En esta etapa, se requiere un cálculo de provisiones basado en pérdidas esperadas durante la vida del activo.
+
+3. **Etapa 3**: Créditos que están en default o que se consideran incobrables. En esta etapa, se reconoce la pérdida total esperada y se ajustan las provisiones en consecuencia.
+
+### Criterios para la migración entre etapas:
+
+- **Evaluación del riesgo**: Las instituciones deben realizar evaluaciones periódicas del riesgo crediticio, considerando factores como el historial de pagos, cambios en la situación financiera del prestatario, condiciones económicas y sectoriales, y cualquier otro indicador relevante.
+
+- **Umbrales cuantitativos y cualitativos**: Se deben establecer umbrales específicos que determinen cuándo un crédito debe migrar de una etapa a otra. Esto puede incluir ratios financieros, cambios en la calificación crediticia, o eventos adversos que afecten la capacidad de pago del prestatario.
+
+- **Revisión continua**: La migración entre etapas debe ser un proceso dinámico, donde los créditos se revisen regularmente para reflejar cambios en el riesgo de crédito. Esto implica un monitoreo constante y la actualización de las evaluaciones de riesgo.
+
+- **Documentación y justificación**: Las instituciones deben documentar adecuadamente las decisiones de migración entre etapas, proporcionando justificaciones claras basadas en los criterios establecidos.
+
+Este enfoque permite a las instituciones financieras gestionar de manera efectiva el riesgo de crédito y cumplir con los requisitos regulatorios, asegurando la estabilidad del sistema financiero.","Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:",1,8.1141
+Q69,¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?,"Las instituciones financieras pueden adoptar varios enfoques para el cálculo de reservas preventivas, que son fundamentales para asegurar la solvencia y estabilidad del sistema bancario. Los enfoques más comunes son:
+
+1. **Enfoque Basado en Normas (Standardized Approach)**:
+   - **Descripción**: Este enfoque utiliza un conjunto de parámetros y fórmulas estandarizadas para calcular las reservas preventivas. Se basa en la clasificación de activos y en la asignación de ponderaciones de riesgo predefinidas.
+   - **Requisitos**: Las instituciones deben seguir las directrices establecidas por los reguladores, como Basilea III, que especifican las ponderaciones de riesgo para diferentes tipos de activos. Además, deben mantener un capital mínimo en relación con sus activos ponderados por riesgo.
+
+2. **Enfoque Interno (Internal Ratings-Based Approach - IRB)**:
+   - **Descripción**: Este enfoque permite a las instituciones utilizar sus propios modelos internos para calcular las reservas preventivas, basándose en la evaluación del riesgo de crédito de sus activos.
+   - **Requisitos**: Para utilizar este enfoque, las instituciones deben obtener la aprobación de los reguladores y demostrar que sus modelos son robustos y cumplen con los estándares de calidad. Deben tener en cuenta factores como la probabilidad de incumplimiento, la pérdida en caso de incumplimiento y la exposición en el momento del incumplimiento.
+
+3. **Enfoque de Provisión General (General Provisioning Approach)**:
+   - **Descripción**: Este enfoque implica la creación de reservas basadas en la evaluación general del riesgo de crédito, sin necesidad de asignar reservas específicas a activos individuales.
+   - **Requisitos**: Las instituciones deben establecer políticas claras sobre cómo se determinan las provisiones generales, basándose en análisis históricos y proyecciones de pérdidas esperadas. También deben cumplir con los requisitos contables y regulatorios aplicables.
+
+4. **Enfoque de Provisión Específica (Specific Provisioning Approach)**:
+   - **Descripción**: Este enfoque se centra en la creación de reservas para activos específicos que se consideran en riesgo de incumplimiento.
+   - **Requisitos**: Las instituciones deben realizar evaluaciones detalladas de los activos en cuestión y documentar las razones para la provisión específica. Deben seguir las normativas contables y regulatorias que rigen la contabilización de pérdidas esperadas.
+
+Cada uno de estos enfoques tiene sus propias características y requisitos regulatorios, y la elección del enfoque adecuado dependerá de la naturaleza de las operaciones de la institución, su perfil de riesgo y las regulaciones aplicables en su jurisdicción.","Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...",1,8.5334
+Q70,¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?,"La Probabilidad de Incumplimiento (PD) para créditos clasificados en etapa 3, que se refiere a activos financieros que presentan un deterioro significativo en su calidad crediticia y que están en default o en riesgo de default, se determina a través de varios enfoques y metodologías. A continuación, se describen algunos de los métodos más comunes:
+
+1. **Modelos estadísticos**: Se utilizan modelos de regresión logística o modelos de puntuación de crédito que analizan datos históricos de incumplimiento para estimar la probabilidad de que un prestatario en particular incumpla. Estos modelos pueden incluir variables como el historial de pagos, la relación deuda-ingreso, y otros factores económicos.
+
+2. **Análisis de cohortes**: Se pueden agrupar los créditos en cohortes según características similares (por ejemplo, tipo de préstamo, sector económico) y analizar las tasas de incumplimiento dentro de cada grupo a lo largo del tiempo para estimar la PD.
+
+3. **Métodos de simulación**: Se pueden utilizar simulaciones Monte Carlo para modelar diferentes escenarios económicos y su impacto en la probabilidad de incumplimiento, considerando variables macroeconómicas y microeconómicas.
+
+4. **Enfoque de calificación interna**: Las instituciones financieras pueden desarrollar sus propios sistemas de calificación interna que evalúan la calidad crediticia de los prestatarios y asignan una PD basada en la evaluación de riesgos.
+
+5. **Análisis cualitativo**: Además de los modelos cuantitativos, se puede realizar un análisis cualitativo que considere factores como cambios en la gestión del prestatario, condiciones del mercado y otros elementos que puedan afectar la capacidad de pago.
+
+6. **Revisión de políticas y procedimientos**: Las entidades deben revisar y ajustar sus políticas de gestión de riesgos y procedimientos de clasificación de activos para asegurarse de que reflejan adecuadamente el riesgo de incumplimiento.
+
+Es importante que la estimación de la PD para créditos en etapa 3 sea consistente con las normativas contables y regulatorias aplicables, como las Normas Internacionales de Información Financiera (NIIF) y las regulaciones de Basilea, que exigen un enfoque prudente y basado en evidencia para la evaluación del riesgo crediticio.","Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%",0,5.9707
+Q71,¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?,"Las instituciones financieras deben seguir varios criterios y directrices para migrar un crédito de una etapa de riesgo a otra, especialmente en el contexto de la regulación bancaria y la gestión de riesgos. Algunos de los criterios más relevantes incluyen:
+
+1. **Evaluación del Riesgo Crediticio**: Las instituciones deben realizar una evaluación exhaustiva del perfil crediticio del prestatario, considerando factores como el historial de pagos, la situación financiera actual, y la capacidad de generación de ingresos.
+
+2. **Análisis de la Información Financiera**: Se debe analizar la información financiera más reciente del prestatario, incluyendo estados financieros, flujos de caja y cualquier cambio significativo en su situación económica.
+
+3. **Criterios de Clasificación**: Las instituciones deben seguir criterios de clasificación establecidos, que pueden incluir modelos internos de scoring crediticio o directrices regulatorias que definan las características de cada etapa de riesgo.
+
+4. **Políticas Internas**: Las políticas y procedimientos internos de la institución deben guiar la migración de créditos, asegurando que se sigan las normas y criterios establecidos para la clasificación de riesgos.
+
+5. **Normativa Regulatoria**: Las instituciones deben cumplir con las normativas y regulaciones aplicables, como las establecidas por Basilea III, que requieren una gestión adecuada del riesgo crediticio y la provisión de reservas adecuadas.
+
+6. **Cambios en las Condiciones del Mercado**: Las condiciones macroeconómicas y del mercado pueden influir en la evaluación del riesgo. Un deterioro en el entorno económico puede justificar una migración a una etapa de mayor riesgo.
+
+7. **Seguimiento y Monitoreo Continuo**: Es fundamental realizar un seguimiento continuo del desempeño del crédito y del prestatario, lo que puede llevar a ajustes en la clasificación de riesgo según la evolución de su situación.
+
+8. **Documentación y Justificación**: Cualquier cambio en la clasificación de riesgo debe estar debidamente documentado y justificado, asegurando la transparencia y la trazabilidad del proceso.
+
+Estos criterios ayudan a las instituciones a gestionar adecuadamente el riesgo crediticio y a cumplir con las exigencias regulatorias, garantizando la estabilidad del sistema financiero.",Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.,0,4.0232
+Q72,¿Qué se consideraría un crédito personal?,"Un crédito personal es un tipo de préstamo que se otorga a un individuo para uso personal, que no está destinado a fines comerciales o empresariales. Este tipo de crédito se caracteriza por las siguientes características:
+
+1. **Monto**: Generalmente, los montos son menores en comparación con préstamos hipotecarios o comerciales, y pueden variar según la institución financiera y la capacidad crediticia del solicitante.
+
+2. **Plazo**: Los plazos de pago suelen ser cortos a medianos, que pueden ir desde unos pocos meses hasta varios años.
+
+3. **Intereses**: Los créditos personales suelen tener tasas de interés fijas o variables, que pueden ser más altas que las de otros tipos de préstamos, como los hipotecarios.
+
+4. **Uso**: Los fondos pueden ser utilizados para diversos fines, como consolidación de deudas, gastos médicos, educación, viajes, o cualquier otra necesidad personal.
+
+5. **Requisitos**: Para obtener un crédito personal, los solicitantes generalmente deben cumplir con ciertos requisitos de ingresos, historial crediticio y, en algunos casos, presentar garantías.
+
+6. **Desembolso**: El dinero se puede recibir como un monto único o en forma de línea de crédito, dependiendo del tipo de producto ofrecido por la entidad financiera.
+
+En resumen, un crédito personal es un préstamo destinado a satisfacer necesidades financieras individuales, con condiciones específicas que varían según la entidad prestamista.",A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina,0,3.4899
+Q73,¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?,"En la estimación de la Severidad de la Pérdida (Loss Given Default, LGD) de los créditos, las instituciones financieras pueden considerar varios tipos de garantías. Estas garantías pueden incluir:
+
+1. **Garantías reales**: Activos tangibles que respaldan el crédito, como bienes inmuebles, maquinaria, vehículos, o inventarios. La valoración de estos activos se realiza para determinar su capacidad de cubrir la deuda en caso de incumplimiento.
+
+2. **Garantías personales**: Compromisos de pago de terceros, como avales o co-firmantes, que pueden ser responsables de la deuda si el deudor principal no cumple.
+
+3. **Prendas**: Activos que se entregan como garantía de un préstamo, donde el prestamista tiene derechos sobre el activo en caso de incumplimiento.
+
+4. **Cuentas por cobrar**: Facturas o derechos de cobro que el prestatario tiene sobre sus clientes, que pueden ser utilizados como garantía.
+
+5. **Depósitos en efectivo**: Fondos que el prestatario mantiene en cuentas con la institución financiera, que pueden ser utilizados para cubrir la deuda en caso de incumplimiento.
+
+6. **Seguros**: Pólizas de seguro que pueden cubrir el riesgo de impago, aunque su consideración puede variar según la naturaleza del crédito.
+
+7. **Instrumentos financieros**: Activos financieros como bonos o acciones que pueden ser utilizados como colateral.
+
+La calidad y liquidez de estas garantías, así como su valoración en el contexto del mercado, son factores clave que las instituciones consideran al estimar la Severidad de la Pérdida.","las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito",0,3.4447
+Q74,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?,"Las instituciones financieras deben clasificar los créditos en diferentes etapas de riesgo de crédito de acuerdo con las directrices establecidas por las Normas Internacionales de Información Financiera (NIIF), específicamente la NIIF 9. Esta norma establece un enfoque de ""pérdidas esperadas"" que implica la clasificación de los activos financieros en tres etapas según el riesgo de crédito:
+
+1. **Etapa 1**: Activos financieros que no han experimentado un incremento significativo en el riesgo de crédito desde su reconocimiento inicial. En esta etapa, se reconocen las pérdidas crediticias esperadas durante los próximos 12 meses.
+
+2. **Etapa 2**: Activos financieros que han experimentado un incremento significativo en el riesgo de crédito desde su reconocimiento inicial, pero que no están considerados en default. En esta etapa, se reconocen las pérdidas crediticias esperadas durante la vida del activo.
+
+3. **Etapa 3**: Activos financieros que están en default o que se consideran incobrables. En esta etapa, se reconocen las pérdidas crediticias esperadas durante la vida del activo, y se ajusta el interés efectivo para reflejar el riesgo de crédito.
+
+Para determinar si ha habido un incremento significativo en el riesgo de crédito, las instituciones deben considerar factores cualitativos y cuantitativos, como cambios en la calificación crediticia, el comportamiento de pago del prestatario, condiciones económicas y otros indicadores relevantes. Este enfoque permite a las instituciones gestionar mejor el riesgo de crédito y proporcionar una representación más precisa de su situación financiera.","Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.",1,2.9322
+Q75,¿Qué se entiendo por saldo a pagar?,"El saldo a pagar se refiere a la cantidad de dinero que una entidad, ya sea un individuo o una empresa, debe a un acreedor en un momento determinado. En el contexto de la regulación financiera bancaria, el saldo a pagar puede incluir diversas obligaciones, como préstamos, líneas de crédito, o cualquier otra forma de deuda que requiera un pago futuro. Este saldo es importante para la gestión de la liquidez y la solvencia de la entidad, ya que representa un compromiso financiero que debe ser cumplido en un plazo específico. Además, en la contabilidad, el saldo a pagar se registra como un pasivo en el balance general, reflejando las obligaciones que la entidad tiene con terceros.",Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución,0,1.6442
+Q76,¿Cómo se determina la reservas para los créditos en etapa 2?,"Las reservas para créditos en etapa 2 se determinan siguiendo las directrices establecidas por la normativa de contabilidad financiera, como la NIIF 9 (Norma Internacional de Información Financiera 9), que se aplica a los instrumentos financieros. En este contexto, los créditos se clasifican en tres etapas según su riesgo de crédito:
+
+1. **Etapa 1**: Activos financieros que no han experimentado un aumento significativo en el riesgo de crédito desde su reconocimiento inicial. Para estos, se requiere reconocer pérdidas crediticias esperadas a 12 meses.
+
+2. **Etapa 2**: Activos financieros que han experimentado un aumento significativo en el riesgo de crédito desde su reconocimiento inicial, pero que no están en default. Para estos créditos, se deben reconocer pérdidas crediticias esperadas durante la vida del activo.
+
+3. **Etapa 3**: Activos financieros que están en default, donde se reconocen pérdidas crediticias específicas.
+
+Para determinar las reservas en etapa 2, se deben seguir estos pasos:
+
+- **Evaluación del riesgo de crédito**: Se debe realizar un análisis del riesgo de crédito de los activos, considerando factores como el historial de pagos, la situación financiera del prestatario, y condiciones económicas generales.
+
+- **Estimación de pérdidas esperadas**: Se deben calcular las pérdidas crediticias esperadas durante la vida del activo. Esto implica estimar la probabilidad de incumplimiento (PD), la pérdida en caso de incumplimiento (LGD) y la exposición en el momento del incumplimiento (EAD).
+
+- **Modelos de cálculo**: Utilizar modelos estadísticos o históricos para estimar las variables mencionadas (PD, LGD y EAD) y, a partir de ahí, calcular la reserva necesaria.
+
+- **Revisión y ajuste**: Las estimaciones deben ser revisadas y ajustadas periódicamente para reflejar cambios en las condiciones del mercado y en la calidad crediticia de los activos.
+
+En resumen, las reservas para créditos en etapa 2 se determinan mediante una evaluación del riesgo de crédito y la estimación de pérdidas esperadas a lo largo de la vida del activo, utilizando modelos adecuados y ajustando las estimaciones según sea necesario.","Reservas\ Etapa\ 2_i = \max\left(\text{Reservas\ Vida\ Completa}_i, PI_i^X \times SP_i^X \times EI_i^X\right)",0,5.9679
+Q77,¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?,"La Exposición al Incumplimiento (EAD, por sus siglas en inglés) para créditos donde el saldo es menor que el límite de crédito se calcula considerando el saldo actual del crédito y la posibilidad de que el prestatario utilice el crédito adicional disponible. 
+
+Para calcular la EAD en estos casos, las instituciones deben seguir estos pasos:
+
+1. **Saldo Actual**: Identificar el saldo actual del crédito, que es la cantidad que el prestatario ha utilizado hasta el momento.
+
+2. **Límite de Crédito**: Determinar el límite total de crédito otorgado al prestatario.
+
+3. **Utilización Potencial**: Evaluar la probabilidad de que el prestatario utilice el crédito adicional disponible. Esto puede hacerse utilizando factores como el comportamiento histórico del prestatario, la naturaleza del crédito y las condiciones del mercado.
+
+4. **Cálculo de EAD**: La EAD se puede calcular como la suma del saldo actual y una estimación de la utilización potencial del crédito. Esto se puede expresar como:
+   \[
+   \text{EAD} = \text{Saldo Actual} + (\text{Límite de Crédito} - \text{Saldo Actual}) \times \text{Tasa de Utilización Esperada}
+   \]
+   donde la Tasa de Utilización Esperada es un porcentaje que refleja la probabilidad de que el prestatario utilice el crédito adicional.
+
+Este enfoque permite a las instituciones financieras estimar de manera más precisa la exposición al incumplimiento, considerando tanto el saldo actual como el potencial de uso del crédito disponible.",EI_i = \max \left\{ \frac{S_i \times \max \left\{1.026 \cdot \left( \frac{S_i}{\text{Límite de Crédito}} \right)^{-0.5434} \cdot 100\% \right\}}{S_i + 13.79\% \cdot (\text{Límite de Crédito} - S_i)} \right\},0,3.9152
+Q78,¿Se pueden reportar tasas de interés en cero?,"Sí, es posible reportar tasas de interés en cero. Esto puede ocurrir en diversas circunstancias, como en el caso de ciertos productos financieros, préstamos o cuentas de ahorro que no generan intereses. Además, en contextos de política monetaria, los bancos centrales pueden establecer tasas de interés de referencia en cero para estimular la economía. Sin embargo, es importante tener en cuenta que, aunque la tasa de interés sea reportada como cero, pueden existir otros costos asociados, como comisiones o tarifas.","En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%",0,1.5435
+Q79,¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?,"Cuando no existe información del acreditado en las sociedades de información crediticia, se aplica el factor de riesgo conocido como ""no score"" o ""sin historial crediticio"". En este caso, las instituciones financieras suelen considerar otros factores para evaluar el riesgo del acreditado, como su capacidad de pago, ingresos, antigüedad laboral, y otros indicadores financieros o personales. La falta de información crediticia puede llevar a que la entidad financiera adopte una postura más conservadora en la concesión de créditos, ya que no cuenta con un historial que respalde la solvencia del solicitante.","Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...",0,2.0205
+Q80,¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Cobertura de Liquidez?,"El Coeficiente de Cobertura de Liquidez (LCR, por sus siglas en inglés) se calcula utilizando la siguiente fórmula:
+
+\[ \text{LCR} = \frac{\text{Activos Líquidos de Alta Calidad (HQLA)}}{\text{Salidas de Efectivo Netas (NCO)}} \]
+
+Donde:
+
+- **Activos Líquidos de Alta Calidad (HQLA)**: Son los activos que pueden ser fácilmente convertidos en efectivo con poco o ningún descuento en un mercado activo. Esto incluye efectivo, depósitos en el banco central y ciertos valores gubernamentales.
+
+- **Salidas de Efectivo Netas (NCO)**: Se refiere a las salidas de efectivo esperadas durante un período de 30 días, menos las entradas de efectivo esperadas durante el mismo período.
+
+El LCR debe ser igual o superior al 100%, lo que significa que la entidad debe tener suficientes activos líquidos para cubrir sus salidas de efectivo netas en un escenario de estrés.",$$ rac{	ext{Coeficiente de Cobertura de Liquidez}}{	ext{Activos Líquidos Computables}} = rac{	ext{Flujo Neto Total de Salida de Efectivo}} $$,0,2.3544
+Q81,¿Cómo se determina el flujo de salida contingente por operaciones con instrumentos financieros derivados?,"El flujo de salida contingente por operaciones con instrumentos financieros derivados se determina a través de varios factores clave que reflejan el riesgo asociado a estas transacciones. A continuación, se describen los pasos y consideraciones principales:
+
+1. **Valor de Mercado de los Derivados**: Se evalúa el valor de mercado actual de los instrumentos derivados. Esto incluye calcular el valor presente de los flujos de efectivo futuros esperados, considerando las condiciones del mercado y la volatilidad.
+
+2. **Contratos y Obligaciones**: Se revisan los términos de los contratos de derivados para identificar las obligaciones potenciales. Esto incluye determinar si hay pagos a realizar en caso de que se materialicen ciertos eventos, como la ejecución de opciones o la liquidación de futuros.
+
+3. **Escenarios de Riesgo**: Se realizan análisis de escenarios para evaluar cómo diferentes condiciones de mercado (cambios en tasas de interés, precios de activos subyacentes, etc.) pueden afectar el valor de los derivados y, por ende, los flujos de salida.
+
+4. **Margen de Colateral**: Se considera el colateral que se ha proporcionado o recibido en relación con las posiciones en derivados. Esto puede afectar el flujo de salida neto, ya que el colateral puede ser utilizado para cubrir posibles pérdidas.
+
+5. **Regulaciones y Normativas**: Se deben tener en cuenta las regulaciones aplicables que pueden influir en los requisitos de capital y en la forma en que se contabilizan los derivados, lo que puede afectar la evaluación de los flujos de salida contingentes.
+
+6. **Modelos de Valoración**: Se utilizan modelos de valoración de derivados, como el modelo Black-Scholes para opciones o modelos de simulación para otros tipos de derivados, para estimar el valor y el riesgo asociado.
+
+7. **Evaluación de Contrapartes**: Se analiza el riesgo de contraparte, que puede influir en la probabilidad de que se produzcan flujos de salida, especialmente si la contraparte no cumple con sus obligaciones.
+
+En resumen, el flujo de salida contingente por operaciones con instrumentos financieros derivados se determina mediante una combinación de análisis de mercado, evaluación de contratos, escenarios de riesgo y consideraciones regulatorias, todo lo cual permite estimar las obligaciones potenciales que podrían surgir de estas transacciones.","Las Instituciones deberán calcular el flujo de salida contingente por operaciones con instrumentos financieros derivados como el máximo valor absoluto de la suma de los montos referidos en los incisos a) y b) siguientes, calculando dichos incisos para cada horizonte de treinta días consecutivos durante los últimos 24 meses (Look Back Approach). Para cada horizonte de 30 días consecutivos, se deberán sumar: a) El flujo acumulado de garantías neto, que son las variaciones en el saldo de garantías recibidas menos las variaciones en el saldo de garantías entregadas, que resulte de los cambios en la valuación de las operaciones con instrumentos financieros derivados, sin incluir las variaciones de los saldos de garantías entregadas o recibidas que resulten de la constitución de márgenes iniciales o de la liquidación de operaciones, más b) La variación acumulada en la valuación de mercado del portafolio de operaciones con instrumentos financieros derivados que correspondan a operaciones que no estén cubiertas con garantías previamente otorgadas o recibidas o que no hayan sido correspondidas por un intercambio de garantías.",0,4.6189
+Q82,¿Cómo se calcula el flujo total de entrada de efectivo?,"El flujo total de entrada de efectivo se calcula sumando todas las fuentes de efectivo que una entidad recibe durante un período específico. Para un banco, esto puede incluir:
+
+1. **Intereses recibidos**: Ingresos generados por préstamos otorgados a clientes.
+2. **Comisiones y tarifas**: Ingresos por servicios bancarios, como mantenimiento de cuentas, transferencias, etc.
+3. **Ingresos por inversiones**: Efectivo recibido de inversiones en valores, bonos u otros activos financieros.
+4. **Depósitos de clientes**: Nuevos depósitos realizados por los clientes en cuentas de ahorro, cuentas corrientes, etc.
+5. **Venta de activos**: Efectivo recibido por la venta de activos no productivos o inversiones.
+
+La fórmula general para calcular el flujo total de entrada de efectivo sería:
+
+\[ \text{Flujo total de entrada de efectivo} = \text{Intereses recibidos} + \text{Comisiones y tarifas} + \text{Ingresos por inversiones} + \text{Depósitos de clientes} + \text{Venta de activos} \]
+
+Es importante tener en cuenta que este cálculo debe realizarse en un período específico (mensual, trimestral, anual) para ser útil en el análisis financiero.","El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo",0,3.3025
+Q83,¿Qué factor de salida se aplica a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB?,"El factor de salida que se aplica a los depósitos en cuentas transaccionales de personas físicas cubiertos por el Instituto para la Protección al Ahorro Bancario (IPAB) en México es del 100%. Esto significa que los depósitos en cuentas transaccionales, como cuentas de cheques y cuentas de ahorro, están completamente protegidos hasta el límite establecido por el IPAB, que es de hasta 400,000 unidades de inversión (UDIS) por persona y por banco. Esto asegura que los ahorradores puedan recuperar la totalidad de sus depósitos en caso de que una institución bancaria enfrente problemas financieros.","5% | | | I.1.2 Depósitos en Cuentas Transaccionales de personas físicas y de personas físicas con actividad empresarial, elegibles como operaciones pasivas garantizadas por el IPAB de acuerdo a la Ley para la Protección al Ahorro Bancario, cuyo monto excede el límite establecido en esta, o el que corresponda en la jurisdicción en que se hayan constituido las cuentas. | | | | I.1.2.1 Monto que no excede el límite establecido en la Ley para la Protección al Ahorro Bancario para las operaciones pasivas garantizadas por el IPAB o el que corresponda en la jurisdicción en que se hayan constituido las cuentas.",0,1.9517
+Q84,¿Cómo se registran las operaciones de compra-venta fecha valor para calcular el coeficiente de cobertura de liquidez?,"Las operaciones de compra-venta con fecha valor en el contexto de la regulación financiera bancaria se registran en los libros contables de la entidad de acuerdo con las normas contables y regulaciones aplicables, como las establecidas por Basilea III en relación con el coeficiente de cobertura de liquidez (LCR, por sus siglas en inglés).
+
+Para calcular el LCR, es fundamental considerar los flujos de efectivo esperados, tanto entrantes como salientes, en un horizonte de 30 días. Las operaciones de compra-venta con fecha valor se registran de la siguiente manera:
+
+1. **Registro de la operación**: Cuando se realiza una compra-venta, se registra el activo o pasivo correspondiente en la fecha de la transacción, aunque el valor efectivo se liquide en una fecha futura (fecha valor). Esto implica que se debe reconocer el impacto en la posición de liquidez de la entidad.
+
+2. **Flujos de efectivo**: Para el cálculo del LCR, se deben estimar los flujos de efectivo que resultarán de estas operaciones. Por ejemplo, si se trata de una venta de activos que generará ingresos en la fecha valor, esos ingresos se contabilizan como flujos de efectivo entrantes.
+
+3. **Clasificación de activos líquidos**: Los activos adquiridos a través de estas operaciones deben clasificarse adecuadamente según su liquidez. Solo los activos que cumplen con los criterios de calidad y liquidez establecidos por la regulación se consideran en el numerador del LCR.
+
+4. **Impacto en el coeficiente de cobertura de liquidez**: Al calcular el LCR, se suman los activos líquidos de alta calidad (HQLA) y se comparan con los saldos de salida de efectivo esperados durante el período de 30 días. Las operaciones de compra-venta con fecha valor pueden afectar tanto el numerador (activos líquidos) como el denominador (flujos de salida).
+
+En resumen, las operaciones de compra-venta con fecha valor se registran en los libros contables en la fecha de la transacción, y su impacto en el coeficiente de cobertura de liquidez se evalúa a través de la estimación de flujos de efectivo y la clasificación de activos líquidos.","Compensar para cada operación de compra venta de títulos pactada a una fecha valor, la parte activa y pasiva de la misma operación e incluir el monto resultante como flujo de entrada si la parte activa es mayor, o bien como flujo de salida si la parte pasiva es mayor.",0,5.0946
+Q85,¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Financiamiento Estable Neto y cómo debe expresarse el resultado porcentual?,"El Coeficiente de Financiamiento Estable Neto (CFSN) es un indicador clave en la regulación bancaria que mide la estabilidad del financiamiento de una entidad financiera. La fórmula para calcular el CFSN es la siguiente:
+
+\[ \text{CFSN} = \frac{\text{Financiamiento Estable Neto}}{\text{Requerimiento de Financiamiento Estable}} \]
+
+Donde:
+
+- **Financiamiento Estable Neto** se refiere a la suma de los recursos estables que la entidad tiene disponibles, menos los activos que son considerados como menos estables.
+- **Requerimiento de Financiamiento Estable** es la cantidad de financiamiento que la entidad necesita para cubrir sus activos a largo plazo y otros compromisos.
+
+El resultado del CFSN se expresa como un porcentaje. Para ello, se multiplica el resultado de la fórmula por 100:
+
+\[ \text{CFSN (\%)} = \left( \frac{\text{Financiamiento Estable Neto}}{\text{Requerimiento de Financiamiento Estable}} \right) \times 100 \]
+
+Un CFSN igual o superior al 100% indica que la entidad tiene suficiente financiamiento estable para cubrir sus necesidades, mientras que un valor inferior a 100% puede señalar un riesgo de liquidez.",El Coeficiente de Financiamiento Estable Neto será el que resulte de aplicar la fórmula siguiente y deberá expresarse como porcentaje redondeado a la centésima de punto porcentual más cercana. $$ \frac{\text{Coeficiente de Financiamiento Estable Neto}}{} = \frac{\text{Monto de Financiamiento Estable Disponible}}{\text{Monto de Financiamiento Estable Requerido}} $$,0,4.0437
+Q86,¿Con qué periodicidad debe reportarse el CFEN al Banco de México y a qué fecha de cálculo corresponde?,"El Capital Financiero Efectivo Neto (CFEN) debe reportarse al Banco de México de forma trimestral. La fecha de cálculo para este reporte corresponde al último día del mes de cierre de cada trimestre. Esto significa que las entidades deben presentar su CFEN a más tardar el 15 de abril, 15 de julio, 15 de octubre y 15 de enero, correspondientes a los trimestres que finalizan en marzo, junio, septiembre y diciembre, respectivamente.",El Coeficiente de Financiamiento Estable Neto que corresponda al último Día Hábil de cada mes deberá reportarse durante los primeros dieciséis Días Hábiles del mes inmediato siguiente.,0,1.2824
+Q87,¿Qué se entiende por Monto de Financiamiento Estable Disponible para efectos del CFEN?,"El Monto de Financiamiento Estable Disponible (MFED) para efectos del Coeficiente de Financiamiento Estable Neto (CFEN) se refiere a la cantidad de recursos financieros que una entidad bancaria tiene a su disposición y que se consideran estables y confiables para financiar sus activos a largo plazo. Este monto incluye, entre otros, los depósitos a plazo, los fondos propios y otras fuentes de financiamiento que se espera que permanezcan en la entidad durante un período prolongado.
+
+El CFEN es un indicador que busca asegurar que las instituciones financieras mantengan un nivel adecuado de financiamiento estable en relación con sus activos líquidos, promoviendo así la estabilidad financiera y la capacidad de las entidades para enfrentar situaciones de estrés. En resumen, el MFED es un componente clave para evaluar la solidez y la resiliencia de una institución bancaria en términos de su capacidad para financiarse de manera sostenible.",Monto de Financiamiento Estable Disponible: al monto que resulte de sumar los pasivos y capital señalados en el Anexo 6 de las presentes disposiciones después de aplicarles los factores que les correspondan dependiendo de su clasificación en términos del propio anexo,0,1.9111
+Q88,¿Qué se entiende por Monto de Financiamiento Estable Requerido para efectos del CFEN?,"El Monto de Financiamiento Estable Requerido (MFER) en el contexto del Comité de Supervisión Bancaria de Basilea y la regulación financiera bancaria se refiere a la cantidad mínima de financiamiento estable que una entidad financiera debe mantener para cumplir con los requisitos de liquidez y solvencia. Este monto es parte de las regulaciones que buscan asegurar que los bancos tengan suficientes recursos estables para hacer frente a sus obligaciones a corto y largo plazo, especialmente en situaciones de estrés financiero.
+
+El MFER se calcula considerando diferentes fuentes de financiamiento, clasificándolas en estables y no estables, y se utiliza para evaluar la capacidad de un banco para resistir crisis de liquidez. La regulación busca promover una gestión prudente del riesgo de liquidez y asegurar que las instituciones financieras mantengan un perfil de financiamiento que minimice la dependencia de fuentes de financiamiento volátiles.","Monto de Financiamiento Estable Requerido: al monto que resulte de sumar: (i) los activos no restringidos y otras operaciones señaladas en el Anexo 7 de las presentes disposiciones, y (ii) los activos restringidos u otorgados como garantía señalados en el Anexo 8 de las presentes disposiciones. En ambos casos la suma se hará después de aplicarles los factores que les correspondan dependiendo de su clasificación en términos de los anexos referidos.",0,2.6714
+Q89,"¿Qué factor de financiamiento estable disponible se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año?","En el contexto de la regulación financiera bancaria, específicamente bajo el marco de Basilea III, los factores de financiamiento estable se utilizan para evaluar la estabilidad del financiamiento de una entidad bancaria. Según las directrices de Basilea III:
+
+1. **Capital fundamental (Common Equity Tier 1 - CET1)**: Se le asigna un factor de financiamiento estable de 100%, ya que se considera la forma más estable de financiamiento.
+
+2. **Capital básico no fundamental (Additional Tier 1 - AT1)**: Este capital, que incluye instrumentos como acciones preferentes, generalmente se le asigna un factor de financiamiento estable de 100% también, aunque puede estar sujeto a ciertas condiciones.
+
+3. **Pasivos con plazo residual igual o mayor a un año**: Estos pasivos suelen recibir un factor de financiamiento estable de 50%, ya que se consideran menos estables en comparación con el capital.
+
+Estos factores son parte de la metodología para calcular el coeficiente de financiamiento estable (LCR) y el coeficiente de financiamiento estable neto (NSFR), que son esenciales para asegurar que las entidades bancarias mantengan un perfil de financiamiento adecuado y estable.","Los factores para la determinación del financiamiento estable disponible serán: I. Pasivos y capital con factor del 100% A. Capital fundamental definido en las Disposiciones artículo 2 Bis 6, fracción I, inciso a), sin considerar las deducciones establecidas en dicha fracción y Capital Básico No Fundamental definido en las Disposiciones en el artículo 2 Bis 6, fracción II.",0,2.6778
+Q90,¿Cuál es la definición de liquidez intradía según las herramientas de monitoreo del Comité de Basilea?,"La liquidez intradía, según las herramientas de monitoreo del Comité de Basilea, se refiere a la capacidad de una entidad bancaria para cumplir con sus obligaciones de pago durante el día, utilizando sus activos líquidos disponibles. Esto implica que la institución debe ser capaz de gestionar sus flujos de efectivo y mantener suficiente liquidez para hacer frente a las salidas de efectivo que puedan ocurrir en el transcurso de la jornada. El Comité de Basilea enfatiza la importancia de monitorear la liquidez intradía para asegurar que los bancos puedan operar de manera efectiva y evitar situaciones de estrés financiero que puedan afectar su estabilidad y la del sistema financiero en general.","Liquidez intradía: fondos a los que se puede acceder durante el día hábil, usualmente para permitir que los bancos realicen pagos en tiempo real;",0,2.0839
+Q91,¿Cuáles son las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil?,"Las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil incluyen:
+
+1. **Reservas en el banco central**: Los bancos mantienen reservas en el banco central que pueden utilizar para cumplir con sus obligaciones de liquidez. Estas reservas pueden ser utilizadas para realizar pagos y cubrir retiros.
+
+2. **Depósitos de clientes**: Los depósitos a la vista de los clientes son una fuente inmediata de liquidez. Los bancos pueden utilizar estos fondos para realizar transacciones y cubrir necesidades de efectivo.
+
+3. **Instrumentos de mercado monetario**: Los bancos pueden tener en su balance instrumentos de mercado monetario, como letras del tesoro o bonos a corto plazo, que pueden ser vendidos o utilizados como colateral para obtener financiamiento.
+
+4. **Líneas de crédito**: Los bancos pueden tener acceso a líneas de crédito con otras instituciones financieras, lo que les permite obtener liquidez adicional cuando sea necesario.
+
+5. **Operaciones de recompra (repos)**: Los bancos pueden realizar operaciones de recompra, donde venden valores con el acuerdo de recomprarlos más tarde, lo que les proporciona liquidez temporal.
+
+6. **Activos líquidos**: Los bancos suelen mantener una cartera de activos líquidos que pueden ser fácilmente convertidos en efectivo, como acciones y bonos de alta calidad.
+
+Estas fuentes permiten a los bancos gestionar su liquidez de manera efectiva durante el día hábil, asegurando que puedan cumplir con sus obligaciones financieras.","(i) Fuentes Fuentes propias - Saldos de reserva en el banco central; - Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía; - Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía; - Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía; - Saldos con otros bancos que puedan utilizarse para liquidación intradía.",0,3.5678
+Q92,¿Cómo se define un escenario de tensión de contraparte?,"Un escenario de tensión de contraparte se define como una situación en la que una de las partes en un contrato financiero, generalmente una institución financiera, enfrenta dificultades para cumplir con sus obligaciones contractuales debido a problemas de liquidez, solvencia o confianza en el mercado. Esto puede llevar a un aumento en el riesgo de incumplimiento, lo que a su vez puede afectar la estabilidad del sistema financiero en su conjunto.
+
+En este contexto, la tensión de contraparte puede manifestarse a través de un aumento en los costos de financiamiento, una disminución en la disponibilidad de crédito y una mayor volatilidad en los precios de los activos. Las tensiones de contraparte son especialmente preocupantes en mercados interconectados, donde el incumplimiento de una entidad puede tener efectos en cadena sobre otras instituciones y el sistema financiero en general.","(ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos 32. Una tensión de contraparte puede provocar que los participantes directos y los bancos que utilizan servicios de corresponsalía bancaria no puedan depender de los pagos entrantes de la contraparte estresada, reduciendo la disponibilidad de liquidez intradía que puede obtenerse mediante la recepción de pagos de dicha contraparte.",0,1.8818
+Q93,¿Cómo se calcula el uso máximo diario de liquidez intradía a partir de la posición neta acumulada de pagos enviados y recibidos?,"El uso máximo diario de liquidez intradía se calcula a partir de la posición neta acumulada de pagos enviados y recibidos mediante el siguiente proceso:
+
+1. **Posición Neta Acumulada**: Se determina la posición neta acumulada de pagos, que es la diferencia entre los pagos enviados y los pagos recibidos durante un período específico (normalmente un día). Esto se puede expresar como:
+   \[
+   \text{Posición Neta} = \text{Pagos Recibidos} - \text{Pagos Enviados}
+   \]
+
+2. **Cálculo del Uso Máximo de Liquidez**: El uso máximo diario de liquidez intradía se refiere a la cantidad máxima de liquidez que una entidad bancaria necesita para cubrir sus obligaciones de pago durante el día. Para calcularlo, se considera la posición neta acumulada en el contexto de los flujos de efectivo esperados. Si la posición neta es negativa, esto indica que la entidad tiene un déficit de liquidez y, por lo tanto, necesitará financiarse para cubrir ese déficit.
+
+3. **Determinación del Uso Máximo**: El uso máximo diario de liquidez intradía se puede calcular como:
+   \[
+   \text{Uso Máximo de Liquidez} = \max(0, -\text{Posición Neta})
+   \]
+   Esto significa que si la posición neta es negativa, el uso máximo de liquidez será igual al valor absoluto de esa posición neta. Si la posición neta es positiva o cero, el uso máximo de liquidez será cero, ya que no se requiere financiamiento adicional.
+
+Este cálculo permite a las entidades bancarias gestionar su liquidez de manera efectiva, asegurando que tengan suficientes fondos disponibles para cumplir con sus obligaciones de pago durante el día.","La mayor posición neta negativa durante el día hábil en la(s) cuenta(s), es decir, el mayor saldo neto acumulado entre pagos realizados y recibidos, determinará el uso máximo diario de liquidez intradía del banco. La posición neta debe determinarse con marcas de tiempo de liquidación (o su equivalente), usando datos transacción por transacción de la(s) cuenta(s). El mayor saldo neto negativo puede calcularse al cierre del día hábil y no requiere monitoreo en tiempo real durante todo el día.",0,3.9075
+Q94,¿Qué son las obligaciones con horario específico y por qué su incumplimiento puede generar riesgo financiero o reputacional?,"Las obligaciones con horario específico en el contexto de la regulación financiera bancaria se refieren a compromisos que las instituciones financieras deben cumplir dentro de plazos determinados. Estas obligaciones pueden incluir la presentación de informes regulatorios, el cumplimiento de requisitos de capital, la realización de auditorías internas, o la ejecución de transacciones dentro de horarios establecidos.
+
+El incumplimiento de estas obligaciones puede generar riesgo financiero o reputacional por varias razones:
+
+1. **Riesgo Financiero**: Si una entidad no cumple con sus obligaciones en el tiempo estipulado, puede enfrentar sanciones financieras, multas o restricciones operativas impuestas por los reguladores. Esto puede afectar su liquidez y su capacidad para operar de manera efectiva.
+
+2. **Riesgo Reputacional**: El incumplimiento puede dañar la confianza de los clientes, inversores y otras partes interesadas. La percepción de que una institución no es capaz de cumplir con sus obligaciones puede llevar a la pérdida de clientes, disminución de la inversión y un impacto negativo en la valoración de la empresa.
+
+3. **Consecuencias Regulatorias**: Las instituciones que no cumplen con sus obligaciones pueden ser objeto de investigaciones más profundas por parte de los reguladores, lo que puede resultar en un escrutinio adicional y en la imposición de medidas correctivas que pueden ser costosas y disruptivas.
+
+En resumen, las obligaciones con horario específico son cruciales para el funcionamiento ordenado y la estabilidad del sistema financiero, y su incumplimiento puede tener repercusiones significativas tanto en el ámbito financiero como en la reputación de la entidad.","La falta de liquidación oportuna de estas obligaciones podría generar una penalización financiera, daño reputacional para el banco o pérdida de negocio futuro.23. Los bancos deben calcular el valor total de las obligaciones con horario específico que liquidan cada día y reportar los tres mayores valores totales diarios y el valor total diario promedio en el periodo de reporte, paradar a los supervisores una indicación de la escala de estas obligaciones.",0,5.2747
+Q01,¿Para consumo no revolvente cómo se define el pago realizado?,"En el contexto de la regulación financiera bancaria, un consumo no revolvente se refiere a un tipo de crédito o préstamo en el que el monto utilizado no se puede volver a utilizar una vez que se ha pagado. Esto es común en productos como préstamos personales o créditos para la compra de bienes específicos.
+
+El pago realizado en un consumo no revolvente se define como la cantidad de dinero que el prestatario abona para amortizar el capital del préstamo y, en su caso, los intereses generados. A diferencia de los créditos revolventes, donde el prestatario puede volver a utilizar el crédito disponible tras realizar un pago, en el consumo no revolvente, el pago reduce el saldo de la deuda y no se puede volver a utilizar el monto pagado.
+
+Por lo tanto, el pago realizado se considera una reducción del saldo de la deuda, y una vez que se ha pagado, el monto correspondiente ya no está disponible para el prestatario.",Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación,0,2.5716
+Q95,¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?,"La Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2 se puede calcular utilizando modelos estadísticos y de riesgo crediticio, como el modelo de puntuación de crédito o modelos de regresión logística. Sin embargo, no hay una fórmula única y universal, ya que la PI depende de múltiples factores, incluyendo el historial crediticio del prestatario, su capacidad de pago, y condiciones macroeconómicas.
+
+En términos generales, la PI puede ser estimada a partir de la siguiente relación:
+
+\[ \text{PI} = \frac{\text{Número de incumplimientos}}{\text{Número total de créditos}} \]
+
+Para créditos en Etapa 1 o 2, se pueden utilizar variables como:
+
+- Historial de pagos
+- Ingresos del prestatario
+- Relación deuda-ingreso
+- Antigüedad del crédito
+- Factores macroeconómicos
+
+Los modelos más avanzados pueden incluir técnicas de machine learning para mejorar la precisión de la estimación. Es importante que las instituciones financieras ajusten sus modelos a su cartera específica y a las condiciones del mercado.",PI_i^N = \frac{1}{1 + e^{-Z_i^N}},0,3.677
+Q96,¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?,"Un crédito de nómina puede clasificarse directamente en la Etapa 3 de riesgo, que indica un deterioro significativo en la calidad crediticia, bajo las siguientes condiciones:
+
+1. **Incumplimiento en el pago**: Si el deudor no realiza el pago de al menos 90 días de su obligación, se considera que el crédito ha entrado en un estado de morosidad.
+
+2. **Indicadores de insolvencia**: Si hay evidencia de que el deudor enfrenta dificultades financieras significativas, como la pérdida de empleo o una reducción drástica en sus ingresos, esto puede llevar a la clasificación del crédito en la Etapa 3.
+
+3. **Reestructuración del crédito**: Si el crédito ha sido reestructurado debido a la incapacidad del deudor para cumplir con los términos originales, esto puede ser un indicativo de un deterioro en la calidad del crédito.
+
+4. **Cambios en la situación crediticia**: Cualquier cambio en la calificación crediticia del deudor que indique un aumento en el riesgo de incumplimiento puede llevar a la clasificación en la Etapa 3.
+
+Es importante que las entidades financieras realicen un análisis exhaustivo de la situación del deudor y de los pagos realizados para determinar la clasificación adecuada del crédito.",Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3,0,3.0042
+Q97,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?,"Las instituciones financieras deben clasificar los créditos en diferentes etapas de riesgo de acuerdo con el modelo de gestión de riesgo de crédito que generalmente se basa en la normativa de IFRS 9 (Normas Internacionales de Información Financiera) o en regulaciones locales específicas. Las etapas de riesgo de crédito se dividen comúnmente en tres categorías:
+
+1. **Etapa 1**: Créditos que no presentan un aumento significativo en el riesgo de crédito desde el reconocimiento inicial. Para estos créditos, se reconoce la pérdida crediticia esperada a 12 meses.
+
+2. **Etapa 2**: Créditos que han experimentado un aumento significativo en el riesgo de crédito desde el reconocimiento inicial, pero que no están en default. En esta etapa, se reconoce la pérdida crediticia esperada durante la vida del activo.
+
+3. **Etapa 3**: Créditos que están en default o que se consideran incobrables. En esta etapa, se reconoce la pérdida crediticia esperada durante la vida del activo, y se ajustan las provisiones correspondientes.
+
+### Criterios para la migración entre etapas:
+
+- **Migración a Etapa 1 a Etapa 2**: Se debe evaluar si ha habido un aumento significativo en el riesgo de crédito. Esto puede incluir factores como el deterioro en la calificación crediticia del prestatario, cambios en las condiciones económicas, o el incumplimiento de covenants financieros.
+
+- **Migración de Etapa 2 a Etapa 1**: Si el riesgo de crédito mejora y se demuestra que el prestatario ha recuperado su capacidad de pago, se puede volver a clasificar el crédito a Etapa 1.
+
+- **Migración de Etapa 2 a Etapa 3**: Si el prestatario entra en default, ya sea por incumplimiento de pagos o por otros indicadores de insolvencia, el crédito debe ser clasificado en Etapa 3.
+
+- **Migración de Etapa 3 a Etapa 2 o Etapa 1**: Si se produce una mejora significativa en la situación financiera del prestatario y se cumplen ciertos criterios de recuperación, el crédito puede ser reclasificado a Etapa 2 o incluso a Etapa 1, dependiendo de la magnitud de la mejora.
+
+Es fundamental que las instituciones financieras implementen políticas y procedimientos claros para la evaluación y clasificación de los créditos, así como para la migración entre etapas, asegurando que se basen en datos objetivos y análisis de riesgo adecuados.","Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:",1,7.1056
+Q98,¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?,"Las instituciones financieras pueden adoptar varios enfoques para el cálculo de reservas preventivas, que son fundamentales para asegurar la solvencia y estabilidad del sistema bancario. Los enfoques más comunes son:
+
+1. **Enfoque Estándar**:
+   - **Descripción**: Este enfoque se basa en la aplicación de coeficientes de reservas establecidos por las autoridades regulatorias. Las instituciones deben mantener un porcentaje fijo de sus depósitos como reservas.
+   - **Requisitos**: 
+     - Cumplir con los coeficientes de reservas mínimos establecidos por el banco central o la autoridad reguladora.
+     - Realizar informes periódicos sobre el nivel de reservas mantenidas.
+
+2. **Enfoque Basado en Riesgo**:
+   - **Descripción**: Este enfoque permite a las instituciones calcular sus reservas en función del perfil de riesgo de sus activos. Se utilizan modelos internos para evaluar el riesgo crediticio, de mercado y operativo.
+   - **Requisitos**:
+     - Validación de los modelos internos por parte de la autoridad reguladora.
+     - Mantenimiento de documentación detallada sobre los supuestos y metodologías utilizadas en el cálculo.
+     - Realización de pruebas de estrés para evaluar la suficiencia de las reservas bajo diferentes escenarios económicos.
+
+3. **Enfoque de Provisión General**:
+   - **Descripción**: Este enfoque permite a las instituciones crear reservas para pérdidas esperadas en función de la experiencia histórica y las condiciones actuales del mercado.
+   - **Requisitos**:
+     - Establecimiento de políticas claras sobre la creación y utilización de provisiones generales.
+     - Monitoreo y revisión periódica de las provisiones en función de la evolución del riesgo crediticio.
+
+4. **Enfoque de Provisión Específica**:
+   - **Descripción**: Este enfoque se centra en la creación de reservas para activos específicos que se consideran en riesgo de impago.
+   - **Requisitos**:
+     - Evaluación individual de los activos y determinación de la probabilidad de incumplimiento.
+     - Documentación y justificación de las provisiones específicas establecidas.
+
+Cada uno de estos enfoques tiene sus propias características y requisitos regulatorios, y las instituciones deben elegir el que mejor se adapte a su perfil de riesgo y a las normativas aplicables en su jurisdicción. Además, es fundamental que las instituciones mantengan una comunicación constante con las autoridades regulatorias para asegurar el cumplimiento de los requisitos establecidos.","Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...",0,6.7366
+Q99,¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?,"La Probabilidad de Incumplimiento (PD) para créditos clasificados en etapa 3, que se refiere a activos financieros que presentan un deterioro significativo en su calidad crediticia y que están en default o en riesgo de default, se determina a través de varios enfoques y metodologías. A continuación, se describen algunos de los métodos más comunes:
+
+1. **Modelos estadísticos**: Se utilizan modelos de regresión logística o modelos de puntuación de crédito que analizan datos históricos de incumplimiento para estimar la probabilidad de que un prestatario en particular incumpla. Estos modelos pueden incluir variables como el historial de pagos, la relación deuda-ingreso, y otros factores económicos.
+
+2. **Análisis de cohortes**: Se pueden agrupar los créditos en cohortes según características similares (por ejemplo, tipo de préstamo, sector económico) y analizar las tasas de incumplimiento dentro de cada grupo a lo largo del tiempo. Esto ayuda a identificar patrones y tendencias que pueden influir en la PD.
+
+3. **Enfoque de transición**: Este método evalúa la probabilidad de que un activo financiero pase de una categoría de riesgo a otra (por ejemplo, de no incumplimiento a incumplimiento) basándose en datos históricos de transiciones de calificación crediticia.
+
+4. **Modelos de riesgo de crédito**: Se pueden utilizar modelos más complejos, como el modelo de Merton o modelos estructurales, que consideran la volatilidad de los activos del prestatario y su capital para estimar la probabilidad de incumplimiento.
+
+5. **Factores cualitativos**: Además de los modelos cuantitativos, se pueden considerar factores cualitativos, como cambios en la gestión del prestatario, condiciones del mercado, y otros elementos que puedan afectar la capacidad de pago.
+
+6. **Revisión de la documentación y análisis de la situación financiera**: Para créditos en etapa 3, es fundamental realizar un análisis exhaustivo de la situación financiera del prestatario, incluyendo la revisión de estados financieros, flujos de caja y cualquier evento que pueda impactar su capacidad de pago.
+
+La combinación de estos métodos permite a las instituciones financieras estimar de manera más precisa la PD para créditos en etapa 3, lo que es crucial para la gestión del riesgo y la provisión de capital regulatorio.","Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%",0,6.3717
+Q100,¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?,"Las instituciones financieras deben seguir varios criterios y directrices al migrar un crédito de una etapa de riesgo a otra, especialmente en el contexto de la regulación bancaria y la gestión de riesgos. Algunos de los criterios clave incluyen:
+
+1. **Evaluación del Riesgo Crediticio**: Las instituciones deben realizar una evaluación exhaustiva del riesgo crediticio del prestatario, considerando factores como el historial de pagos, la situación financiera actual, y la capacidad de generación de ingresos.
+
+2. **Clasificación de Activos**: Las entidades deben clasificar los activos en diferentes categorías de riesgo (por ejemplo, normal, subestándar, dudoso, y pérdida) basándose en criterios establecidos por reguladores y estándares contables, como las Normas Internacionales de Información Financiera (NIIF).
+
+3. **Análisis de Indicadores de Desempeño**: Se deben analizar indicadores clave de desempeño, como la morosidad, la cobertura de provisiones, y otros ratios financieros que puedan indicar un deterioro en la calidad del crédito.
+
+4. **Políticas Internas**: Las instituciones deben seguir sus políticas internas de gestión de riesgos, que deben estar alineadas con las regulaciones aplicables y las mejores prácticas del sector.
+
+5. **Revisión Periódica**: La revisión periódica de la cartera de créditos es esencial para identificar cambios en la situación del prestatario que puedan justificar una migración de riesgo.
+
+6. **Condiciones Macroeconómicas**: Las condiciones económicas generales, como tasas de interés, desempleo y crecimiento económico, también pueden influir en la decisión de migrar un crédito a una etapa de mayor riesgo.
+
+7. **Provisión de Pérdidas**: La necesidad de ajustar las provisiones para pérdidas crediticias esperadas debe ser considerada al migrar un crédito, ya que esto impacta directamente en la salud financiera de la institución.
+
+8. **Cumplimiento Normativo**: Finalmente, las instituciones deben asegurarse de que cualquier migración de riesgo cumpla con las regulaciones locales e internacionales, así como con los requerimientos de los organismos supervisores.
+
+Estos criterios ayudan a las instituciones a gestionar adecuadamente el riesgo crediticio y a mantener la estabilidad financiera.",Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.,0,4.0251
+Q101,¿Qué se consideraría un crédito personal?,"Un crédito personal es un tipo de préstamo que se otorga a un individuo para satisfacer necesidades financieras personales, como la compra de bienes, el pago de deudas, gastos médicos, educación, entre otros. Este tipo de crédito generalmente no está garantizado, lo que significa que no requiere la presentación de un activo como garantía. Los créditos personales suelen tener un monto fijo, un plazo de pago determinado y una tasa de interés que puede ser fija o variable. Los prestatarios deben demostrar su capacidad de pago a través de su historial crediticio y sus ingresos.",A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina,0,1.7049
+Q102,¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?,"En la estimación de la Severidad de la Pérdida (Loss Given Default, LGD) de los créditos, las instituciones financieras pueden considerar varios tipos de garantías. Estas garantías pueden incluir:
+
+1. **Garantías reales**: Activos tangibles que respaldan el crédito, como bienes inmuebles, maquinaria, vehículos, o inventarios. La valoración de estos activos se realiza para determinar su capacidad de cubrir la deuda en caso de incumplimiento.
+
+2. **Garantías personales**: Compromisos de pago de terceros, como avales o co-firmantes, que pueden ser responsables de la deuda si el deudor principal no cumple.
+
+3. **Prendas**: Activos que se entregan como garantía de un préstamo, donde el prestamista tiene derechos sobre el activo en caso de incumplimiento.
+
+4. **Cauciones**: Instrumentos financieros que garantizan el cumplimiento de una obligación, como cartas de crédito o seguros de crédito.
+
+5. **Activos financieros**: Inversiones o cuentas por cobrar que pueden ser liquidadas para recuperar parte de la deuda.
+
+6. **Fianzas**: Contratos donde una parte se compromete a pagar la deuda de otra en caso de incumplimiento.
+
+La consideración de estas garantías es crucial para la evaluación del riesgo crediticio y la determinación de la LGD, ya que influyen en la capacidad de recuperación de la institución en caso de default del deudor.","las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito",0,3.2574
+Q103,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?,"Las instituciones financieras deben clasificar los créditos en diferentes etapas de riesgo de crédito de acuerdo con el enfoque de ""etapas"" establecido por las Normas Internacionales de Información Financiera (NIIF), específicamente la NIIF 9. Este enfoque se basa en la evaluación del riesgo de crédito y se divide en tres etapas:
+
+1. **Etapa 1**: Créditos que no han experimentado un incremento significativo en el riesgo de crédito desde su reconocimiento inicial. Para estos créditos, se reconoce la pérdida crediticia esperada a 12 meses. Esto implica que la institución debe calcular y provisionar las pérdidas esperadas que podrían ocurrir en el próximo año.
+
+2. **Etapa 2**: Créditos que han experimentado un incremento significativo en el riesgo de crédito desde su reconocimiento inicial, pero que no están en default. En esta etapa, se reconoce la pérdida crediticia esperada a lo largo de la vida del activo financiero. Esto significa que la institución debe provisionar las pérdidas esperadas durante toda la duración del crédito.
+
+3. **Etapa 3**: Créditos que están en default o que se consideran incobrables. En esta etapa, se reconoce la pérdida crediticia esperada a lo largo de la vida del activo, y se debe realizar una evaluación más detallada de las pérdidas, considerando la recuperación esperada.
+
+La clasificación en estas etapas se basa en criterios cualitativos y cuantitativos, como el comportamiento de pago del deudor, cambios en la situación financiera, condiciones económicas y otros factores que puedan afectar la capacidad de pago. Las instituciones deben revisar y actualizar regularmente estas clasificaciones para reflejar adecuadamente el riesgo de crédito asociado a sus activos financieros.","Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.",1,3.8568
+Q104,¿Qué se entiende por saldo a pagar?,"El saldo a pagar se refiere a la cantidad de dinero que una entidad, como un banco o una empresa, debe a sus acreedores o proveedores en un momento determinado. En el contexto de la regulación financiera bancaria, el saldo a pagar puede incluir diversas obligaciones, como préstamos, deudas comerciales, intereses acumulados y otros compromisos financieros. Este saldo es un componente importante en la gestión de la liquidez y la solvencia de la entidad, ya que refleja las obligaciones que deben ser cumplidas en el corto o mediano plazo. Además, es fundamental para el análisis de la salud financiera de la institución y su capacidad para cumplir con sus responsabilidades financieras.",Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución,0,1.7325
+Q105,¿Cómo se determina la reservas para los créditos en etapa 2?,"Las reservas para créditos en etapa 2 se determinan siguiendo las directrices establecidas por la normativa de contabilidad financiera, como la NIIF 9 (Norma Internacional de Información Financiera 9). En este contexto, los créditos se clasifican en diferentes etapas según su riesgo de crédito.
+
+Los créditos en etapa 2 son aquellos que han experimentado un aumento significativo en el riesgo de crédito desde su reconocimiento inicial, pero que no están en default. Para calcular las reservas para estos créditos, se utilizan los siguientes pasos:
+
+1. **Evaluación del riesgo de crédito**: Se analiza si ha habido un aumento significativo en el riesgo de crédito desde el reconocimiento inicial del activo financiero. Esto puede incluir factores como el deterioro en la situación financiera del prestatario o cambios en las condiciones del mercado.
+
+2. **Estimación de pérdidas esperadas**: Se calcula la pérdida esperada (Expected Credit Loss, ECL) para los créditos en etapa 2. Esto implica estimar la probabilidad de incumplimiento (PD), la pérdida dada en caso de incumplimiento (LGD) y la exposición en el momento del incumplimiento (EAD). La fórmula básica es:
+   \[
+   ECL = PD \times LGD \times EAD
+   \]
+
+3. **Provisión de reservas**: Con base en la estimación de pérdidas esperadas, se establece una provisión en los estados financieros para cubrir las pérdidas potenciales asociadas a estos créditos.
+
+4. **Revisión y ajuste**: Las reservas deben ser revisadas y ajustadas periódicamente para reflejar cambios en las condiciones del mercado y en la situación financiera de los prestatarios.
+
+Este enfoque permite a las entidades financieras gestionar el riesgo de crédito de manera más efectiva y cumplir con los requisitos regulatorios.","Reservas\ Etapa\ 2_i = \max\left(\text{Reservas\ Vida\ Completa}_i, PI_i^X \times SP_i^X \times EI_i^X\right)",0,4.2614
+Q106,¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?,"La Exposición al Incumplimiento (EAD, por sus siglas en inglés) para créditos donde el saldo es menor que el límite de crédito se calcula considerando el saldo actual del crédito y la posibilidad de que el prestatario utilice el límite de crédito disponible. 
+
+Para calcular la EAD en estos casos, las instituciones deben seguir estos pasos:
+
+1. **Saldo Actual**: Identificar el saldo actual del crédito, que es la cantidad que el prestatario ha utilizado hasta el momento.
+
+2. **Límite de Crédito**: Determinar el límite total de crédito otorgado al prestatario.
+
+3. **Factor de Uso**: Establecer un factor de uso que refleje la probabilidad de que el prestatario utilice el crédito disponible. Este factor puede basarse en datos históricos de uso de crédito o en análisis de comportamiento del prestatario.
+
+4. **Cálculo de EAD**: La EAD se puede calcular como la suma del saldo actual y el producto del límite de crédito no utilizado por el factor de uso. La fórmula sería:
+
+   \[
+   \text{EAD} = \text{Saldo Actual} + (\text{Límite de Crédito} - \text{Saldo Actual}) \times \text{Factor de Uso}
+   \]
+
+Este enfoque permite a las instituciones financieras estimar la exposición total al incumplimiento, considerando tanto el saldo utilizado como la parte del crédito que podría ser utilizada en el futuro.",EI_i = \max \left\{ \frac{S_i \times \max \left\{1.026 \cdot \left( \frac{S_i}{\text{Límite de Crédito}} \right)^{-0.5434} \cdot 100\% \right\}}{S_i + 13.79\% \cdot (\text{Límite de Crédito} - S_i)} \right\},0,3.9864
+Q107,¿Se pueden reportar tasas de interés en cero?,"Sí, es posible reportar tasas de interés en cero. Esto puede ocurrir en diversas circunstancias, como en el caso de ciertos productos financieros, préstamos o cuentas de ahorro que no generan intereses. Además, en contextos de política monetaria, los bancos centrales pueden establecer tasas de interés de referencia en cero para estimular la economía. Sin embargo, es importante tener en cuenta que, aunque la tasa de interés sea reportada como cero, pueden existir otros costos asociados, como comisiones o tarifas.","En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%",0,1.913
+Q108,¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?,"Cuando no existe información del acreditado en las sociedades de información crediticia, se aplica el factor de riesgo conocido como ""no score"" o ""sin historial crediticio"". En este caso, las instituciones financieras suelen considerar otros factores para evaluar el riesgo del acreditado, como su capacidad de pago, ingresos, antigüedad laboral, y otros indicadores financieros o personales. La falta de información crediticia puede llevar a que la entidad financiera adopte una postura más conservadora en la concesión de créditos, ya que no cuenta con un historial que respalde la solvencia del solicitante.","Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...",0,1.629

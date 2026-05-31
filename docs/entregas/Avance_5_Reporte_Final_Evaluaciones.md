@@ -31,6 +31,16 @@ En el Dashboard (`streamlit run dashboard/app_evaluaciones.py`), la **Pestaña 3
 
 ---
 
+## 0. Contexto de Partida (Herencia del Avance 4)
+
+En la fase de evaluación anterior consolidamos un marco MLOps riguroso que expuso hallazgos críticos para el Banco de México:
+1. **Leniency Bias y Contaminación:** Los modelos locales (ej. Llama 3.1 8B) demostraron ser excelentes motores de recuperación a costo $0, pero fallan como evaluadores (aprobando el 37.6% de respuestas ciegas inventadas).
+2. **Arquitectura Model Cascading:** Esta evidencia justificó migrar a una arquitectura híbrida: delegar el volumen de búsquedas (Retrieval/Reranking) al motor local, y reservar la nube (`gpt-4o`) exclusivamente para tareas de evaluación (LLM-as-a-Judge) y estructuración JSON compleja.
+3. **Telemetría Operativa:** Implementamos tracking de latencia y consumo de tokens (registrado en `.jsonl` y visualizado en Streamlit) para monitorear el TCO del esquema híbrido.
+
+**Objetivo del Avance 5:** Tomando esta arquitectura *Model Cascading* como línea base, el objetivo ahora es validar empírica y matemáticamente la sinergia de este ensamble (Diversidad y Consistencia) y auditar la resiliencia del modelo frente a ataques adversarios (Red-Teaming) para asegurar su viabilidad productiva.
+
+
 ## 2. Rúbrica ENS-E: Calibración y Consistencia (Self-Consistency)
 
 Una debilidad inherente de los LLMs es la alucinación encubierta con alta confianza. Para abordar la Rúbrica **ENS-E**, se diseñó un test de *Paraphrase Invariance* o Invariabilidad Semántica.
