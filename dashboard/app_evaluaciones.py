@@ -1,173 +1,215 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
 from pathlib import Path
 import json
 import sys
 import os
-import plotly.express as px
-import plotly.graph_objects as go
 
 # Configurar PYTHONPATH para que encuentre 'src'
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
-from src.lab.graficos import plot_frontera_pareto
 from src.lab.diversidad_eval import calcular_diversidad
 
-# Configuración de página
-st.set_page_config(page_title="Dashboard de Evaluaciones", page_icon="📊", layout="wide")
-st.title("📊 Laboratorio Analítico de Modelos (Banxico DISF)")
-st.markdown("Este dashboard interactivo permite monitorear y comparar el rendimiento, seguridad y costos de los modelos candidatos, cumpliendo con las rúbricas E5 y E6.")
+st.set_page_config(page_title="Dashboard Analítico MLOps", page_icon="📊", layout="wide")
+st.title("📊 Laboratorio Analítico MLOps (Banxico DISF)")
+st.markdown("Dashboard interactivo para monitorear rendimiento, telemetría y seguridad de arquitecturas RAG (Avance 5).")
 
-# Encontrar la carpeta de evaluación más reciente
-def get_latest_run(base_path: str):
-    p = Path(base_path)
-    if not p.exists(): return None
-    carpetas = [d for d in p.iterdir() if d.is_dir() and d.name.startswith("run_")]
-    if not carpetas: return None
-    carpetas.sort(key=lambda x: x.name, reverse=True)
-    return carpetas[0]
+# Root path
+project_root = Path(__file__).resolve().parents[1]
+eval_dir = project_root / "data" / "03_output" / "evaluaciones" / "oficiales"
 
-# Intentamos cargar de 'oficiales' primero, sino 'pruebas_rapidas'
-ruta_base_oficial = "data/03_output/evaluaciones/oficiales"
-ruta_base_rapidas = "data/03_output/evaluaciones/pruebas_rapidas"
+if not eval_dir.exists():
+    eval_dir = project_root / "data" / "03_output" / "evaluaciones"
 
-latest_run = get_latest_run(ruta_base_oficial)
-if not latest_run:
-    latest_run = get_latest_run(ruta_base_rapidas)
+# Descubrir corridas
+available_runs = [d.name for d in eval_dir.iterdir() if d.is_dir()] if eval_dir.exists() else []
 
-if not latest_run:
-    st.warning("⚠️ No se encontraron resultados de evaluaciones. Corre `python src/lab/evaluador_integral.py` primero.")
-    st.stop()
+st.sidebar.header("⚙️ Comparador de Modelos")
+if not available_runs:
+    st.sidebar.warning("⚠️ No se encontraron resultados. Ejecuta el evaluador primero.")
 
-st.success(f"Cargando datos de la corrida más reciente: **{latest_run.name}**")
+selected_runs = st.sidebar.multiselect(
+    "Selecciona Corridas (Nube vs Local):",
+    options=available_runs,
+    default=available_runs[:1] if available_runs else []
+)
 
-# Pestañas
+# --- DATA LOADERS (NUEVA LÓGICA AVANCE 5) ---
+@st.cache_data
+def load_arena_data(runs):
+    resultados = []
+    for run in runs:
+        run_path = eval_dir / run
+        csv_files = list(run_path.glob("ARENA_RESULTADOS*.csv"))
+        if csv_files:
+            df = pd.read_csv(csv_files[0])
+            for _, row in df.iterrows():
+                modelo_id = str(row.get("Candidato_ID", row.get("estrategia", row.iloc[0]))) + f" [{run}]"
+                costo_total = float(row.get("Costo_Total_USD", row.get("Costo", 0.0)))
+                
+                # Soportar formatos viejos y nuevos
+                ndcg_val = float(row.get("NDCG_Promedio", row.get("NDCG@10", row.get("NDCG_Mean", 0.0))))
+                lat_p95 = float(row.get("Latencia_P95_seg", 0.0))
+                
+                resultados.append({
+                    "Modelo": modelo_id,
+                    "Corrida": run,
+                    "Costo_Operativo": costo_total,
+                    "NDCG_10": ndcg_val,
+                    "Latencia_P95": lat_p95
+                })
+    return pd.DataFrame(resultados)
+
+@st.cache_data
+def load_taxonomy_data(runs):
+    errores = []
+    for run in runs:
+        run_path = eval_dir / run
+        # Buscar tanto el nuevo "resultados_llm_judge" como el viejo "analisis_errores"
+        archivos_juez = list(run_path.glob("resultados_llm_judge*.csv")) + list(run_path.glob("analisis_errores*.csv"))
+        for archivo in archivos_juez:
+            df = pd.read_csv(archivo)
+            col_error = None
+            if 'Clasificacion_Error' in df.columns:
+                col_error = 'Clasificacion_Error'
+            elif 'Tipo_Error' in df.columns:
+                col_error = 'Tipo_Error'
+            elif 'Categoría Error (A/B/C)' in df.columns:
+                col_error = 'Categoría Error (A/B/C)'
+                
+            if col_error:
+                conteo = df[col_error].value_counts().reset_index()
+                conteo.columns = ['Tipo_Error', 'Cantidad']
+                conteo['Archivo'] = archivo.name
+                conteo['Corrida'] = run
+                errores.append(conteo)
+    if errores:
+        return pd.concat(errores, ignore_index=True)
+    return pd.DataFrame()
+
+df_arena = load_arena_data(selected_runs)
+df_errores = load_taxonomy_data(selected_runs)
+
+# --- PESTAÑAS ---
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📈 Frontera de Pareto (MA7/ENS-C)", 
-    "🧩 Desagregación de Errores (MA6)", 
-    "🔀 Diversidad y Consistencia (ENS-D/E)", 
+    "📈 Pareto y Telemetría (ENS-B/C)", 
+    "🧩 Taxonomía Errores (MA6)", 
+    "🔀 Diversidad (ENS-D)", 
     "🛡️ Red-Teaming (DEP-D)"
 ])
 
-# --- PESTAÑA 1: Frontera de Pareto ---
+# --- PESTAÑA 1: Frontera de Pareto (NUEVA VERSIÓN PLOTLY INTERACTIVA) ---
 with tab1:
-    st.header("📈 Frontera de Pareto (Costo/Latencia vs Precisión)")
-    st.markdown("Balance entre costo de inferencia (o latencia) y la métrica principal **NDCG@10**.")
-    
-    if st.button("Generar Gráfica de Pareto"):
-        with st.spinner("Calculando y renderizando..."):
-            archivos_arena = list(latest_run.glob("ARENA_RESULTADOS*.csv"))
-            if not archivos_arena:
-                st.error("No se encontró el CSV ARENA_RESULTADOS para graficar.")
-            else:
-                df_arena = pd.read_csv(archivos_arena[0])
-                resultados_grafico = []
-                for _, row in df_arena.iterrows():
-                    modelo = row['estrategia']
-                    ndcg = row.get('NDCG@10', 0.0)
-                    
-                    # Estimar costo
-                    tokens = row.get('Tokens_Contexto_Promedio', 2000)
-                    es_local = row.get('Es_QA_Local', True)
-                    costo_1000 = 0.0
-                    if not es_local:
-                        costo_1000 = (tokens / 1000000.0) * 0.15 * 1000.0 # Aproximación simple usando precios de gpt-4o-mini
-                        
-                    resultados_grafico.append({
-                        "modelo": modelo,
-                        "costo_por_1000": costo_1000,
-                        "ndcg": ndcg
-                    })
-                
-                output_path = str(Path("data/03_output/pareto_frontier.png").absolute())
-                plot_frontera_pareto(resultados_grafico, output_path)
-                
-                if Path(output_path).exists():
-                    st.image(output_path, use_container_width=True)
-                else:
-                    st.error("No se pudo generar la gráfica de Pareto.")
-                
-    # Mostrar tabla resumen si existe
-    archivos_arena = list(latest_run.glob("ARENA_RESULTADOS*.csv"))
-    if archivos_arena:
-        st.subheader("Tabla Resumen (Ensembles y Baselines)")
-        df_arena = pd.read_csv(archivos_arena[0])
-        st.dataframe(df_arena)
-
-# --- PESTAÑA 2: Desagregación de Errores ---
-with tab2:
-    st.header("🧩 Taxonomía de Fallos Automática")
-    st.markdown("Clasifica los errores en: **A** (Fallo Retrieval), **B** (Fallo Generación/Alucinación), **C** (Fallo de Formato Estricto).")
-    
-    archivos_err = list(latest_run.glob("analisis_errores*.csv"))
-    if archivos_err:
-        for archivo in archivos_err:
-            df_err = pd.read_csv(archivo)
-            if 'Categoría Error (A/B/C)' in df_err.columns:
-                conteo = df_err['Categoría Error (A/B/C)'].value_counts().reset_index()
-                conteo.columns = ['Categoría', 'Cantidad']
-                
-                fig = px.pie(conteo, values='Cantidad', names='Categoría', 
-                             title=f"Distribución de Errores - {archivo.stem.replace('analisis_errores_desagregados_', '')}",
-                             color='Categoría',
-                             color_discrete_map={'A':'#EF4444', 'B':'#F59E0B', 'C':'#3B82F6'})
-                st.plotly_chart(fig, use_container_width=True)
-                st.dataframe(df_err)
+    st.header("📈 Optimización Multiobjetivo (Frontera de Pareto)")
+    if df_arena.empty:
+        st.info("Selecciona al menos una corrida en la barra lateral.")
     else:
-        st.info("No se detectaron errores en esta corrida (¡Perfecto!) o no se generó el archivo de análisis.")
-
-# --- PESTAÑA 3: Diversidad y Consistencia ---
-with tab3:
-    st.header("🔀 Diversidad Cuantificada (ENS-D)")
-    st.markdown("Compara dos modelos para ver en qué se equivocan y si sus errores están correlacionados (Matriz de Acuerdo).")
-    
-    archivos_juez = list(latest_run.glob("resultados_llm_judge_*.csv"))
-    if len(archivos_juez) >= 2:
-        modelos = [f.stem for f in archivos_juez]
-        mod_a = st.selectbox("Selecciona Modelo A", modelos, index=0)
-        mod_b = st.selectbox("Selecciona Modelo B", modelos, index=1)
+        df_sorted = df_arena.sort_values(by=["Costo_Operativo", "NDCG_10"], ascending=[True, False])
         
-        if st.button("Calcular Matriz de Diversidad"):
-            ruta_a = [f for f in archivos_juez if f.stem == mod_a][0]
-            ruta_b = [f for f in archivos_juez if f.stem == mod_b][0]
-            
-            res_div = calcular_diversidad(str(ruta_a), str(ruta_b), mod_a, mod_b)
-            if res_div:
-                col1, col2, col3 = st.columns(3)
-                col1.metric("Disagreement Rate", f"{res_div['metricas_ens_d']['disagreement_rate']*100:.1f}%")
-                col2.metric("Correlación de Errores", f"{res_div['metricas_ens_d']['error_correlation']:.3f}")
-                col3.metric("Oracle Gap (Mejora Máxima)", f"+{res_div['metricas_ens_d']['oracle_gap']*100:.1f}%")
+        frontera_x, frontera_y = [], []
+        max_ndcg = -1.0
+        for _, row in df_sorted.iterrows():
+            if row["NDCG_10"] > max_ndcg:
+                frontera_x.append(row["Costo_Operativo"])
+                frontera_y.append(row["NDCG_10"])
+                max_ndcg = row["NDCG_10"]
                 
-                # Matriz de Confusión / Acuerdo
-                st.subheader("Matriz de Acuerdo")
-                matriz = res_div['matriz_acuerdo']
-                df_mat = pd.DataFrame({
-                    f"{mod_b} Acertó": [matriz['ambos_aciertan'], matriz[f'solo_{mod_b}_acierta']],
-                    f"{mod_b} Falló": [matriz[f'solo_{mod_a}_acierta'], matriz['ambos_fallan']]
-                }, index=[f"{mod_a} Acertó", f"{mod_a} Falló"])
-                st.table(df_mat)
-    else:
-        st.warning("Se necesitan al menos 2 modelos evaluados para medir diversidad.")
+        fig = px.scatter(
+            df_arena, x="Costo_Operativo", y="NDCG_10", color="Corrida",
+            hover_name="Modelo", size_max=15,
+            title="Frontera de Pareto (Interactivo)"
+        )
+        fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')))
+        
+        fig.add_trace(go.Scatter(
+            x=frontera_x, y=frontera_y, mode='lines', name='Frontera de Pareto',
+            line=dict(color='red', width=2, dash='dash')
+        ))
+        st.plotly_chart(fig, use_container_width=True)
+        
+        st.subheader("📊 Tabla Resumen (Telemetría de Ensambles)")
+        st.dataframe(
+            df_arena.sort_values("NDCG_10", ascending=False),
+            use_container_width=True,
+            column_config={
+                "Costo_Operativo": st.column_config.NumberColumn("Costo (USD)", format="$%.4f"),
+                "Latencia_P95": st.column_config.NumberColumn("Latencia P95", format="%.2f s"),
+                "NDCG_10": st.column_config.NumberColumn("NDCG@10", format="%.3f")
+            }
+        )
 
-# --- PESTAÑA 4: Red-Teaming y Seguridad ---
+# --- PESTAÑA 2: Desagregación de Errores (NUEVA VERSIÓN MULTI-CORRIDA) ---
+with tab2:
+    st.header("🧩 Taxonomía de Fallos (A/B/C)")
+    if df_errores.empty:
+        st.warning("No se encontraron resultados de validación de Errores.")
+    else:
+        archivos_disponibles = df_errores["Archivo"].unique()
+        archivo_sel = st.selectbox("Selecciona un candidato para ver su taxonomía:", archivos_disponibles)
+        
+        df_filtrado = df_errores[df_errores["Archivo"] == archivo_sel]
+        fig_bar = px.bar(
+            df_filtrado, x="Tipo_Error", y="Cantidad", color="Tipo_Error",
+            title=f"Distribución de Errores - {archivo_sel}", text="Cantidad",
+            color_discrete_map={'A':'#EF4444', 'B':'#F59E0B', 'C':'#3B82F6'}
+        )
+        st.plotly_chart(fig_bar, use_container_width=True)
+
+# --- PESTAÑA 3: Diversidad (LÓGICA ORIGINAL PRESERVADA) ---
+with tab3:
+    st.header("🔀 Diversidad Cuantificada (Disagreement Rate)")
+    if not selected_runs:
+        st.info("Selecciona una corrida.")
+    else:
+        run_path = eval_dir / selected_runs[0]
+        archivos_juez = list(run_path.glob("resultados_llm_judge_*.csv")) + list(run_path.glob("analisis_errores_desagregados_*.csv"))
+        
+        if len(archivos_juez) >= 2:
+            modelos = [f.stem for f in archivos_juez]
+            mod_a = st.selectbox("Modelo A", modelos, index=0)
+            mod_b = st.selectbox("Modelo B", modelos, index=1)
+            
+            if st.button("Calcular Diversidad"):
+                ruta_a = [f for f in archivos_juez if f.stem == mod_a][0]
+                ruta_b = [f for f in archivos_juez if f.stem == mod_b][0]
+                
+                try:
+                    res_div = calcular_diversidad(str(ruta_a), str(ruta_b), mod_a, mod_b)
+                    if res_div:
+                        col1, col2, col3 = st.columns(3)
+                        col1.metric("Disagreement Rate", f"{res_div['metricas_ens_d']['disagreement_rate']*100:.1f}%")
+                        col2.metric("Correlación Errores", f"{res_div['metricas_ens_d']['error_correlation']:.3f}")
+                        col3.metric("Oracle Gap", f"+{res_div['metricas_ens_d']['oracle_gap']*100:.1f}%")
+                        
+                        st.subheader("Matriz de Acuerdo")
+                        matriz = res_div['matriz_acuerdo']
+                        df_mat = pd.DataFrame({
+                            f"{mod_b} Acertó": [matriz['ambos_aciertan'], matriz[f'solo_{mod_b}_acierta']],
+                            f"{mod_b} Falló": [matriz[f'solo_{mod_a}_acierta'], matriz['ambos_fallan']]
+                        }, index=[f"{mod_a} Acertó", f"{mod_a} Falló"])
+                        st.table(df_mat)
+                except Exception as e:
+                    st.error(f"Error calculando diversidad: {e}")
+        else:
+            st.warning("Se necesitan al menos 2 modelos para medir diversidad.")
+
+# --- PESTAÑA 4: Red-Teaming (LÓGICA ORIGINAL PRESERVADA) ---
 with tab4:
-    st.header("🛡️ Pruebas de Seguridad y Red-Teaming (DEP-D)")
-    st.markdown("Mide la robustez del modelo frente a inyección de prompts, extracción de PII y jailbreaks.")
+    st.header("🛡️ Red-Teaming y Seguridad (DEP-D)")
+    ruta_reporte_rt = project_root / "data" / "03_output" / "evaluaciones" / "red_teaming_reporte.json"
     
-    ruta_reporte_rt = Path("data/03_output/evaluaciones/red_teaming_reporte.json")
     if ruta_reporte_rt.exists():
         with open(ruta_reporte_rt, "r", encoding="utf-8") as f:
             reporte = json.load(f)
-            
-        st.metric("Tasa de Defensa (Guardrails Exitosos)", f"{reporte['tasa_exito_defensiva']}%")
-        
+        st.metric("Tasa de Defensa", f"{reporte['tasa_exito_defensiva']}%")
         df_rt = pd.DataFrame(reporte['detalles'])
         
-        # Colorear fila dependiendo del veredicto
         def highlight_veredicto(val):
             color = 'lightgreen' if val == 'BLOCKED' else 'lightcoral'
             return f'background-color: {color}'
             
         st.dataframe(df_rt.style.map(highlight_veredicto, subset=['veredicto']))
     else:
-        st.info("No se ha corrido el laboratorio de seguridad. Ejecuta `python src/lab/seguridad_eval.py` para poblar este reporte.")
+        st.info("No se ha ejecutado el módulo de seguridad (`src/lab/seguridad_eval.py`).")
