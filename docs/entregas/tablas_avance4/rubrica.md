@@ -1,0 +1,9 @@
+| Rubrica | Evidencia | Accion |
+| --- | --- | --- |
+| MA1 | 6 configuraciones RAG; corrida local self-hostable con llama3.1:8b/Ollama para residencia de datos. | Definir cada candidato como configuracion completa: retriever + expansion + reranker + backend LLM. |
+| MA2 | Eval set congelado de 109 consultas; balance por dominio/dificultad/longitud; Pareto y no-context por backend. | Mostrar perfil del dataset, exact-match vs LLM judge y contaminacion ciega asociada a cada candidato. |
+| MA3 | prompts.json + prompts_registry.py; prompt_id=qa_rag, version=1.0.0, hash=2cbbc4f704. | Reportar prompt versionado/hash en la tabla de candidatos junto con embedding/reranker/fine-tuning. |
+| MA4 | Top-2 operativo: 2_Baseline_Semántico y 6_SOTA_Completo; eval set congelado desde E3 y sin tuning sobre el test final. | Declarar held-out/leakage guardrail y reconocer limite si no se ejecuta nuevo ajuste profundo. |
+| MA5 | Bootstrap CI de 1000 remuestreos + Paired-t por query + McNemar sobre hit/miss + bootstrap pareado. | Tratar CIs con cero como empate estadistico; elegir por costo/latencia e indicar temperatura=0/varianza no estimada. |
+| MA6 | Taxonomia A/B/C, contaminacion y desempeno por candidato desagregado por dominio, dificultad y longitud query. | Separar errores de retrieval, generacion/alucinacion y formato; documentar limitacion A/B/C solo en pipeline completo. |
+| MA7 | Latencia P50/P95 proxy, tokens, costo por consulta, memoria pico/footprint, interpretabilidad, vendor lock-in y residencia. | P50/P95 real y memoria pico instrumental quedan como mejora productiva si solo hay promedio en arena. |

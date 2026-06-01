@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620">
+<rect width="100%" height="100%" fill="white"/>
+<text x="550" y="34" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700">Arquitectura interna del motor NLP/RAG</text>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#333"/></marker></defs>
+<style>.box{fill:#f7fbff;stroke:#3b6ea8;stroke-width:2;rx:8}.green{fill:#e8f7ee;stroke:#27864f;stroke-width:3;rx:8}.store{fill:#fff7df;stroke:#c28a00;stroke-width:2;rx:8}.lab{fill:#f7f0ff;stroke:#7a4bb3;stroke-width:2;rx:8}.txt{font-family:Arial;font-size:14px;fill:#17202a}.small{font-family:Arial;font-size:12px;fill:#3a3a3a}.arrow{stroke:#333;stroke-width:2;fill:none;marker-end:url(#arrow)}</style>
+<rect class="box" x="55" y="82" width="190" height="70"/><text class="txt" x="150" y="112" text-anchor="middle">config_llm.py</text><text class="small" x="150" y="134" text-anchor="middle">factory local/nube</text>
+<rect class="box" x="55" y="190" width="190" height="70"/><text class="txt" x="150" y="220" text-anchor="middle">prompts_registry.py</text><text class="small" x="150" y="242" text-anchor="middle">version + hash</text>
+<rect class="store" x="55" y="300" width="190" height="70"/><text class="txt" x="150" y="330" text-anchor="middle">prompts.json</text><text class="small" x="150" y="352" text-anchor="middle">catalogo de prompts</text>
+<rect class="box" x="325" y="82" width="190" height="70"/><text class="txt" x="420" y="112" text-anchor="middle">chunking.py</text><text class="small" x="420" y="134" text-anchor="middle">fragmentacion</text>
+<rect class="box" x="325" y="190" width="190" height="70"/><text class="txt" x="420" y="220" text-anchor="middle">vectorizacion.py</text><text class="small" x="420" y="242" text-anchor="middle">ChromaDB</text>
+<rect class="box" x="325" y="300" width="190" height="70"/><text class="txt" x="420" y="330" text-anchor="middle">retrieval.py</text><text class="small" x="420" y="352" text-anchor="middle">MotorBusqueda</text>
+<rect class="box" x="325" y="410" width="190" height="70"/><text class="txt" x="420" y="440" text-anchor="middle">pipeline.py</text><text class="small" x="420" y="462" text-anchor="middle">expansion + reranking</text>
+<rect class="green" x="620" y="245" width="210" height="90"/><text class="txt" x="725" y="282" text-anchor="middle" font-weight="700">generacion.py</text><text class="small" x="725" y="306" text-anchor="middle">orquestador RAG runtime</text>
+<rect class="box" x="620" y="410" width="210" height="70"/><text class="txt" x="725" y="440" text-anchor="middle">schemas.py</text><text class="small" x="725" y="462" text-anchor="middle">contratos Pydantic</text>
+<rect class="store" x="900" y="245" width="170" height="90"/><text class="txt" x="985" y="282" text-anchor="middle">telemetria_llm.jsonl</text><text class="small" x="985" y="306" text-anchor="middle">costos y latencia</text>
+<rect class="lab" x="620" y="82" width="210" height="70"/><text class="txt" x="725" y="112" text-anchor="middle">evaluador_integral.py</text><text class="small" x="725" y="134" text-anchor="middle">orquestador experimental</text>
+<rect class="lab" x="900" y="82" width="170" height="70"/><text class="txt" x="985" y="112" text-anchor="middle">evaluador.py</text><text class="small" x="985" y="134" text-anchor="middle">LLM-as-a-Judge</text>
+<path class="arrow" d="M245 117 H610"/><path class="arrow" d="M245 225 H610 V268"/><path class="arrow" d="M150 260 V294"/>
+<path class="arrow" d="M420 152 V184"/><path class="arrow" d="M420 260 V294"/><path class="arrow" d="M420 370 V404"/><path class="arrow" d="M515 445 H610 V312"/>
+<path class="arrow" d="M620 445 H575 V325 H610"/><path class="arrow" d="M830 290 H894"/>
+<path class="arrow" d="M830 117 H894"/><path class="arrow" d="M725 152 V238"/><path class="arrow" d="M900 117 H840 V245" stroke-dasharray="6 4"/>
+</svg>

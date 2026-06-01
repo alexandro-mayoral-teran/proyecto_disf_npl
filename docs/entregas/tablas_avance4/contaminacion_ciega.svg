@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="440" viewBox="0 0 920 440">
+<rect width="100%" height="100%" fill="white"/>
+<text x="460.0" y="28" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700">Contaminacion ciega por corrida</text>
+<line x1="70" y1="335" x2="890" y2="335" stroke="#333"/>
+<line x1="70" y1="55" x2="70" y2="335" stroke="#333"/>
+<text transform="translate(18 195.0) rotate(-90)" text-anchor="middle" font-family="Arial" font-size="12">% hit sin contexto</text>
+<line x1="66" y1="335.0" x2="890" y2="335.0" stroke="#eeeeee"/>
+<text x="62" y="339.0" text-anchor="end" font-family="Arial" font-size="11">0.0</text>
+<line x1="66" y1="279.0" x2="890" y2="279.0" stroke="#eeeeee"/>
+<text x="62" y="283.0" text-anchor="end" font-family="Arial" font-size="11">7.5</text>
+<line x1="66" y1="223.0" x2="890" y2="223.0" stroke="#eeeeee"/>
+<text x="62" y="227.0" text-anchor="end" font-family="Arial" font-size="11">15.0</text>
+<line x1="66" y1="167.0" x2="890" y2="167.0" stroke="#eeeeee"/>
+<text x="62" y="171.0" text-anchor="end" font-family="Arial" font-size="11">22.6</text>
+<line x1="66" y1="111.0" x2="890" y2="111.0" stroke="#eeeeee"/>
+<text x="62" y="115.0" text-anchor="end" font-family="Arial" font-size="11">30.1</text>
+<line x1="66" y1="55.0" x2="890" y2="55.0" stroke="#eeeeee"/>
+<text x="62" y="59.0" text-anchor="end" font-family="Arial" font-size="11">37.6</text>
+<rect x="70.0" y="294.0" width="405.0" height="41.0" fill="#4C78A8"/>
+<text x="272.5" y="289.0" text-anchor="middle" font-family="Arial" font-size="11">5.5</text>
+<text transform="translate(272.5 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">nube</text>
+<rect x="485.0" y="55.0" width="405.0" height="280.0" fill="#F58518"/>
+<text x="687.5" y="50.0" text-anchor="middle" font-family="Arial" font-size="11">37.6</text>
+<text transform="translate(687.5 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">local</text>
+</svg>
