@@ -1,0 +1,7 @@
+﻿Candidato,NDCG nube,Latencia promedio nube (s),P95 proxy nube (s),Multiplicador latencia vs ganador,Costo/1k nube (USD),Lectura operativa
+1_Baseline_Léxico,0.714,0.3033,0.40945500000000007,1.082441113490364,0.5101,"Alternativa viable, pero dominada por el baseline semantico."
+2_Baseline_Semántico,0.8457,0.2802,0.37827000000000005,1.0,0.507,Mejor punto operativo: mayor NDCG nube y menor latencia.
+3_Híbrido_Simple,0.8261,0.5077,0.6853950000000001,1.8119200571020702,0.5109,"Alternativa viable, pero dominada por el baseline semantico."
+4_Híbrido_Reranker,0.8301,2.824,3.8124000000000002,10.078515346181298,0.5056,Complejidad costosa en latencia sin lift estadistico claro.
+5_Semántico_Expandido,0.8439,4.8374,6.53049,17.264097073518915,0.511,Complejidad costosa en latencia sin lift estadistico claro.
+6_SOTA_Completo,0.8407,9.3773,12.659355000000001,33.46645253390435,0.5023,"Ruta de escalamiento: calidad cercana, pero latencia muy superior."

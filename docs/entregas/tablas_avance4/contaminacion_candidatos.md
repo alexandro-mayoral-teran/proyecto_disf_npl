@@ -1,0 +1,14 @@
+| Candidato | Corrida | Backend QA | Self-hostable | No-context hit rate | n | Lectura |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1_Baseline_Léxico | local | llama3.1:8b | Si | 0.376 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 1_Baseline_Léxico | nube | gpt-4o-mini | No | 0.055 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 2_Baseline_Semántico | local | llama3.1:8b | Si | 0.376 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 2_Baseline_Semántico | nube | gpt-4o-mini | No | 0.055 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 3_Híbrido_Simple | local | llama3.1:8b | Si | 0.376 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 3_Híbrido_Simple | nube | gpt-4o-mini | No | 0.055 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 4_Híbrido_Reranker | local | llama3.1:8b | Si | 0.376 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 4_Híbrido_Reranker | nube | gpt-4o-mini | No | 0.055 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 5_Semántico_Expandido | local | llama3.1:8b | Si | 0.376 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 5_Semántico_Expandido | nube | gpt-4o-mini | No | 0.055 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 6_SOTA_Completo | local | llama3.1:8b | Si | 0.376 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |
+| 6_SOTA_Completo | nube | gpt-4o-mini | No | 0.055 | 109 | Riesgo de memoria base sin retrieval; se controla con RAG/contexto |

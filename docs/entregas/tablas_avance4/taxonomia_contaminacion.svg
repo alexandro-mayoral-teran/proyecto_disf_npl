@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="440" viewBox="0 0 920 440">
+<rect width="100%" height="100%" fill="white"/>
+<text x="460.0" y="28" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700">Taxonomia de errores: nube vs local</text>
+<line x1="70" y1="335" x2="890" y2="335" stroke="#333"/>
+<line x1="70" y1="55" x2="70" y2="335" stroke="#333"/>
+<text transform="translate(18 195.0) rotate(-90)" text-anchor="middle" font-family="Arial" font-size="12">Consultas</text>
+<line x1="66" y1="335.0" x2="890" y2="335.0" stroke="#eeeeee"/>
+<text x="62" y="339.0" text-anchor="end" font-family="Arial" font-size="11">0.0</text>
+<line x1="66" y1="279.0" x2="890" y2="279.0" stroke="#eeeeee"/>
+<text x="62" y="283.0" text-anchor="end" font-family="Arial" font-size="11">12.2</text>
+<line x1="66" y1="223.0" x2="890" y2="223.0" stroke="#eeeeee"/>
+<text x="62" y="227.0" text-anchor="end" font-family="Arial" font-size="11">24.4</text>
+<line x1="66" y1="167.0" x2="890" y2="167.0" stroke="#eeeeee"/>
+<text x="62" y="171.0" text-anchor="end" font-family="Arial" font-size="11">36.6</text>
+<line x1="66" y1="111.0" x2="890" y2="111.0" stroke="#eeeeee"/>
+<text x="62" y="115.0" text-anchor="end" font-family="Arial" font-size="11">48.8</text>
+<line x1="66" y1="55.0" x2="890" y2="55.0" stroke="#eeeeee"/>
+<text x="62" y="59.0" text-anchor="end" font-family="Arial" font-size="11">61.0</text>
+<rect x="70.0" y="119.3" width="93.8" height="215.7" fill="#4C78A8"/>
+<text x="116.9" y="114.3" text-anchor="middle" font-family="Arial" font-size="11">47.0</text>
+<text transform="translate(116.9 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">nube-A</text>
+<rect x="173.8" y="137.6" width="93.8" height="197.4" fill="#F58518"/>
+<text x="220.6" y="132.6" text-anchor="middle" font-family="Arial" font-size="11">43.0</text>
+<text transform="translate(220.6 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">nube-B</text>
+<rect x="277.5" y="335.0" width="93.8" height="0.0" fill="#54A24B"/>
+<text x="324.4" y="330.0" text-anchor="middle" font-family="Arial" font-size="11">0.0</text>
+<text transform="translate(324.4 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">nube-C</text>
+<rect x="381.2" y="247.8" width="93.8" height="87.2" fill="#E45756"/>
+<text x="428.1" y="242.8" text-anchor="middle" font-family="Arial" font-size="11">19.0</text>
+<text transform="translate(428.1 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">nube-ÉXITO</text>
+<rect x="485.0" y="119.3" width="93.8" height="215.7" fill="#72B7B2"/>
+<text x="531.9" y="114.3" text-anchor="middle" font-family="Arial" font-size="11">47.0</text>
+<text transform="translate(531.9 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">local-A</text>
+<rect x="588.8" y="335.0" width="93.8" height="0.0" fill="#B279A2"/>
+<text x="635.6" y="330.0" text-anchor="middle" font-family="Arial" font-size="11">0.0</text>
+<text transform="translate(635.6 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">local-B</text>
+<rect x="692.5" y="330.4" width="93.8" height="4.6" fill="#FF9DA6"/>
+<text x="739.4" y="325.4" text-anchor="middle" font-family="Arial" font-size="11">1.0</text>
+<text transform="translate(739.4 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">local-C</text>
+<rect x="796.2" y="55.0" width="93.8" height="280.0" fill="#9D755D"/>
+<text x="843.1" y="50.0" text-anchor="middle" font-family="Arial" font-size="11">61.0</text>
+<text transform="translate(843.1 351) rotate(35)" text-anchor="start" font-family="Arial" font-size="11">local-ÉXITO</text>
+</svg>

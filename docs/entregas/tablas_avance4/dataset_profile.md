@@ -1,0 +1,12 @@
+| Corte | Valor | n | % | Uso en E4 |
+| --- | --- | --- | --- | --- |
+| Dominio regulatorio | Credito | 30 | 27.5 | subgrupo MA6 |
+| Dominio regulatorio | Liquidez | 79 | 72.5 | subgrupo MA6 |
+| Complejidad/dificultad | Alta | 48 | 44.0 | subgrupo MA6 |
+| Complejidad/dificultad | Baja | 14 | 12.8 | subgrupo MA6 |
+| Complejidad/dificultad | Media | 47 | 43.1 | subgrupo MA6 |
+| Longitud query | corta (<=10 tokens) | 19 | 17.4 | subgrupo MA6 |
+| Longitud query | larga (>18 tokens) | 19 | 17.4 | subgrupo MA6 |
+| Longitud query | media (11-18 tokens) | 71 | 65.1 | subgrupo MA6 |
+| Idioma | es | 109 | 100.0 | control MA2/BL6 |
+| Multi-documento/multi-chunk esperado | No | 109 | 100.0 | control MA2/BL6 |

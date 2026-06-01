@@ -1,0 +1,3 @@
+﻿Dominio,Modelo ganador,NDCG ganador,Segundo lugar,NDCG segundo,Delta ganador-segundo,Ganador peor?
+Credito,2_Baseline_Semántico,0.9138836091666734,6_SOTA_Completo,0.9297596420238124,-0.01587603285713901,Si
+Liquidez,2_Baseline_Semántico,0.8198691157732548,6_SOTA_Completo,0.8069168029351577,0.012952312838097169,No

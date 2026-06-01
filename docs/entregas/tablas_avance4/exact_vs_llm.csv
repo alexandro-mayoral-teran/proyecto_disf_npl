@@ -1,0 +1,10 @@
+﻿Estrategia Avance 3,NDCG exact-match,NDCG LLM judge,Delta LLM-exact,Lectura
+1_BoW,0.1667,0.678,0.5113000000000001,Exact-match subestima retrieval semantico
+2_TF-IDF,0.2,0.7605,0.5605,Exact-match subestima retrieval semantico
+3_BM25,0.1667,0.6562,0.48950000000000005,Exact-match subestima retrieval semantico
+4_Embeddings,0.3667,0.9014,0.5347,Exact-match subestima retrieval semantico
+5_Hibrido_RRF,0.2,0.8376,0.6376,Exact-match subestima retrieval semantico
+6_Hibrido_CrossEncoder,0.2333,0.8503,0.617,Exact-match subestima retrieval semantico
+7_Embeddings_CrossEncoder,0.3667,0.8304,0.4637,Exact-match subestima retrieval semantico
+8_MultiQuery_Embeddings_CrossEncoder,0.3667,0.811,0.44430000000000003,Exact-match subestima retrieval semantico
+9_HyDE_Embeddings_CrossEncoder,0.4,0.83,0.42999999999999994,Exact-match subestima retrieval semantico

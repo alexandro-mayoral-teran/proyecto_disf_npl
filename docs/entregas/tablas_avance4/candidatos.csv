@@ -1,0 +1,7 @@
+﻿Candidato,Modelo QA nube,Modelo QA local,Embedding,Retriever,Expansion,Reranker,Fine-tuning,Prompt versionado,NDCG nube,NDCG local,Lat. nube,Lat. local,Costo/1k nube
+1_Baseline_Léxico,gpt-4o-mini,llama3.1:8b,No aplica,bow,No,No,No,qa_rag v1.0.0 (2cbbc4f704),0.714,0.8471,0.3033,0.4042,0.5101
+2_Baseline_Semántico,gpt-4o-mini,llama3.1:8b,text-embedding-3-small / ChromaDB,embeddings,No,No,No,qa_rag v1.0.0 (2cbbc4f704),0.8457,0.908,0.2802,0.3892,0.507
+3_Híbrido_Simple,gpt-4o-mini,llama3.1:8b,text-embedding-3-small / ChromaDB,hibrido,No,No,No,qa_rag v1.0.0 (2cbbc4f704),0.8261,0.9215,0.5077,1.508,0.5109
+4_Híbrido_Reranker,gpt-4o-mini,llama3.1:8b,text-embedding-3-small / ChromaDB,hibrido,No,cross_encoder,No,qa_rag v1.0.0 (2cbbc4f704),0.8301,0.9157,2.824,3.0284,0.5056
+5_Semántico_Expandido,gpt-4o-mini,llama3.1:8b,text-embedding-3-small / ChromaDB,embeddings,ambos,No,No,qa_rag v1.0.0 (2cbbc4f704),0.8439,0.9043,4.8374,8.7969,0.511
+6_SOTA_Completo,gpt-4o-mini,llama3.1:8b,text-embedding-3-small / ChromaDB,hibrido,ambos,cross_encoder,No,qa_rag v1.0.0 (2cbbc4f704),0.8407,0.9277,9.3773,13.9032,0.5023
