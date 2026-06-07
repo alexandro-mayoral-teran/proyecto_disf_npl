@@ -1,0 +1,3 @@
+| Backend prueba ciega | n | No-context hit rate | Duración media seg | Duración P95 seg | Lectura |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| gpt-4o-mini | 109 | 0.0459 | 4.0675 | 7.3804 | Bajo riesgo de contaminación paramétrica; el RAG sigue siendo necesario para evidencia normativa exacta. |

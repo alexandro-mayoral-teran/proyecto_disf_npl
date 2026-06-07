@@ -1,0 +1,7 @@
+﻿Modelo,Total_Misses,Muestra_Analizada,Errores_A_Retrieval,Errores_B_Generacion,Errores_C_Formato,% A retrieval,% B generación,Lectura
+1_Baseline_Léxico,9,9,8,1,0,88.9,11.1,Cuello principal: retrieval/chunking
+2_Baseline_Semántico,1,1,1,0,0,100.0,0.0,Cuello principal: retrieval/chunking
+3_Híbrido_Simple,1,1,1,0,0,100.0,0.0,Cuello principal: retrieval/chunking
+4_Híbrido_Reranker,2,2,2,0,0,100.0,0.0,Cuello principal: retrieval/chunking
+5_Semántico_Expandido,1,1,1,0,0,100.0,0.0,Cuello principal: retrieval/chunking
+6_SOTA_Completo,2,2,2,0,0,100.0,0.0,Cuello principal: retrieval/chunking
