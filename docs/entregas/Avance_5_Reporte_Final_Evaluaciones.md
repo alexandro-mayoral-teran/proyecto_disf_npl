@@ -86,6 +86,14 @@ if os.path.exists(ruta_csv_a) and os.path.exists(ruta_csv_b):
     calcular_diversidad(ruta_csv_a, ruta_csv_b, "Llama 3.1 (Local)", "GPT-4o-mini (Nube)")
 ```
 
+**Interpretación de la Métrica de Diversidad:**
+* **Ambos aciertan (107) / Ambos fallan (0):** El modelo local (Llama 3.1) y el modelo nube (GPT-4o) son extremadamente competentes, compartiendo el éxito en casi todas las consultas del corpus.
+* **Solo Llama 3.1 acierta (2) / Solo GPT-4o acierta (0):** El modelo local gratuito logró superar al modelo de pago en 2 consultas específicas, demostrando su altísima capacidad de comprensión normativa.
+* **Disagreement Rate (1.83%):** Difieren únicamente en el 1.83% de las preguntas evaluadas.
+* **Correlación de Errores (NaN) y Oracle Gap (+0.00%):** Al no haber errores compartidos (cero fallos conjuntos), la fórmula de correlación resulta en un valor nulo, y el *Oracle Gap* nos indica que matemáticamente Llama 3.1 ya alcanzó el techo de 100% de efectividad en este subset.
+
+**Conclusión Operativa:** Estos números justifican nuestra arquitectura **Cascade**. Dado que Llama 3.1 es igual (o microscópicamente mejor) que GPT-4o-mini en este dominio normativo, carece de sentido financiero y de privacidad enviar todo el tráfico a la nube. Establecemos a Llama 3.1 como nuestra primera línea gratuita y delegamos a la nube exclusivamente como red de seguridad ante bajas de confianza (*Faithfulness*).
+
 ### 5. Rúbrica ENS-E: Calibración y Consistencia (Self-Consistency)
 
 Una debilidad inherente de los LLMs es la alucinación encubierta. Para medir la miscalibración, diseñamos un test de invariabilidad. El sistema interroga al modelo múltiples veces con `temperature=0.7` y usa un LLM-Juez para validar si los hechos reportados se mantienen inmutables (Expected Calibration Error).

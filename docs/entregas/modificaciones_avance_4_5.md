@@ -3,7 +3,7 @@
 ## 1. Módulos Core (NLP Engine)
 Archivos en `src/nlp_core/`:
 - `generacion.py` y `pipeline.py`: Se modificaron para incorporar la **Arquitectura de Model Cascading** (enrutamiento dinámico). Ahora el pipeline puede consultar primero a un modelo local (Llama 3.1) y derivar a la nube (GPT-4o) basándose en una autoevaluación de confianza (Faithfulness). Adicionalmente se integró la inyección de seguridad y el **Caché Semántico**.
-- `retrieval.py`: Se pulió para garantizar la captura de telemetría y soportar las expansiones necesarias para el RAG.
+- `retrieval.py`: Se implementó un sistema de **Caché Global en RAM** para los motores léxicos (BM25, TF-IDF, BoW) y el CrossEncoder. Esto elimina los "Cold Starts" al evitar recalcular las matrices matemáticas en cada consulta, acelerando drásticamente las evaluaciones masivas y reduciendo la latencia de inferencia.
 - `evals/evaluador.py`: Se actualizó para implementar métricas RAGAS internamente de forma *custom* (sin depender de la librería externa pesada), calculando las métricas requeridas como Answer Relevancy y Faithfulness directamente con el LLM.
 - `telemetria.py`: Se actualizó para soportar el guardado de métricas avanzadas utilizadas por el dashboard.
 - `seguridad/guardrails.py` (NUEVO): Se creó para implementar las reglas de seguridad defensiva en los prompts del sistema (prevención de Inyecciones de Prompt).
