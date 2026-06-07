@@ -27,5 +27,12 @@ En un RAG complejo, cuando una extracción falla, es difícil saber por qué. Es
 - **Fallo C (Culpa de Formato / Parser JSON):** El buscador le dio la info correcta y el LLM extrajo bien los datos, pero falló al armar el esquema JSON (olvidó unas comillas, usó un string en vez de int, etc.) rompiendo la validación de Pydantic. 
   - *Solución:* Bajar la temperatura a `0.0`, usar LLMs afinados para *Structured Outputs* o reescribir la descripción de los campos en el código.
 
+## 4. Evaluaciones de Robustez y Ensambles (Avance 5)
+Para cumplir con los estándares de MLOps en el Avance 5, se implementaron evaluaciones científicas adicionales a través de scripts especializados en `src/lab/`:
+
+- **Diversidad del Ensamble (Correlación de Pearson):** Mide empíricamente si combinar dos modelos de búsqueda (ej. BM25 y Embeddings) vale la pena. Una correlación baja (<0.50) significa que los modelos cometen errores en documentos distintos, por lo que fusionarlos (vía Reciprocal Rank Fusion) es estadísticamente superior a usarlos por separado.
+- **Calibración y Self-Consistency (Proxy ECE):** Evaluamos qué tan seguro está el LLM de sus propias respuestas corriendo la misma consulta múltiples veces (`temperature > 0`). Una varianza alta significa baja consistencia (el modelo "adivina" y alucina). Un modelo bien calibrado debe producir respuestas consistentes.
+- **Frontera de Pareto (TCO vs Calidad):** Analiza gráficamente la relación entre Latencia/Costo ($) en el eje X y Precisión (NDCG@10) en el eje Y. Te ayuda a justificar arquitecturas como el **Model Cascading** (usar un modelo local gratuito primero, y delegar a la nube solo si la confianza es baja) demostrando que mantiene un NDCG alto recortando el costo drásticamente.
+
 ## Trazabilidad (Metadatos)
 En todos los CSVs verás columnas inyectadas como `LLM_Modelo_QA`, `Es_Local` o `Git_Hash`. Utiliza estas variables como dimensiones cuando cruces los datos en Excel/Python para dibujar tu **Frontera de Pareto** (graficando `NDCG@10` vs. `Costo` vs. `Latencia`).
