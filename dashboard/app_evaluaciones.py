@@ -11,6 +11,7 @@ import time
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 from src.nlp_core.generacion import responder_rag_cascade_qa
 from src.nlp_core.evals.evaluador import evaluar_faithfulness_claims, evaluar_answer_relevance, evaluar_context_relevancy
+from src.lab.consistencia_eval import correr_evaluacion_consistencia
 
 st.set_page_config(page_title="Centro de Comando MLOps", page_icon="🚀", layout="wide")
 st.title("🚀 Centro de Comando MLOps (Banxico DISF)")
@@ -136,6 +137,32 @@ elif menu == "🧪 Pruebas RAGAS (Bajo Demanda)":
         
         with st.expander("Ver Contexto Recuperado"):
             st.markdown(res['contexto_str'])
+
+    st.divider()
+    st.markdown("### 🎲 Prueba de Miscalibración y Alucinación Encubierta")
+    st.markdown("Esta prueba de estrés ('Self-Consistency') tomará la consulta actual y la lanzará al modelo de generación **3 veces seguidas con alta temperatura (0.7)**. Luego, un juez LLM evaluará si el modelo fue capaz de mantener una narrativa coherente o si comenzó a contradecirse (lo que indicaría alucinación encubierta).")
+    
+    if st.button("Ejecutar Prueba de Consistencia (ECE)"):
+        with st.spinner("Ejecutando 3 corridas con temperatura 0.7 y calculando varianza... Esto puede tomar varios segundos."):
+            try:
+                res_ece = correr_evaluacion_consistencia(query, n_runs=3, temperatura=0.7)
+                st.success("¡Prueba de consistencia completada!")
+                
+                col_e1, col_e2, col_e3, col_e4 = st.columns(4)
+                col_e1.metric("Consistency Score", f"{res_ece['consistency_score']*100:.1f}%")
+                col_e2.metric("Varianza", f"{res_ece['varianza']:.4f}")
+                col_e3.metric("ECE (Miscalibración)", f"{res_ece['ece_aprox']:.4f}")
+                
+                color_diag = "green" if "Consistente" in res_ece['interpretacion'] else "red"
+                col_e4.markdown(f"**Diagnóstico:** <span style='color:{color_diag};'>{res_ece['interpretacion']}</span>", unsafe_allow_html=True)
+                
+                # Mostrar las respuestas generadas
+                with st.expander("Ver las 3 respuestas generadas (Self-Consistency)"):
+                    for idx, resp in enumerate(res_ece.get("respuestas", [])):
+                        st.markdown(f"**Corrida {idx+1}:**")
+                        st.info(resp)
+            except Exception as e:
+                st.error(f"Error durante la prueba de consistencia: {e}")
 
 # --- MÓDULO 3: Telemetría en Vivo ---
 elif menu == "📡 Monitoreo Operativo en Vivo":

@@ -90,7 +90,8 @@ def correr_evaluacion_consistencia(query_prueba: str, n_runs: int = 3, temperatu
         "consistency_score": float(consistency_score),
         "varianza": float(varianza),
         "ece_aprox": float(ece_aprox),
-        "interpretacion": "Altamente Consistente" if consistency_score > 0.8 else "Miscalibrado / Alucinación Probable"
+        "interpretacion": "Altamente Consistente" if consistency_score > 0.8 else "Miscalibrado / Alucinación Probable",
+        "respuestas": respuestas
     }
     
     print("-" * 50)
