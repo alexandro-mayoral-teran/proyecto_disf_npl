@@ -204,37 +204,16 @@
                     </div>
                     <p class="explorer-subtitle">Resuelve dudas normativas generales. El modelo buscará en los documentos y redactará una respuesta.</p>
                     
-                    <!-- Configurador de Pipeline RAG en vivo -->
-                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; background: #f8f9fa; padding: 0.5rem; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.75rem;">
-                        <div style="flex: 1; display: flex; flex-direction: column;">
-                            <label style="font-weight: bold; color: var(--banxico-azul-institucional); margin-bottom: 0.2rem;">Motor Base:</label>
-                            <select id="config-retriever" style="padding: 0.2rem; border-radius: 4px; border: 1px solid #cbd5e1; outline: none;">
-                                <option value="embeddings">Semántica Simple (ChromaDB)</option>
-                                <option value="bm25">Léxica Pura (BM25)</option>
-                                <option value="hibrido">Híbrida (BM25 + ChromaDB + RRF)</option>
-                            </select>
-                        </div>
-                        <div style="flex: 1; display: flex; flex-direction: column;">
-                            <label style="font-weight: bold; color: var(--banxico-azul-institucional); margin-bottom: 0.2rem;">Expansión Query:</label>
-                            <select id="config-expansion" style="padding: 0.2rem; border-radius: 4px; border: 1px solid #cbd5e1; outline: none;">
-                                <option value="none">Ninguna</option>
-                                <option value="multi_query">Multi-Query (LLM)</option>
-                                <option value="hyde">HyDE (Documento Hipotético)</option>
-                                <option value="ambos">Ambos (Multi-Query + HyDE)</option>
-                            </select>
-                        </div>
-                        <div style="flex: 1; display: flex; flex-direction: column;">
-                            <label style="font-weight: bold; color: var(--banxico-azul-institucional); margin-bottom: 0.2rem;">Post-Procesamiento:</label>
-                            <select id="config-post" style="padding: 0.2rem; border-radius: 4px; border: 1px solid #cbd5e1; outline: none;">
-                                <option value="none">Ninguno</option>
-                                <option value="cross_encoder">Cross-Encoder (Reranking)</option>
-                            </select>
-                        </div>
+                    <!-- Info del Motor Cascade -->
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; background: #f8f9fa; padding: 0.5rem; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.75rem; align-items: center;">
+                        <i data-lucide="cpu" class="icon-sm" style="color: var(--banxico-turquesa)"></i>
+                        <span style="font-weight: bold; color: var(--banxico-azul-institucional);">Motor Activo:</span>
+                        <span style="color: #64748b;">RAG Híbrido + Router Cascade (Llama 3.1 ↔ GPT-4o)</span>
                     </div>
 
                     <div class="chat-container" id="qa-history" style="flex: 1; min-height: 0;">
                         <div class="chat-message bot">
-                            Hola, estoy aquí para resolver tus dudas sobre la normativa de la DISF. Pregúntame lo que necesites saber. Usa los menús de arriba para cambiar mi estrategia de búsqueda.
+                            Hola, estoy aquí para resolver tus dudas sobre la normativa de la DISF. Pregúntame lo que necesites saber.
                         </div>
                     </div>
                     
@@ -295,7 +274,7 @@
     </div>
 
     <!-- Lógica de Aplicación -->
-    <script src="main.js"></script>
+    <script src="main.js?v=2.0"></script>
     <script>
         // Inicializar iconos de Lucide
         lucide.createIcons();

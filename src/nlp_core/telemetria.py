@@ -37,9 +37,10 @@ class RastreadorTelemetria:
         total_in = sum(r["tokens_input"] for r in datos_modelo)
         total_out = sum(r["tokens_output"] for r in datos_modelo)
         
-        # Calcular latencias P50 (mediana) y P95
+        # Calcular latencias P50 (mediana), P95 y P99
         p50 = np.percentile(latencias, 50)
         p95 = np.percentile(latencias, 95)
+        p99 = np.percentile(latencias, 99)
         
         # Calcular costo (Regla de 3 para precio por millón)
         tarifas = self.PRECIOS_LLM.get(modelo, {"input": 0.0, "output": 0.0})
@@ -56,6 +57,7 @@ class RastreadorTelemetria:
             "muestras": n_consultas,
             "latencia_p50": p50,
             "latencia_p95": p95,
+            "latencia_p99": p99,
             "costo_total_usd": costo_total_usd,
             "costo_por_1000_consultas": costo_per_1k
         }

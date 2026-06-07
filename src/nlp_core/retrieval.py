@@ -14,6 +14,72 @@ if str(project_root) not in sys.path:
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 
+_BM25_CACHE = None
+_TFIDF_CACHE = None
+_BOW_CACHE = None
+_STOPWORDS_CACHE = None
+
+def limpiar_cache_retrieval():
+    global _BM25_CACHE, _TFIDF_CACHE, _BOW_CACHE, _STOPWORDS_CACHE
+    _BM25_CACHE = None
+    _TFIDF_CACHE = None
+    _BOW_CACHE = None
+    _STOPWORDS_CACHE = None
+    print("🧹 Caché de Retrieval en RAM limpiada.")
+
+def _get_stopwords():
+    global _STOPWORDS_CACHE
+    if _STOPWORDS_CACHE is None:
+        import nltk
+        from nltk.corpus import stopwords
+        try:
+            _STOPWORDS_CACHE = stopwords.words("spanish")
+        except LookupError:
+            nltk.download('stopwords')
+            _STOPWORDS_CACHE = stopwords.words("spanish")
+    return _STOPWORDS_CACHE
+
+def _get_bm25(documentos_bm25):
+    global _BM25_CACHE
+    use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
+    from langchain_community.retrievers import BM25Retriever
+    
+    if not use_cache:
+        return BM25Retriever.from_documents(documentos_bm25)
+        
+    if _BM25_CACHE is None:
+        print("📥 Indexando BM25 en memoria RAM (Cold Start)...")
+        _BM25_CACHE = BM25Retriever.from_documents(documentos_bm25)
+    return _BM25_CACHE
+
+def _get_tfidf(documentos_raw):
+    global _TFIDF_CACHE
+    use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    
+    if not use_cache or _TFIDF_CACHE is None:
+        if use_cache: print("📥 Calculando Matriz TF-IDF en RAM (Cold Start)...")
+        textos = [doc.page_content for doc in documentos_raw]
+        vectorizer = TfidfVectorizer(lowercase=True, stop_words=_get_stopwords(), norm='l2')
+        X = vectorizer.fit_transform(textos)
+        if not use_cache: return vectorizer, X
+        _TFIDF_CACHE = (vectorizer, X)
+    return _TFIDF_CACHE
+
+def _get_bow(documentos_raw):
+    global _BOW_CACHE
+    use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
+    from sklearn.feature_extraction.text import CountVectorizer
+    
+    if not use_cache or _BOW_CACHE is None:
+        if use_cache: print("📥 Calculando Matriz BoW en RAM (Cold Start)...")
+        textos = [doc.page_content for doc in documentos_raw]
+        vectorizer = CountVectorizer(lowercase=True, stop_words=_get_stopwords())
+        X = vectorizer.fit_transform(textos)
+        if not use_cache: return vectorizer, X
+        _BOW_CACHE = (vectorizer, X)
+    return _BOW_CACHE
+
 class MotorBusqueda:
     """
     Clase responsable de la recuperación de información (Retrieval) desde la base de datos
@@ -79,7 +145,7 @@ class MotorBusqueda:
             raise ValueError("Búsqueda Híbrida requiere 'documentos_bm25' para inicializar el BM25 local.")
 
         # 1. Búsqueda Léxica
-        bm25_retriever = BM25Retriever.from_documents(documentos_bm25)
+        bm25_retriever = _get_bm25(documentos_bm25)
         bm25_retriever.k = k
         res_bm25 = bm25_retriever.invoke(query)
         
@@ -128,7 +194,7 @@ class MotorBusqueda:
         from langchain_community.retrievers import BM25Retriever
         
         print(f"Ejecutando Búsqueda Léxica (BM25) para: '{query}'...")
-        bm25_retriever = BM25Retriever.from_documents(documentos_bm25)
+        bm25_retriever = _get_bm25(documentos_bm25)
         bm25_retriever.k = k
         
         resultados_raw = bm25_retriever.invoke(query)
@@ -150,19 +216,8 @@ class MotorBusqueda:
         """Búsqueda Léxica pura usando Bag of Words (CountVectorizer)."""
         from sklearn.feature_extraction.text import CountVectorizer
         from sklearn.metrics.pairwise import cosine_similarity
-        import nltk
-        from nltk.corpus import stopwords
-        
-        try:
-            stopwords_es = stopwords.words("spanish")
-        except LookupError:
-            nltk.download('stopwords')
-            stopwords_es = stopwords.words("spanish")
-        
         print(f"Ejecutando Búsqueda Léxica (BoW) para: '{query}'...")
-        textos = [doc.page_content for doc in documentos_raw]
-        vectorizer = CountVectorizer(lowercase=True, stop_words=stopwords_es)
-        X = vectorizer.fit_transform(textos)
+        vectorizer, X = _get_bow(documentos_raw)
         
         q_vec = vectorizer.transform([query])
         sims = cosine_similarity(q_vec, X).ravel()
@@ -186,19 +241,8 @@ class MotorBusqueda:
         """Búsqueda Léxica usando TF-IDF con normalización L2."""
         from sklearn.feature_extraction.text import TfidfVectorizer
         from sklearn.metrics.pairwise import cosine_similarity
-        import nltk
-        from nltk.corpus import stopwords
-        
-        try:
-            stopwords_es = stopwords.words("spanish")
-        except LookupError:
-            nltk.download('stopwords')
-            stopwords_es = stopwords.words("spanish")
-        
         print(f"Ejecutando Búsqueda Léxica (TF-IDF) para: '{query}'...")
-        textos = [doc.page_content for doc in documentos_raw]
-        vectorizer = TfidfVectorizer(lowercase=True, stop_words=stopwords_es, norm='l2')
-        X = vectorizer.fit_transform(textos)
+        vectorizer, X = _get_tfidf(documentos_raw)
         
         q_vec = vectorizer.transform([query])
         sims = cosine_similarity(q_vec, X).ravel()
@@ -231,10 +275,9 @@ class MotorBusqueda:
         # 1. Recuperar amplio espectro (evitando envenenamiento léxico)
         raw_docs = self.vectorstore.similarity_search(query, k=top_n_rerank)
         
-        # 2. Cargar Cross-Encoder
-        # Se usa un modelo ligero multilingüe o estándar
-        modelo_ce = "cross-encoder/ms-marco-MiniLM-L-6-v2" 
-        encoder = CrossEncoder(modelo_ce)
+        # 2. Cargar Cross-Encoder desde Caché Global (importándolo desde pipeline)
+        from src.nlp_core.pipeline import get_cross_encoder
+        encoder = get_cross_encoder()
         
         # 3. Preparar pares (Query, Documento)
         pares = [[query, doc.page_content] for doc in raw_docs]
@@ -278,9 +321,9 @@ class MotorBusqueda:
         
         if documentos_bm25:
             print(" -> Integrando Búsqueda Híbrida (BM25 + Chroma) manual para cada query generada...")
-            from langchain_community.retrievers import BM25Retriever
+            from langchain.retrievers import EnsembleRetriever
             
-            bm25_retriever = BM25Retriever.from_documents(documentos_bm25)
+            bm25_retriever = _get_bm25(documentos_bm25)
             bm25_retriever.k = k
             
             base_retriever = EnsembleRetriever(

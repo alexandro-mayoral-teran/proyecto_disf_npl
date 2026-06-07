@@ -6,6 +6,25 @@ class PipelineRecuperacion:
     2. Recuperación Base (BoW, TF-IDF, BM25, Embeddings, Híbrido)
     3. Reordenamiento / Reranking (Post-procesamiento)
     """
+import os
+
+_CROSS_ENCODER_CACHE = None
+
+def get_cross_encoder():
+    global _CROSS_ENCODER_CACHE
+    use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
+    
+    if not use_cache:
+        from sentence_transformers.cross_encoder import CrossEncoder
+        return CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+        
+    if _CROSS_ENCODER_CACHE is None:
+        print("📥 Cargando modelo Cross-Encoder en memoria RAM (Cold Start)...")
+        from sentence_transformers.cross_encoder import CrossEncoder
+        _CROSS_ENCODER_CACHE = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+    return _CROSS_ENCODER_CACHE
+
+class PipelineRecuperacion:
     def __init__(self, motor, documentos_raw, base_retriever="embeddings", query_expansion=None, post_processing=None, hybrid_weights=[0.5, 0.5]):
         self.motor = motor
         self.documentos_raw = documentos_raw
@@ -135,12 +154,10 @@ Documento Oficial:"""
 
 
     def _ejecutar_cross_encoder(self, query: str, docs_candidatos: list, k: int):
-        from sentence_transformers.cross_encoder import CrossEncoder
         import numpy as np
         import pandas as pd
         
-        modelo_ce = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-        encoder = CrossEncoder(modelo_ce)
+        encoder = get_cross_encoder()
         
         pares = [[query, doc.page_content] for doc in docs_candidatos]
         scores = encoder.predict(pares)

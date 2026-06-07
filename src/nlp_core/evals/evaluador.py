@@ -240,7 +240,10 @@ class EvaluadorRAG:
             df_resultados.to_csv(archivo_csv, index=False, encoding='utf-8-sig')
             
             n = resultados_metricas["total_queries"]
-            avg_latencia = sum(latencias)/len(latencias) if latencias else 0.0
+            import numpy as np
+            p50 = np.percentile(latencias, 50) if latencias else 0.0
+            p95 = np.percentile(latencias, 95) if latencias else 0.0
+            p99 = np.percentile(latencias, 99) if latencias else 0.0
             avg_tokens = sum(tokens_contexto)/len(tokens_contexto) if tokens_contexto else 0.0
             
             # Calcular CIs Bootstrap
@@ -271,7 +274,9 @@ class EvaluadorRAG:
                 "MAP@10_CI_95": (round(map_inf, 4), round(map_sup, 4)),
                 "NDCG@10": round(resultados_metricas["sum_ndcg_10"] / n, 4) if n > 0 else 0,
                 "NDCG@10_CI_95": (round(ndcg_inf, 4), round(ndcg_sup, 4)),
-                "Latencia_Promedio_Segundos": round(avg_latencia, 4),
+                "Latencia_P50": round(p50, 4),
+                "Latencia_P95": round(p95, 4),
+                "Latencia_P99": round(p99, 4),
                 "Tokens_Contexto_Promedio": round(avg_tokens, 1),
                 "Costo_Total_USD": round(costo_total_usd, 4)
             }
@@ -402,7 +407,7 @@ class EvaluadorRAG:
             
         return resultados
 
-    def evaluar_desagregacion_errores(self, funcion_busqueda, funcion_qa_extraccion, estrategia_nombre: str, limite_consultas: int = None, verbose: bool = True, metadatos_llm: dict = None):
+    def evaluar_desagregacion_errores(self, funcion_busqueda, funcion_qa_extraccion, estrategia_nombre: str, limite_consultas: int = None, verbose: bool = True, metadatos_llm: dict = None, tarea: str = "extraccion"):
         """
         Realiza una evaluación completa RAG y clasifica los fallos
         en tres categorías mutuamente excluyentes:
@@ -429,7 +434,9 @@ class EvaluadorRAG:
         
         registro_desagregado = []
         
-        for item in consultas_a_evaluar:
+        total_queries = len(consultas_a_evaluar)
+        for idx, item in enumerate(consultas_a_evaluar, 1):
+            print(f"⌛ [Progreso Fase 3] Evaluando consulta {idx}/{total_queries}...")
             query = item['pregunta']
             query_id = item.get('query_id', 'N/A')
             doc_esperado = item.get('documentos_esperados', [{}])[0]
@@ -506,17 +513,32 @@ class EvaluadorRAG:
                     formato_ok = False
                     error_formato_detalle = f"General Ingestion Error: {str(e)}"
                     
+            if tarea == "qa":
+                formato_ok = True # En QA no hay errores de formato Pydantic
+                error_formato_detalle = ""
+                    
             # Evaluar veracidad semántica si no falló el parser
             if formato_ok:
-                prompt_juez = (
-                    f"Eres un juez experto en validación de extracción de datos regulatorios.\n"
-                    f"Pregunta del analista: '{query}'\n"
-                    f"JSON Extraído por el modelo: '{respuesta_texto}'\n"
-                    f"Texto de referencia correcto esperado (Ground Truth): '{texto_clave}'\n\n"
-                    f"¿El JSON extraído contiene de forma exacta, correcta y sin alucinaciones "
-                    f"la información del texto de referencia correcto? "
-                    f"Responde ÚNICAMENTE con el dígito 1 (si es correcta y verídica) o 0 (si es incorrecta, omite campos críticos o tiene alucinaciones)."
-                )
+                if tarea == "extraccion":
+                    prompt_juez = (
+                        f"Eres un juez experto en validación de extracción de datos regulatorios.\n"
+                        f"Pregunta del analista: '{query}'\n"
+                        f"JSON Extraído por el modelo: '{respuesta_texto}'\n"
+                        f"Texto de referencia correcto esperado (Ground Truth): '{texto_clave}'\n\n"
+                        f"¿El JSON extraído contiene de forma exacta, correcta y sin alucinaciones "
+                        f"la información del texto de referencia correcto? "
+                        f"Responde ÚNICAMENTE con el dígito 1 (si es correcta y verídica) o 0 (si es incorrecta, omite campos críticos o tiene alucinaciones)."
+                    )
+                else:
+                    prompt_juez = (
+                        f"Eres un juez experto en regulación financiera.\n"
+                        f"Pregunta del analista: '{query}'\n"
+                        f"Respuesta del modelo: '{respuesta_texto}'\n"
+                        f"Texto de referencia correcto esperado (Ground Truth): '{texto_clave}'\n\n"
+                        f"¿La respuesta del modelo contiene de forma exacta, correcta y sin alucinaciones "
+                        f"la información del texto de referencia correcto? "
+                        f"Responde ÚNICAMENTE con el dígito 1 (si es correcta y verídica) o 0 (si es incorrecta, omite información crítica o tiene alucinaciones)."
+                    )
                 try:
                     respuesta_juez = llm_juez.invoke(prompt_juez).content.strip()
                     if "1" in respuesta_juez:
@@ -555,6 +577,8 @@ class EvaluadorRAG:
                 "generacion_exitosa": int(generacion_ok),
                 "categoria_error": categoria_final,
                 "detalle_error": detalle_final,
+                "texto_esperado": texto_clave,
+                "respuesta_generada": respuesta_texto,
                 "modelo_extraccion_usado": modelo_usado,
                 "prompt_version": prompt_version_extraido,
                 "prompt_hash": prompt_hash_extraido
@@ -654,3 +678,139 @@ class EvaluadorRAG:
             print(f"=========================================\n")
             
         return metricas
+
+def evaluar_faithfulness_claims(respuesta: str, contexto: str, llm_judge=None) -> float:
+    """
+    Evalúa qué tan fiel (faithful) es una respuesta generada basándose estrictamente 
+    en el contexto proporcionado, utilizando la descomposición en Claims Atómicos.
+    Retorna un score entre 0.0 y 1.0.
+    """
+    if not respuesta or not contexto:
+        return 0.0
+        
+    if llm_judge is None:
+        from src.nlp_core.config_llm import get_langchain_chat
+        llm_judge = get_langchain_chat(task="judge", temperature=0.0)
+        
+    # Paso 1: Extraer claims
+    prompt_extraccion = (
+        f"Dada la siguiente respuesta, divídela en declaraciones (claims) individuales, atómicas e independientes.\n"
+        f"Devuelve CADA CLAIM EN UNA LÍNEA NUEVA comenzando con un guion (-).\n\n"
+        f"Respuesta:\n{respuesta}"
+    )
+    
+    try:
+        resultado_claims = llm_judge.invoke(prompt_extraccion).content.strip()
+        claims = [line.strip().lstrip('-').strip() for line in resultado_claims.split('\n') if line.strip().startswith('-')]
+    except Exception as e:
+        print(f"[FAITHFULNESS ERROR] Extracción de claims falló: {e}")
+        return 0.0
+        
+    if not claims:
+        return 0.0
+        
+    # Paso 2: Verificar cada claim
+    claims_soportados = 0
+    for claim in claims:
+        prompt_verificacion = (
+            f"Contexto de Referencia:\n{contexto}\n\n"
+            f"Declaración (Claim): '{claim}'\n\n"
+            f"¿La declaración está completamente soportada (backed up) por el contexto de referencia?\n"
+            f"Responde ÚNICAMENTE con 1 (Sí) o 0 (No)."
+        )
+        try:
+            verificacion = llm_judge.invoke(prompt_verificacion).content.strip()
+            if "1" in verificacion:
+                claims_soportados += 1
+        except Exception:
+            pass
+            
+    # Paso 3: Calcular score
+    return claims_soportados / len(claims)
+
+def evaluar_answer_relevance(pregunta: str, respuesta: str, embeddings=None, n_preguntas: int = 3) -> float:
+    """
+    Calcula el Answer Relevance generando N preguntas a partir de la respuesta
+    y comparando la similitud coseno de sus embeddings contra la pregunta original.
+    """
+    if not pregunta or not respuesta:
+        return 0.0
+        
+    from src.nlp_core.config_llm import get_langchain_chat, get_embeddings
+    import numpy as np
+    from numpy.linalg import norm
+    
+    llm = get_langchain_chat(task="judge", temperature=0.0)
+    if embeddings is None:
+        embeddings = get_embeddings()
+        
+    prompt = (
+        f"Dada la siguiente respuesta, genera {n_preguntas} posibles preguntas cortas "
+        f"para las cuales esta respuesta sería la solución perfecta.\n"
+        f"Devuelve UNA PREGUNTA POR LÍNEA comenzando con un guion (-).\n\n"
+        f"Respuesta:\n{respuesta}"
+    )
+    
+    try:
+        preguntas_generadas_raw = llm.invoke(prompt).content.strip()
+        preguntas_generadas = [line.strip().lstrip('-').strip() for line in preguntas_generadas_raw.split('\n') if line.strip().startswith('-')]
+        preguntas_generadas = preguntas_generadas[:n_preguntas]
+    except Exception as e:
+        print(f"[RELEVANCE ERROR] Generación de preguntas falló: {e}")
+        return 0.0
+        
+    if not preguntas_generadas:
+        return 0.0
+        
+    try:
+        emb_original = embeddings.embed_query(pregunta)
+        emb_generadas = embeddings.embed_documents(preguntas_generadas)
+        
+        similitudes = []
+        for emb_g in emb_generadas:
+            cosine_sim = np.dot(emb_original, emb_g) / (norm(emb_original) * norm(emb_g))
+            similitudes.append(cosine_sim)
+            
+        return sum(similitudes) / len(similitudes)
+    except Exception as e:
+        print(f"[RELEVANCE ERROR] Cálculo de embeddings falló: {e}")
+        return 0.0
+
+def evaluar_context_relevancy(pregunta: str, contexto: str, llm_judge=None) -> float:
+    """
+    Evalúa qué tan relevante es el contexto recuperado (Context Relevancy de RAGAS sin referencia).
+    Calcula la proporción de oraciones del contexto que son útiles para responder la pregunta.
+    """
+    if not pregunta or not contexto:
+        return 0.0
+        
+    if llm_judge is None:
+        from src.nlp_core.config_llm import get_langchain_chat
+        llm_judge = get_langchain_chat(task="judge", temperature=0.0)
+        
+    prompt = (
+        f"Dada la siguiente pregunta y el contexto de búsqueda, extrae estrictamente "
+        f"las oraciones del contexto que son directamente útiles para responder a la pregunta.\n"
+        f"Si ninguna oración es útil, responde 'Ninguna'.\n"
+        f"Devuelve cada oración útil en una nueva línea con un guion (-).\n\n"
+        f"Pregunta: {pregunta}\n"
+        f"Contexto:\n{contexto}"
+    )
+    
+    try:
+        resultado = llm_judge.invoke(prompt).content.strip()
+        if "Ninguna" in resultado or not resultado:
+            return 0.0
+            
+        oraciones_utiles = [line for line in resultado.split('\n') if line.strip().startswith('-')]
+        
+        # Una estimación rápida de oraciones totales en el contexto (por punto y seguido)
+        oraciones_totales = max(1, len(contexto.split('. ')))
+        
+        score = len(oraciones_utiles) / oraciones_totales
+        return min(1.0, score) # Asegurar límite de 1.0
+    except Exception as e:
+        print(f"[CONTEXT RELEVANCY ERROR] {e}")
+        return 0.0
+
+

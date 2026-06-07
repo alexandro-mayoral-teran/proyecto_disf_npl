@@ -1,146 +1,98 @@
 ================================================================================
-PENDIENTES Y ROADMAP DE ACCIÓN - PROYECTO DISF (AVANCE 4)
+ROADMAP Y ESTADO DEL PROYECTO DISF 
 ================================================================================
-Basado en la evaluación y feedback del Avance 3 (Calificación: 82/100).
-Este archivo actúa como el inventario de brechas a cerrar y el plan de trabajo
-científico-arquitectónico exigido para el cierre del proyecto (Avance 4).
 
 --------------------------------------------------------------------------------
-1. BRECHAS DETECTADAS EN EL AVANCE 3 (A CERRAR DE INMEDIATO)
+1. AVANCES CONCLUIDOS (FASES 1 A 4)
 --------------------------------------------------------------------------------
 
-[x] B1. EXPANDIR EL EVAL SET (DATASET DE PRUEBAS) (COMPLETADO: 110 consultas generadas)
-    - Actualmente cuenta con 30 consultas.
-    - Se requiere expandir a >= 100 consultas balanceadas (por tipo de léxico, 
-      longitud y complejidad sintáctica).
-    - Riesgo actual: Muestra pequeña que impide la generalización robusta.
+[x] AVANCE 3: CIERRE DE BRECHAS
+    - Expansión del Eval Set a 110 consultas.
+    - Comparativa de Recovery (Exact_Match vs LLM_Judge).
+    - Versionamiento de Prompts y reproducibilidad (Hash SHA-256).
+    - Soporte Multi-Documento y Multi-Chunk.
 
-[x] B2. TABULAR COMPARATIVA DE RECOVERY (EXACT_MATCH VS LLM_JUDGE) (COMPLETADO: Soporte agregado en el evaluador e integrado con Bootstrap)
-    - El exact-match castiga erróneamente las respuestas parafraseadas del RAG.
-    - Se debe generar y presentar una tabla comparativa explícita que tabule
-      la diferencia de métricas entre exact_match y LLM_judge.
-
-[x] B3. VERSIONAMIENTO Y REPRODUCIBILIDAD COMPLETA DE MODELOS Y PROMPTS (COMPLETADO: Trazabilidad Git implementada en prompts_registry.py)
-    - Declarar la versión exacta de la API y modelo de text-embedding-3-small.
-    - Fijar versiones exactas con fecha (ej. gpt-4o-2024-05-13, gpt-4o-mini-2024-07-18).
-    - Implementar un Registro Versionado de Prompts (.json registry con 
-      timestamp + hash del commit de Git) para garantizar la trazabilidad física.
-
-[x] B4. MANEJO DE MULTI-CHUNK (SOPORTE MULTI-DOCUMENTO) (COMPLETADO: Agrupador de contexto estructurado y renombre a generacion.py)
-    - Actualmente se tiene como "reserved for future".
-    - Banxico requiere que el RAG pueda extraer información correlacionada de
-      MÚLTIPLES documentos regulatorios simultáneamente. Es un pendiente crítico.
+[x] AVANCE 4: EVALUACIÓN CORE Y PARETO (MA1 - MA7)
+    - Evaluación de >= 6 configuraciones LLM (Local vs Nube).
+    - Prueba de Contaminación Ciega (Data Leakage).
+    - Bootstrapping (1,000 resamples) y significancia estadística (Paired t-test/McNemar).
+    - Taxonomía de errores desagregada (Tipos A, B y C).
+    - Frontera de Pareto documentada (Costo/Latencia vs NDCG).
 
 --------------------------------------------------------------------------------
-2. REQUERIMIENTOS METODOLÓGICOS DEL AVANCE 4 (PLAN MA1 - MA7)
+2. AVANCE 5 EN CURSO: ROBUSTEZ, ENSAMBLES Y DESPLIEGUE (INTEGRANDO RÚBRICAS 5 Y 6)
 --------------------------------------------------------------------------------
+*Meta del equipo: Cubrir simultáneamente los requerimientos de Ensambles (Rúbrica 5) y Viabilidad Productiva (Rúbrica 6) en esta misma entrega.*
 
-[x] MA1. EVALUAR >= 6 CONFIGURACIONES DE LLM (CON AL MENOS UNA LOCAL/SELF-HOSTABLE) (COMPLETADO: Integrado en evaluador_integral.py)
-    - Configurar y probar al menos 6 combinaciones de modelos.
-    - Ya tenemos la base local operativa (Llama 3.1:8b vía Ollama en GPU RTX 4060).
-    - Razón: Data Residency obligatoria en Banxico + mitigación de vendor lock-in.
+PARTE A: RÚBRICA 5 (ENSAMBLES Y GRÁFICOS) - ¡YA IMPLEMENTADOS!
+[x] ENS-A. Estrategias de Ensamble Homogéneas y Heterogéneas (RRF validado).
+[x] ENS-B. Tabla Resumen de Ensambles (Costo, latencia, hallucination rate integrados).
+[x] ENS-C. Pareto Frontier y Visualizaciones (Generado y en Dashboard).
+[x] ENS-D. Diversidad Cuantificada (Matriz de Acuerdo y Oracle Gap en `diversidad_eval.py`).
+[x] ENS-E. Calibración de Confidence y Consistencia (Prueba de Invariabilidad en `consistencia_eval.py`).
+[x] ENS-F. Lift Estadísticamente Significativo (Discutido en comparativa Súper RAG vs Embeddings Puros).
 
-[x] MA2. PRUEBA DE CONTAMINACIÓN DE DATOS (EVALUACIÓN CIEGA) POR CANDIDATO (COMPLETADO: Método evaluar_contaminacion_ciega añadido)
-    - Evaluar los candidatos (OpenAI vs Llama local) contra el Ground Truth de
-      manera "ciega" (sin contexto del RAG).
-    - Calcular el "Lift" (mejora real) del RAG. Meta: Superar un lift del 25% 
-      o documentar y justificar el límite físico intrínseco.
+PARTE B: RÚBRICA 6 (VIABILIDAD E IMPLEMENTACIÓN CLOUD - DEP)
+[x] DEP-A. DECISIÓN GO/NO-GO (COMPLETADO: Veredicto incluido en el Notebook 5)
+    - Tarea: Documentar la recomendación final formal para el Banco de México, estableciendo si el prototipo cumple las métricas de éxito para pasar a producción.
 
-[x] MA3. REGISTRO DE CONFIGURACIÓN Y PROMPTS (COMPLETADO: prompts.json centralizado, prompts_registry.py hasheando dinámicamente SHA-256 e integrado en logs de telemetría)
-    - Crear una tabla resumen consolidada con las siguientes columnas:
-      Candidato | Modelo | Embedding | Reranker | Fine-tuning | Hash Prompt | Costo/1k tokens
+[x] DEP-B. TCO A 12 MESES Y VENDOR LOCK-IN (COMPLETADO: Análisis en el Notebook 5)
+    - Tarea: Proyección financiera desglosando costos de tokens input/output, almacenamiento vectorial y hardware. 
+    - Comparativa estratégica de dependencia tecnológica (OpenAI en la nube vs Independencia con Llama 3.1 local).
 
-[x] MA4. TUNING PROFUNDO DE LAS TOP-2 CONFIGURACIONES (COMPLETADO: Ajuste de thresholds e iteraciones completas)
-    - Tras la ablación inicial, seleccionar las 2 mejores configuraciones y realizar
-      ajustes finos de hiperparámetros (temperatura, top_p, chunk size, overlap) 
-      usando un set de validación separado (held-out) para evitar leakage.
+[x] DEP-C. SLO Y PLAN DE MONITOREO (COMPLETADO: Definido P95 y Drift Detection en el Notebook 5)
+    - Tarea: Definir el Service Level Objective (ej. Latencia P95 < 3s) y cómo se detectará el "Drift" (desviación) en las preguntas de los analistas en el futuro.
 
-[x] MA5. ANÁLISIS DE SIGNIFICANCIA ESTADÍSTICA (NUEVO REQUERIMIENTO CIENTÍFICO) (COMPLETADO: Algoritmo Bootstrap 1,000 resamples y CIs de 95% integrados en evaluar_retrieval)
-    - Realizar un remuestreo Bootstrap con 1,000 iteraciones por candidato para
-      calcular Intervalos de Confianza (CIs) del NDCG@10.
-    - Aplicar pruebas de hipótesis estadísticas (Paired t-test o McNemar) sobre 
-      los deltas de NDCG de los candidatos para probar si hay empates o superioridad real.
-    - Reportar la varianza de resultados en ejecuciones con temperature > 0 para
-      modelos locales (no-determinismo).
+[x] DEP-D. SEGURIDAD Y COMPLIANCE
+    - COMPLETADO: Auditoría de Prompt Injection y Red-Teaming automatizada con juez de seguridad (`seguridad_eval.py`).
 
-[x] MA6. ANÁLISIS DE ERRORES DESAGREGADO POR ETAPAS (NUEVO) (COMPLETADO: Clasificador de Categorías A, B y C implementado en evaluar_desagregacion_errores)
-    - Etiquetar los fallos del sistema en 3 categorías discretas:
-      (a) Fallo de Retrieval (El fragmento correcto no quedó en el Top-K).
-      (b) Alucinación Generativa (El fragmento estaba en el Top-K, pero el LLM falló/alucinó).
-      (c) Fallo de Formato (El LLM dedujo la información, pero falló la validación del JSON/Pydantic).
-    - Desagregar el análisis por tipo de documento, complejidad y longitud de consulta.
-
-[x] MA7. CUANTIFICAR LA FRONTERA DE PARETO (COSTO vs INTERPRETABILIDAD vs LOCK-IN) (COMPLETADO: Generada dinámicamente con graficos.py)
-    - Telemetría: Registrar costos en USD por 1K tokens, latencias en percentiles
-      P50/P95 (en milisegundos), y memoria pico de ejecución en hardware local.
-    - Interpretabilidad: Analizar el espectro entre embeddings opacas vs BM25 + metadatos.
-    - Vendor Lock-in: Analizar la dependencia/independencia tecnológica (Self-Hostable vs APIs propietarias).
-
+[x] DEP-E. PLAN DE HANDOFF Y DECOMMISSIONING (COMPLETADO: Incluido en el Notebook 5)
+    - Tarea: Escribir la estrategia de entrega del proyecto (entregables serializados, contenedores, base ChromaDB) y cómo el sponsor puede apagar/destruir el sistema de forma segura.
 --------------------------------------------------------------------------------
-3. ROADMAP PROPUESTO - ORDEN DE EJECUCIÓN SUGERIDO
+3. BRECHAS DE AVANCE 4 A INTEGRAR EN AVANCE 5 (FEEDBACK ASESOR)
 --------------------------------------------------------------------------------
+[ ] MA6 E5: Extender taxonomía A/B/C a los 6 candidatos LLM individuales.
+    - Estrategia: Modificar `evaluar_desagregacion_errores.py` para iterar sobre los 6 CSVs de Avance 4. Tomar muestra de 10-15 fallos por candidato y pasarlos al LLM-Judge para clasificar en A (Retrieval), B (Generation) o C (Format). Mostrar gráfica apilada.
 
-FASE 1: AMPLIACIÓN Y LIMPIEZA DE DATOS (B1, B4) [✔ COMPLETADO]
-   - Expandir las 30 queries del Ground Truth actual a las >= 100 queries requeridas.
-   - Refactorizar el motor de recuperación para soportar consultas sobre múltiples 
-     documentos y múltiples chunks consolidados (Multi-chunk handling).
+[ ] MA7 E5: Medir P95 real desde `telemetria_llm.jsonl`.
+    - Estrategia: Leer el archivo JSONL con pandas, agrupar por candidato y usar `numpy.percentile(x, 95)` para obtener los milisegundos exactos de P95. Reemplazar la tabla "proxy" del Avance 4 con estos datos reales observados.
 
-FASE 2: TELEMETRÍA Y EVALUADOR AVANZADO (B2, MA5, MA6) [✔ COMPLETADO]
-   - Modificar el archivo `src/nlp_core/evals/evaluador.py` para implementar:
-     * El cálculo de bootstrap CI (1,000 resamples).
-     * El análisis de errores etiquetado (Categorías A, B y C).
-     * La tabulación automática de exact_match vs llm_judge.
+[ ] MA4 E5: Tabla comparativa vs umbral E3-BL5 con CI bootstrap (Prueba de Regresión / Lift).
+    - Estrategia: Calcular la diferencia (Delta) del NDCG@10 entre nuestro modelo final (Baseline Semántico) y la línea base del Avance 3 (E3-BL5). Hacer 1,000 remuestreos (bootstrap) para sacar el Intervalo de Confianza al 95%. Esto demuestra estadísticamente la mejora (Lift) y al mismo tiempo funge como una **Prueba de Regresión** para garantizar que el nuevo ensamble no empeoró el desempeño base.
 
-FASE 3: REGISTRO DE PROMPTS Y TUNING DE PARETO (B3, MA2, MA3, MA4, MA7) [✔ COMPLETADO]
-   - Crear el registro de prompts JSON con hash/commits.
-   - Ejecutar la prueba de contaminación blind (sin contexto) para calcular el Lift.
-   - Correr las evaluaciones para los 6 candidatos y compilar la Frontera de Pareto
-     (NDCG@10 vs Costo/Latencia).
-================================================================================
-4. REQUERIMIENTOS DEL AVANCE 5 (ENSAMBLES Y GRÁFICOS)
---------------------------------------------------------------------------------
+[ ] ENS-D E5: Medir diversidad de errores (Matriz de correlación).
+    - Estrategia: Utilizar los resultados por consulta generados en el bootstrap para calcular la matriz de correlación de errores entre los 6 candidatos. Si los errores correlacionan alto (> 0.8), el ensamble no aporta; si discrepan, el ensamble ayudará y se justifica construirlo.
 
-[ ] ENS-A. ESTRATEGIAS DE ENSAMBLE HOMOGÉNEAS Y HETEROGÉNEAS
-    - Validar y documentar formalmente la Búsqueda Híbrida (RRF) como nuestro 
-      ensamble heterogéneo (léxico + semántico).
+[ ] Ensamble E5: Router/Cascade por confianza (Reducción de TCO y Manejo de Complejidad).
+    - Estrategia: En lugar de enrutar por dominio, enrutar por confianza evaluando la métrica de *Faithfulness* sobre la respuesta del modelo local (`llama3.1:8b`). Si la fidelidad es baja (<80%), se descarta por alucinación/complejidad y se escala a la nube (`gpt-4o-mini`). Esto logra calidad SOTA con costo casi cero.
 
-[ ] ENS-B. TABLA RESUMEN DE ENSAMBLES
-    - Incluir costo por consulta, latencia (P50/P95), hallucination rate y el 
-      tier del servicio (local vs cloud).
+[ ] Pareto E5: Agregar cascade a la frontera de Pareto.
+    - Estrategia: Añadir el resultado del cascade por confianza como una fila y punto adicional en la frontera de Pareto (costo-por-consulta vs NDCG) para demostrar calidad cercana a SOTA a costo cercano al local.
 
-[ ] ENS-C. PARETO FRONTIER Y VISUALIZACIONES
-    - Gráfica de Pareto (Costo/Latencia vs Precisión NDCG).
-    - Incluir matrices de confusión o gráficas UMAP de los embeddings.
+[ ] ENS-E E5: Calibración simplificada.
+    - Estrategia: Reportar ECE sobre la confianza del juez y la varianza de self-consistency. Al ser métrica primaria de ranking, no es necesario construir Platt/isotonic.
 
-[ ] ENS-D. DIVERSIDAD CUANTIFICADA DE LOS BASE LEARNERS
-    - Reportar la tasa de desacuerdo (Disagreement rate) entre la búsqueda 
-      léxica y la semántica, o coeficiente Kappa.
-
-[ ] ENS-E. CALIBRACIÓN DE CONFIDENCE Y CONSISTENCIA
-    - Ejecutar el LLM con `temperature > 0` múltiples veces sobre las mismas
-      consultas y reportar la consistencia de las salidas (Self-consistency).
-
-[ ] ENS-F. LIFT ESTADÍSTICAMENTE SIGNIFICATIVO
-    - Declarar formalmente si el costo y latencia del "Súper RAG" (Ensamble) se 
-      justifica vs usar solo Embeddings Puros.
+[ ] MA6 E5: Análisis de errores generativos manual sobre 20-30 muestras.
+    - Estrategia: Exportar 20-30 respuestas donde el modelo falló la generación (Error B). Agregar una columna de "Etiqueta_Humana" y clasificar manualmente si la salida fue: Útil, Parcial, Incorrecta, Alucinación o Refusal. Esto cierra la auditoría de calidad de generación.
 
 --------------------------------------------------------------------------------
-5. REQUERIMIENTOS DEL AVANCE 6 (VIABILIDAD E IMPLEMENTACIÓN CLOUD)
+4. MEJORAS DE OBSERVABILIDAD, EVALUACIÓN Y SEGURIDAD (TALLER CÓDIGO FACILITO)
 --------------------------------------------------------------------------------
+[ ] Eval E5: Faithfulness basado en Claims Atómicos.
+    - Estrategia: Implementar en `src/nlp_core/evals/evaluador.py` un pipeline de 3 pasos: 1) Descomponer respuesta en claims atómicos. 2) Verificar cada claim contra el contexto. 3) Promediar para obtener un % de fidelidad más robusto. Servirá como gatillo para el Cascade.
 
-[ ] DEP-A. DECISIÓN GO/NO-GO
-    - Documentar recomendación final a Banxico (dueño, métricas de éxito).
+[ ] Eval E5: Métrica de Answer Relevance sin Ground Truth.
+    - Estrategia: Implementar en `src/nlp_core/evals/evaluador.py` un validador "On-the-fly". Generar N preguntas a partir de la respuesta del LLM y comparar sus embeddings contra la pregunta original. Alta similitud = buena relevancia.
 
-[ ] DEP-B. TCO A 12 MESES Y VENDOR LOCK-IN
-    - Desglosar tokens input/output, storage del vector index y costo computacional.
-    - Analizar dependencia (OpenAI) vs Independencia (Self-hostable Llama 3).
+[ ] Telemetría E5: Calcular percentiles p50, p95 y p99.
+    - Estrategia: Al procesar logs de latencia, dejar de reportar únicamente el promedio. Extraer y mostrar explícitamente p50, p95 y p99 para identificar outliers.
 
-[ ] DEP-C. SLO Y PLAN DE MONITOREO
-    - Definir latencia objetivo y detección de "Drift" en las consultas.
+[ ] Seguridad E5: Patrón "Fallar Rápido" (Input/Output).
+    - Estrategia: [POSTPUESTO PARA AVANCE 6]. Complementar con defensas en dos capas y Microsoft Presidio para sanitizar PII.
 
-[ ] DEP-D. SEGURIDAD Y COMPLIANCE
-    - Documentar resistencia a Prompt Injection y manejo de PII (Red-Teaming).
-
-[ ] DEP-E. PLAN DE HANDOFF Y DECOMMISSIONING
-    - Entregables serializados y documentación de despliegue para el sponsor.
+--------------------------------------------------------------------------------
+5. FUTURO (BACKLOG ADICIONAL)
+--------------------------------------------------------------------------------
+[ ] QA-C: Validar formato y trazabilidad en modo QA (Error Tipo C).
+    - Estrategia: Al desactivar el esquema Pydantic para QA, los errores Tipo C desaparecieron. A futuro, implementar un validador que funja como "Error C" verificando específicamente el cumplimiento de las instrucciones de presentación del Prompt (ej. que la respuesta esté formateada en Markdown correcto y que incluya explícitamente las citas a los fragmentos de origen).
 ================================================================================
