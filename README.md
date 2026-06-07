@@ -32,6 +32,7 @@ El proyecto sigue una arquitectura modular "API-First" implementando técnicas d
 
 ### 2. Pipeline Modular RAG y Model Cascading
 La arquitectura opera bajo el patrón de diseño **Factory** (`config_llm.py`), permitiendo conmutar al vuelo entre motores en Nube y Motores Locales para implementar **Model Cascading** (usar Llama 3.1 local para recuperación gratuita, y GPT-4o en Nube para síntesis estricta y evaluación).
+*   **Caché Semántico Híbrido (LLM Judge):** Interceptor que evalúa si la consulta ya ha sido respondida previamente. Utiliza un umbral matemático (Similitud Coseno > 0.88) combinado con un **Juez LLM local (Llama 3.1)** para detectar equivalencia de intenciones frente a variaciones naturales de sintaxis. Devuelve respuestas cacheadas en `~0.5s`, evadiendo la latencia completa de RAG y reduciendo costos.
 *   **Fragmentación Estructural (Chunking):** Se utiliza `MarkdownHeaderTextSplitter` para fragmentar manteniendo la coherencia jerárquica (Títulos, Capítulos, Artículos).
 *   **Diagnóstico y Mitigación de Pérdida de Contexto:** Se implementaron inyectores de metadatos y **Contextual Retrieval** con LLMs ligeros (`gpt-4o-mini`) para anteponer un resumen de contexto antes de vectorizar el *chunk*, resolviendo la "orfandad" semántica de fragmentos profundos (como fórmulas matemáticas específicas en incisos).
 *   **Consulta y Extracción Híbrida (Hybrid Search RRF):** Búsqueda en paralelo mediante semántica pura (ChromaDB + OpenAI Embeddings) y léxica exacta (BM25), uniendo resultados bajo *Reciprocal Rank Fusion (RRF)* para capturar la terminología y jerga financiera exacta de forma democrática.
@@ -97,8 +98,8 @@ El proyecto cuenta con una estructura formal de documentación técnica alojada 
 | **2. RAG Engine y Retrieval** | 🟢 Completado | Chunking jerárquico, Búsqueda Híbrida (RRF), Contextual Retrieval y Query Transformations. |
 | **3. Evaluación Cuantitativa** | 🟢 Completado | Construcción de Arena con 8 Pipelines, telemetría de latencia/tokens y Ground Truth. |
 | **4. Evaluación y Selección (Avance 4)** | 🟢 Completado | Frontera de Pareto, Bootstrapping (95% CI), Taxonomía de Errores (A/B/C), Contaminación Ciega (Lift). Dataset de 110 consultas. |
-| **5. Ensambles y Calibración (Avance 5)** | 🟡 En Progreso | **Siguientes pasos:** Cuantificar diversidad del ensamble RRF, calibrar salidas probabilísticas y justificar la Frontera de Pareto final. |
-| **6. Producción y Seguridad (Avance 6)** | ⚪ Pendiente | TCO a 12 meses, SLOs, Pruebas de Seguridad (Red-Teaming) y Plan de Handoff para el Banco de México. |
+| **5. Ensambles y Calibración (Avance 5)** | 🟢 Completado | Diversidad del ensamble (RRF + Cascading), calibración (Self-Consistency) y justificación en la Frontera de Pareto. |
+| **6. Producción y Seguridad (Avance 6)** | 🟢 Completado | Viabilidad Cloud vs Local (Vendor Lock-in), TCO a 12 meses, SLOs, Red-Teaming (Jailbreaks) y Plan de Handoff. |
 | **7. Interfaz y Despliegue (MVP Final)** | 🟢 Completado | Despliegue mediante **FastAPI** y una interfaz interactiva (**Vanilla JS + Flexbox**) estilo Banxico, con telemetría RAG en vivo. |
 ---
 
@@ -109,7 +110,7 @@ El proyecto cuenta con una estructura formal de documentación técnica alojada 
 *   **Contrato de Datos:** Pydantic.
 *   **Vectorización y Retrieval (RAG):** ChromaDB, BM25 (`rank_bm25`), OpenAI Embeddings (`text-embedding-3-small`), Modelos Cross-Encoder.
 *   **Generación LLM:** OpenAI (`gpt-4o`, `gpt-4o-mini`) y modelos locales Open-Source vía Ollama o vLLM (conmutación transparente mediante configuración en `.env`).
-*   **Despliegue Web:** FastAPI (Motor Backend) y Vanilla JS / CSS (Frontend Interactivo).
+*   **Despliegue Web:** FastAPI (Motor Backend), Vanilla JS / CSS (Frontend Interactivo) y Streamlit (Dashboard de Telemetría Web).
 
 ## ⚙️ Configuración del Entorno (Desarrollo Local)
 
@@ -119,7 +120,7 @@ El proyecto cuenta con una estructura formal de documentación técnica alojada 
    python -m venv venv
    source venv/bin/activate  # En Windows: venv\Scripts\activate
    ```
-3. Instalar dependencias *(Archivo requirements.txt en construcción)*:
+3. Instalar dependencias:
    ```bash
    pip install -r requirements.txt
    ```

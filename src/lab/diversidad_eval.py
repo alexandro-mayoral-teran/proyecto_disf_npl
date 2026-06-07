@@ -49,7 +49,10 @@ def calcular_diversidad(ruta_csv_modelo_a: str, ruta_csv_modelo_b: str, nombre_a
     # 1 = Error (Falló), 0 = No Error (Acertó)
     errores_A = (~exito_A).astype(int)
     errores_B = (~exito_B).astype(int)
-    correlacion_errores = errores_A.corr(errores_B)
+    if errores_A.var() == 0 or errores_B.var() == 0:
+        correlacion_errores = float('nan')
+    else:
+        correlacion_errores = errores_A.corr(errores_B)
     
     # Oracle: Cuánto acertaríamos si tuviéramos un Oráculo que escoge al modelo correcto siempre que al menos uno acierte
     oracle_hits = ambos_aciertan + disagreement
@@ -94,7 +97,76 @@ def calcular_diversidad(ruta_csv_modelo_a: str, ruta_csv_modelo_b: str, nombre_a
         
     return resumen
 
+def calcular_matriz_correlacion_multiples(dict_modelos_csvs: dict, ruta_salida_csv: str = None):
+    """
+    Toma un diccionario {nombre_modelo: ruta_csv} y calcula la matriz de correlación
+    de errores (ENS-D) entre todos los pares de modelos.
+    """
+    print(f"Calculando Matriz de Correlación de Errores para {len(dict_modelos_csvs)} modelos...")
+    
+    dict_errores = {}
+    
+    for nombre, ruta in dict_modelos_csvs.items():
+        if not Path(ruta).exists():
+            print(f"⚠️ Archivo no encontrado para {nombre}: {ruta}")
+            continue
+            
+        df = pd.read_csv(ruta)
+        df = df.sort_values(by='query_id').reset_index(drop=True)
+        
+        if 'hit' in df.columns:
+            exito = df['hit'] > 0
+        else:
+            exito = df['ndcg_10'] > 0
+            
+        # 1 = Falló (Error), 0 = Acertó
+        errores = (~exito).astype(int)
+        dict_errores[nombre] = errores.values
+        
+    if len(dict_errores) < 2:
+        print("No hay suficientes modelos con datos para calcular la matriz.")
+        return None
+        
+    # Crear DataFrame de Errores
+    df_errores = pd.DataFrame(dict_errores)
+    
+    # Calcular matriz de correlación de Pearson
+    matriz_corr = df_errores.corr()
+    
+    print("\n--- Matriz de Correlación de Errores ---")
+    print(matriz_corr.round(3))
+    
+    if ruta_salida_csv:
+        Path(ruta_salida_csv).parent.mkdir(parents=True, exist_ok=True)
+        matriz_corr.to_csv(ruta_salida_csv)
+        print(f"\nMatriz exportada a: {ruta_salida_csv}")
+        
+    return matriz_corr
+
 if __name__ == "__main__":
-    # Uso de ejemplo (requiere correr el evaluador exhaustivo primero para tener los CSV)
-    print("Este script calculará la diversidad entre dos modelos una vez que tengas los CSV generados.")
-    print("En el dashboard de Streamlit, podrás seleccionar qué CSVs comparar dinámicamente.")
+    # Uso de ejemplo automatizado
+    import glob
+    project_root = Path(__file__).resolve().parent.parent.parent
+    
+    # Intentar buscar CSVs de la carpeta oficiales del último run
+    carpeta_base = project_root / "data" / "03_output" / "evaluaciones" / "oficiales"
+    
+    if carpeta_base.exists():
+        subcarpetas = sorted([d for d in carpeta_base.iterdir() if d.is_dir()], reverse=True)
+        if subcarpetas:
+            ultimo_run = subcarpetas[0]
+            csvs = glob.glob(str(ultimo_run / "resultados_llm_judge_*.csv"))
+            
+            dict_rutas = {}
+            for csv_path in csvs:
+                # Extraer nombre del modelo del archivo
+                nombre = Path(csv_path).stem.replace("resultados_llm_judge_", "")
+                dict_rutas[nombre] = csv_path
+                
+            if dict_rutas:
+                salida_csv = ultimo_run / "matriz_correlacion_errores.csv"
+                calcular_matriz_correlacion_multiples(dict_rutas, ruta_salida_csv=str(salida_csv))
+            else:
+                print(f"No se encontraron CSVs de resultados en {ultimo_run}")
+    else:
+        print("Este script calculará la diversidad entre dos modelos una vez que tengas los CSV generados.")

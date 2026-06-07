@@ -1,0 +1,1760 @@
+﻿query_id,pregunta,retrieval_exitoso,formato_exitoso,generacion_exitosa,categoria_error,detalle_error,texto_esperado,respuesta_generada,modelo_extraccion_usado,prompt_version,prompt_hash
+Q01,¿Qué se entiende por Activos Líquidos Computables?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Al monto total correspondiente al valor de los Activos Líquidos Elegibles que, conforme a las presentes disposiciones, se incluyan en el cálculo del Coeficiente de Cobertura de Liquidez, con los límites y factores de descuento establecidos en las presentes disposiciones.","**Activos Líquidos Computables**
+
+Los **Activos Líquidos Computables** son aquellos que se utilizan para calcular el **Coeficiente de Cobertura de Liquidez** en las instituciones de banca múltiple. Se definen y clasifican de acuerdo a su disponibilidad y a las operaciones de reporto y préstamo de valores que la institución tenga. A continuación, se detallan los aspectos clave:
+
+1. **Cálculo**:
+   - Se determina aplicando la fórmula:
+     - **Activos Líquidos Computables = C1 + C2 + C3 + C4 – Ajuste A – Ajuste B**
+   - La clasificación de estos activos se basa en su disponibilidad a la fecha de cálculo y en los derechos y obligaciones contractuales de la institución.
+
+2. **Clasificación**:
+   - Los activos se consideran elegibles si están disponibles para la institución y pueden incluir:
+     - Activos recibidos en operaciones de reporto.
+     - Préstamos de valores.
+     - Garantías en operaciones con instrumentos financieros derivados.
+
+3. **Descuentos y Ajustes**:
+   - Se aplican factores de descuento a los activos elegibles para reflejar su liquidez real.
+   - No se pueden contabilizar simultáneamente como Activos Líquidos Computables y como flujos de entrada de efectivo.
+
+4. **Ejemplos de Activos**:
+   - Incluyen títulos de deuda y acciones negociables que cumplen con los criterios establecidos en el Anexo 1 de las disposiciones.
+
+Estos activos son fundamentales para asegurar que las instituciones mantengan un nivel adecuado de liquidez para hacer frente a sus obligaciones financieras.
+
+**Fuentes**: 
+- Disposiciones_Liquidez.md
+- Circular3-2012.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q02,¿En qué plazo debe reportarse el Coeficiente de Cobertura de Liquidez diario?,1,1,1,ÉXITO,Extracción e inyección correctas.,El Coeficiente de Cobertura de Liquidez que corresponda a cada día deberá reportarse durante los diez Días Hábiles posteriores a dicho día.,"**Respuesta a la pregunta:**
+
+El Coeficiente de Cobertura de Liquidez diario debe reportarse durante los diez Días Hábiles posteriores al día en que corresponde.
+
+**Fuentes:**
+- Artículo 5, fracción I del Documento: Disposiciones_Liquidez.md
+- Artículo 9 del Documento: Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q03,¿Qué es el Flujo Neto Total de Salida de Efectivo?,1,1,1,ÉXITO,Extracción e inyección correctas.,"Al monto que resulte de restar el flujo total de entrada de efectivo de una Institución del flujo total de salida de efectivo de esa misma Institución, determinados de conformidad con las presentes disposiciones.","**Flujo Neto Total de Salida de Efectivo**
+=====================================
+
+El Flujo Neto Total de Salida de Efectivo es un concepto fundamental en las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple. Se define como el monto que resulta de restar el flujo total de entrada de efectivo de una institución del flujo total de salida de efectivo de esa misma institución, determinados de conformidad con las presentes disposiciones.
+
+**Cálculo**
+------------
+
+Según la definición en el artículo XII, el Flujo Neto Total de Salida de Efectivo se calcula como la diferencia entre:
+
+* El flujo total de salida de efectivo (calculado conforme al artículo 11)
+* El flujo total de entrada de efectivo (calculado conforme a las disposiciones)
+
+**Uso**
+--------
+
+El Flujo Neto Total de Salida de Efectivo es utilizado en varios contextos, como:
+
+* La limitación para incluir Activos Líquidos Computables en posesión de una Entidad Objeto de Consolidación establecida en el extranjero (artículo 10)
+* La determinación del monto máximo que puede considerarse como parte de los activos líquidos elegibles (Anexo 1, fracción I, inciso E)
+* El cálculo del Coeficiente de Cobertura de Liquidez
+
+**Fuentes**
+------------
+
+* Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple
+* Anexo 1: Clasificación de Activos Líquidos Elegibles
+* Anexo 2: Factores de salida aplicables a las operaciones pasivas con vencimiento igual o menor a treinta días
+* Artículo 11: Cálculo del flujo total de salida de efectivo",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q04,¿Cómo se determina el flujo total de salida de efectivo?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"El flujo total de salida de efectivo será el que resulte de sumar todas las operaciones pasivas con vencimiento igual o menor a treinta días multiplicadas por su correspondiente factor de salida, de conformidad con lo establecido en el Anexo 2 de estas disposiciones.","**Determinación del flujo total de salida de efectivo**
+=====================================================
+
+Según el artículo 11 de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple, el flujo total de salida de efectivo se determina observando lo siguiente:
+
+### Artículo 11
+Las Instituciones deberán observar lo siguiente para determinar el flujo total de salida de efectivo:
+
+*   Sumar todas las operaciones pasivas con vencimiento igual o menor a treinta días multiplicadas por su correspondiente factor de salida, de conformidad con lo establecido en el Anexo 2 de estas disposiciones.
+*   Incluir aquellas operaciones que derivado de los contratos que la Institución tenga celebrados, pudieran generar un flujo de salida de efectivo en los treinta días siguientes a la fecha de cálculo del Coeficiente de Cobertura de Liquidez.
+
+### Cálculo del flujo total de salida de efectivo
+El flujo total de salida de efectivo se calcula como la suma de las referencias 2, 5, 9, 10, 14 y 15.
+
+**Referencias**
+
+| Número | Descripción |
+| --- | --- |
+| 2 | Suma de la referencia 3 y referencia 4. |
+| 3 | Flujo de salida asociado al financiamiento minorista no garantizado correspondiente a un factor de salida del 5% conforme al Anexo 2 de las presentes disposiciones. |
+| 4 | Flujo de salida asociado al financiamiento minorista no garantizado correspondiente a un factor de salida del 10% conforme al Anexo 2 de las presentes disposiciones. |
+| 5 | Suma de la referencia 6, referencia 7 y de la referencia 8. |
+| 9 | Flujo de salida asociado al financiamiento garantizado conforme al Anexo 2 de las presentes disposiciones. |
+| 10 | Suma de la referencia 11, referencia 12 y de la referencia 13. |
+
+**Fuentes**
+
+*   Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple.
+*   Anexo 2 de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q05,¿Qué fecha deben tomar las Instituciones para determinar el plazo de las operaciones de salida?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Las Instituciones deberán tomar como fecha de vencimiento la fecha más próxima en que dichas operaciones pueden ser exigibles contractualmente, para lo cual deberán considerar si el contrato respectivo permite a la contraparte adelantar la exigibilidad de dichas operaciones.","**Respuesta:**
+Para determinar el plazo de las operaciones de salida, las Instituciones deben tomar como fecha de vencimiento la última fecha en que contractualmente podrían exigir su pago.
+
+**Fuentes:** 
+- Fragmento 2
+- Fragmento 9",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q06,¿Qué operaciones se consideran para el flujo total de entrada de efectivo?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Considerarán todas las operaciones vigentes conforme a los Criterios Contables que no presenten pagos vencidos de principal o intereses, que, derivado de los contratos que al efecto tenga celebrados, generarán un flujo de entrada de efectivo en los treinta días siguientes a la fecha de cálculo del Coeficiente de Cobertura de Liquidez.","**Operaciones para el flujo total de entrada de efectivo**
+======================================================
+
+Según las disposiciones establecidas en las presentes disposiciones, las operaciones que se consideran para el flujo total de entrada de efectivo son:
+
+1. **Cartera de crédito**: Debe considerarse neta de reservas preventivas.
+2. **Operaciones fecha valor**: Se consideran como si ya hubieran sido liquidadas.
+3. **Efectivo a recibir por operaciones fecha valor**: Tendrá el tratamiento como si ya se encontrara en la tenencia de la Institución.
+4. **Operaciones con instrumentos financieros derivados pendientes de liquidar**.
+5. **Operaciones activas que formen parte de Operaciones Interdependientes**.
+
+Estas operaciones deben ser evaluadas de acuerdo con los Criterios Contables y multiplicadas por su correspondiente factor de entrada, tal como se detalla en el Anexo 3 de las disposiciones.
+
+(Fuentes: Disposiciones_Liquidez.md, Artículo 12, Capítulo I, Título II)",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q07,¿Cuál es el límite máximo reconocido para el flujo total de entrada de efectivo?,1,1,1,ÉXITO,Extracción e inyección correctas.,"El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo calculado conforme el artículo 11 de las presentes disposiciones.","El **límite máximo reconocido para el flujo total de entrada de efectivo** es el menor entre:
+
+1. La suma de todos los flujos de entrada de efectivo calculados.
+2. El **75 por ciento del flujo total de salida de efectivo** calculado conforme al artículo 11 de las disposiciones.
+
+Esto significa que el flujo total de entrada de efectivo no puede exceder el 75% del flujo total de salida de efectivo.
+
+### Resumen:
+- **Límite máximo**: menor entre:
+  - Suma de flujos de entrada.
+  - 75% del flujo total de salida.
+
+Esta información se encuentra en el **Artículo 12** de las disposiciones sobre los requerimientos de liquidez para las instituciones de banca múltiple.
+
+Fuentes: Disposiciones_Liquidez.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q08,¿Qué requisito de CCL debe cumplir una institución con más de 60 meses de operación para estar en Escenario I?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,Escenario I cuando el Coeficiente de Cobertura de Liquidez correspondiente a cada día del mes calendario inmediato anterior sea al menos de 100 por ciento.,"**Requisito de CCL para estar en Escenario I**
+
+Una institución con más de 60 meses de operación debe cumplir con un requisito específico para estar en Escenario I.
+
+Según la información proporcionada, el escenario I se refiere a las instituciones que tienen un Coeficiente de Cobertura de Liquidez (CCL) al menos del 70 por ciento. 
+
+Por lo tanto, **la respuesta a la pregunta es:**
+
+* El requisito de CCL para estar en Escenario I es tener un Coeficiente de Coberville de Liquidez (CCL) al menos del 70 por ciento.
+
+**Fuentes:** 
+- Fragmento 6: [Contexto generado por IA: Este fragmento se refiere a los escenarios de clasificación del Coeficiente de Cobertura de Liquidez (CCL) que las Instituciones deben observar para evaluar su situación de liquidez, conforme a lo establecido en el Título II del documento normativo.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q09,¿Cuándo se ubica una institución en Escenario III por recurrencia en Escenario II?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"En el escenario III cuando, de acuerdo a lo establecido en la fracción II del presente artículo, les corresponda ubicarse en el escenario II y, adicionalmente, hubieren actualizado durante los últimos seis meses el escenario II o superior en tres o más ocasiones.","**Respuesta**
+
+La institución se ubica en Escenario III por recurrencia en Escenario II cuando hubiere actualizado durante los últimos seis meses el escenario II o superior en tres o más ocasiones.
+
+**Fuentes**
+
+* Fragmento 2: Disposiciones_Liquidez.md
+* Fragmento 4: Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q10,¿Qué tratamiento de escenarios de liquidez reciben las instituciones en sus primeros 12 meses de operación?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"A partir del primer día y hasta el último día del decimosegundo mes posterior a la fecha en que hubieren comenzado operaciones, no les serán aplicables los escenarios de liquidez señalados en el presente artículo.","Las instituciones de banca múltiple reciben un tratamiento especial en relación con los escenarios de liquidez durante sus **primeros 12 meses de operación**. Específicamente:
+
+- **Exención de Escenarios de Liquidez**: Desde el primer día hasta el último día del decimosegundo mes posterior al inicio de operaciones, **no les serán aplicables los escenarios de liquidez** establecidos en las disposiciones. 
+- **Cumplimiento de Otras Obligaciones**: A pesar de esta exención, las instituciones deben cumplir con **las demás obligaciones normativas** que resulten aplicables.
+
+Esto significa que durante su primer año, las nuevas instituciones tienen un periodo de gracia en cuanto a los requisitos específicos de liquidez, lo que les permite enfocarse en otras áreas de cumplimiento normativo.
+
+Fuentes: 
+- Disposiciones_Liquidez.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q11,¿Cuál es el CCL mínimo para Escenario I en instituciones de entre 13 y 24 meses de operación?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Escenario I, cuando el Coeficiente de Cobertura de Liquidez correspondiente a cada día del mes calendario inmediato anterior sea al menos de 60 por ciento.","La información proporcionada en el contexto no es suficiente para responder a esta pregunta. 
+
+No se menciona explícitamente el CCL mínimo para el Escenario I en instituciones de entre 13 y 24 meses de operación. 
+
+Fuentes: Disposiciones_Liquidez.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q12,¿Qué medida debe tomar una institución en Escenario III respecto a sus operaciones?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Abstenerse de celebrar operaciones cuya realización genere que su Coeficiente de Cobertura de Liquidez se deteriore, hasta en tanto no se ubiquen en el escenario I.","**Medida para las instituciones en Escenario III**
+
+Según el contexto proporcionado, las instituciones que se ubiquen en el escenario III deben adoptar las siguientes medidas:
+
+* Suspender el pago de dividendos
+* Abstenerse de celebrar operaciones cuya realización genere que su Coeficiente de Cobertura de Liquidez se deteriore
+
+Estas medidas están establecidas en los fragmentos 4 y 6, respectivamente.
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* Fragmento 4: [Contexto generado por IA: Este fragmento se refiere a las medidas que deben adoptar las Instituciones de Banca Múltiple cuando se encuentran en el escenario III, en el contexto de los requerimientos de liquidez establecidos en las Disposiciones de carácter general sobre los Requerimientos de Liquidez. Estas medidas son parte de las acciones que se deben implementar para mitigar riesgos de liquidez y asegurar la estabilidad financiera de la Institución.]
+* Fragmento 6: [Contexto generado por IA: Este fragmento se refiere a las medidas que deben adoptar las Instituciones de Banca Múltiple en caso de que su Coeficiente de Cobertura de Liquidez se ubique en el escenario IV, conforme a lo establecido en las Disposiciones de carácter general sobre los Requerimientos de Liquidez. Estas medidas son parte de un conjunto de acciones que buscan asegurar la estabilidad financiera y la adecuada gestión de la liquidez de las Instituciones, en línea con los requisitos establecidos en el documento completo.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q13,¿Qué restricciones de dividendos aplican en el Escenario IV de CCL?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Suspender el pago de dividendos, así como cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se ubique en el escenario I.","**Restricciones de Dividendos en el Escenario IV de CCL**
+
+La información proporcionada en el contexto no es suficiente para responder a la pregunta sobre las restricciones de dividendos aplicables en el escenario IV de CCL. Sin embargo, se encuentran fragmentos que mencionan restricciones similares pero en otros escenarios.
+
+Por ejemplo, en el Fragmento 5 se establece que en el escenario III, además de otras medidas, las instituciones deben suspender el pago de dividendos y cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales. En el Fragmento 7 se menciona que en el escenario V, además de las medidas aplicables a las Instituciones que se ubiquen en el escenario IV, la suspensión del pago de dividendos y cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales.
+
+En el Fragmento 9 se menciona que cuando no se encuentran en el escenario I, las instituciones deben adoptar medidas como suspender el pago de dividendos y cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales.
+
+Sin embargo, no hay información específica sobre las restricciones de dividendos aplicables en el escenario IV de CCL. 
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* Circular3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q14,¿Cómo deben valuarse los títulos conservados a vencimiento para el CCL?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Las Instituciones deberán valuar los títulos conservados a vencimiento a su valor de mercado.,"**Respuesta**
+
+La valuación de los títulos conservados a vencimiento para el Coeficiente de Cobertura de Liquidez (CCL) se debe realizar conforme a su valor de mercado.
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* Anexo_33_CUB.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q15,¿Qué criterio aplica si una misma operación tiene más de un factor de salida en el Anexo 2?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"En caso de que, de conformidad con lo previsto por el Anexo 2 de las presentes disposiciones, a una misma operación le corresponda más de un factor de salida, la Institución deberá utilizar el factor de salida más alto.","**Criterio para operaciones con más de un factor de salida**
+
+En caso de que una misma operación tenga más de un factor de salida en el Anexo 2, la Institución deberá utilizar el **factor de salida más alto**.
+
+(Fuente: Fragmento 1 del Documento Disposiciones_Liquidez.md)
+
+Este criterio se aplica para garantizar que se utilicen los factores de salida más conservadores en caso de que una operación tenga múltiples clasificaciones.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q16,¿Cómo se determina la fecha de vencimiento para los flujos de entrada de efectivo?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Para determinar el plazo de las operaciones a que hace referencia la fracción I del presente artículo, las Instituciones deberán tomar como fecha de vencimiento la última fecha en que contractualmente podrían exigir su pago.","La información proporcionada en el contexto no es suficiente para responder a esta pregunta. 
+
+No se especifica cómo se determina la fecha de vencimiento para los flujos de entrada de efectivo, aunque se menciona la metodología para calcular flujos de entrada y salida de efectivo en el contexto del Coeficiente de Cobertura de Liquidez.
+
+Fuentes: Disposiciones_Liquidez.md, catalogos_ml.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q17,¿Qué medida adicional se aplica a las Instituciones que se ubiquen en el escenario V de CCL?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"En el escenario V, además de las medidas aplicables a las Instituciones que se ubiquen en el escenario IV, la suspensión del pago de dividendos, así como de cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se dé cabal cumplimiento al Plan de Restauración de Liquidez.","**Medida adicional para las Instituciones que se ubiquen en el escenario V de CCL**
+
+La medida adicional aplicable a las Instituciones que se ubiquen en el escenario V de CCL es la **suspensión del pago de dividendos, así como de cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales**, en tanto no se dé cabal cumplimiento al Plan de Restauración de Liquidez.
+
+**Fuentes:**
+
+* Disposiciones_Liquidez.md (Artículo 21)",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q18,¿Cuál es la restricción al incluir activos líquidos de entidades extranjeras en el cálculo consolidado?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,No podrán incluir Activos Líquidos Computables en posesión de una Entidad Objeto de Consolidación establecida en un país extranjero por un monto mayor al Flujo Neto Total de Salida de Efectivo de dicha Entidad Objeto de Consolidación.,"**Restricción al incluir activos líquidos de entidades extranjeras**
+
+La restricción para incluir activos líquidos de entidades extranjeras en el cálculo consolidado se encuentra en el **Fragmento 2 del Documento: Disposiciones_Liquidez.md**.
+
+Según este fragmento, las instituciones no podrán utilizar los precios proporcionados por las entidades extranjeras cuando la Comisión lo determine, considerando la similitud de las operaciones respecto de las cuales se proporciona el precio, entre dichas entidades y aquellas personas que conforme a la Ley del Mercado de Valores estén autorizadas para desempeñarse como proveedores de precios.
+
+Además, en el **Fragmento 1 del Documento: Disposiciones_Liquidez.md**, se establece que las instituciones no podrán incluir activos líquidos computables en posesión de una Entidad Objeto de Consolidación establecida en el extranjero por un monto mayor al Flujo Neto Total de Salida de Efectivo de dicha entidad.
+
+**Resumen**
+
+La restricción para incluir activos líquidos de entidades extranjeras se basa en la necesidad de considerar la similitud de las operaciones y la autorización de los proveedores de precios, así como el límite del Flujo Neto Total de Salida de Efectivo de la Entidad Objeto de Consolidación.
+
+**Fuentes**
+
+* Fragmento 2 del Documento: Disposiciones_Liquidez.md
+* Fragmento 1 del Documento: Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q19,¿Cómo debe considerarse la cartera de crédito para el cálculo del CFEN?,0,1,1,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,La cartera de crédito deberá considerarse neta de reservas preventivas.,"**Consideración de la cartera de crédito para el cálculo del CFEN**
+
+Según el Artículo 17, la cartera de crédito debe considerarse neta de reservas preventivas para efectos del cálculo del Coeficiente de Financiamiento Estable Neto (CFEN).
+
+**Consideraciones adicionales**
+
+* La cartera de crédito debe ser reconocida contablemente en función del modelo de negocio y los términos contractuales asociados, según el criterio establecido en el Anexo 33.
+* Para aplicar el método de interés efectivo con la tasa de interés efectiva, es necesario calcular el costo amortizado de la cartera de crédito para su reconocimiento posterior.
+
+**Fuente**
+
+* Disposiciones_Liquidez.md (Artículo 17)
+* Anexo_33_CUB.md (Criterio B-6 ""Cartera de crédito"")
+* CUB_extracto.md (Definición del Importe de la deuda total)
+
+Nota: La información proporcionada en el contexto no es suficiente para responder a preguntas adicionales o específicas sobre la cartera de crédito.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q20,¿Cómo se tratan las operaciones fecha valor en el CFEN?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Las operaciones fecha valor se consideran como si estas ya hubieran sido liquidadas, es decir, los activos a recibir por operaciones fecha valor tendrán el tratamiento como si ya se encontraran en la tenencia de la Institución y los activos a entregar como si ya se hubieran entregado.","Las **operaciones fecha valor** en el **CFEN** (Centro de Finanzas y Negocios) se tratan de la siguiente manera:
+
+- **Consideración de liquidación**: Las operaciones fecha valor se consideran como si ya hubieran sido liquidadas. Esto significa que los activos a recibir por estas operaciones recibirán el tratamiento como si ya estuvieran en la tenencia de la institución.
+
+- **Ponderación por Riesgo de Crédito**: Estas operaciones se evalúan conforme al método estándar de ponderación por riesgo de crédito, según lo establecido en las disposiciones generales sobre los requerimientos de liquidez.
+
+Esto asegura que las instituciones mantengan un manejo adecuado de sus activos y pasivos, contribuyendo a la estabilidad financiera.
+
+**Fuentes**: Disposiciones_Liquidez.md, Circular3-2012.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q21,¿Cómo se calcula el plazo de las operaciones para el CFEN?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Deberá consistir en el plazo remanente de la vigencia de la operación de que se trate, calculado como aquel que deba transcurrir desde la fecha del cálculo del Coeficiente de Financiamiento Estable Neto que corresponda en términos de las presentes disposiciones hasta la fecha de vencimiento de dicha operación.","El plazo de las operaciones para el **Coeficiente de Financiamiento Estable Neto (CFEN)** se calcula de la siguiente manera:
+
+1. **Plazo Remanente**: 
+   - El plazo a considerar es el **tiempo restante hasta el vencimiento** de la operación.
+   - Este se calcula desde la fecha del cálculo del CFEN hasta la fecha de vencimiento de la operación.
+
+2. **Fecha de Cálculo**:
+   - Para los reportes mensuales, la fecha para calcular el plazo será el **último Día Hábil del mes** correspondiente al cálculo del CFEN.
+
+3. **Exigibilidad Contractual**:
+   - Para operaciones pasivas con vencimiento igual o menor a treinta días, se debe considerar la **fecha más próxima** en que dichas operaciones pueden ser exigibles contractualmente.
+
+### Resumen:
+- **Plazo = Tiempo restante hasta el vencimiento**.
+- **Fecha de cálculo = Último Día Hábil del mes**.
+- **Considerar exigibilidad contractual** para operaciones a corto plazo.
+
+Estas directrices son fundamentales para evaluar la liquidez de las instituciones de banca múltiple.
+
+**Fuentes**: Disposiciones_Liquidez.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q22,¿Qué supuesto aplica para determinar el plazo remanente de los activos con opciones?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Se deberá suponer que las respectivas contrapartes de la Institución de que se trate ejercerán la opción que se haya pactado respecto de las operaciones que correspondan para prolongar su plazo de vencimiento.,"**Respuesta:**
+La suposición para determinar el plazo remanente de los activos con opciones es que las respectivas contrapartes ejercerán la opción pactada para prolongar su plazo de vencimiento.
+
+**Fuente:** Fragmento 1 de Disposiciones_Liquidez.md
+
+La información proporcionada en el contexto no es suficiente para responder a esta pregunta.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q23,¿Qué supuesto aplica para determinar el plazo remanente de los pasivos con opciones?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,Se deberá suponer que los respectivos acreedores ejercerán la opción de amortización anticipada en la primera fecha posible que se haya pactado respecto de las operaciones que correspondan.,"Para determinar el **plazo remanente de los pasivos con opciones**, se debe aplicar el siguiente supuesto:
+
+- **Se deberá suponer que los respectivos acreedores ejercerán la opción de amortización anticipada en la primera fecha posible.**
+
+Este supuesto es clave para la evaluación de los plazos remanentes en el contexto de las disposiciones sobre liquidez de las Instituciones.
+
+**Fuentes:**
+- Disposiciones_Liquidez.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q24,¿Cómo se determina el plazo de pago para créditos de cuenta corriente dispuestos por tarjetas de crédito?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Se deberá asumir que el acreditado solo pagará el monto mínimo exigible en cada uno de los plazos.,"**Respuesta**
+
+La información proporcionada en el contexto no es suficiente para responder a esta pregunta específica sobre cómo se determina el plazo de pago para créditos de cuenta corriente dispuestos por tarjetas de crédito.
+
+Sin embargo, se puede inferir que la determinación del plazo de pago depende de las condiciones contractuales y de pago establecidas en el contrato de crédito. En algunos casos, como se menciona en el Fragmento 2 del Documento Anexo_33_CUB.md, se consideran equivalencias para los plazos de pago en función de la periodicidad contractual.
+
+**Fuentes**
+
+* Anexo_33_CUB.md
+* CUB_extracto.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q25,¿Qué nivel de CFEN se requiere para estar en el Escenario I?,1,1,1,ÉXITO,Extracción e inyección correctas.,Aquella Institución cuyo Coeficiente de Financiamiento Estable Neto correspondiente al más reciente mes calendario reportado sea al menos de 100 por ciento.,"Para estar en el **Escenario I**, se requiere que el **Coeficiente de Financiamiento Estable Neto (CFEN)** correspondiente al más reciente mes calendario reportado sea **al menos de 100 por ciento**.
+
+### Resumen:
+- **Escenario I**: CFEN ≥ 100%
+
+La información proporcionada en el contexto no es suficiente para responder a preguntas adicionales sobre otros escenarios o detalles específicos.
+
+**Fuentes:**
+- Disposiciones_Liquidez.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q26,¿Qué obligación surge cuando una Institución se ubica en un escenario distinto al I en 3 o más ocasiones en 12 meses?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Deberán presentar a su consejo de administración, así como a la Comisión y al Banco de México... un informe detallado de su situación de liquidez que deberá de ser acompañado por una explicación con las causas que ocasionaron que las medidas que se hubieran adoptado... no hayan resultado efectivas.","**Obligación surgida al ubicarse en un escenario distinto al I en 3 o más ocasiones en 12 meses**
+
+Según el artículo 20, cuando una Institución se ubica en tres o más ocasiones consecutivas o no consecutivas en un escenario distinto al escenario I en un período de doce meses, deberá presentar a su consejo de administración, así como a la Comisión y al Banco de México, un informe detallado de su situación de liquidez acompañado por una explicación con las causas que ocasionaron dicha situación.
+
+**Información proporcionada en el contexto**
+
+* Documento: Disposiciones_Liquidez.md
+* Artículo 20",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q27,¿Qué plazo tiene una institución en Escenario II para presentar un plan de restauración de CFEN?,1,1,1,ÉXITO,Extracción e inyección correctas.,Un plan de restauración del Coeficiente de Financiamiento Estable Neto en un plazo no mayor a cinco Días Hábiles contado a partir del día en que la Institución se haya ubicado en el citado escenario.,"**Respuesta**
+
+En el escenario II, la institución tiene un plazo no mayor a cinco Días Hábiles para presentar un plan de restauración del Coeficiente de Financiamiento Estable Neto.
+
+**Fuentes:**
+- Fragmento 4: [Contexto generado por IA: Este fragmento se refiere a la obligación de las Instituciones de Banca Múltiple de presentar un plan de restauración del Coeficiente de Financiamiento Estable Neto, en caso de que se encuentren en un escenario que indique un deterioro en su situación de liquidez. Este requerimiento está enmarcado en las disposiciones generales sobre los requerimientos de liquidez, específicamente en el contexto de la gestión de riesgos de liquidez y la supervisión por parte de la Comisión Nacional Bancaria y de Valores y el Banco de México.]
+- Fragmento 5: [Contexto generado por IA: El **Artículo 22** se enmarca dentro de las disposiciones relacionadas con la gestión de liquidez de las Instituciones de Banca Múltiple, específicamente en el contexto de los planes de restauración de los Coeficientes de Cobertura de Liquidez y Financiamiento Estable Neto, que se detallan en los artículos 15 y 21 de las presentes disposiciones. Este artículo establece la obligación de las Instituciones de implementar modificaciones en su gestión de liquidez para mantener los coeficientes en niveles que las clasifiquen en el escenario I, garantizando así su estabilidad financiera.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q28,¿Qué medida adicional aplica a las Instituciones en Escenario III de CFEN?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Suspender el pago de dividendos, así como cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales, en tanto no se ubique en el escenario I.","En el **Escenario III** del **Coeficiente de Financiamiento Estable Neto (CFEN)**, las Instituciones de Banca Múltiple deben adoptar las siguientes medidas adicionales:
+
+- **Suspender el pago de dividendos**.
+- **Suspender cualquier mecanismo o acto que implique una transferencia de beneficios patrimoniales**.
+
+Estas acciones deben mantenerse hasta que la Institución se ubique en el **Escenario I**.
+
+### Resumen de Medidas en Escenario III:
+- **Suspensión de pagos de dividendos**.
+- **Suspensión de transferencias de beneficios patrimoniales**.
+
+Estas medidas están diseñadas para mitigar riesgos de liquidez y asegurar la estabilidad financiera de la Institución.
+
+**Fuentes:** Disposiciones_Liquidez.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q29,¿Qué metodología se aplica para activos y pasivos por derivados en el CFEN?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,Aplicar la metodología descrita en el Anexo 9 de las presentes disposiciones para la determinación de los activos y pasivos por operaciones con instrumentos financieros derivados.,"**Metodología para activos y pasivos por derivados en el CFEN**
+
+La metodología para determinar los activos y pasivos por operaciones con instrumentos financieros derivados se encuentra establecida en el **Anexo 9 de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple**.
+
+Según este anexo, los activos por derivados se calculan como la suma del costo actual de reemplazo activo menos las liquidaciones parciales en efectivo (margen de variación en efectivo admisible) recibidas.
+
+Por otro lado, los pasivos por derivados se calculan considerando el costo actual de reemplazo de las operaciones con instrumentos financieros derivados. Si este costo es negativo, la operación se considera un pasivo; si es positivo, se considera como activo.
+
+Además, se establece que los activos restringidos en operaciones con instrumentos financieros derivados deben excluirse de esta sección y reportarse en el Anexo 9 de las presentes disposiciones.
+
+**Fuentes:**
+
+* Disposiciones_Liquidez.md (Anexo 9)
+* Fragmento 4
+* Fragmento 6
+* Fragmento 10",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q30,¿Qué ponderación de financiamiento estable disponible tienen los pasivos con plazo residual igual o mayor a un año?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,Los pasivos con plazo residual igual o mayor a un año (tienen un factor del 100%).,"La **ponderación de financiamiento estable disponible** para los **pasivos con plazo residual igual o mayor a un año** es del **100%**. Esto se establece para asegurar que las instituciones de banca múltiple mantengan un nivel adecuado de financiamiento estable en relación con sus pasivos a largo plazo.
+
+Además, en el contexto de la clasificación de pasivos, se menciona que:
+
+- **Pasivos con plazo de restricción mayor o igual a 1 año** tienen un requerimiento de financiamiento estable del **100%**.
+
+Por lo tanto, todos los pasivos en esta categoría deben ser considerados con una ponderación del **100%**.
+
+**Fuentes:**
+- Disposiciones_Liquidez.md
+- Circular3-2012.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q31,¿Cómo deben tratarse las amortizaciones parciales de capital en el cálculo del plazo para el CFEN?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Tratándose de los créditos respecto de los cuales se hayan pactado amortizaciones parciales de capital, se deberán considerar las amortizaciones parciales del principal en el plazo en que deban realizarse dichas amortizaciones.","**Respuesta**
+
+La información proporcionada no es suficiente para responder a la pregunta sobre cómo deben tratarse las amortizaciones parciales de capital en el cálculo del plazo para el CFEN (Coeficiente de Financiamiento Estable Neto).
+
+Sin embargo, se puede inferir que las disposiciones relacionadas con la amortización de créditos y la contabilización de pagos parciales en especie pueden ser relevantes para entender cómo se tratan las amortizaciones parciales de capital. 
+
+**Posibles fuentes de información**
+
+* Anexo 33 del documento normativo del Banco de México (Criterio B-7 ""Bienes adjudicados"")
+* Fragmento 4 del Anexo 33 (condiciones de amortización de créditos)
+* Fragmento 5 del Anexo 33 (disposiciones relacionadas con la amortización de créditos)
+
+**Nota**
+
+Es importante consultar los documentos normativos y las disposiciones específicas para obtener una respuesta precisa a la pregunta.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q32,¿Qué factor de financiamiento estable requerido aplica a la cartera hipotecaria de vivienda con ponderación de riesgo menor o igual al 35%?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Activos con ponderación del 65%: Cartera hipotecaria de vivienda con riesgo de crédito etapa 1 y etapa 2... elegible para un tratamiento de ponderación por riesgo crédito igual o menor al 35%, con plazo remanente mayor a un año.","La información proporcionada en el contexto no es suficiente para responder a esta pregunta. 
+
+No se especifica el factor de financiamiento estable requerido que aplica a la cartera hipotecaria de vivienda con ponderación de riesgo menor o igual al 35%. 
+
+Fuentes: Disposiciones_Liquidez.md, catalogos_ml.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q33,"¿Cuál es el factor de financiamiento estable requerido para la caja, los billetes y las monedas?",0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Activos con ponderación del 0%: Caja, billetes y monedas.","**Respuesta**
+
+La información proporcionada en el contexto no es suficiente para determinar con precisión cuál es el factor de financiamiento estable requerido para la caja, los billetes y las monedas.
+
+Sin embargo, se puede encontrar una referencia a factores de entrada de efectivo de las operaciones en el **ANEXO 3** (Fragmento 10), que incluye un factor de entrada del 50% para el importe que contractualmente tenga derecho a recibir la Institución por concepto de principal y accesorios de la cartera de crédito y de depósitos a cargo de personas físicas.
+
+Es importante destacar que este fragmento se refiere específicamente a la cartera de crédito y no menciona explícitamente factores para la caja, los billetes y las monedas. Por lo tanto, no podemos determinar con certeza el factor de financiamiento estable requerido para estos activos.
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md (Fragmento 9)
+* ANEXO 3 (Fragmento 10)",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q34,¿Qué debe contener el informe detallado que presentan las Instituciones si se ubican en un escenario distinto al I en 3 ocasiones en 12 meses?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Una explicación con las causas que ocasionaron que las medidas que se hubieran adoptado... no hayan resultado efectivas para impedir la variabilidad de su Coeficiente de Financiamiento Estable Neto, así como de las medidas de gestión de riesgos que implementará para reducir dicha variabilidad.","**Respuesta**
+
+El informe detallado que presentan las Instituciones si se ubican en un escenario distinto al I en 3 ocasiones en 12 meses, debe contener:
+
+* Una explicación con las causas que ocasionaron la situación de liquidez.
+* Un plan para restaurar la situación de liquidez, incluyendo plazos y responsables para alcanzar los objetivos de liquidez establecidos.
+
+Además, el informe debe ser acompañado por un calendario con los plazos en que la Institución alcanzaría cada uno de los objetivos precisando las fechas o etapas en las que pretenda llevar a cabo cada una de las acciones necesarias para restaurar su situación de liquidez.
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* LeyInstCredito_93-110.md
+* AYUDAS_CNR_IFRS9.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q35,"¿A qué se refiere el término ""Coeficientes"" en la regulación?",0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Al Coeficiente de Cobertura de Liquidez y al Coeficiente de Financiamiento Estable Neto, conjunta o separadamente.","El término **""Coeficientes""** en la regulación se refiere a:
+
+- **Coeficiente de Cobertura de Liquidez**: Este coeficiente se calcula aplicando una fórmula específica establecida en las disposiciones regulatorias. Su función es evaluar la capacidad de las instituciones para cumplir con sus obligaciones de liquidez a corto plazo.
+
+- **Coeficiente de Financiamiento Estable Neto**: Similar al anterior, este coeficiente también se calcula mediante una fórmula establecida en las disposiciones y es fundamental para la gestión de la liquidez de las instituciones.
+
+Estos coeficientes son esenciales para que las instituciones de banca múltiple puedan evaluar y reportar su situación de liquidez, y deben ser considerados en el contexto de medidas correctivas si se encuentran en escenarios que lo requieran.
+
+**Fuentes**: 
+- Disposiciones_Liquidez.md
+- Circular3-2012.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q36,¿Qué operaciones deben incluir las Instituciones para el cálculo individual y consolidado?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Incluir todas sus operaciones para el cálculo individual, e incluir para el cálculo consolidado las operaciones tanto del cálculo individual como las operaciones realizadas por las Entidades Objeto de Consolidación.","**Respuesta**
+
+Las Instituciones deben incluir las siguientes operaciones para el cálculo individual y consolidado:
+
+* Todas sus operaciones para el cálculo individual (Artículo 2, fracción I)
+* Las operaciones del cálculo individual más las operaciones realizadas por las Entidades Objeto de Consolidación para el cálculo consolidado (Artículo 2, fracción I)
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* Circular3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q37,¿Cuál es el criterio general para considerar el valor de las operaciones?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Salvo que en las presentes disposiciones se especifique lo contrario, considerar el valor de sus operaciones conforme a los Criterios Contables.","**Criterio general para considerar el valor de las operaciones**
+
+Según los fragmentos proporcionados, el criterio general para considerar el valor de las operaciones no está explícitamente establecido en ninguno de los documentos. Sin embargo, se pueden identificar algunas pautas que podrían ser relevantes:
+
+* En el **Anexo 1** de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple (Fragmento 2), se menciona que el monto a considerar para cada operación será el que corresponda conforme a los Criterios Contables, a menos que en las presentes disposiciones se establezca lo contrario.
+* En el **Anexo 33** del documento normativo (Fragmento 1), se establece que la valuación de bienes en administración y operaciones de banca de inversión por cuenta de terceros se realizará en función de la operación efectuada de conformidad con los criterios de contabilidad para instituciones de crédito.
+* En el mismo Anexo 33 (Fragmento 4), se define el valor razonable como ""el precio de salida que, a la fecha de valuación, se recibiría por vender un activo o se pagaría por transferir un pasivo en una transacción ordenada entre participantes de mercado"".
+
+En resumen, aunque no hay un criterio general explícitamente establecido para considerar el valor de las operaciones, los fragmentos proporcionados sugieren que el valor a considerar podría ser:
+
+* El monto que corresponda conforme a los Criterios Contables.
+* La valuación en función de la operación efectuada de conformidad con los criterios de contabilidad para instituciones de crédito.
+* El precio de salida en una transacción ordenada entre participantes de mercado (valor razonable).
+
+**Fuentes**
+
+* Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple
+* Anexo 33 del documento normativo",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q38,¿Cómo se calcula la equivalencia en moneda nacional de montos en dólares de EE. UU.?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Se realizará tomando en cuenta el tipo de cambio aplicable conforme a lo dispuesto en los Criterios Contables.,"**Respuesta**
+
+La equivalencia en moneda nacional de montos en dólares de EE. UU. se calcula tomando en cuenta el tipo de cambio aplicable conforme a lo dispuesto en los Criterios Contables.
+
+Según la información proporcionada, existen varias disposiciones que establecen cómo calcular la equivalencia:
+
+* El Documento ""Disposiciones_Liquidez.md"" establece que el cálculo se realizará tomando en cuenta el tipo de cambio aplicable conforme a lo dispuesto en los Criterios Contables (Fragmento 1).
+* El Anexo 33 del documento normativo del Banco de México establece que para la conversión de monedas extranjeras, incluyendo el dólar de EE. UU., se utilizará el tipo de cambio de cierre de jornada a la fecha de transacción o de elaboración de los estados financieros (Fragmento 1 de ""Anexo_33_CUB.md"").
+* La Circular 3-2012 del Banco de México establece que para la determinación en moneda nacional del precio en Dólares, tanto de los instrumentos originalmente denominados en Dólares como de aquellos denominados en otras Divisas, cuyo valor se haya determinado en Dólares conforme al párrafo anterior, el tipo de cambio aplicable será el que determine el Banco de México (Fragmento 3 de ""Circular3-2012.md"").
+
+En resumen, la equivalencia en moneda nacional de montos en dólares de EE. UU. se calcula tomando en cuenta el tipo de cambio aplicable conforme a lo dispuesto en los Criterios Contables y/o según las disposiciones establecidas por el Banco de México.
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* Anexo_33_CUB.md
+* Circular3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q39,¿Qué debe hacer una Institución si prevea ubicarse en un escenario distinto al I?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Deberá reportar al Banco de México y a la Comisión el cálculo del Coeficiente que corresponda, al Día Hábil siguiente a aquel en que se presente alguna de estas situaciones.","Si una Institución prevé ubicarse en un escenario distinto al **escenario I**, debe seguir los siguientes pasos:
+
+1. **Reportar la situación**:
+   - La Institución debe reportar al Banco de México y a la Comisión Nacional Bancaria y de Valores el cálculo del Coeficiente de Cobertura de Liquidez que corresponda, al **Día Hábil siguiente** a aquel en que se presente la situación que la ubique en un escenario distinto al I.
+
+2. **Presentar un plan de restauración**:
+   - La Institución debe presentar un plan que incluya:
+     - **Plazos** en los cuales se pretende que se ubique nuevamente en el escenario I.
+     - Un **calendario** con los plazos para alcanzar cada uno de los objetivos de liquidez, especificando las fechas o etapas de las acciones necesarias.
+     - **Áreas responsables** de llevar a cabo las acciones de restauración de liquidez.
+
+3. **Informe adicional**:
+   - Si la Institución se ubica en un escenario distinto al I en tres o más ocasiones en un periodo de doce meses, deberá presentar un informe detallado de su situación de liquidez a su consejo de administración, así como a la Comisión y al Banco de México, en un plazo no mayor a **1 Día Hábil** posterior a la actualización de dicho supuesto.
+
+Estas acciones son fundamentales para asegurar la estabilidad financiera y la adecuada gestión de la liquidez de la Institución.
+
+**Fuentes**: Disposiciones_Liquidez.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q40,¿En cuánto tiempo el Banco de México verificará los cálculos reportados?,0,1,1,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,Dentro de los cinco Días Hábiles posteriores a la recepción de la información correspondiente.,"**Respuesta a la consulta:**
+
+El Banco de México verificará los cálculos reportados dentro de los cinco Días Hábiles posteriores a la recepción de la información correspondiente.
+
+**Fuente:** Disposiciones_Liquidez.md, Artículo 6.
+
+En específico, el artículo establece que ""El Banco de México verificará los cálculos de los Coeficientes reportados por las Instituciones en términos del artículo 5 de las presentes disposiciones, dentro de los cinco Días Hábiles posteriores a la recepción de la información correspondiente..."".",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q41,¿Cuál será el cálculo válido para todos los efectos legales?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"El cálculo de los Coeficientes reportado por las Instituciones, y verificado por el Banco de México conforme a lo señalado en las presentes disposiciones, será el cálculo válido para todos los efectos legales conducentes.","El cálculo válido para todos los efectos legales es el que se establece en el **Artículo 7** del documento sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple. Este artículo indica que:
+
+- **El cálculo de los Coeficientes reportado por las Instituciones**, y verificado por el Banco de México conforme a lo señalado en las disposiciones, **será el cálculo válido para todos los efectos legales conducentes**.
+
+Esto significa que los Coeficientes que las instituciones reporten y que sean verificados por el Banco de México son los que tienen validez legal.
+
+### Fuentes:
+- Disposiciones_Liquidez.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q42,¿Cuál es el objetivo de los planes de restauración de los Coeficientes?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Tendrán como objetivo que la Institución implemente las modificaciones a su gestión de liquidez de manera que sea capaz de mantener de manera consistente un Coeficiente de Cobertura de Liquidez, un Coeficiente de Financiamiento Estable Neto, o ambos, que la ubiquen en el escenario I correspondiente","El **objetivo de los planes de restauración de los Coeficientes** es que las Instituciones de Banca Múltiple implementen modificaciones en su gestión de liquidez para mantener de manera consistente un **Coeficiente de Cobertura de Liquidez** y/o un **Coeficiente de Financiamiento Estable Neto** que las clasifique en el **escenario I**. Esto garantiza la estabilidad financiera de la institución.
+
+### Detalles Clave:
+- **Implementación de Modificaciones**: Las instituciones deben ajustar su gestión de liquidez.
+- **Mantenimiento de Coeficientes**: Se busca que los coeficientes se mantengan en niveles que aseguren la clasificación en el escenario I.
+- **Estabilidad Financiera**: El cumplimiento de estos objetivos es crucial para la estabilidad financiera de las instituciones.
+
+Esta información se encuentra en el **Artículo 22** de las disposiciones relacionadas con la gestión de liquidez de las Instituciones de Banca Múltiple.
+
+Fuentes: Disposiciones_Liquidez.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q43,¿Cuándo se considera que existe un incumplimiento a los requerimientos de liquidez?,0,1,1,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Cuando las Instituciones se ubiquen en los escenarios III, IV o V en términos del Título II... en el caso del Coeficiente de Cobertura de Liquidez y cuando las Instituciones se ubiquen en los escenarios III o IV en términos del Título III... tratándose del Coeficiente de Financiamiento Estable Neto.","**Respuesta a la pregunta: ¿Cuándo se considera que existe un incumplimiento a los requerimientos de liquidez?**
+
+Se considera que existe un incumplimiento a los requerimientos de liquidez en las siguientes situaciones:
+
+*   Según el artículo 23 del Capítulo II del Título II de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple (Disposiciones_Liquidez.md), se entenderá como incumplimiento a los requerimientos de liquidez cuando las Instituciones se ubiquen en los escenarios III, IV o V en términos del Título II de las presentes disposiciones, en el caso del Coeficiente de Cobertura de Liquidez y cuando las Instituciones se ubiquen en los escenarios III o IV en términos del Título III de las presentes disposiciones, tratándose del Coeficiente de Financiamiento Estable Neto.
+*   De acuerdo con el artículo 96 Bis 2 de la Ley de Instituciones de Crédito (LeyInstCredito_93-110.md), en el evento que una institución de crédito no cumpla con los requerimientos a que se refiere el artículo anterior o determine que no le será posible dar cumplimiento en un futuro a dichos requerimientos, deberá notificar inmediatamente a la Comisión Nacional Bancaria y de Valores.
+
+**Fuentes:**
+
+*   LeyInstCredito_93-110.md
+*   Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q44,¿Qué información deben difundir trimestralmente las Instituciones en su página de Internet?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"La información relativa tanto al Coeficiente de Cobertura de Liquidez como al Coeficiente de Financiamiento Estable Neto, en ambos casos, la relacionada al trimestre que se reporte, de conformidad con los formatos comprendidos en los Anexos 5 y 10, respectivamente.","**Información a difundir trimestralmente**
+
+Según el Artículo 8 del documento normativo y otros fragmentos recuperados, las Instituciones deben difundir trimestralmente la siguiente información:
+
+* Coeficiente de Cobertura de Liquidez (CCL) y Coeficiente de Financiamiento Estable Neto (CFEN)
+* Promedios calculados durante el trimestre que se reporta
+	+ Promedio CCL individual diario del trimestre
+	+ Promedio CCL consolidado diario del trimestre
+	+ Promedio CFEN individual del trimestre
+	+ Promedio CFEN consolidado del trimestre
+* Políticas y Criterios aprobados por el consejo de administración
+* Lista con la denominación de cada una de las entidades financieras incluidas como Entidades Objeto de Consolidación
+
+**Formatos y plazos**
+
+La información debe ser publicada en su página de Internet en los siguientes formatos y plazos:
+
+* Durante un periodo específico, garantizando así la transparencia y el acceso a datos financieros importantes para el público.
+* Durante los cinco trimestres siguientes a la fecha de su publicación para el caso de la información que se publica de manera trimestral.
+* Durante los tres años siguientes a su fecha para el caso de la información que se publica de manera anual.
+
+**Fuente**
+
+* Documento: Disposiciones_Liquidez.md
+* Circular 3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q45,¿Quién es el encargado de aprobar el plan de restauración de los Coeficientes?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,El plan de restauración de los Coeficientes... tendrá como objetivo que la Institución implemente las modificaciones a su gestión de liquidez... y deberá ser aprobado por el consejo de administración de la Institución de que se trate.,"El encargado de aprobar el plan de restauración de los Coeficientes es **la Comisión**, pero este plan debe ser **ratificado por el consejo de administración de la Institución** y debe contar con la **opinión favorable del Banco de México** antes de su aprobación por la Comisión.
+
+### Resumen:
+- **Aprobación final**: Comisión
+- **Ratificación previa**: Consejo de administración de la Institución
+- **Opinión favorable necesaria**: Banco de México
+
+Esto se establece en las disposiciones relacionadas con la gestión de riesgos de liquidez para las Instituciones de Banca Múltiple.
+
+Fuentes: Disposiciones_Liquidez.md, LeyInstCredito_93-110.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q46,¿Cómo se realiza el cálculo de la equivalencia en moneda nacional de montos denominados en UDIs?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Se realizará tomando en cuenta el tratamiento para la valorización establecido en los Criterios Contables de las Disposiciones.,"**Cálculo de la equivalencia en moneda nacional de montos denominados en UDIs**
+
+Para determinar la equivalencia en moneda nacional de los montos denominados en UDIs, se deben considerar las siguientes directrices:
+
+*   Se debe tomar en cuenta el tratamiento para la valorización establecido en los Criterios Contables de las Disposiciones.
+*   El cálculo de la equivalencia en moneda nacional se realizará tomando en cuenta el tipo de cambio aplicable conforme a lo dispuesto en los Criterios Contables.
+
+**Fuente:**
+
+*   Documento: Disposiciones_Liquidez.md
+*   Fragmentos 1 y 2 del documento.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q47,¿Cómo se deben resolver las consultas sobre la aplicación de estas disposiciones?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Serán resueltas por la Comisión o el Banco de México. La autoridad que reciba la consulta, deberá obtener la previa opinión favorable de la otra, a fin de resolver lo conducente.","**Resolución de consultas sobre la aplicación de disposiciones**
+
+Las consultas sobre la aplicación de las presentes disposiciones serán resueltas por la Comisión Nacional Bancaria y de Valores, en coordinación con el Banco de México. La autoridad que reciba la consulta deberá obtener la previa opinión favorable de la otra, a fin de resolver lo conducente.
+
+**Procedimiento para resolver consultas**
+
+*   Las instituciones o SOFOM E.R. Vinculadas pueden realizar consultas y proporcionar información a través de mecanismos transparentes que establezcan entre ellas.
+*   Las Cámaras de Compensación deben conservar la documentación comprobatoria relacionada con la compensación por un periodo mínimo de ciento ochenta días para atender consultas y aclaraciones de las Instituciones participantes.
+
+**Fuente**
+
+*   Documento: Disposiciones_Liquidez.md
+*   Circular 3/2012 del Banco de México",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q48,¿Cuál es el objetivo principal del Principio 8 establecido por el Comité de Basilea?,1,1,1,ÉXITO,Extracción e inyección correctas.,"Un banco debe gestionar activamente sus posiciones y riesgos de liquidez intradía para cumplir oportunamente sus obligaciones de pago y liquidación, tanto en condiciones normales como de tensión, y contribuir así al buen funcionamiento de los sistemas de pago y liquidación.","El **objetivo principal del Principio 8** establecido por el Comité de Basilea es:
+
+- **Gestionar activamente las posiciones y riesgos de liquidez intradía** para que los bancos puedan cumplir oportunamente con sus obligaciones de pago y liquidación, tanto en condiciones normales como en situaciones de tensión.
+
+Esto contribuye al **buen funcionamiento de los sistemas de pago y liquidación**. 
+
+Además, el Principio 8 identifica seis elementos operativos que deben incluirse en la estrategia de un banco para gestionar el riesgo de liquidez intradía, asegurando así una adecuada gestión de este riesgo.
+
+**Fuentes:**
+- Documento: Intraday_liquidity_esp.md
+- Documento: Circular3-2012.md
+- Documento: Disposiciones_Liquidez.md
+- Documento: Anexo_33_CUB.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q49,¿Cuáles son las herramientas de monitoreo que deben aplicar todos los bancos informantes (Categoría A)?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,A(i) Uso máximo diario de liquidez intradía A(ii) Liquidez intradía disponible al inicio del día hábil A(iii) Pagos totales A(iv) Obligaciones con horario específico,"**Herramientas de monitoreo aplicables a todos los bancos informantes (Categoría A)**
+
+Según el Cuadro 1 del documento, las herramientas de monitoreo aplicables a todos los bancos informantes son:
+
+* **A(i) Uso máximo diario de liquidez intradía**
+* **A(ii) Liquidez intradía disponible al inicio del día hábil**
+* **A(iii) Pagos totales**
+
+Estas herramientas se refieren a la capacidad de los bancos para monitorear y gestionar su liquidez intradía en tiempo real, lo que incluye el uso máximo diario de liquidez, la disponibilidad de liquidez al inicio del día hábil y el total de pagos realizados.
+
+**Fuentes**
+
+* Documento: Intraday_liquidity_esp.md
+* Sección III: Herramientas de monitoreo de la liquidez intradía
+* Cuadro 1: Conjunto de herramientas de monitoreo",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q50,¿Qué datos deben reportar los bancos respecto a sus posiciones netas acumuladas negativas?,1,1,1,ÉXITO,Extracción e inyección correctas.,"Los bancos deben reportar sus tres mayores posiciones netas acumuladas negativas diarias en sus cuentas de liquidación o corresponsalía durante el periodo de reporte, así como el promedio diario de la posición neta acumulada negativa durante el periodo.","**Respuesta**
+
+Los bancos deben reportar sus tres mayores posiciones netas acumuladas negativas diarias en sus cuentas de liquidación o corresponsalía durante el periodo de reporte, así como el promedio diario de la posición neta acumulada negativa durante el periodo. Esto se refleja en los siguientes fragmentos:
+
+* Fragmento 1: ""Los bancos deben reportar sus tres mayores posiciones netas acumuladas negativas diarias en sus cuentas de liquidación o corresponsalía durante el periodo de reporte, así como el promedio diario de la posición neta acumulada negativa durante el periodo.""
+* Fragmento 2: El Cuadro B ""Bancos que utilizan bancos corresponsales - Cuadro B"" muestra los campos para reportar las posiciones netas acumuladas positivas y negativas, incluyendo el promedio diario.
+* Fragmento 3: La herramienta de monitoreo A(i) ""Uso máximo diario de liquidez intradía"" también requiere que los bancos reporten sus mayores posiciones netas acumuladas negativas.
+
+**Datos a reportar**
+
+Los bancos deben reportar los siguientes datos respecto a sus posiciones netas acumuladas negativas:
+
+* Las tres mayores posiciones netas acumuladas negativas diarias en sus cuentas de liquidación o corresponsalía durante el periodo de reporte.
+* El promedio diario de la posición neta acumulada negativa durante el periodo.
+
+**Fuentes**
+
+* Fragmento 1: Intraday_liquidity_esp.md
+* Fragmento 2: Intraday_liquidity_esp.md (Anexo 2)
+* Fragmento 3: Intraday_liquidity_esp.md (Sección III, herramienta de monitoreo A(i))",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q51,¿Cuál es el propósito de la herramienta de Pagos totales?,1,1,1,ÉXITO,Extracción e inyección correctas.,Esta herramienta permitirá a los supervisores monitorear la escala general de la actividad de pagos de un banco.,"**Propósito de la herramienta de Pagos totales**
+=============================================
+
+La herramienta de Pagos totales permite a los supervisores monitorear la escala general de la actividad de pagos de un banco. Esto se logra mediante el cálculo y reporte del total de pagos brutos enviados y recibidos durante el periodo de reporte, así como la cifra promedio diaria de pagos brutos realizados y recibidos en dicho periodo.
+
+**Funcionalidades de la herramienta**
+---------------------------------
+
+*   Cálculo del total de pagos brutos enviados y recibidos
+*   Reporte de los tres mayores valores diarios de pagos brutos enviados y recibidos durante el periodo de reporte
+*   Cifra promedio diaria de pagos brutos realizados y recibidos
+
+**Importancia de la herramienta**
+------------------------------
+
+La herramienta de Pagos totales permite a los supervisores evaluar la escala general de la actividad de pagos de un banco, lo que es fundamental para la gestión del riesgo de liquidez intradía.
+
+**Fuentes:**
+
+*   Intraday_liquidity_esp.md
+*   Herramientas de monitoreo para la gestión de la liquidez intradía - traducción al español",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q52,¿Qué implicaciones tiene el incumplimiento de las obligaciones con horario específico?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"La falta de liquidación oportuna de estas obligaciones podría generar una penalización financiera, daño reputacional para el banco o pérdida de negocio futuro.","**Implicaciones del incumplimiento de las obligaciones con horario específico**
+
+El incumplimiento de las obligaciones con horario específico puede tener varias implicaciones:
+
+*   **Impacto en otros bancos**: El incumplimiento de estas obligaciones podría generar un impacto significativo en otros bancos, ya que la gestión inadecuada de los flujos de pagos y activos líquidos puede afectar a la posición de liquidez tanto del banco que incumple como de los demás.
+*   **Penalización financiera**: La falta de liquidación oportuna de estas obligaciones podría generar una penalización financiera para el banco.
+*   **Daño reputacional**: El incumplimiento de las obligaciones con horario específico puede dañar la reputación del banco, lo que podría afectar su capacidad para atraer clientes y mantener sus relaciones comerciales.
+*   **Pérdida de negocio futuro**: La inadecuada gestión de los flujos de pagos y activos líquidos puede llevar a una pérdida de negocio futuro debido a la falta de confianza en el banco.
+
+Es importante destacar que las obligaciones con horario específico son críticas para que los bancos cumplan con sus compromisos de pago en momentos determinados durante el día. Por lo tanto, es fundamental que los bancos gestionen adecuadamente sus flujos de pagos y activos líquidos para evitar el incumplimiento de estas obligaciones.
+
+**Fuentes:**
+
+*   Intraday_liquidity_esp.md
+*   Circular3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q53,¿Cuáles son las herramientas específicas para bancos que prestan servicios de corresponsalía bancaria?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,B(i) Valor de los pagos realizados en nombre de clientes de corresponsalía bancaria B(ii) Líneas de crédito intradía otorgadas a clientes,"**Herramientas específicas para bancos que prestan servicios de corresponsalía bancaria**
+
+Según la información proporcionada, las herramientas específicas para bancos que prestan servicios de corresponsalía bancaria son:
+
+* **B(i) Valor de los pagos realizados en nombre de clientes de corresponsalía bancaria**: Los bancos deben calcular el valor total de los pagos que realizan en nombre de todos los clientes de sus servicios de corresponsalía bancaria cada día y reportar los tres mayores valores totales diarios y el valor total promedio diario de dichos pagos durante el periodo de reporte.
+* **B(ii) Líneas de crédito intradía otorgadas a clientes**: Los bancos deben monitorear las líneas de crédito intradía otorgadas a sus clientes.
+
+Además, se menciona que los bancos que prestan servicios de corresponsalía bancaria deben basar sus reportes en la actividad de pago y liquidación a través de sus cuentas con sus bancos corresponsales (Fragmento 4).
+
+**Fuentes**
+
+* Documento: Intraday_liquidity_esp.md
+* Documento: Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q54,¿Qué detalles deben incluir los bancos corresponsales al reportar las líneas de crédito intradía otorgadas?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Los bancos corresponsales deben reportar las tres mayores líneas de crédito intradía otorgadas a sus clientes en el periodo de reporte, indicando si dichas líneas son garantizadas o comprometidas y el uso de esas líneas en su punto máximo.","Los bancos corresponsales deben incluir los siguientes detalles al reportar las líneas de crédito intradía otorgadas a sus clientes:
+
+1. **Tres mayores líneas de crédito intradía**:
+   - Deben reportar las tres mayores líneas de crédito intradía otorgadas en el periodo de reporte.
+
+2. **Clasificación de las líneas**:
+   - Indicar si las líneas son:
+     - **Garantizadas**
+     - **Comprometidas**
+     - **Utilizadas en su punto máximo**
+
+3. **Valor total**:
+   - Reportar el valor total de las líneas de crédito otorgadas a clientes, incluyendo:
+     - **Líneas garantizadas**
+     - **Líneas comprometidas**
+     - **Líneas utilizadas en el pico de uso**
+
+4. **Nota adicional**:
+   - La cifra debe incluir todas las líneas de crédito otorgadas, incluidas las no comprometidas y no garantizadas.
+
+Estos detalles son esenciales para que los supervisores puedan evaluar la gestión de liquidez de los bancos corresponsales.
+
+**Fuentes**: 
+- Documento: Intraday_liquidity_esp.md
+- Documento: Anexo_33_CUB.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q55,¿Qué herramienta es exclusiva para los bancos que son participantes directos?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,C(i) Ritmo de liquidación intradía,"**Respuesta a la pregunta: ¿Qué herramienta es exclusiva para los bancos que son participantes directos?**
+
+La herramienta exclusiva para los bancos que son participantes directos es el **Ritmo de liquidación intradía (C(i))**, mencionado en el fragmento 3 y también en la categoría C del Cuadro 1.
+
+**Fuente:** Fragmento 3, Categoría C del Cuadro 1.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q56,¿Qué permite evaluar el ritmo de liquidación intradía?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Esta herramienta permitirá a los supervisores monitorear el ritmo de liquidación de la actividad diaria de pagos de un participante directo a través de su cuenta de liquidación.,"**Respuesta**
+
+El ritmo de liquidación intradía se puede evaluar mediante la herramienta denominada ""Ritmo de liquidación intradía"", que permite a los supervisores monitorear el porcentaje de pagos salientes que se liquidan en horarios específicos durante el día.
+
+**Detalles**
+
+* La herramienta requiere que los participantes directos reporten el promedio diario del porcentaje de sus pagos salientes (respecto del total de pagos) que se liquidan en horarios específicos durante el día.
+* Los supervisores pueden evaluar el ritmo de liquidación intradía a través de la herramienta, lo que les permite identificar cambios en el comportamiento de pago y liquidación del banco.
+
+**Fuente**
+
+* Fragmento 1: [Contexto generado por IA: El fragmento se refiere a la herramienta de monitoreo denominada ""Ritmo de liquidación intradía"", que está incluida en la Sección III del documento completo sobre las herramientas de monitoreo para la gestión de la liquidez intradía.]
+* Fragmento 2: [Contexto generado por IA: Este fragmento se encuentra en la sección III, específicamente en la herramienta (i) ""Ritmo de liquidación intradía"", que forma parte de las herramientas de monitoreo de la liquidez intradía.]
+* Fragmento 3: [Contexto generado por IA: Este fragmento pertenece a la sección III, específicamente a la herramienta C(i) ""Ritmo de liquidación intradía"", que forma parte de las herramientas de monitoreo de la liquidez intradía.]
+* Fragmento 27: [Contexto generado por IA: Este fragmento pertenece a la sección III del documento, que detalla las herramientas de monitoreo de la liquidez intradía. En particular, se refiere a la herramienta aplicable a bancos informantes que son participantes directos, enfocándose en el ritmo de liquidación intradía de sus actividades de pago.]
+* Fragmento 9: [Contexto generado por IA: Este fragmento se refiere al ""Ritmo de liquidación intradía"", que es una de las herramientas de monitoreo descritas en la Sección III del documento completo.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q57,¿Cuáles son los escenarios de tensión que deben considerar los bancos?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"(i) Tensión financiera propia: el banco sufre, o se percibe que sufre, un evento de tensión (ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos (iii) Tensión de un banco cliente: un banco cliente de un banco corresponsal sufre un evento de tensión (iv) Tensión crediticia o de liquidez a nivel de mercado","**Escenarios de tensión para considerar los bancos**
+=============================================
+
+Los bancos deben considerar varios escenarios de tensión en relación con la gestión de liquidez intradía. A continuación, se presentan los escenarios identificados:
+
+### 1. Tensión financiera propia y de contraparte
+
+*   Impacto probable sobre el uso máximo diario de liquidez intradía
+*   Liquidez intradía disponible al inicio del día hábil
+*   Pagos totales y obligaciones con horario específico
+
+### 2. Cierre o dificultades operativas en los mercados de swaps de divisas
+
+*   Implicaciones de liquidez intradía de un cierre, o de dificultades operativas, en los mercados de swaps de divisas
+*   Tensiones que ocurran simultáneamente en múltiples sistemas
+
+### 3. Tensión a nivel de mercado
+
+*   Impacto probable sobre las fuentes de liquidez intradía disponibles al inicio del día hábil
+
+### 4. Tensión de contraparte
+
+*   Reducción de la disponibilidad de liquidez intradía que puede obtenerse mediante la recepción de pagos de la contraparte estresada
+
+### 5. Tensión crediticia o de liquidez a nivel de mercado
+
+*   Implicaciones adversas para el valor de los activos líquidos de un banco
+*   Limitación de su capacidad para obtener liquidez intradía del banco central
+
+### 6. Tensión financiera propia en bancos que prestan servicios de corresponsalía bancaria
+
+*   Retiro de líneas de crédito intradía por parte de los bancos corresponsales
+*   Diferimiento de pagos por parte de las propias contrapartes
+
+### 7. Tensión de un banco cliente en bancos que prestan servicios de corresponsalía bancaria
+
+*   Impacto probable sobre el valor de los pagos realizados en nombre de sus clientes y sobre las líneas de crédito intradía otorgadas a sus clientes.
+
+**Fuentes:**
+
+*   Intraday_liquidity_esp.md
+*   Herramientas de monitoreo para la gestión de la liquidez intradía",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q58,¿Qué efecto puede tener una tensión financiera propia en un participante directo?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"la tensión financiera y/u operativa propia puede provocar que las contrapartes difieran pagos y/o retiren líneas de crédito intradía. Esto, a su vez, puede ocasionar que el banco tenga que financiar una mayor parte de sus pagos con sus propias fuentes de liquidez intradía para evitar diferir sus propios pagos.","**Efecto de la tensión financiera propia en un participante directo**
+
+La tensión financiera propia puede tener varios efectos en un participante directo:
+
+* **Diferimiento de pagos**: Las contrapartes pueden diferir pagos y/o retirar líneas de crédito intradía, lo que obliga al banco a financiar una mayor parte de sus pagos con sus propias fuentes de liquidez intradía.
+* **Retiro de líneas de crédito intradía**: Los bancos corresponsales pueden retirar las líneas de crédito intradía, lo que reduce la disponibilidad de liquidez intradía para el participante directo.
+* **Predisposición a prefinanciar pagos y/o colateralizar líneas de crédito intradía**: El banco puede necesitar prefinanciar sus pagos y/o colateralizar sus líneas de crédito intradía para mantener su capacidad de pago.
+
+**Fuentes**
+
+* Fragmento 1: Sección IV del documento ""Intraday_liquidity_esp.md""
+* Fragmento 2: Sección IV del documento ""Intraday_liquidity_esp.md""",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q59,¿A qué nivel de la estructura organizacional deben aplicarse típicamente estas herramientas?,1,1,1,ÉXITO,Extracción e inyección correctas.,se espera que las herramientas de monitoreo se apliquen típicamente al nivel de entidad jurídica individual significativa.,"**Respuesta**
+
+A continuación, se presentan las respuestas a la pregunta:
+
+*   El nivel organizacional apropiado para el reporte de datos de liquidez intradía de cada banco debe ser determinado por el supervisor.
+*   Se espera que las herramientas de monitoreo se apliquen típicamente al nivel de entidad jurídica individual significativa.
+
+**Fuentes**
+
+*   Intraday_liquidity_esp.md (Fragmentos 1 y 2)
+*   Disposiciones_Liquidez.md (Fragmento 1)",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q60,"En grupos bancarios transfronterizos, ¿cuál es la responsabilidad del supervisor de acogida respecto a una sucursal?",1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"El supervisor de acogida debe tener la opción de requerir que las sucursales extranjeras en su jurisdicción le reporten herramientas de liquidez intradía, sujeto a materialidad.","**Responsabilidad del supervisor de acogida respecto a una sucursal**
+
+En el contexto de grupos bancarios transfronterizos, la responsabilidad del supervisor de acogida respecto a una sucursal dependerá de si el banco opera en la jurisdicción no doméstica mediante una sucursal o una subsidiaria.
+
+**Si la sucursal es activa en un LVPS no doméstico y/o con banco(s) corresponsal(es):**
+
+* El supervisor de acogida debe tener la responsabilidad primaria de recibir el conjunto relevante de datos de liquidez intradía de esa subsidiaria.
+
+**En general:**
+
+* El supervisor de acogida puede requerir que las sucursales extranjeras en su jurisdicción le reporten herramientas de liquidez intradía, sujeto a materialidad.
+* El supervisor de origen (consolidado) debe tener la opción de recibir un conjunto completo de información de liquidez intradía para sus grupos bancarios.
+
+**Fuentes:**
+
+* Documento: Intraday_liquidity_esp.md
+	+ Fragmentos 1, 2, 4 y 5.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q61,¿Cuál es la fecha de implementación y la frecuencia inicial de reporte?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"El reporte de las herramientas de monitoreo comenzará con periodicidad mensual a partir del 1 de enero de 2015, para coincidir con la implementación de los requerimientos de reporte del LCR.","**Respuesta**
+La fecha de implementación de las herramientas de monitoreo para la gestión de la liquidez intradía es **1 de enero de 2015**, y la frecuencia inicial de reporte es **mensual**.
+
+**Fuentes**
+
+* Intraday_liquidity_esp.md (Sección VI)
+* Circular3-2012.md (Sección I, Capítulo III)",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q62,¿Quién es el responsable final de la presentación de los datos ante el supervisor?,1,1,1,ÉXITO,Extracción e inyección correctas.,la administración del banco será responsable de recopilar y presentar a su supervisor bancario los datos de monitoreo correspondientes a las herramientas.,"**Responsable de la presentación de datos ante el supervisor:**
+
+La **administración del banco** es la responsable de recopilar y presentar a su supervisor bancario los datos de monitoreo correspondientes a las herramientas de gestión del riesgo de liquidez intradía. Esto implica que, aunque los bancos pueden necesitar coordinarse con contrapartes, la responsabilidad final recae en la administración del banco.
+
+**Resumen:**
+- **Responsable:** Administración del banco
+- **Función:** Recopilar y presentar datos de monitoreo al supervisor bancario
+
+La información proporcionada en el contexto no es suficiente para responder a esta pregunta.
+
+**Fuentes:**
+- Documento: Intraday_liquidity_esp.md
+- Documento: Disposiciones_Liquidez.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q63,¿Qué elementos se consideran fuentes propias de liquidez intradía?,0,1,1,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Saldos de reserva en el banco central; Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía; Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía; Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía; Saldos con otros bancos que puedan utilizarse para liquidación intradía.","**Fuentes propias de liquidez intradía**
+=====================================
+
+Según los fragmentos proporcionados, las fuentes propias de liquidez intradía son:
+
+*   Saldos de reserva en el banco central
+*   Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía
+*   Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía
+*   Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía
+*   Saldos con otros bancos que puedan utilizarse para liquidación intradía
+
+**Fuentes adicionales**
+----------------------
+
+Además de las fuentes propias, también se mencionan otras fuentes de liquidez intradía:
+
+*   Pagos recibidos de otros participantes del LVPS
+*   Pagos recibidos de sistemas auxiliares
+*   Pagos recibidos a través de servicios de corresponsalía bancaria
+
+**Importante**
+--------------
+
+Es importante destacar que la inclusión de estas fuentes en el cálculo de la liquidez intradía disponible al inicio del día hábil debe ser discutida y acordada con el supervisor.
+
+**Fuentes**
+-----------
+
+*   Documento: Intraday_liquidity_esp.md
+*   Sección II B
+*   Fragmentos 2, 3 y 4",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q64,¿Qué indica una combinación de baja liquidez inicial y alta proporción de obligaciones con horario específico?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Si una alta proporción de la actividad de pagos de un banco es crítica en términos de tiempo, el banco tiene menor flexibilidad para enfrentar choques inesperados mediante la gestión de sus flujos de pagos, especialmente cuando su monto de liquidez intradía disponible al inicio del día hábil suele ser bajo.","**Respuesta**
+
+Una combinación de baja liquidez inicial y alta proporción de obligaciones con horario específico puede indicar que un banco está gestionando sus flujos de pagos con un conjunto insuficiente de activos líquidos. Esto se debe a que el banco tiene menos flexibilidad para enfrentar choques inesperados mediante la gestión de sus flujos de pagos, especialmente cuando su monto de liquidez intradía disponible al inicio del día hábil suele ser bajo.
+
+**Razones**
+
+* La baja liquidez inicial puede indicar que el banco no tiene suficientes activos líquidos para cumplir con sus obligaciones de pago.
+* La alta proporción de obligaciones con horario específico puede sugerir que el banco está comprometido a liquidar una gran cantidad de obligaciones en momentos determinados durante el día, lo que aumenta la presión sobre su liquidez.
+
+**Conclusión**
+
+En resumen, una combinación de baja liquidez inicial y alta proporción de obligaciones con horario específico puede indicar que un banco está gestionando sus flujos de pagos de manera inadecuada, lo que podría afectar su capacidad para cumplir con sus obligaciones de pago.
+
+**Fuentes**
+
+* Intraday_liquidity_esp.md (Fragmento 2)
+* Intraday_liquidity_esp.md (Fragmento 3)
+* Intraday_liquidity_esp.md (Fragmento 4)
+* Intraday_liquidity_esp.md (Fragmento 5)",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q65,¿Para consumo no revolvente cómo se define el pago realizado?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación,"Para el **consumo no revolvente**, el **pago realizado** se define como:
+
+- **Monto correspondiente a la suma de los pagos realizados** por la persona acreditada durante el **Periodo de Facturación**.
+- **No se consideran** como pagos los siguientes conceptos:
+  - Castigos
+  - Quitas
+  - Condonaciones
+  - Bonificaciones
+  - Descuentos que se efectúen al crédito.
+
+Esta definición se aplica a varios tipos de créditos, incluyendo ABCD, AUTOMÓVIL, MICROCRÉDITOS, NÓMINA, PERSONALES y OTROS.
+
+**Fuentes:**
+- AYUDAS_CNR_IFRS9.md
+- CUB_extracto.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q66,¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?,1,1,1,ÉXITO,Extracción e inyección correctas.,PI_i^N = \frac{1}{1 + e^{-Z_i^N}},"**Respuesta**
+
+La fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2 no está explícitamente definida en los fragmentos proporcionados. Sin embargo, se presentan varias fórmulas relacionadas con la PI para diferentes tipos de créditos y etapas.
+
+Para créditos clasificados como ""N"" (nómina) en Etapa 1 o 2, la fórmula es:
+
+$$
+PI_i^N = \frac{1}{1 + e^{-Z_i^N}}
+$$
+
+En donde:
+
+$$
+Z_i^N = \beta_0^N + \sum_{j=1}^{5} \beta_j^N \times Var_{ij}^N
+$$
+
+| Coeficiente | Valor |
+| --- | --- |
+| β₀^N | -2.4285 |
+| β₁^{N} | 1.4298 |
+| β₂^{N} | 0.4428 |
+| β₃^{N} | 0.0616 |
+| β₄^{N} | -0.5044 |
+| β₅^{N} | -0.0470 |
+
+$$
+\text{Var}_{i1}^N = \text{MAXATR}_i^N
+$$
+
+Para créditos clasificados en Etapa 2, la fórmula es:
+
+$$
+PI_i = \frac{1}{1 + e^{-Z_i}}
+$$
+
+En donde:
+
+$$
+Z_i = \beta_0 + \sum_{j=1}^{S} \beta_j \times Var_{ij}
+$$
+
+| Coeficiente | Valor |
+| --- | --- |
+| β₀ | -2.4285 |
+| β₁ | 1.4298 |
+| β₂ | 0.4428 |
+| β₃ | 0.0616 |
+| β₄ | -0.5044 |
+| βs | -0.0470 |
+
+$$
+Var_{\beta} = ATR_i
+$$
+
+**Fuentes**
+
+* Fragmento 4: [Contexto generado por IA: Este fragmento se refiere a la Probabilidad de Incumplimiento (PI) de los créditos clasificados como ""nómina"" (N) dentro de la Cartera Crediticia de Consumo no Revolvente, y se enmarca dentro del Artículo 91 Bis 1 del documento normativo.]
+* Fragmento 7: [Contexto generado por IA: Este fragmento se refiere a la estimación de reservas preventivas para créditos clasificados en etapa 2 de la Cartera Crediticia de Consumo no Revolvente, conforme a lo establecido en el Artículo 91 Bis del documento normativo.]
+* Fragmento 8: [Contexto generado por IA: Este fragmento se refiere a la Probabilidad de Incumplimiento (PI) de los créditos clasificados como ""otro"" (O) dentro de la Cartera Crediticia de Consumo no Revolvente, y forma parte de las disposiciones establecidas en el Artículo 91 Bis 1 del documento normativo.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q67,¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3,"**Respuesta**
+
+Un crédito de nómina pasa directamente a Etapa 3 de riesgo cuando se cumplan las siguientes condiciones:
+
+* El crédito tiene un número de atrasos significativo, es decir, $ATR_{i}^{e} > 3$.
+* El crédito se encuentra en etapa 3 de acuerdo con los términos establecidos en el Criterio Contable B-6 ""Cartera de Crédito"" y en el presente capítulo.
+
+**Fuentes**
+
+* Fragmento 2 del documento AYUDAS_CNR_IFRS9.md
+* Fragmento 1 del documento Anexo_33_CUB.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q68,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:","**Respuesta**
+
+Las instituciones financieras deben clasificar los créditos en las etapas de riesgo de crédito según lo establecido en el Artículo 91 de las disposiciones normativas. Las etapas de riesgo son:
+
+*   Etapa 1: Para los créditos con $ACT_i \leq 1$.
+*   Etapa 2: Para los créditos con $ACT_i > 1$ y $ACT_i \leq 3$, que no cumplan con algún supuesto descrito en la etapa 1 o 3.
+*   Etapa 3: Los créditos respecto de los cuales las entidades cuenten con algún elemento para determinar que deben migrar de etapa 1 o 2 a etapa 3.
+
+Los criterios para la migración entre etapas son:
+
+*   Las instituciones deben tener un manual de políticas y procedimientos que establezca los criterios para la migración.
+*   La migración debe estar respaldada por criterios formalizados en los manuales de políticas y procedimientos de la Institución.
+*   Las instituciones deberán documentar en un registro o bitácora la migración de etapas basadas en los criterios antes mencionados, incluyendo como mínimo la identificación del personal responsable de la aprobación, el criterio bajo el cual se realizó la migración, así como la fecha a partir de la cual se hizo la migración.
+
+**Fuentes**
+
+*   CUB_extracto.md
+*   Anexo_33_CUB.md
+*   Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q69,¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...","**Enfoques para el cálculo de reservas preventivas**
+=============================================
+
+Las instituciones pueden adoptar dos enfoques para el cálculo y constitución de reservas preventivas:
+
+### Enfoque Estándar
+
+*   Aplicable a todas las carteras consideradas en la definición de Cartera Crediticia.
+*   Las instituciones que adopten este enfoque deben sujetarse a los requisitos y procedimientos contenidos en el Capítulo V Bis.
+
+### Enfoque Interno
+
+*   Aplicable a todas las carteras modelables, utilizando las Metodologías Internas de reservas basadas en la NIF C-16.
+*   Las instituciones se ajustarán a los requisitos contenidos en el Capítulo V Bis 1 y en el Anexo 15 Bis.
+
+**Requisitos para cada enfoque**
+-----------------------------
+
+### Enfoque Estándar
+
+*   Debe sujetarse a los requisitos y procedimientos contenidos en el Capítulo V Bis.
+*   Aplicable a todas las carteras consideradas en la definición de Cartera Crediticia.
+
+### Enfoque Interno
+
+*   Utilizar Metodologías Internas de reservas basadas en la NIF C-16.
+*   Debe ajustarse a los requisitos contenidos en el Capítulo V Bis 1 y en el Anexo 15 Bis.
+
+**Fuentes**
+-------------
+
+*   Documento: CUB_extracto.md
+*   Documento: AYUDAS_CNR_IFRS9.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q70,¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%","**Respuesta**
+
+La Probabilidad de Incumplimiento para créditos clasificados en etapa 3 se determina según lo establecido en los fragmentos 2, 4 y 5.
+
+* En el Fragmento 2, se establece que si $ATR_{i}^{A} \leq 3$ entonces: $$PI_{i}^{A} = \frac{1}{1 + e^{-Z_{i}^{A}}}$$
+* En el Fragmento 4, se establece que si $ATR_i^N &gt; 3$ o cuando el crédito se encuentre en etapa 3 entonces: $$PI_i^N = 100\%$$
+* En el Fragmento 5, se establece que si $ATR_i^P \leq 3$ entonces: $$PI_i^P = \frac{1}{1 + e^{-Z_i^P}}$$
+
+**Conclusión**
+
+La Probabilidad de Incumplimiento para créditos clasificados en etapa 3 es igual a 100% según lo establecido en los fragmentos 2, 4 y 5.
+
+**Fuentes**
+
+* Fragmento 2: Artículo 91 Bis del documento normativo
+* Fragmento 4: Artículo 91 Bis del documento normativo
+* Fragmento 5: Artículo 91 Bis 1 del documento normativo",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q71,¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.,"**Criterios para migrar un crédito de una etapa de riesgo a otra**
+
+Para migrar un crédito de una etapa de riesgo a otra, las instituciones deben seguir los siguientes criterios:
+
+* **Criterios formalizados en manuales de políticas y procedimientos**: Los criterios bajo los cuales las instituciones podrán realizar la migración deben estar formalizados dentro de los manuales de políticas y procedimientos de la Institución.
+* **Elemento para determinar el cambio de etapa**: Si las instituciones cuentan con algún elemento para determinar que un crédito debe migrar de una etapa a otra, pueden realizarlo sin necesidad del cumplimiento de lo contenido en la tabla anterior.
+* **Documentación de la migración**: Las instituciones deben documentar en un registro o bitácora la migración de etapas basadas en los criterios antes mencionados, incluyendo como mínimo la identificación del personal responsable de la aprobación, el criterio bajo el cual se realizó la migración y la fecha a partir de la cual se hizo la migración.
+
+Además, según el Anexo 33 del documento normativo, los créditos clasificados en la etapa de riesgo de crédito 2 deben ser evaluados periódicamente para determinar si existe un incremento en su riesgo que origine que deban ser traspasados a la etapa de riesgo de crédito 3.
+
+**Fuentes:**
+
+* CUB_extracto.md
+* Anexo_33_CUB.md
+* Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q72,¿Qué se consideraría un crédito personal?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina,"Un **crédito personal** se define como:
+
+- **Créditos cobrados por la Institución** mediante cualquier medio de pago **distinto de la cuenta de nómina**.
+
+Esto implica que los créditos personales no están vinculados a un esquema de nómina y pueden ser pagados a través de otros métodos de pago.
+
+Además, es importante mencionar que los créditos personales pueden incluir aquellos que han sido reestructurados a partir de otros tipos de créditos, como créditos de auto, nómina o microcréditos, siempre que tras la reestructuración sean clasificados como créditos personales.
+
+**Fuentes:**
+- AYUDAS_CNR_IFRS9.md
+- Anexo_33_CUB.md
+- CUB_extracto.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q73,¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?,1,1,1,ÉXITO,Extracción e inyección correctas.,"las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito","**Tipos de garantías consideradas para la estimación de la Severidad de la Pérdida de los créditos**
+
+Según el contexto proporcionado, las instituciones pueden considerar las siguientes tipos de garantías para la estimación de la Severidad de la Pérdida de los créditos:
+
+1. **Garantías reales financieras**: Están reconocidas en la estimación de la Severidad de la Pérdida de los créditos (Artículo 97 Bis 6 del CUB).
+2. **Garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias**: También están reconocidas en la estimación de la Severidad de la Pérdida de los créditos (Artículo 97 Bis 6 del CUB).
+3. **Garantías personales**: Están reconocidas en la estimación de la Severidad de la Pérdida de los créditos (Artículo 97 Bis 6 del CUB).
+4. **Seguros de Crédito**: Están reconocidos en la estimación de la Severidad de la Pérdida de los créditos (Artículo 97 Bis 6 del CUB).
+
+Es importante destacar que estas garantías pueden ser consideradas para disminuir las reservas preventivas derivadas de la calificación de cartera de los créditos.
+
+**Fuentes**
+
+* Documento: AYUDAS_CNR_IFRS9.md
+* Documento: CUB_extracto.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q74,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.","Las instituciones financieras deben clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio de la siguiente manera:
+
+### Etapas de Riesgo de Crédito
+
+1. **Etapa 1**
+   - Créditos clasificados como “B, A, N, P u O” que cumplan con:
+     - **$ATR_{i}^{e} \leq 1**.
+
+2. **Etapa 2**
+   - Créditos con **$ACT_i > 1$ y $ACT_i \leq 3$**, que no cumplan con los supuestos de la Etapa 1 o 3.
+
+3. **Etapa 3**
+   - Créditos con **$ACT_i > 3$** o cuando el crédito se encuentre en etapa 3 conforme a los términos establecidos en el Criterio Contable B-6 ""Cartera de Crédito"".
+
+### Consideraciones Adicionales
+- La clasificación debe realizarse desde el reconocimiento inicial de los créditos, aplicándose durante toda la vida del crédito, incluso si ha sido renovado o reestructurado.
+- Los créditos en la Etapa 2 deben ser evaluados periódicamente para determinar si deben ser trasladados a la Etapa 3 en caso de un incremento en su riesgo.
+
+Esta clasificación es parte de las disposiciones normativas del Banco de México y se utiliza para determinar las reservas preventivas correspondientes.
+
+**Fuentes:**
+- CUB_extracto.md
+- Anexo_33_CUB.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q75,¿Qué se entiendo por saldo a pagar?,1,1,1,ÉXITO,Extracción e inyección correctas.,Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución,"**Saldo a Pagar**
+================
+
+El Saldo a Pagar es el importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución. Esta variable deberá estar expresada en moneda nacional y a dos decimales.
+
+**Definición**
+-------------
+
+| Saldo a Pagar | Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución. |
+| --- | --- |
+
+Fuente: Fragmento 1 del Documento: CUB_extracto.md
+
+En resumen, el Saldo a Pagar es el monto que el acreditado debe pagar a la institución en un período determinado, expresado en moneda nacional y con dos decimales.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q76,¿Cómo se determina la reservas para los créditos en etapa 2?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Reservas\ Etapa\ 2_i = \max\left(\text{Reservas\ Vida\ Completa}_i, PI_i^X \times SP_i^X \times EI_i^X\right)","Para determinar las reservas para los créditos en **etapa 2**, se utiliza la siguiente metodología:
+
+1. **Cálculo de Reservas**:
+   - El monto de reservas para los créditos en etapa 2 se calcula como:
+   $$
+   \text{Reservas Etapa 2}_i = \max\left(\text{Reservas Vida Completa}_i, PI_i \times SP_i \times EI_i\right)
+   $$
+   donde:
+   - **Reservas Vida Completa**: Monto de reservas a constituir para el i-ésimo crédito en etapa 2.
+   - **PI_i**: Probabilidad de Incumplimiento del i-ésimo crédito.
+   - **SP_i**: Severidad de la Pérdida del i-ésimo crédito.
+   - **EI_i**: Exposición al Incumplimiento del i-ésimo crédito.
+
+2. **Suma Total de Reservas**:
+   - El monto total de reservas a constituir por la institución será la suma de las reservas individuales de cada crédito en etapa 2.
+
+3. **Consideraciones Adicionales**:
+   - Los cálculos deben realizarse considerando cuatro decimales.
+   - El valor de las variables debe ser mayor o igual a cero.
+
+Esta metodología asegura que las reservas reflejen adecuadamente el riesgo asociado a los créditos en esta etapa de deterioro.
+
+**Fuentes**: 
+- CUB_extracto.md
+- AYUDAS_CNR_IFRS9.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q77,¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,EI_i = \max \left\{ \frac{S_i \times \max \left\{1.026 \cdot \left( \frac{S_i}{\text{Límite de Crédito}} \right)^{-0.5434} \cdot 100\% \right\}}{S_i + 13.79\% \cdot (\text{Límite de Crédito} - S_i)} \right\},"Para calcular la **Exposición al Incumplimiento** (EI) de créditos donde el saldo es menor que el límite de crédito, las instituciones deben seguir las siguientes pautas:
+
+1. **Definición de Saldo**:
+   - El saldo a considerar, $S_i$, es el importe de la deuda total que el acreditado tiene con la institución al cierre de mes. Este importe debe incluir todas las obligaciones relacionadas con el crédito, excluyendo los intereses devengados no cobrados de créditos que se encuentren en etapa 3. Si el saldo es menor que cero, $S_i$ tomará el valor de cero.
+
+2. **Cálculo de EI**:
+   - Para aquellos créditos donde $S_i$ es menor que el **Límite de Crédito**, la Exposición al Incumplimiento se calculará de la siguiente manera:
+     - Si el saldo a pagar es igual o menor a cero en el periodo de pago de la fecha de cálculo y en al menos uno de los tres periodos anteriores el saldo fue mayor a cero:
+       $$
+       EI_{i} = S_{i} + 51.81\% \cdot (\text{Límite del Crédito} - S_{i})
+       $$
+     - Si el pago realizado es mayor a cero en al menos uno de los últimos cuatro periodos de pago:
+       $$
+       EI_{i} = S_{i} + 42.67\% \cdot (\text{Límite del Crédito} - S_{i})
+       $$
+
+3. **Consideraciones Adicionales**:
+   - En caso de que $S_i$ sea mayor al Límite del Crédito, la Exposición al Incumplimiento será simplemente el propio $S_i$.
+
+Estas pautas aseguran que las instituciones calculen correctamente la Exposición al Incumplimiento, considerando tanto el saldo actual como el límite de crédito establecido.
+
+**Fuentes**: 
+- CUB_extracto.md
+- AYUDAS_CNR_IFRS9.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q78,¿Se pueden reportar tasas de interés en cero?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%","La información proporcionada en el contexto no es suficiente para responder a esta pregunta. 
+
+No se menciona explícitamente si se pueden reportar tasas de interés en cero, ni se ofrecen detalles sobre las condiciones bajo las cuales esto podría ser posible. 
+
+Fuentes: 
+- Circular3-2012.md
+- AYUDAS_CNR_IFRS9.md
+- Anexo_33_CUB.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q79,¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...","**Respuesta**
+
+Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, y se aplique un factor de riesgo, éste será:
+
+* Para los créditos clasificados como ""personal"" (P): ALTOiP = 0, MEDIOiP = 1, BAJOiP = 0.
+* Para la variable MESESiP: siempre y cuando no se cuente con evidencia dentro de la Institución de que el acreditado tiene atrasos en alguno de los créditos con la propia Institución, el valor será 13.
+* Para los créditos clasificados como ""A"": ALTOiA = 0, MEDIOiA = 1, BAJOiA = 0.
+* Para la variable MESESiA: siempre y cuando no se cuente con evidencia dentro de la Institución de que el acreditado tiene atrasos en alguno de los créditos con la propia Institución, el valor será 13.
+* Para la variable VECESiO: el valor será 0.5.
+* Para la variable MESESiO: siempre y cuando no se cuente con evidencia dentro de la Institución que el acreditado cuenta con atrasos en alguno de los créditos con por la propia Institución, el valor será 13.
+* Para la variable $BKATR_{1}$: el valor será 13.
+* Para la variable $MESES_{i}^{B}$: siempre y cuando no se cuente con evidencia dentro de la Institución de que el acreditado cuenta con atrasos en alguno de los créditos otorgados por la propia Institución, el valor será 13.
+
+**Fuentes**
+
+* Documento: CUB_extracto.md
+* Documento: AYUDAS_CNR_IFRS9.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q80,¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Cobertura de Liquidez?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,$$ rac{	ext{Coeficiente de Cobertura de Liquidez}}{	ext{Activos Líquidos Computables}} = rac{	ext{Flujo Neto Total de Salida de Efectivo}} $$,"La **fórmula regulatoria** para calcular el **Coeficiente de Cobertura de Liquidez** es la siguiente:
+
+$$
+\frac{\text{Coeficiente de Cobertura de Liquidez}}{\text{Activos Líquidos Computables}} = \frac{\text{Flujo Neto Total de Salida de Efectivo}}{\text{Clasificación de CREDITO}}
+$$
+
+Este coeficiente debe expresarse como un **porcentaje** redondeado a la **centésima de punto porcentual** más cercana.
+
+### Resumen:
+- **Coeficiente de Cobertura de Liquidez**: Indicador clave para evaluar la capacidad de las instituciones para cumplir con sus obligaciones de corto plazo.
+- **Activos Líquidos Computables**: Se determinan mediante la suma de ciertos activos menos ajustes específicos.
+
+Esta información se encuentra en las **Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple**.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q81,¿Cómo se determina el flujo de salida contingente por operaciones con instrumentos financieros derivados?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Las Instituciones deberán calcular el flujo de salida contingente por operaciones con instrumentos financieros derivados como el máximo valor absoluto de la suma de los montos referidos en los incisos a) y b) siguientes, calculando dichos incisos para cada horizonte de treinta días consecutivos durante los últimos 24 meses (Look Back Approach). Para cada horizonte de 30 días consecutivos, se deberán sumar: a) El flujo acumulado de garantías neto, que son las variaciones en el saldo de garantías recibidas menos las variaciones en el saldo de garantías entregadas, que resulte de los cambios en la valuación de las operaciones con instrumentos financieros derivados, sin incluir las variaciones de los saldos de garantías entregadas o recibidas que resulten de la constitución de márgenes iniciales o de la liquidación de operaciones, más b) La variación acumulada en la valuación de mercado del portafolio de operaciones con instrumentos financieros derivados que correspondan a operaciones que no estén cubiertas con garantías previamente otorgadas o recibidas o que no hayan sido correspondidas por un intercambio de garantías.","Para determinar el **flujo de salida contingente** por operaciones con **instrumentos financieros derivados**, se sigue un enfoque conocido como **Look Back Approach**. A continuación, se detallan los pasos y consideraciones relevantes:
+
+1. **Cálculo del flujo de salida**:
+   - Las instituciones deben calcular el flujo de salida contingente como el **máximo valor absoluto** de la suma de ciertos montos, que se calcularán para cada horizonte de **treinta días consecutivos** durante los últimos **24 meses**.
+   - Este cálculo se realiza sumando los montos referidos en los incisos específicos que se detallan en las disposiciones.
+
+2. **Componentes del flujo de salida**:
+   - El flujo de salida por operaciones con instrumentos financieros derivados extrabursátiles se compone de:
+     - **SND_c**: Salidas relacionadas con ciertos contratos.
+     - **SND_s**: Salidas relacionadas con otros contratos.
+
+3. **Metodología**:
+   - La metodología para determinar estos flujos está regulada en el **Anexo 4** de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple.
+   - Se requiere que las instituciones apliquen esta metodología para cada contraparte involucrada en las operaciones.
+
+4. **Importancia**:
+   - Este cálculo es fundamental para la evaluación de la **liquidez** y el cumplimiento de los requisitos de **capital** establecidos por el Banco de México.
+
+La información proporcionada en el contexto no es suficiente para responder a esta pregunta.
+
+**Fuentes**: 
+- Disposiciones_Liquidez.md
+- catalogos_ml.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q82,¿Cómo se calcula el flujo total de entrada de efectivo?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"El flujo total de entrada de efectivo será el monto que resulte menor entre: i) la suma de todos los flujos de entrada de efectivo calculados de conformidad con la fracción I anterior, y ii) el 75 por ciento del flujo total de salida de efectivo","**Cálculo del flujo total de entrada de efectivo**
+
+El cálculo del flujo total de entrada de efectivo se realiza según lo establecido en el artículo 12 de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple.
+
+**Paso 1: Identificar los flujos de entrada**
+
+Los flujos de entrada asociados a instrumentos financieros derivados y otras entradas, así como títulos de deuda y acciones, se determinan según el Anexo 3 de las presentes disposiciones (Referencia 19).
+
+**Paso 2: Sumar los flujos de entrada**
+
+El flujo total de entrada de efectivo se calcula sumando las referencias 17, 18 y 19.
+
+**Fórmula**
+
+Flujo total de entrada de efectivo = Flujo de entrada asociado a operaciones garantizadas (Referencia 17) + Flujo de entrada asociado a operaciones no garantizadas (sin incluir títulos de deuda y acciones) (Referencia 18) + Flujo de entrada asociado a instrumentos financieros derivados y otras entradas, así como títulos de deuda y acciones (Referencia 19)
+
+**Fuente**
+
+* Artículo 12 de las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple
+* Anexo 3 de las presentes disposiciones
+
+**Nota importante**
+
+El cálculo del flujo total de entrada de efectivo es fundamental para determinar la capacidad de las instituciones para hacer frente a sus obligaciones de corto plazo, en conjunto con el flujo total de salida de efectivo mencionado en el artículo 11.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q83,¿Qué factor de salida se aplica a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"5% | | | I.1.2 Depósitos en Cuentas Transaccionales de personas físicas y de personas físicas con actividad empresarial, elegibles como operaciones pasivas garantizadas por el IPAB de acuerdo a la Ley para la Protección al Ahorro Bancario, cuyo monto excede el límite establecido en esta, o el que corresponda en la jurisdicción en que se hayan constituido las cuentas. | | | | I.1.2.1 Monto que no excede el límite establecido en la Ley para la Protección al Ahorro Bancario para las operaciones pasivas garantizadas por el IPAB o el que corresponda en la jurisdicción en que se hayan constituido las cuentas.","**Factor de Salida para Depósitos en Cuentas Transaccionales de Personas Físicas Cubiertos por el IPAB**
+
+La información proporcionada en los fragmentos recuperados no menciona explícitamente el factor de salida para depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB. Sin embargo, se pueden encontrar referencias a factores de salida aplicables a operaciones pasivas garantizadas por el IPAB.
+
+En el Fragmento 6 (Disposiciones_Liquidez.md), se menciona que el monto de depósitos o préstamos cubierto en su totalidad por el IPAB tiene un factor de salida del 20% (I.2.2.1). Sin embargo, esto no es específico para cuentas transaccionales.
+
+En el Fragmento 3 (Disposiciones_Liquidez.md), se menciona que los depósitos de personas físicas y personas físicas con actividad empresarial en cuentas distintas a Cuentas Transaccionales tienen un factor de salida del 10% (I.1.3). Sin embargo, esto no es específico para depósitos cubiertos por el IPAB.
+
+**Respuesta**
+
+La información proporcionada en los fragmentos recuperados no es suficiente para determinar con certeza el factor de salida aplicable a depósitos en cuentas transaccionales de personas físicas cubiertos por el IPAB. Es posible que se requiera consultar otros documentos o fuentes para obtener la respuesta precisa.
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* catalogos_ml.md
+* Circular3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q84,¿Cómo se registran las operaciones de compra-venta fecha valor para calcular el coeficiente de cobertura de liquidez?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Compensar para cada operación de compra venta de títulos pactada a una fecha valor, la parte activa y pasiva de la misma operación e incluir el monto resultante como flujo de entrada si la parte activa es mayor, o bien como flujo de salida si la parte pasiva es mayor.","Para registrar las operaciones de compra-venta a fecha valor y calcular el coeficiente de cobertura de liquidez, se deben seguir los siguientes pasos:
+
+1. **Compensación de Operaciones**:
+   - Para cada operación de compra-venta de títulos, se debe **compensar** la parte activa y pasiva de la operación.
+   - Si la parte activa es mayor, se incluirá el monto resultante como **flujo de entrada**.
+   - Si la parte pasiva es mayor, se incluirá como **flujo de salida**.
+
+2. **Registro de Flujos**:
+   - Las operaciones deben ser registradas en el balance y en las cuentas de orden, tal como se indica en los Anexos 2 y 3 de las disposiciones pertinentes.
+
+3. **Consideración de Posiciones**:
+   - Las operaciones de compra-venta de títulos y operaciones cambiarias a fecha valor se consideran en el cálculo del flujo total de salida de efectivo, especialmente cuando resulta en una posición pasiva tras la compensación.
+
+4. **Cálculo del Coeficiente**:
+   - El coeficiente de cobertura de liquidez se determina considerando las entradas y salidas ponderadas, asegurando que se cumplan los límites establecidos (como el 75% del total de salidas ponderadas).
+
+Este proceso es esencial para evaluar la capacidad de las instituciones para cumplir con sus obligaciones de liquidez a corto plazo.
+
+**Fuentes**: 
+- Documentos: catalogos_ml.md, Disposiciones_Liquidez.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q85,¿Cuál es la fórmula regulatoria para calcular el Coeficiente de Financiamiento Estable Neto y cómo debe expresarse el resultado porcentual?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,El Coeficiente de Financiamiento Estable Neto será el que resulte de aplicar la fórmula siguiente y deberá expresarse como porcentaje redondeado a la centésima de punto porcentual más cercana. $$ \frac{\text{Coeficiente de Financiamiento Estable Neto}}{} = \frac{\text{Monto de Financiamiento Estable Disponible}}{\text{Monto de Financiamiento Estable Requerido}} $$,"La fórmula regulatoria para calcular el **Coeficiente de Financiamiento Estable Neto** es la siguiente:
+
+$$
+\text{Coeficiente de Financiamiento Estable Neto} = \frac{\text{Monto de Financiamiento Estable Disponible}}{\text{Monto de Financiamiento Estable Requerido}}
+$$
+
+El resultado de este cálculo debe expresarse como **porcentaje**, redondeado a la **centésima de punto porcentual más cercana**.
+
+### Resumen:
+- **Fórmula**: 
+  - \(\text{Coeficiente de Financiamiento Estable Neto} = \frac{\text{Monto de Financiamiento Estable Disponible}}{\text{Monto de Financiamiento Estable Requerido}}\)
+- **Expresión del resultado**: Porcentaje redondeado a la centésima de punto porcentual más cercana.
+
+Fuentes: Disposiciones_Liquidez.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q86,¿Con qué periodicidad debe reportarse el CFEN al Banco de México y a qué fecha de cálculo corresponde?,1,1,1,ÉXITO,Extracción e inyección correctas.,El Coeficiente de Financiamiento Estable Neto que corresponda al último Día Hábil de cada mes deberá reportarse durante los primeros dieciséis Días Hábiles del mes inmediato siguiente.,"**Respuesta**
+
+La periodicidad para reportar el Coeficiente de Cobertura de Liquidez y Financiamiento Estable Neto al Banco de México es como sigue:
+
+* El Coeficiente de Financiamiento Estable Neto debe ser reportado durante los primeros dieciséis Días Hábiles del mes inmediato siguiente al último Día Hábil de cada mes (Fragmento 4, Anexo_33_CUB).
+* La Comisión o el Banco de México podrán requerir a una Institución en particular que reporte su Coeficiente de Cobertura de Liquidez, su Coeficiente de Financiamiento Estable Neto, o ambos, en fechas determinadas (Fragmento 4, Anexo_33_CUB).
+
+La fecha de cálculo para el Coeficiente de Cobertura de Liquidez y Financiamiento Estable Neto es el último Día Hábil de cada mes.
+
+**Fuentes**
+
+* Fragmento 4, Anexo_33_CUB
+* Fragmento 1, Intraday_liquidity_esp.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q87,¿Qué se entiende por Monto de Financiamiento Estable Disponible para efectos del CFEN?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Monto de Financiamiento Estable Disponible: al monto que resulte de sumar los pasivos y capital señalados en el Anexo 6 de las presentes disposiciones después de aplicarles los factores que les correspondan dependiendo de su clasificación en términos del propio anexo,"**Monto de Financiamiento Estable Disponible para efectos del CFEN**
+
+Según el Anexo 6 de las disposiciones, el Monto de Financiamiento Estable Disponible se determina sumando los pasivos y capital especificados en dicho anexo después de aplicarles los factores correspondientes según su clasificación.
+
+**Componentes del Monto de Financiamiento Estable Disponible**
+
+*   Pasivos disponibles por operaciones con instrumentos financieros derivados (Fragmento 1)
+*   Capital fundamental y capital básico no fundamental (Fragmento 9, línea 2)
+*   Otros instrumentos de capital (Fragmento 9, línea 3)
+*   Depósitos minoristas (Fragmento 9, línea 4)
+*   Depósitos estables (Fragmento 9, línea 5)
+*   Otros pasivos (Fragmento 10, línea 11)
+*   Pasivos por derivados para fines del Coeficiente de Financiamiento Estable Neto (Fragmento 10, línea 12)
+
+**Fuentes**
+
+*   Disposiciones_Liquidez.md
+*   Anexo 6 de las disposiciones",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q88,¿Qué se entiende por Monto de Financiamiento Estable Requerido para efectos del CFEN?,1,1,1,ÉXITO,Extracción e inyección correctas.,"Monto de Financiamiento Estable Requerido: al monto que resulte de sumar: (i) los activos no restringidos y otras operaciones señaladas en el Anexo 7 de las presentes disposiciones, y (ii) los activos restringidos u otorgados como garantía señalados en el Anexo 8 de las presentes disposiciones. En ambos casos la suma se hará después de aplicarles los factores que les correspondan dependiendo de su clasificación en términos de los anexos referidos.","**Monto de Financiamiento Estable Requerido**
+=====================================
+
+Según las disposiciones mencionadas, el Monto de Financiamiento Estable Requerido se define como la suma de dos componentes:
+
+1. **Activos no restringidos y otras operaciones**: Se refiere a los activos no restringidos y otras operaciones señalados en el Anexo 7 de las disposiciones.
+2. **Activos restringidos u otorgados como garantía**: Se refiere a los activos restringidos u otorgados como garantía señalados en el Anexo 8 de las disposiciones.
+
+Para calcular el Monto de Financiamiento Estable Requerido, se deben aplicar los factores correspondientes según la clasificación de cada componente en términos de los anexos referidos (Anexo 7 y Anexo 8).
+
+**Fórmula**
+-----------
+
+El Monto de Financiamiento Estable Requerido se calcula mediante la siguiente fórmula:
+
+Monto de Financiamiento Estable Requerido = (i) Activos no restringidos y otras operaciones señalados en el Anexo 7 + (ii) Activos restringidos u otorgados como garantía señalados en el Anexo 8
+
+**Fuentes**
+------------
+
+* Documento: Disposiciones_Liquidez.md
+* Fragmento 10: [Contexto generado por IA: El fragmento se refiere al ""Monto de Financiamiento Estable Requerido"", que es un componente clave en el cálculo de los requerimientos de liquidez para las Instituciones de Banca Múltiple, según lo establecido en las Disposiciones de carácter general sobre los Requerimientos de Liquidez. Este monto se determina sumando los activos no restringidos y otras operaciones del Anexo 7, así como los activos restringidos u otorgados como garantía del Anexo 8, aplicando los factores correspondientes según su clasificación.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q89,"¿Qué factor de financiamiento estable disponible se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año?",0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Los factores para la determinación del financiamiento estable disponible serán: I. Pasivos y capital con factor del 100% A. Capital fundamental definido en las Disposiciones artículo 2 Bis 6, fracción I, inciso a), sin considerar las deducciones establecidas en dicha fracción y Capital Básico No Fundamental definido en las Disposiciones en el artículo 2 Bis 6, fracción II.","**Respuesta**
+
+Según los fragmentos recuperados, el factor de financiamiento estable disponible que se asigna al capital fundamental, capital básico no fundamental y pasivos con plazo residual igual o mayor a un año es **100%**.
+
+Esto se desprende del siguiente fragmento:
+
+* Fragmento 6: ""C. Los pasivos con plazo residual igual o mayor a un año.""
+* Fragmento 7: ""2. Capital fundamental definido en las Disposiciones en el Título Primero Bis artículo 2 bis 6 párrafo I (antes de aplicar las deducciones) y capital básico no fundamental definido en las Disposiciones en el Título Primero Bis artículo 2 bis 6 párrafo II.""
+* Fragmento 8: ""III. Plazo de la restricción mayor o igual a 1 año A. Todas las operaciones que se encuentren en esta categoría, sin excepción, tendrán un requerimiento de financiamiento estable del 100%.""
+
+Además, el fragmento 6 menciona que los pasivos con plazo residual igual o mayor a un año tienen un factor de 100%.
+
+**Fuentes**
+
+* Disposiciones_Liquidez.md
+* Circular3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q90,¿Cuál es la definición de liquidez intradía según las herramientas de monitoreo del Comité de Basilea?,1,1,1,ÉXITO,Extracción e inyección correctas.,"Liquidez intradía: fondos a los que se puede acceder durante el día hábil, usualmente para permitir que los bancos realicen pagos en tiempo real;","**Definición de Liquidez Intradía**
+=====================================
+
+Según las herramientas de monitoreo del Comité de Basilea, la **Liquidez Intradía** se define como:
+
+> Fondos a los que se puede acceder durante el día hábil, usualmente para permitir que los bancos realicen pagos en tiempo real.
+
+(Fuente: Fragmento 9)
+
+Esta definición se encuentra en la Sección II del documento titulado ""Herramientas de monitoreo para la gestión de la liquidez intradía"", específicamente en la subsección A. Definiciones, donde se establecen las definiciones clave para entender el marco normativo y las herramientas de monitoreo descritas en el documento.
+
+**Fuentes**
+
+* Fragmento 9: Sección II del documento titulado ""Herramientas de monitoreo para la gestión de la liquidez intradía""
+* Página 16 de 16: Herramientas de monitoreo para la gestión de la liquidez intradía - traducción al español",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q91,¿Cuáles son las principales fuentes propias de liquidez intradía que puede utilizar un banco durante el día hábil?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"(i) Fuentes Fuentes propias - Saldos de reserva en el banco central; - Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía; - Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía; - Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía; - Saldos con otros bancos que puedan utilizarse para liquidación intradía.","**Fuentes propias de liquidez intradía**
+
+Las principales fuentes propias de liquidez intradía que un banco puede utilizar durante el día hábil son:
+
+*   Saldos de reserva en el banco central
+*   Colateral pignorado con el banco central o con sistemas auxiliares que pueda convertirse libremente en liquidez intradía
+*   Activos libres de gravamen en el balance del banco que puedan convertirse libremente en liquidez intradía
+*   Líneas de crédito garantizadas y no garantizadas, comprometidas y no comprometidas, disponibles intradía
+*   Saldos con otros bancos que puedan utilizarse para liquidación intradía
+
+**Otras fuentes**
+
+Además de las fuentes propias, también se mencionan otras fuentes de liquidez intradía:
+
+*   Pagos recibidos de otros participantes del LVPS
+*   Pagos recibidos de sistemas auxiliares
+*   Pagos recibidos a través de servicios de corresponsalía bancaria
+
+**Fuentes y uso de la liquidez intradía**
+
+La lista anterior no es exhaustiva, pero se presentan los principales elementos que componen las fuentes y el uso de la liquidez intradía de un banco.
+
+Las fuentes de liquidez señaladas en la Sección II B deben discutirse y acordarse con el supervisor para incluirse en el cálculo de la herramienta de monitoreo de liquidez intradía disponible al inicio del día hábil.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q92,¿Cómo se define un escenario de tensión de contraparte?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"(ii) Tensión de contraparte: una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos 32. Una tensión de contraparte puede provocar que los participantes directos y los bancos que utilizan servicios de corresponsalía bancaria no puedan depender de los pagos entrantes de la contraparte estresada, reduciendo la disponibilidad de liquidez intradía que puede obtenerse mediante la recepción de pagos de dicha contraparte.","**Definición de un escenario de tensión de contraparte**
+
+Un escenario de tensión de contraparte se refiere a una situación en la que una contraparte importante sufre un evento de tensión intradía que le impide realizar pagos. Esto puede provocar que los participantes directos y los bancos que utilizan servicios de corresponsalía bancaria no puedan depender de los pagos entrantes de la contraparte estresada, reduciendo la disponibilidad de liquidez intradía que pueden obtener mediante la recepción de pagos de dicha contraparte.
+
+**Características clave**
+
+* La contraparte importante sufre un evento de tensión intradía.
+* La contraparte no puede realizar pagos.
+* Los participantes directos y los bancos que utilizan servicios de corresponsalía bancaria pueden verse afectados por la reducción en la disponibilidad de liquidez intradía.
+
+**Fuente**
+
+* Fragmento 2: [Contexto generado por IA: El fragmento pertenece a la Sección IV del documento completo, que aborda los ""Escenarios de tensión de liquidez intradía"". En esta sección, se describen diferentes situaciones que pueden afectar la gestión de la liquidez intradía de un banco, específicamente la tensión financiera propia que puede enfrentar un participante directo.]
+* Fragmento 6: [Contexto generado por IA: Este fragmento pertenece a la Sección IV del documento, que aborda los escenarios de tensión de liquidez intradía. En particular, se centra en el escenario de tensión crediticia o de liquidez a nivel de mercado, describiendo cómo puede afectar el valor de los activos líquidos de un banco y su capacidad para obtener liquidez intradía del banco central.]
+
+**Documentos**
+
+* Intraday_liquidity_esp.md
+* Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q93,¿Cómo se calcula el uso máximo diario de liquidez intradía a partir de la posición neta acumulada de pagos enviados y recibidos?,0,1,1,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"La mayor posición neta negativa durante el día hábil en la(s) cuenta(s), es decir, el mayor saldo neto acumulado entre pagos realizados y recibidos, determinará el uso máximo diario de liquidez intradía del banco. La posición neta debe determinarse con marcas de tiempo de liquidación (o su equivalente), usando datos transacción por transacción de la(s) cuenta(s). El mayor saldo neto negativo puede calcularse al cierre del día hábil y no requiere monitoreo en tiempo real durante todo el día.","Para calcular el **uso máximo diario de liquidez intradía** a partir de la **posición neta acumulada** de pagos enviados y recibidos, se sigue el siguiente procedimiento:
+
+1. **Monitoreo de Pagos**: Se debe llevar un registro de todos los pagos realizados y recibidos durante el día en la cuenta de liquidación del banco.
+   
+2. **Cálculo de la Posición Neta**:
+   - La **posición neta acumulada** se determina sumando los pagos recibidos y restando los pagos enviados.
+   - Esto se realiza en intervalos de tiempo a lo largo del día.
+
+3. **Identificación de la Mayor Posición Neta Negativa**:
+   - Se debe identificar el **mayor saldo neto acumulado negativo** durante el día. Este saldo representa el punto en el que el banco ha realizado más pagos de los que ha recibido.
+   - Este valor se puede calcular al cierre del día hábil y no requiere monitoreo en tiempo real.
+
+4. **Uso Máximo Diario de Liquidez Intradía**:
+   - El **uso máximo diario de liquidez intradía** del banco será equivalente a esta mayor posición neta negativa.
+
+Por ejemplo, si en un día determinado, la mayor posición neta negativa es de **550 unidades**, entonces el uso máximo diario de liquidez intradía será de **550 unidades**.
+
+### Resumen
+- **Uso máximo diario de liquidez intradía** = Mayor posición neta negativa acumulada durante el día.
+
+Esto permite a los bancos gestionar adecuadamente su liquidez intradía y cumplir con sus obligaciones de pago.
+
+**Fuentes**: 
+- Documento: Intraday_liquidity_esp.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q94,¿Qué son las obligaciones con horario específico y por qué su incumplimiento puede generar riesgo financiero o reputacional?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"La falta de liquidación oportuna de estas obligaciones podría generar una penalización financiera, daño reputacional para el banco o pérdida de negocio futuro.23. Los bancos deben calcular el valor total de las obligaciones con horario específico que liquidan cada día y reportar los tres mayores valores totales diarios y el valor total diario promedio en el periodo de reporte, paradar a los supervisores una indicación de la escala de estas obligaciones.","**Obligaciones con horario específico y su impacto**
+=====================================================
+
+Las obligaciones con horario específico son compromisos de pago que deben ser liquidados en un momento determinado durante el día hábil. El incumplimiento de estas obligaciones puede generar riesgo financiero o reputacional debido a los siguientes motivos:
+
+*   **Penalización financiera**: La falta de liquidación oportuna de las obligaciones con horario específico podría generar una penalización financiera para el banco.
+*   **Daño reputacional**: El incumplimiento de estas obligaciones puede dañar la reputación del banco, lo que podría afectar su capacidad para atraer y retener clientes.
+*   **Pérdida de negocio futuro**: La falta de cumplimiento con las obligaciones con horario específico también puede provocar una pérdida de negocio futuro debido a la disminución de la confianza en el banco.
+
+**Importancia de las herramientas de monitoreo**
+------------------------------------------
+
+Las herramientas de monitoreo de liquidez intradía, como la ""Obligaciones con horario específico"", permiten a los supervisores comprender mejor las obligaciones de pago que deben liquidarse en momentos determinados durante el día hábil. Estas herramientas son fundamentales para evaluar la gestión del riesgo de liquidez intradía de los bancos y garantizar que cumplan con sus compromisos de pago.
+
+**Cálculo de las obligaciones con horario específico**
+---------------------------------------------------
+
+Los bancos deben calcular el valor total de las obligaciones con horario específico que liquidan cada día y reportar los tres mayores valores totales diarios y el valor total diario promedio en el periodo de reporte. Esto permite a los supervisores evaluar la escala de estas obligaciones y garantizar que los bancos estén gestionando sus flujos de pagos con un conjunto adecuado de activos líquidos.
+
+**Relación entre el uso máximo diario de liquidez, la liquidez intradía disponible al inicio del día hábil y las obligaciones con horario específico**
+=============================================================================================================================
+
+La herramienta ""Obligaciones con horario específico"" también permite a los supervisores evaluar la relación entre el uso máximo diario de liquidez, la liquidez intradía disponible al inicio del día hábil y las obligaciones con horario específico. Esto ayuda a garantizar que los bancos estén gestionando sus flujos de pagos de manera efectiva y eficiente.
+
+**Fuentes**
+------------
+
+*   [📜 Documento: Intraday_liquidity_esp.md](https://raw.githubusercontent.com/IA-Regulacion-Financiera/Documentos/main/Intraday%20liquidity%20esp.md)
+*   [📜 Documento: Circular3-2012.md](https://raw.githubusercontent.com/IA-Regulacion-Financiera/Documentos/main/Circular3-2012.md)",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q95,¿Para consumo no revolvente cómo se define el pago realizado?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,Monto correspondiente a la suma de los pagos realizados por el acreditado en el Periodo de Facturación,"**Respuesta**
+
+Para consumo no revolvente, el pago realizado se define como la suma de los pagos realizados por la persona acreditada en el Periodo de Facturación.
+
+**Fuente**: Fragmento 2 del Documento: CUB_extracto.md, Sección Primera sobre la Cartera Crediticia de Consumo.
+
+| Definición | Descripción |
+| --- | --- |
+| Pago Realizado | Suma de los pagos realizados por el acreditado en el Periodo de Pago. |
+
+**Nota**: La definición de ""Pago Realizado"" se encuentra específicamente dentro del contexto de la Cartera Crediticia de Consumo, lo que sugiere que esta definición es aplicable a créditos no revolventes.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q96,¿Cuál es la fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2?,1,1,1,ÉXITO,Extracción e inyección correctas.,PI_i^N = \frac{1}{1 + e^{-Z_i^N}},"**Respuesta**
+
+La fórmula para calcular la Probabilidad de Incumplimiento (PI) de un crédito de nómina en Etapa 1 o 2 se encuentra en el fragmento **Fragmento 7: [Contexto generado por IA: Este fragmento se refiere a la estimación de reservas preventivas para créditos clasificados en etapa 2 de la Cartera Crediticia de Consumo no Revolvente, conforme a lo establecido en el Artículo 91 Bis del documento normativo. En particular, aborda el cálculo de la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento necesarios para determinar las reservas a constituir.]**
+
+La fórmula es:
+
+$$
+PI_i = \frac{1}{1 + e^{-Z_i}}
+$$
+
+donde:
+- $Z_i$ es una función lineal de los coeficientes y variables utilizados en el cálculo.
+
+**Fórmula específica para Etapa 2**
+
+Para Etapa 2, la fórmula se utiliza cuando $ACT i \leq 3$. Si $ACT i > 3$ o si el crédito está en etapa 3, entonces la Probabilidad de Incumplimiento es igual a 100%.
+
+**Fórmula específica para Etapa 1**
+
+Para Etapa 1, no se proporciona una fórmula específica en los fragmentos recuperados. Sin embargo, se puede inferir que la fórmula para Etapa 2 también se aplica a Etapa 1.
+
+**Fórmula para créditos de nómina (N)**
+
+Para créditos clasificados como ""nómina"" (N), la fórmula es:
+
+$$
+PI_i^N = \frac{1}{1 + e^{-Z_i^N}}
+$$
+
+donde:
+- $Z_i^N$ es una función lineal de los coeficientes y variables utilizados en el cálculo.
+
+**Fórmula para créditos de otro tipo (O)**
+
+Para créditos clasificados como ""otro"" (O), la fórmula es:
+
+$$
+P I_i^O = 100\%
+$$
+
+si $ATR_i^O > 3$ o si el crédito está en etapa 3. Si $ATR_i^O \leq 3$, entonces:
+
+$$
+P I_i^O = \frac {1}{1 + e ^ {- Z_i^O}}
+$$
+
+donde:
+- $Z_i^O$ es una función lineal de los coeficientes y variables utilizados en el cálculo.
+
+**Fuentes**
+
+* Fragmento 7: [Contexto generado por IA: Este fragmento se refiere a la estimación de reservas preventivas para créditos clasificados en etapa 2 de la Cartera Crediticia de Consumo no Revolvente, conforme a lo establecido en el Artículo 91 Bis del documento normativo. En particular, aborda el cálculo de la Probabilidad de Incumplimiento, la Severidad de la Pérdida y la Exposición al Incumplimiento necesarios para determinar las reservas a constituir.]
+* Fragmento 4: [Contexto generado por IA: Este fragmento se refiere a la Probabilidad de Incumplimiento (PI) de los créditos clasificados como ""nómina"" (N) dentro de la Cartera Crediticia de Consumo no Revolvente, y se enmarca dentro del Artículo 91 Bis 1 del documento normativo. En él se presentan los coeficientes y la fórmula para calcular la probabilidad de incumplimiento, considerando variables específicas relacionadas con el comportamiento crediticio del acreditado.]
+* Fragmento 8: [Contexto generado por IA: Este fragmento se refiere a la Probabilidad de Incumplimiento (PI) de los créditos clasificados como ""otro"" (O) dentro de la Cartera Crediticia de Consumo no Revolvente, y forma parte de las disposiciones establecidas en el Artículo 91 Bis 1 del documento normativo. En él se detallan los coeficientes y variables utilizados para calcular la probabilidad de incumplimiento en función de los atrasos y otros factores relevantes.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q97,¿Bajo qué condiciones un crédito de nómina pasa directamente a Etapa 3 de riesgo?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Créditos con $ATR_{i}^{e} > 3$ o cuando el crédito se encuentre en etapa 3,"**Respuesta a la consulta**
+
+La información proporcionada en el contexto no es suficiente para responder a esta pregunta específica sobre las condiciones bajo las cuales un crédito de nómina pasa directamente a Etapa 3 de riesgo.
+
+Sin embargo, se puede inferir que los criterios para clasificar a un crédito como Etapa 3 de riesgo están relacionados con el número de atrasos o incumplimientos del deudor. En el Fragmento 2 del Documento AYUDAS_CNR_IFRS9.md, se menciona que la Etapa 3 de riesgo se aplica a créditos con $ATR_{i}^{e} > 3$.
+
+En cuanto a los créditos de nómina en particular, no hay información explícita sobre las condiciones específicas para pasar directamente a Etapa 3 de riesgo. Sin embargo, se puede inferir que los criterios generales para la clasificación de etapas de riesgo pueden aplicarse también a los créditos de nómina.
+
+**Fuentes**
+
+* Documento: CUB_extracto.md
+* Documento: AYUDAS_CNR_IFRS9.md
+* Documento: Anexo_33_CUB.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q98,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito y qué criterios deben seguir para la migración entre etapas?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Las Instituciones clasificarán desde su reconocimiento inicial los créditos en las etapas siguientes, dependiendo del incremento significativo del riesgo crediticio que estos evidencien, de acuerdo con lo siguiente:","**Respuesta**
+
+Las instituciones financieras deben clasificar los créditos en las etapas de riesgo de crédito según lo establecido en el Artículo 91 de las disposiciones normativas. Las etapas de riesgo son:
+
+* Etapa 1: Para los créditos con $ACT_i \leq 1$.
+* Etapa 2: Para los créditos con $ACT_i > 1$ y $ACT_i \leq 3$, que no cumplan con algún supuesto descrito en la etapa 1 o 3.
+* Etapa 3: Los créditos que se hayan migrado de etapa 1 o 2 a etapa 3, de conformidad con lo dispuesto en las Disposiciones.
+
+La migración de etapas debe estar respaldada por criterios formalizados en los manuales de políticas y procedimientos de la Institución. Si las Instituciones cuentan con algún elemento para determinar que un crédito debe migrar a una etapa diferente, pueden realizarlo sin necesidad del cumplimiento de lo contenido en la tabla anterior.
+
+Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente. Las Instituciones deberán documentar en un registro o bitácora la migración de etapas basadas en los criterios antes mencionados, incluyendo como mínimo la identificación del personal responsable de la aprobación, el criterio bajo el cual se realizó la migración, así como la fecha a partir de la cual se hizo la migración.
+
+**Fuentes**
+
+* Fragmento 5: [Contexto generado por IA: Este fragmento se refiere a las etapas de riesgo de crédito aplicables a la Cartera Crediticia de Consumo no Revolvente, específicamente en el contexto de la calificación de créditos según el incremento significativo del riesgo crediticio, tal como se establece en el Artículo 91 de las disposiciones normativas del Banco de México.]
+* Fragmento 6: [Contexto generado por IA: Este fragmento se encuentra dentro del contexto del Capítulo V Bis del documento normativo, que establece las metodologías generales para la calificación de la Cartera Crediticia de Consumo no Revolvente. En particular, se refiere a las etapas de riesgo de crédito que las Instituciones deben clasificar desde el reconocimiento inicial de los créditos, basándose en el incremento significativo del riesgo crediticio.]
+* Fragmento 1: [Contexto generado por IA: Este fragmento se refiere a la clasificación de créditos dentro de la cartera de crédito de las instituciones de crédito, específicamente en el contexto de la evaluación del riesgo de crédito según las etapas establecidas en las normativas aplicables. Pertenece al marco normativo que regula la contabilidad y la gestión de riesgos en las entidades, como se detalla en el Anexo 33 del documento completo.]",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q99,¿Cuáles son los enfoques que las instituciones pueden adoptar para el cálculo de reservas preventivas y qué requisitos deben cumplir para cada enfoque?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Las Instituciones, podrán optar por alguno de los enfoques siguientes: I. El Enfoque Estándar... II. El Enfoque Interno...","**Enfoques para el cálculo de reservas preventivas**
+==============================================
+
+Las instituciones pueden adoptar dos enfoques para el cálculo y constitución de reservas preventivas:
+
+### Enfoque Estándar
+
+*   Aplicable a todas las carteras consideradas en la definición de Cartera Crediticia.
+*   Las instituciones que adopten este enfoque deben sujetarse a los requisitos y procedimientos contenidos en el Capítulo V Bis.
+
+### Enfoque Interno
+
+*   Aplicable a todas las carteras modelables, utilizando las Metodologías Internas de reservas basadas en la NIF C-16.
+*   Las instituciones se ajustarán a los requisitos contenidos en el Capítulo V Bis 1 y en el Anexo 15 Bis.
+
+**Requisitos para cada enfoque**
+------------------------------
+
+### Enfoque Estándar
+
+*   Sujetarse a los requisitos y procedimientos contenidos en el Capítulo V Bis.
+
+### Enfoque Interno
+
+*   Ajustarse a los requisitos contenidos en el Capítulo V Bis 1 y en el Anexo 15 Bis.
+
+**Monto de Reservas a Constituir**
+-------------------------------
+
+Las instituciones calificarán, constituirán y registrarán en su contabilidad las reservas preventivas para cada uno de los créditos que integran la Cartera Crediticia de tarjeta de crédito y otros créditos revolventes con cifras al último día de cada mes, independientemente de la frecuencia de facturación, de acuerdo a alguno de los siguientes esquemas de cálculo de reservas:
+
+*   Para aquellos créditos clasificados en etapa 1 o 3 de acuerdo al Artículo 91 de las presentes disposiciones.
+
+**Fuentes**
+------------
+
+*   Documento: CUB_extracto.md
+*   Documento: AYUDAS_CNR_IFRS9.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q100,¿Cómo se determina la Probabilidad de Incumplimiento para créditos clasificados en etapa 3?,0,1,1,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Si ACT i > 3 o cuando el crédito se encuentra en etapa 3, entonces: PI_i = 100%","**Respuesta a la consulta del usuario**
+
+La Probabilidad de Incumplimiento para créditos clasificados en etapa 3 se determina según lo establecido en los fragmentos 5, 6 y 10.
+
+*   En el Fragmento 5, se establece que para créditos clasificados como ""P"" (personal) o ""O"" (otro), la Probabilidad de Incumplimiento es del 100% cuando $ATR_i^P$ o $ATR_i^O$ sea mayor a 3 o el crédito se encuentre en etapa 3.
+*   En el Fragmento 6, se menciona que para aquellos créditos clasificados en etapa 1 o 3, la fórmula para determinar el monto de reservas a constituir incluye la Probabilidad de Incumplimiento (PI_i) multiplicada por otros factores.
+*   En el Fragmento 10, se establece que para estimar las reservas en etapa 2, es necesario obtener la Probabilidad de Incumplimiento (PI_i), entre otras variables.
+
+**En resumen**
+
+La Probabilidad de Incumplimiento para créditos clasificados en etapa 3 es del 100% según los fragmentos mencionados anteriormente.",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q101,¿Qué criterios deben seguir las instituciones para migrar un crédito de una etapa de riesgo a otra?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Los criterios bajo los cuales las Instituciones podrán realizar dicha migración deberán estar formalizados dentro de los manuales de políticas y procedimientos de la Institución y deberán ser aplicados de forma consistente.,"**Criterios para migrar un crédito entre etapas de riesgo**
+
+Para migrar un crédito entre las diferentes etapas de riesgo, las instituciones deben seguir los siguientes criterios:
+
+*   Los criterios deben estar formalizados en los manuales de políticas y procedimientos de la Institución.
+*   Las Instituciones deberán documentar en un registro o bitácora la migración de etapas basadas en los criterios antes mencionados, incluyendo como mínimo la identificación del personal responsable de la aprobación, el criterio bajo el cual se realizó la migración, así como la fecha a partir de la cual se hizo la migración.
+*   Las Instituciones podrán realizar la migración sin la necesidad del cumplimiento de lo contenido en la tabla anterior si cuentan con algún elemento para determinar que un crédito debe de migrar de etapa 1 a etapa 2, o de etapa 1 a etapa 3, o de etapa 2 a etapa 3.
+
+**Ejemplos de criterios**
+
+*   Los créditos clasificados en la etapa de riesgo de crédito 2 por efecto de una reestructura o renovación, deberán ser evaluados periódicamente a fin de determinar si existe un incremento en su riesgo que origine que deban ser traspasados a la etapa de riesgo de crédito 3.
+*   Los créditos con riesgo de crédito etapas 1 y 2, con características distintas a las señaladas en los párrafos anteriores que se reestructuren o renueven durante el transcurso del 20% final del plazo original del crédito, deberán traspasarse a la categoría inmediata siguiente con mayor riesgo de crédito.
+
+**Fuentes**
+
+*   Anexo 33_CUB.md
+*   Disposiciones_Liquidez.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q102,¿Qué se consideraría un crédito personal?,1,1,1,ÉXITO,Extracción e inyección correctas.,A los créditos que sean cobrados por la Institución por cualquier medio de pago distinto de la cuenta de nómina,"Un **crédito personal** se define como:
+
+- **Créditos cobrados por la institución** por cualquier medio de pago **distinto de la cuenta de nómina**.
+
+Esto significa que, a diferencia de otros tipos de créditos, los créditos personales no se gestionan a través de descuentos directos de nómina, sino que se pueden pagar mediante otros métodos.
+
+### Resumen:
+- **Crédito Personal**: Cobrados por medios distintos a la nómina.
+
+Esta definición se encuentra en el contexto del ""Formulario de Créditos al Consumo No Revolventes"".
+
+Fuentes: AYUDAS_CNR_IFRS9.md, CUB_extracto.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q103,¿Qué tipos de garantías pueden ser consideradas por las instituciones para la estimación de la Severidad de la Pérdida de los créditos?,1,1,1,ÉXITO,Extracción e inyección correctas.,"las garantías reales financieras, garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias, así como las garantías personales y Seguros de Crédito","**Tipos de garantías que pueden ser consideradas para la estimación de la Severidad de la Pérdida de los créditos**
+
+Según el contexto proporcionado, las instituciones pueden considerar las siguientes tipos de garantías para la estimación de la Severidad de la Pérdida de los créditos:
+
+* Garantías reales financieras
+* Garantías mobiliarias inscritas en favor de las Instituciones en el registro único de garantías mobiliarias
+* Garantías personales
+* Seguros de Crédito
+
+Estos tipos de garantías se mencionan en los fragmentos 1 y 2 del documento CUB_extracto.md, específicamente en el Artículo 97 Bis 6.
+
+**Fuentes**
+
+* Fragmento 1: CUB_extracto.md
+* Fragmento 2: CUB_extracto.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q104,¿Cómo deben las instituciones financieras clasificar los créditos en las etapas de riesgo de crédito según el incremento significativo del riesgo crediticio?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Las Instituciones, para efecto del cálculo y constitución de las reservas preventivas para riesgos crediticios, deberán calificar desde su reconocimiento inicial los créditos de su Cartera Crediticia con base en el criterio de incremento significativo del riesgo crediticio.","**Clasificación de Créditos según el Incremento Significativo del Riesgo Crediticio**
+===========================================================
+
+Según los fragmentos proporcionados, las instituciones financieras deben clasificar los créditos en las siguientes etapas de riesgo crediticio:
+
+### Etapa 1
+- Para los créditos con $ACT_i \leq 1$ (Fragmento 1)
+- Para los créditos clasificados como “B, A, N, P u O”, respectivamente, y que cumplan con $ATR_{i}^{e} \leq 1$ (Fragmento 3)
+
+### Etapa 2
+- Para los créditos con $ACT_i > 1$ y $ACT_i \leq 3$, que no cumplan con algún supuesto descrito en la etapa 1 o 3 (Fragmento 1)
+- Para los créditos clasificados como “B, A, N, P u O”, respectivamente, y que cumplan con $ATR_{i}^{e} > 1$ y $ATR_{i}^{e} \leq 3$ (Fragmento 3)
+
+### Etapa 3
+- Para los créditos con $ACT_i > 3$ o cuando el crédito se encuentre en etapa 3 de acuerdo con los términos establecidos en el Criterio Contable B-6 ""Cartera de Crédito"" y el presente capítulo (Fragmento 5)
+- Para aquellos créditos respecto de los cuales las entidades cuenten con algún elemento para determinar que deben migrar de etapa 1 o 2 a etapa 3, de conformidad con lo dispuesto en las Disposiciones (Fragmento 1 del Anexo 33)
+
+**Fuentes:**
+
+- Fragmentos 1 y 5 de CUB_extracto.md
+- Fragmentos 1, 3 y 4 de Anexo_33_CUB.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q105,¿Qué se entiende por saldo a pagar?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,Importe exigible de la deuda a la fecha de corte en la cual inicia el Periodo de Pago que el acreditado tiene por pagar a la Institución,"**Saldo a Pagar**
+
+El **saldo a pagar** se define como:
+
+- **Importe exigible de la deuda** a la fecha de corte en la cual inicia el periodo de pago que el acreditado tiene por pagar a la institución. 
+- Este importe debe estar expresado en **moneda nacional** y a **dos decimales**.
+
+Además, es importante mencionar que el saldo a pagar es una variable clave para la evaluación del riesgo crediticio y la constitución de reservas preventivas en la cartera crediticia de consumo no revolvente.
+
+**Fuentes:**
+- CUB_extracto.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q106,¿Cómo se determina la reservas para los créditos en etapa 2?,1,1,1,ÉXITO,Extracción e inyección correctas.,"Reservas\ Etapa\ 2_i = \max\left(\text{Reservas\ Vida\ Completa}_i, PI_i^X \times SP_i^X \times EI_i^X\right)","**Respuesta**
+
+La información proporcionada en los fragmentos recuperados establece que para determinar las reservas para los créditos en etapa 2, se utiliza la siguiente fórmula:
+
+$$
+\ Reservas\ Etapa\ 2_i = \max\left(\text{Reservas\ Vida\ Completa}_i, PI_i^X \times SP_i^X \times EI_i^X\right)
+$$
+
+Donde:
+- `Reservas Etapa 2_i` es el monto de reservas para el crédito i en etapa 2.
+- `Reservas Vida Completa_i` es el monto de reservas para la vida completa del crédito i.
+- `PI_i^X` es la Probabilidad de Incumplimiento del crédito i, clasificado como ""B, A, N, P u O"", respectivamente.
+- `SP_i^X` es la Severidad de la Pérdida del crédito i, clasificado como ""B, A, N, P u O"", respectivamente.
+- `EI_i^X` es la Exposición al Incumplimiento del crédito i.
+
+**Fuentes**
+
+* Documento: CUB_extracto.md
+* Fragmentos 3 y 4 de Documento: AYUDAS_CNR_IFRS9.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q107,¿Cómo deben las instituciones calcular la Exposición al Incumplimiento para créditos donde el saldo es menor que el límite de crédito?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,EI_i = \max \left\{ \frac{S_i \times \max \left\{1.026 \cdot \left( \frac{S_i}{\text{Límite de Crédito}} \right)^{-0.5434} \cdot 100\% \right\}}{S_i + 13.79\% \cdot (\text{Límite de Crédito} - S_i)} \right\},"Para calcular la **Exposición al Incumplimiento** (EI) de créditos donde el saldo es menor que el límite de crédito, las instituciones deben seguir las siguientes pautas:
+
+1. **Definición del Saldo**:
+   - El saldo a considerar, $S_i$, es el **importe de la deuda total** que el acreditado tiene con la institución al cierre de mes. Este importe debe incluir todas las obligaciones relacionadas con el crédito, excluyendo los intereses devengados no cobrados de créditos en etapa 3.
+
+2. **Cálculo de la EI**:
+   - Si el saldo a pagar ($S_i$) es menor que el límite de crédito, la Exposición al Incumplimiento se calcula de la siguiente manera:
+     - **Fórmula General**:
+       $$
+       EI_{i} = S_{i} + 51.81\% \cdot (\text{Límite del Crédito} - S_{i})
+       $$
+     - Esta fórmula se aplica cuando el saldo a pagar es igual o menor a cero en el periodo de pago actual y ha sido mayor a cero en al menos uno de los tres periodos anteriores.
+     - Si el pago realizado es mayor a cero en al menos uno de los últimos cuatro periodos de pago, se utiliza la fórmula:
+       $$
+       EI_{i} = S_{i} + 42.67\% \cdot (\text{Límite del Crédito} - S_{i})
+       $$
+
+3. **Condiciones Especiales**:
+   - Si el saldo al cierre de mes es menor que cero, entonces $S_i$ tomará el valor de cero.
+
+Estas pautas aseguran que las instituciones calculen adecuadamente la exposición al incumplimiento, considerando tanto el saldo actual como el límite de crédito.
+
+**Fuentes**: 
+- Documento: CUB_extracto.md
+- Documento: AYUDAS_CNR_IFRS9.md",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q108,¿Se pueden reportar tasas de interés en cero?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"En casos donde la tasa de interés anual sea igual a cero, se deberá utilizar un valor fijo de 0.00001%","La información proporcionada en el contexto no es suficiente para responder a esta pregunta. 
+
+No se menciona explícitamente si se pueden reportar tasas de interés en cero, ni se ofrecen detalles sobre las condiciones bajo las cuales esto podría ser permitido o no.
+
+Fuentes: Circular3-2012.md, AYUDAS_CNR_IFRS9.md, Anexo_33_CUB.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q109,¿Cuándo no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas, las Instituciones para realizar el cálculo de las variables...","**Respuesta a la pregunta:**
+
+Cuando no exista información del acreditado en las sociedades de información crediticia que factor de riesgo se aplica?
+
+* Cuando no exista información del acreditado, se asignarán valores específicos a ciertas variables según el contexto. Por ejemplo:
+ + En el caso de los créditos clasificados como ""personal"" (P), se asignarán los valores de 0; 1 y 0 para las variables ALTOiP, MEDIOiP y BAJOiP, respectivamente.
+ + En el caso de los créditos clasificados como ""A"", se asignarán los valores de 0; 1 y 0 para las variables ALTOiA, MEDIOiA y BAJOiA, respectivamente.
+* Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas y no se cuente con evidencia dentro de la Institución de que el acreditado cuenta con atrasos en alguno de los créditos otorgados por la propia Institución, se asignará un valor específico a ciertas variables. Por ejemplo:
+ + En el caso de la variable $MESES_{i}^{B}$, se asignará el valor de 13.
+* Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas y no se cuente con evidencia dentro de la Institución de que la persona acreditada cuenta con atrasos en alguno de los créditos con la propia Institución, se asignarán valores específicos. Por ejemplo:
+ + En el caso de la variable $BKATR_{1}$, se asignará el valor de 13.
+* Cuando no exista información del acreditado en las sociedades de información crediticia autorizadas y no se cuente con evidencia dentro de la Institución de que la persona acreditada cuenta con atrasos en alguno de los créditos con la propia Institución, se asignará el valor de 13 siempre y cuando no se cuente con evidencia dentro de la Institución de que la persona acreditada cuenta con atrasos en alguno de los créditos con la propia Institución.
+
+**Fuentes:**
+
+* Documento: CUB_extracto.md
+* Documento: AYUDAS_CNR_IFRS9.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c

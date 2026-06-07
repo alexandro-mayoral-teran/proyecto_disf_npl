@@ -7,11 +7,6 @@ const qaInput = document.getElementById('qa-input');
 const qaHistory = document.getElementById('qa-history');
 const btnQaSend = document.getElementById('btn-qa-send');
 
-// Configuradores RAG
-const configRetriever = document.getElementById('config-retriever');
-const configExpansion = document.getElementById('config-expansion');
-const configPost = document.getElementById('config-post');
-
 // Referencias DOM - Tab 1: Extracción Formularios
 const chatForm = document.getElementById('chat-form');
 const queryInput = document.getElementById('query-input');
@@ -69,7 +64,7 @@ function addChatMessage(message, sender, container) {
 // LÓGICA: Pestaña 0 - Consulta Normativa (RAG Puro)
 // ----------------------------------------------------
 
-function renderQATelemetry(telemetry, context, config, parentMsgDiv) {
+function renderQATelemetry(telemetry, context, parentMsgDiv) {
     const detailsEl = document.createElement('details');
     detailsEl.style.marginTop = '1rem';
     detailsEl.style.fontSize = '0.8rem';
@@ -78,9 +73,11 @@ function renderQATelemetry(telemetry, context, config, parentMsgDiv) {
     detailsEl.style.borderRadius = '6px';
     detailsEl.style.padding = '0.5rem';
 
+    let cascade_badge = telemetry.estrategia_cascade ? `<span style="background: var(--banxico-dorado); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-left: 5px;">${telemetry.estrategia_cascade}</span>` : '';
+
     let html = `
         <summary style="font-weight: bold; cursor: pointer; color: var(--banxico-azul-institucional); outline: none;">
-            🔍 Métricas y Contexto RAG (${config.base_retriever} + ${config.query_expansion})
+            🔍 Métricas de Generación (Cascade) ${cascade_badge}
         </summary>
         <div style="margin-top: 0.8rem; border-top: 1px solid #e2e8f0; padding-top: 0.5rem;">
             <div style="display: flex; gap: 1rem; margin-bottom: 0.8rem;">
@@ -126,13 +123,6 @@ qaForm.addEventListener('submit', async (e) => {
     const query = qaInput.value.trim();
     if (!query) return;
 
-    // Obtener configuración del pipeline
-    const config = {
-        base_retriever: configRetriever.value,
-        query_expansion: configExpansion.value,
-        post_processing: configPost.value
-    };
-
     addChatMessage(query, 'user', qaHistory);
     qaInput.value = '';
     
@@ -154,10 +144,7 @@ qaForm.addEventListener('submit', async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 query: query, 
-                top_k: 4,
-                base_retriever: config.base_retriever,
-                query_expansion: config.query_expansion,
-                post_processing: config.post_processing
+                top_k: 4
             })
         });
 
@@ -175,7 +162,7 @@ qaForm.addEventListener('submit', async (e) => {
         const context = jsonResp.context;
 
         const msgDiv = addChatMessage(textoMarkdown, 'bot', qaHistory);
-        renderQATelemetry(telemetry, context, config, msgDiv);
+        renderQATelemetry(telemetry, context, msgDiv);
 
         // Actualizar HUD
         latencyHud.innerHTML = `<i data-lucide="activity" class="icon-sm"></i> Latencia: ${telemetry.latencia_total_seg}s`;

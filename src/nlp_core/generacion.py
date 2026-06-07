@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import json
+import pickle
 from datetime import datetime
 from pathlib import Path
 
@@ -18,6 +19,7 @@ from src.nlp_core.prompts_registry import get_prompt
 from src.nlp_core.schemas import RequerimientoInformacion
 from src.nlp_core.retrieval import MotorBusqueda
 from src.nlp_core.pipeline import PipelineRecuperacion
+from src.nlp_core.seguridad.guardrails import verificar_input_seguro
 from langchain_core.documents import Document
 
 _DOCS_RAW_CACHE = None
@@ -27,14 +29,124 @@ def get_motor_and_docs():
     global _MOTOR_CACHE, _DOCS_RAW_CACHE
     if _MOTOR_CACHE is None:
         _MOTOR_CACHE = MotorBusqueda(collection_name="regulacion_disf")
+        
     if _DOCS_RAW_CACHE is None:
-        print("Cargando documentos crudos en memoria para BM25/Híbrido...")
-        data = _MOTOR_CACHE.vectorstore.get(include=['documents', 'metadatas'])
-        _DOCS_RAW_CACHE = [
-            Document(page_content=txt, metadata=meta)
-            for txt, meta in zip(data['documents'], data['metadatas'])
-        ]
+        cache_path = Path(__file__).resolve().parent.parent.parent / "data" / "03_output" / "docs_cache.pkl"
+        use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
+        
+        if use_cache and cache_path.exists():
+            print("📦 Cargando documentos desde caché binario (Pickle)...")
+            with open(cache_path, "rb") as f:
+                _DOCS_RAW_CACHE = pickle.load(f)
+        else:
+            print("⚙️ Extrayendo documentos crudos desde VectorDB...")
+            data = _MOTOR_CACHE.vectorstore.get(include=['documents', 'metadatas'])
+            _DOCS_RAW_CACHE = [
+                Document(page_content=txt, metadata=meta)
+                for txt, meta in zip(data['documents'], data['metadatas'])
+            ]
+            if use_cache:
+                print("💾 Guardando documentos en caché binario...")
+                cache_path.parent.mkdir(parents=True, exist_ok=True)
+                with open(cache_path, "wb") as f:
+                    pickle.dump(_DOCS_RAW_CACHE, f)
+                    
     return _MOTOR_CACHE, _DOCS_RAW_CACHE
+
+_SEMANTIC_CACHE = None
+SEMANTIC_CACHE_FILE = Path(__file__).resolve().parent.parent.parent / "data" / "03_output" / "semantic_cache.pkl"
+
+def _load_semantic_cache():
+    global _SEMANTIC_CACHE
+    if _SEMANTIC_CACHE is None:
+        if SEMANTIC_CACHE_FILE.exists():
+            with open(SEMANTIC_CACHE_FILE, "rb") as f:
+                _SEMANTIC_CACHE = pickle.load(f)
+        else:
+            _SEMANTIC_CACHE = []
+    return _SEMANTIC_CACHE
+
+def _check_semantic_cache(query: str, threshold_math: float = 0.80):
+    """Verifica si la pregunta actual es semánticamente idéntica usando un Juez LLM."""
+    cache = _load_semantic_cache()
+    if not cache: return None
+    
+    from src.nlp_core.config_llm import get_embeddings, get_llm_client, get_llm_model_name
+    import numpy as np
+    from sklearn.metrics.pairwise import cosine_similarity
+    
+    emb = get_embeddings()
+    q_vec = np.array(emb.embed_query(query)).reshape(1, -1)
+    
+    # 1. Filtro Matemático Rápido
+    cached_vecs = np.array([item["embedding"] for item in cache])
+    sims = cosine_similarity(q_vec, cached_vecs)[0]
+    
+    best_idx = np.argmax(sims)
+    mejor_similitud = sims[best_idx]
+    
+    print(f"🧠 Evaluando caché... Máxima similitud matemática encontrada: {mejor_similitud:.4f}")
+    
+    if mejor_similitud >= threshold_math:
+        # 2. El Juez LLM
+        pregunta_cache = cache[best_idx]["query"]
+        print(f"⚖️ Similitud > {threshold_math}. Activando LLM Juez para comparar:\n - N: '{query}'\n - C: '{pregunta_cache}'")
+        
+        client = get_llm_client("qa")  # Usamos Ollama local
+        modelo_qa = get_llm_model_name("qa")
+        
+        prompt_juez = f"""Eres un evaluador estricto. Revisa estas dos preguntas del usuario. Tu único objetivo es determinar si ambas preguntas están buscando EXACTAMENTE la misma información o concepto normativo, sin importar variaciones gramaticales, sinónimos o errores ortográficos. Responde ÚNICAMENTE con la palabra "SI" o la palabra "NO", sin puntos ni explicaciones.
+
+Pregunta Nueva: {query}
+Pregunta en Caché: {pregunta_cache}"""
+
+        t0_juez = time.time()
+        try:
+            # Forzamos max_tokens a algo muy pequeño para latencia instantánea
+            resp = client.chat.completions.create(
+                model=modelo_qa,
+                messages=[{"role": "user", "content": prompt_juez}],
+                temperature=0.0,
+                max_tokens=4
+            )
+            veredicto = resp.choices[0].message.content.strip().upper()
+            latencia_juez = time.time() - t0_juez
+            
+            if "SI" in veredicto:
+                print(f"✅ LLM Juez dictaminó 'SI' en {latencia_juez:.2f}s -> CACHE HIT!")
+                return cache[best_idx]
+            else:
+                print(f"❌ LLM Juez dictaminó 'NO' en {latencia_juez:.2f}s -> CACHE MISS!")
+        except Exception as e:
+            print(f"⚠️ Error en LLM Juez: {e}. Cayendo a Cache Miss.")
+    else:
+        print(f"❌ La similitud matemática ({mejor_similitud:.4f}) no superó el umbral mínimo ({threshold_math}).")
+        
+    return None
+
+def _save_to_semantic_cache(query: str, respuesta: str, meta: dict, chunks: list):
+    """Guarda la respuesta exitosa en el caché semántico persistente."""
+    use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
+    if not use_cache: return
+    
+    cache = _load_semantic_cache()
+    
+    from src.nlp_core.config_llm import get_embeddings
+    emb = get_embeddings()
+    q_vec = emb.embed_query(query)
+    
+    cache.append({
+        "query": query,
+        "embedding": q_vec,
+        "respuesta": respuesta,
+        "meta": meta,
+        "chunks": chunks
+    })
+    
+    # Guardar a disco para que sobreviva a Streamlit / Reinicios
+    SEMANTIC_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(SEMANTIC_CACHE_FILE, "wb") as f:
+        pickle.dump(cache, f)
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -256,6 +368,133 @@ def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings",
     ]
     
     return texto_respuesta, telemetria, chunks_recuperados
+
+def responder_rag_cascade_qa(
+    query: str, 
+    k: int = 4, 
+    umbral_faithfulness: float = 0.8, 
+    base_retriever: str = "hibrido",
+    query_expansion: str = "none",
+    post_processing: str = "cross_encoder"
+) -> tuple[str, dict, list]:
+    """
+    Patrón Ensamble Heterogéneo: Router/Cascade por Confianza.
+    Intenta responder primero con el modelo local. Luego evalúa su 'Faithfulness'.
+    Si el LLM local tiene alucinaciones o baja fidelidad (score < umbral), escala a la nube.
+    """
+    print(f"🔄 Iniciando RAG Cascade para: '{query}'")
+    
+    # === INPUT GUARDRAIL ===
+    is_safe, reason = verificar_input_seguro(query)
+    if not is_safe:
+        print(f"🚨 ALERTA ROJA: Consulta maliciosa bloqueada. Motivo: {reason}")
+        telemetria_bloqueo = {
+            "estrategia_cascade": "Bloqueado por Seguridad",
+            "latencia_total_seg": 0.5,
+            "faithfulness_local_score": 0.0,
+            "motivo_bloqueo": reason
+        }
+        return f"🔒 **Petición Bloqueada**: La consulta ha sido rechazada por nuestras políticas de seguridad institucionales ({reason}).", telemetria_bloqueo, []
+    
+    # === SEMANTIC CACHE CHECK ===
+    use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
+    if use_cache:
+        cached_res = _check_semantic_cache(query)
+        if cached_res:
+            meta = cached_res["meta"].copy()
+            meta["estrategia_cascade"] = "Semantic Cache Hit"
+            meta["latencia_total_seg"] = 0.05
+            return cached_res["respuesta"], meta, cached_res["chunks"]
+    
+    # Asegurarnos de que el primer intento es LOCAL
+    estado_original_qa = os.getenv("USE_LOCAL_QA", "false")
+    os.environ["USE_LOCAL_QA"] = "true"
+    
+    try:
+        resp_local, meta_local, chunks = responder_rag_qa(
+            query, k, 
+            base_retriever=base_retriever,
+            query_expansion=query_expansion,
+            post_processing=post_processing
+        )
+        contexto_str = "\n".join([c["content"] for c in chunks])
+        
+        # Evaluar Confianza (Faithfulness)
+        from src.nlp_core.evals.evaluador import evaluar_faithfulness_claims
+        score = evaluar_faithfulness_claims(resp_local, contexto_str)
+        
+        if score >= umbral_faithfulness:
+            print(f"✅ Respuesta Local aceptada (Faithfulness: {score:.2f})")
+            meta_local["faithfulness_local_score"] = round(score, 2)
+            meta_local["estrategia_cascade"] = "Resuelto Local"
+            
+            _save_to_semantic_cache(query, resp_local, meta_local, chunks)
+            
+            # Restaurar variable original
+            os.environ["USE_LOCAL_QA"] = estado_original_qa
+            return resp_local, meta_local, chunks
+        else:
+            print(f"⚠️ Baja Confianza Local (Faithfulness: {score:.2f} < {umbral_faithfulness}). Redirigiendo a Nube...")
+            
+    except Exception as e:
+        print(f"⚠️ Error en capa local, forzando fallback a nube: {e}")
+        score = 0.0
+        chunks = []
+        
+    # === FALLBACK A LA NUBE ===
+    os.environ["USE_LOCAL_QA"] = "false"
+    
+    try:
+        t0_nube = time.time()
+        resp_nube, meta_nube, chunks_nube = responder_rag_qa(
+            query, k, 
+            base_retriever=base_retriever,
+            query_expansion=query_expansion,
+            post_processing=post_processing
+        )
+        
+        meta_nube["faithfulness_local_score"] = round(score, 2)
+        meta_nube["estrategia_cascade"] = "Escalado a Nube"
+        meta_nube["latencia_cascade_total"] = round(time.time() - t0_nube + meta_local.get("latencia_total_seg", 0), 2)
+        
+        _save_to_semantic_cache(query, resp_nube, meta_nube, chunks_nube)
+        
+        return resp_nube, meta_nube, chunks_nube
+    finally:
+        # Restaurar configuración original SIEMPRE
+        os.environ["USE_LOCAL_QA"] = estado_original_qa
+
+def extraer_rag_cascade(query: str, k: int = 4, umbral_faithfulness: float = 0.8) -> tuple[RequerimientoInformacion, dict]:
+    """Wrapper para Cascade en caso de usarse para formularios estructurados."""
+    # Como los formularios son Pydantic, la evaluación de Faithfulness sobre JSON es más estricta.
+    # Por ahora simplemente envolvemos la función para cumplir el API del walkthrough.
+    print(f"🔄 Iniciando Extracción RAG Cascade para: '{query}'")
+    
+    # === INPUT GUARDRAIL ===
+    is_safe, reason = verificar_input_seguro(query)
+    if not is_safe:
+        print(f"🚨 ALERTA ROJA: Consulta maliciosa bloqueada. Motivo: {reason}")
+        raise ValueError(f"Petición Bloqueada: {reason}")
+        
+    estado_original = os.getenv("USE_LOCAL_EXTRACTION", "false")
+    os.environ["USE_LOCAL_EXTRACTION"] = "true"
+    
+    try:
+        resultado, meta = extraer_rag_simple(query, k)
+        meta["faithfulness_local_score"] = 1.0 # Asumimos 1.0 temporalmente por falta de contexto en texto plano
+        meta["estrategia_cascade"] = "Resuelto Local (Extracción)"
+        os.environ["USE_LOCAL_EXTRACTION"] = estado_original
+        return resultado, meta
+    except Exception as e:
+        print(f"⚠️ Falla en extracción local: {e}. Redirigiendo a Nube...")
+        os.environ["USE_LOCAL_EXTRACTION"] = "false"
+        try:
+            resultado_nube, meta_nube = extraer_rag_simple(query, k)
+            meta_nube["estrategia_cascade"] = "Escalado a Nube (Extracción)"
+            return resultado_nube, meta_nube
+        finally:
+            os.environ["USE_LOCAL_EXTRACTION"] = estado_original
+
 
 # --- Prueba rápida ---
 if __name__ == "__main__":

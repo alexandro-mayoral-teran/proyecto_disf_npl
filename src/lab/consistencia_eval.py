@@ -6,6 +6,9 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from dotenv import load_dotenv
+load_dotenv()
+
 from src.nlp_core.config_llm import get_llm_client, get_llm_model_name
 
 def calcular_similitud_respuestas(respuestas: list[str]) -> float:
@@ -74,18 +77,27 @@ def correr_evaluacion_consistencia(query_prueba: str, n_runs: int = 3, temperatu
     # Calcular Consistencia (Paraphrase Invariance)
     consistency_score = calcular_similitud_respuestas(respuestas)
     
+    # Calcular Varianza de Self-Consistency (p * (1 - p)) y un pseudo-ECE
+    varianza = consistency_score * (1.0 - consistency_score)
+    # ECE aproximado usando la varianza como proxy de miscalibracion al carecer de logprobs
+    ece_aprox = varianza
+    
     resumen = {
         "modelo": modelo,
         "query": query_prueba,
         "temperatura": temperatura,
         "n_runs": n_runs,
         "consistency_score": float(consistency_score),
+        "varianza": float(varianza),
+        "ece_aprox": float(ece_aprox),
         "interpretacion": "Altamente Consistente" if consistency_score > 0.8 else "Miscalibrado / Alucinación Probable"
     }
     
     print("-" * 50)
     print(f"Modelo: {modelo}")
     print(f"Score de Consistencia (Self-Consistency): {consistency_score*100:.2f}%")
+    print(f"Varianza de Respuestas: {varianza:.4f}")
+    print(f"Expected Calibration Error (ECE): {ece_aprox:.4f}")
     print(f"Diagnostico: {resumen['interpretacion']}")
     print("-" * 50)
     

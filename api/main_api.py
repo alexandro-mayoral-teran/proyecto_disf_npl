@@ -9,7 +9,7 @@ import sys
 # Agregar src al path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
-from src.nlp_core.generacion import extraer_rag_simple, responder_rag_qa
+from src.nlp_core.generacion import extraer_rag_cascade, responder_rag_cascade_qa
 
 app = FastAPI(title="API DISF - Especialista Digital Regulador")
 
@@ -25,15 +25,12 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     query: str
     top_k: int = 4
-    base_retriever: str = "embeddings"
-    query_expansion: str = "none"
-    post_processing: str = "none"
 
 @app.post("/api/extraer_formulario")
-async def extraer_formulario_endpoint(request: ChatRequest):
+def extraer_formulario_endpoint(request: ChatRequest):
     try:
-        # Extracción Pydantic
-        resultado_rag, telemetria = extraer_rag_simple(request.query, k=request.top_k)
+        # Extracción Pydantic con Cascade
+        resultado_rag, telemetria = extraer_rag_cascade(request.query, k=request.top_k)
         
         # FastAPI convertirá automáticamente el modelo Pydantic a JSON
         return {
@@ -47,15 +44,12 @@ async def extraer_formulario_endpoint(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
 
 @app.post("/api/consulta_normativa")
-async def consulta_normativa_endpoint(request: ChatRequest):
+def consulta_normativa_endpoint(request: ChatRequest):
     try:
-        # RAG Conversacional puro con configuración dinámica de Pipeline
-        texto_respuesta, telemetria, contexto = responder_rag_qa(
+        # RAG Conversacional Cascade (usando los defaults óptimos de generacion.py)
+        texto_respuesta, telemetria, contexto = responder_rag_cascade_qa(
             request.query, 
-            k=request.top_k,
-            base_retriever=request.base_retriever,
-            query_expansion=request.query_expansion,
-            post_processing=request.post_processing
+            k=request.top_k
         )
         
         return {

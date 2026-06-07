@@ -39,6 +39,8 @@ graph TD
         E -->|Top-K Chunks| L
         M(src/nlp_core/prompts_registry.py) -.->|Prompt + Git Hash| L
         N(src/nlp_core/config_llm.py) -.->|LLM Client Nube/Local| L
+        L -->|Caché Semántico| CACHE[Juez LLM - Respuesta Rápida]
+        CACHE -.-> O
         L -->|Respuesta o JSON Estructurado| O[Salida Final]
         L -->|Telemetría| P[(telemetria_llm.jsonl)]
     end
@@ -84,8 +86,9 @@ graph TD
 ### 5. `src/nlp_core/generacion.py` (Antes *agente.py*)
 **Responsabilidad:** Prompt Engineering y Síntesis. Habla directamente con el LLM.
 - **Funcionalidades Permitidas:**
+  - **Caché Semántico:** Intercepta la consulta antes del RAG. Usa Llama 3.1 como Juez para determinar equivalencia semántica devolviendo respuestas cacheadas en milisegundos.
   - Recibe los fragmentos encontrados por el pipeline y los **agrupa lógicamente por documento de origen** (Soporte Multi-Documento).
-  - Inyecta el contexto y la pregunta al LLM.
+  - Inyecta el contexto y la pregunta al LLM (Ensamble Cascade: intenta Local, escala a Nube si falla la métrica de confianza).
   - Genera la respuesta en texto libre (`responder_rag_qa`) o en un JSON Pydantic estricto (`extraer_rag_simple`).
   - Escribe el consumo de tokens y latencia en el archivo de telemetría.
 

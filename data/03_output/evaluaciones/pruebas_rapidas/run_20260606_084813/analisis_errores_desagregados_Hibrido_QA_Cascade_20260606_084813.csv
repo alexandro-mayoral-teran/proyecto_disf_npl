@@ -1,0 +1,76 @@
+﻿query_id,pregunta,retrieval_exitoso,formato_exitoso,generacion_exitosa,categoria_error,detalle_error,texto_esperado,respuesta_generada,modelo_extraccion_usado,prompt_version,prompt_hash
+Q01,¿Qué se entiende por Activos Líquidos Computables?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Al monto total correspondiente al valor de los Activos Líquidos Elegibles que, conforme a las presentes disposiciones, se incluyan en el cálculo del Coeficiente de Cobertura de Liquidez, con los límites y factores de descuento establecidos en las presentes disposiciones.","**Activos Líquidos Computables**
+
+Los **Activos Líquidos Computables** son aquellos activos que una institución financiera puede considerar para el cálculo del **Coeficiente de Cobertura de Liquidez**. Estos activos son fundamentales para asegurar que la institución pueda cumplir con sus obligaciones de liquidez en el corto plazo.
+
+### Características de los Activos Líquidos Computables:
+
+1. **Disponibilidad**: Deben estar disponibles para la institución en la fecha de cálculo.
+2. **Clasificación**: Se clasifican como **Activos Líquidos Elegibles**, que son aquellos especificados en el Anexo 1 de las disposiciones.
+3. **Cálculo**: El cálculo de los Activos Líquidos Computables se realiza mediante la siguiente fórmula:
+   - **Activos Líquidos Computables = C1 + C2 + C3 + C4 – Ajuste A – Ajuste B**
+4. **Descuentos**: Se aplican factores de descuento a los activos elegibles para reflejar su liquidez real.
+5. **Restricciones**: No se pueden considerar simultáneamente como Activos Líquidos Computables y como flujos de entrada de efectivo.
+
+### Ejemplos de Activos Líquidos Elegibles:
+
+- Títulos de deuda que cumplan con los criterios establecidos.
+- Activos que la institución tenga derecho contractual a recibir en los próximos treinta días, menos aquellos que deba entregar en el mismo plazo.
+
+### Importancia:
+
+Los Activos Líquidos Computables son esenciales para que las instituciones de banca múltiple mantengan un nivel adecuado de liquidez, asegurando su capacidad para afrontar obligaciones financieras a corto plazo.
+
+**Fuentes**: Disposiciones_Liquidez.md, Circular3-2012.md.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q02,¿En qué plazo debe reportarse el Coeficiente de Cobertura de Liquidez diario?,1,1,1,ÉXITO,Extracción e inyección correctas.,El Coeficiente de Cobertura de Liquidez que corresponda a cada día deberá reportarse durante los diez Días Hábiles posteriores a dicho día.,"**Respuesta**
+
+El Coeficiente de Cobertura de Liquidez diario debe reportarse durante los **diez Días Hábiles posteriores a dicho día**, según lo establecido en el artículo 5, fracción I de las Disposiciones sobre Requerimientos de Liquidez.
+
+**Fuentes:**
+- Documento: Disposiciones_Liquidez.md
+- Artículo 5, fracción I",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q03,¿Qué es el Flujo Neto Total de Salida de Efectivo?,1,1,1,ÉXITO,Extracción e inyección correctas.,"Al monto que resulte de restar el flujo total de entrada de efectivo de una Institución del flujo total de salida de efectivo de esa misma Institución, determinados de conformidad con las presentes disposiciones.","**Flujo Neto Total de Salida de Efectivo**
+=====================================
+
+El Flujo Neto Total de Salida de Efectivo es un concepto fundamental en las Disposiciones de carácter general sobre los Requerimientos de Liquidez para las Instituciones de Banca Múltiple. Se define como el monto que resulta de restar el flujo total de entrada de efectivo de una institución del flujo total de salida de efectivo de esa misma institución, determinados de conformidad con las presentes disposiciones.
+
+**Definición oficial**
+--------------------
+
+Según la definición en el artículo XII, el Flujo Neto Total de Salida de Efectivo es: ""al monto que resulte de restar el flujo total de entrada de efectivo de una Institución del flujo total de salida de efectivo de esa misma Institución, determinados de conformidad con las presentes disposiciones.""
+
+**Relevancia en la regulación**
+-----------------------------
+
+El Flujo Neto Total de Salida de Efectivo es un componente clave para determinar la capacidad de una institución para hacer frente a sus obligaciones a corto plazo. Es utilizado en el cálculo del Coeficiente de Cobertura de Liquidez y se refiere a la limitación que tienen las Instituciones al incluir Activos Líquidos Computables en posesión de una Entidad Objeto de Consolidación establecida en el extranjero.
+
+**Fuentes**
+------------
+
+* Documento: Disposiciones_Liquidez.md
+* Fragmento 1: Capítulo I, artículo XII
+* Fragmento 2: Artículo 10
+* Fragmento 4: Anexo 1, fracción I, inciso E",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
+Q04,¿Cómo se determina el flujo total de salida de efectivo?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"El flujo total de salida de efectivo será el que resulte de sumar todas las operaciones pasivas con vencimiento igual o menor a treinta días multiplicadas por su correspondiente factor de salida, de conformidad con lo establecido en el Anexo 2 de estas disposiciones.","Para determinar el **flujo total de salida de efectivo**, se deben seguir los siguientes pasos:
+
+1. **Suma de Operaciones Pasivas**: Se deben sumar todas las operaciones pasivas con vencimiento igual o menor a **treinta días**.
+
+2. **Aplicación de Factores de Salida**: Cada operación pasiva se multiplica por su correspondiente **factor de salida**, según lo establecido en el **Anexo 2** de las disposiciones.
+
+3. **Consideración de Contratos**: Las operaciones consideradas deben ser aquellas que, derivadas de los contratos que la institución tenga celebrados, puedan generar un flujo de salida de efectivo en los **treinta días siguientes** a la fecha de cálculo.
+
+4. **Elementos Adicionales**: También se deben incluir flujos de salida asociados al financiamiento minorista y mayorista, así como cualquier flujo de salida contingente por operaciones con instrumentos financieros derivados.
+
+Este cálculo es esencial para determinar el **Coeficiente de Cobertura de Liquidez** de las instituciones de banca múltiple.
+
+### Resumen:
+- **Flujo total de salida de efectivo** = Suma de operaciones pasivas (vencimiento ≤ 30 días) * Factor de salida correspondiente.
+
+Las fuentes de esta información son los documentos sobre las disposiciones de liquidez y el artículo 11 de las disposiciones generales.",gpt-4o-mini,1.0.0,2cbbc4f704-bd0f72c
+Q05,¿Qué fecha deben tomar las Instituciones para determinar el plazo de las operaciones de salida?,1,1,0,B,Alucinación o Inexactitud del LLM. El contexto contenía el fragmento pero el LLM omitió variables o alucinó datos.,"Las Instituciones deberán tomar como fecha de vencimiento la fecha más próxima en que dichas operaciones pueden ser exigibles contractualmente, para lo cual deberán considerar si el contrato respectivo permite a la contraparte adelantar la exigibilidad de dichas operaciones.","**Respuesta**
+
+Para determinar el plazo de las operaciones de salida, las Instituciones deben tomar como fecha de vencimiento la última fecha en que contractualmente podrían exigir su pago.
+
+**Fuentes:**
+- Fragmento 2
+- Fragmento 9",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c

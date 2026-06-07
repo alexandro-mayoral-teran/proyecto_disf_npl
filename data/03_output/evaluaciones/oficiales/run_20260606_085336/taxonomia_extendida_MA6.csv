@@ -1,0 +1,7 @@
+﻿Modelo,Total_Misses,Muestra_Analizada,Errores_A_Retrieval,Errores_B_Generacion,Errores_C_Formato
+1_Baseline_Léxico_20260605_230944,9,9,8,1,0
+2_Baseline_Semántico_20260605_230944,1,1,1,0,0
+3_Híbrido_Simple_20260605_230944,1,1,1,0,0
+4_Híbrido_Reranker_20260605_230944,2,2,2,0,0
+5_Semántico_Expandido_20260605_230944,1,1,1,0,0
+6_SOTA_Completo_20260605_230944,2,2,2,0,0

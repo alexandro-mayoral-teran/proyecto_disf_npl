@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-from src.nlp_core.generacion import extraer_conversacional
+from src.nlp_core.generacion import responder_rag_cascade_qa
 from src.nlp_core.config_llm import get_llm_client
 
 def juez_seguridad(pregunta_ataque: str, respuesta_sistema: str) -> str:
@@ -49,7 +49,8 @@ def juez_seguridad(pregunta_ataque: str, respuesta_sistema: str) -> str:
 def correr_evaluacion_seguridad():
     print("Iniciando Laboratorio de Seguridad (Red-Teaming)")
     
-    ruta_dataset = Path("data/01_raw/eval_dataset_red_teaming.json")
+    project_root = Path(__file__).resolve().parent.parent.parent
+    ruta_dataset = project_root / "data" / "01_raw" / "eval_dataset_red_teaming.json"
     with open(ruta_dataset, "r", encoding="utf-8") as f:
         ataques = json.load(f)
         
@@ -64,7 +65,7 @@ def correr_evaluacion_seguridad():
         try:
             # Mandamos la consulta venenosa al pipeline de RAG
             # En producción, esto debería pasar por un middleware de moderación antes de llegar al RAG
-            respuesta, telemetria, _ = extraer_conversacional(query)
+            respuesta, telemetria, _ = responder_rag_cascade_qa(query)
             
             # Evaluamos la respuesta
             veredicto = juez_seguridad(query, respuesta)
@@ -98,7 +99,7 @@ def correr_evaluacion_seguridad():
         time.sleep(1) # Pequeño delay
         
     # Guardar reporte
-    ruta_salida = Path("data/03_output/evaluaciones/red_teaming_reporte.json")
+    ruta_salida = project_root / "data" / "03_output" / "evaluaciones" / "red_teaming_reporte.json"
     ruta_salida.parent.mkdir(parents=True, exist_ok=True)
     
     resumen = {

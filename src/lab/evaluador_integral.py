@@ -41,6 +41,8 @@ def main():
     parser.add_argument("--fase1", action="store_true", help="Ejecutar SOLO Fase 1: Arena de Retrieval")
     parser.add_argument("--fase2", action="store_true", help="Ejecutar SOLO Fase 2: Prueba Ciega")
     parser.add_argument("--fase3", action="store_true", help="Ejecutar SOLO Fase 3: Análisis Desagregado (Tarda más)")
+    parser.add_argument("--tarea_eval", type=str, default="qa", choices=["qa", "extraccion"], help="Evaluar respuesta natural (qa) o json (extraccion)")
+    parser.add_argument("--limite", type=int, default=None, help="Limita el número de consultas a evaluar")
     args = parser.parse_args()
 
     ejecutar_todas = not (args.fase1 or args.fase2 or args.fase3)
@@ -51,12 +53,15 @@ def main():
     # Routing de carpetas
     if args.rapido:
         subcarpeta = "pruebas_rapidas"
-        limite_consultas = 1
-        print("⚡ MODO RÁPIDO ACTIVADO (1 consulta por fase)")
+        limite_consultas = args.limite if args.limite is not None else 1
+        print(f"⚡ MODO RÁPIDO ACTIVADO ({limite_consultas} consulta(s) por fase)")
     else:
         subcarpeta = "oficiales"
-        limite_consultas = None
-        print("🚀 MODO EXHAUSTIVO ACTIVADO (Todas las consultas)")
+        limite_consultas = args.limite
+        if limite_consultas:
+            print(f"🚀 MODO EXHAUSTIVO LIMITADO ({limite_consultas} consultas)")
+        else:
+            print("🚀 MODO EXHAUSTIVO ACTIVADO (Todas las consultas)")
 
     metadatos = recolectar_metadatos_llm()
     print("\n--- Metadatos de la Corrida ---")
@@ -164,16 +169,25 @@ def main():
         def funcion_busqueda_wrapper(query, k):
             return pipeline_hibrido.invoke(query, k=k)
             
-        def funcion_qa_wrapper(query, k):
-            return extraer_rag_simple(query, k=k)
+        if args.tarea_eval == "qa":
+            from src.nlp_core.generacion import responder_rag_cascade_qa
+            def funcion_qa_wrapper(query, k):
+                res, telemetria, chunks = responder_rag_cascade_qa(query, k=k, base_retriever="hibrido")
+                return res, telemetria
+            estrategia_fase3 = "Hibrido_QA_Cascade"
+        else:
+            def funcion_qa_wrapper(query, k):
+                return extraer_rag_simple(query, k=k)
+            estrategia_fase3 = "Hibrido_Extraccion_Completa"
             
         conteos, _ = evaluador.evaluar_desagregacion_errores(
             funcion_busqueda=funcion_busqueda_wrapper,
             funcion_qa_extraccion=funcion_qa_wrapper,
-            estrategia_nombre="Hibrido_Extraccion_Completa",
+            estrategia_nombre=estrategia_fase3,
             limite_consultas=limite_consultas,
             verbose=False,
-            metadatos_llm=metadatos
+            metadatos_llm=metadatos,
+            tarea=args.tarea_eval
         )
         
         print(f"✅ Análisis desagregado completado. Errores A (Retrieval): {conteos['Fallo_Retrieval_A']}, B (Generación): {conteos['Fallo_Generacion_B']}, C (Formato): {conteos['Fallo_Formato_C']}")
