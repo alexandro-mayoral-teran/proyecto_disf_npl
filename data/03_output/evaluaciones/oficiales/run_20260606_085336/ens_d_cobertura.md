@@ -1,0 +1,8 @@
+| Requisito ENS-D | Evidencia en notebook | Resultado/lectura | Implicacion |
+| :--- | :--- | :--- | :--- |
+| Disagreement rate pareado | Tabla diversidad_top2 | Top-2 disagreement = 0.0275; baja discrepancia entre finalistas | Poco espacio para lift por ensamble de calidad |
+| Correlation of errors | Matriz correlacion_errores entre los 6 candidatos | No hay correlacion >0.8 contra 6_SOTA_Completo salvo modelos casi equivalentes; revisar pares redundantes | La diversidad existe en arquitectura, pero los finalistas comparten muchos aciertos |
+| Oracle vs majority vote gap | Oracle accuracy y oracle gap del Top-2 | Oracle gap = 0.0092; el techo teorico adicional es pequeno | Un majority vote homogeneo/heterogeneo dificilmente justificaria costo extra |
+| Agreement matrix entre base LLMs | Matriz de errores y auditoria local/nube | Se aproxima con acuerdos/desacuerdos por hit; no se corrio kappa completo por par de jueces | Para produccion, agregar kappa humano vs LLM antes de automatizar juez |
+| Self-consistency rate temperature > 0 | Seccion de ensambles homogeneos + captura_consistencia.png | Implementado como diagnostico en consistencia_eval.py, no como corrida masiva final | Sirve para robustez; no corrige retrieval/chunking |
+| Retriever diversity (RAG) | Comparativa de candidatos lexico, semantico, hibrido, reranker y expandido | Los 6 candidatos cubren BM25/BoW, embeddings, hibrido, cross-encoder y expansion | La diversidad arquitectonica esta cubierta; el limite observado es empirico |

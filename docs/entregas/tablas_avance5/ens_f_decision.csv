@@ -1,0 +1,5 @@
+﻿Criterio ENS-F,Evidencia,Resultado,Decision,Cumple
+(a) Lift estadisticamente significativo,Bootstrap pareado + paired-t + McNemar,No hay lift significativo; los intervalos del delta incluyen cero,Valido documentar que el ensamble no aporta calidad superior y elegir por criterios operativos,"Si, documentado honestamente"
+(b) Cumplimiento umbral E3-BL5,NDCG@10 del candidato final vs umbral 0.83,Cascade NDCG@10=0.8305; umbral=0.83,Cumple el umbral operativo con margen pequeno; mantener monitoreo,Si
+(c) Criterios stakeholder E0,"Latencia P95, interpretabilidad por chunks, residencia local-first, costo operativo",P95 cascade=0.7469s; backend=llama3.1:8b -> gpt-4o-mini,"Alineado con Banxico: trazabilidad, residencia por defecto y menor dependencia de nube","Si, para piloto condicionado"
+(d) Costo marginal justificado,Costo de corrida cascade vs mejor individual,Costo cascade=0.1003 vs baseline=0.5069; reduccion estimada=80.2%,"El lift no justifica mayor costo, pero el empate estadistico si justifica elegir la opcion mas barata y privada",Si

@@ -1,0 +1,8 @@
+﻿Etiqueta_Humana,modelo_extraccion_usado,n,% muestra
+Alucinación,llama3.1:8b,1,3.3
+Parcial,gpt-4o-mini,1,3.3
+Parcial,llama3.1:8b,3,10.0
+Refusal,gpt-4o-mini,1,3.3
+Refusal,llama3.1:8b,2,6.7
+Útil,gpt-4o-mini,5,16.7
+Útil,llama3.1:8b,17,56.7
