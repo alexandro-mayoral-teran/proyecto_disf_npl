@@ -6,6 +6,7 @@ import json
 import sys
 import os
 import time
+import pickle
 
 # Configurar PYTHONPATH para que encuentre 'src'
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
@@ -51,11 +52,23 @@ df_telemetria = load_telemetry_in_vivo()
 
 
 
+# --- DATA LOADER CACHÉ SEMÁNTICO ---
+@st.cache_data(ttl=5)
+def load_semantic_cache():
+    cache_path = project_root / "data" / "03_output" / "semantic_cache.pkl"
+    if cache_path.exists():
+        try:
+            with open(cache_path, "rb") as f:
+                return pickle.load(f)
+        except Exception as e:
+            st.error(f"Error leyendo caché semántico: {e}")
+    return []
+
 # --- NAVEGACIÓN LATERAL ---
 st.sidebar.title("Navegación")
 menu = st.sidebar.radio(
     "Selecciona un módulo:",
-    ["⚙️ Estado del Despliegue", "🧪 Pruebas RAGAS (Bajo Demanda)", "📡 Monitoreo Operativo en Vivo"]
+    ["⚙️ Estado del Despliegue", "🧪 Pruebas RAGAS (Bajo Demanda)", "📡 Monitoreo Operativo en Vivo", "🔍 Trazabilidad y Auditoría RAG"]
 )
 
 # --- MÓDULO 1: Estado del Despliegue ---
@@ -179,15 +192,27 @@ elif menu == "📡 Monitoreo Operativo en Vivo":
         # 1. KPIs
         costo_total = df_telemetria['costo_estimado_usd'].sum()
         total_consultas = len(df_telemetria)
-        avg_latencia = df_telemetria['latencia_total_seg'].mean() if 'latencia_total_seg' in df_telemetria.columns else 0
         
+        # Percentiles de Latencia
+        if 'latencia_total_seg' in df_telemetria.columns and not df_telemetria['latencia_total_seg'].empty:
+            p50 = df_telemetria['latencia_total_seg'].quantile(0.50)
+            p90 = df_telemetria['latencia_total_seg'].quantile(0.90)
+            p99 = df_telemetria['latencia_total_seg'].quantile(0.99)
+        else:
+            p50, p90, p99 = 0, 0, 0
+            
         # Promedio Faithfulness
         avg_faith = df_telemetria['faithfulness_local_score'].mean() if 'faithfulness_local_score' in df_telemetria.columns else 0
         
+        # UI Metrics
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Costo Total Acumulado", f"${costo_total:.4f} USD")
         c2.metric("Consultas Procesadas", f"{total_consultas}")
-        c3.metric("Latencia Promedio", f"{avg_latencia:.2f} s")
+        
+        with c3:
+            st.metric("Latencia P50 (Típica)", f"{p50:.2f} s")
+            st.caption(f"**P90:** {p90:.2f} s | **P99:** {p99:.2f} s")
+            
         c4.metric("Faithfulness Promedio", f"{avg_faith:.2f}")
         
         st.divider()
@@ -198,15 +223,23 @@ elif menu == "📡 Monitoreo Operativo en Vivo":
         with col_graf_1:
             st.subheader("Rutas de Cascade Router")
             if 'estrategia_cascade' in df_telemetria.columns:
-                # Contar ocurrencias
-                conteo_estrategias = df_telemetria['estrategia_cascade'].value_counts().reset_index()
-                conteo_estrategias.columns = ['Estrategia', 'Cantidad']
-                
+                df_cascade = df_telemetria['estrategia_cascade'].fillna("Legacy (Sin Cascade)")
+            elif 'modelo' in df_telemetria.columns:
+                df_cascade = df_telemetria['modelo'].apply(lambda x: "Resuelto Local" if "llama" in str(x).lower() else "Escalado a Nube")
+            else:
+                df_cascade = pd.Series(["Desconocido"] * len(df_telemetria))
+
+            conteo_estrategias = df_cascade.value_counts().reset_index()
+            conteo_estrategias.columns = ['Estrategia', 'Cantidad']
+            
+            if not conteo_estrategias.empty:
                 fig_pie = px.pie(conteo_estrategias, names='Estrategia', values='Cantidad', 
                                  title="Porcentaje de Consultas resueltas Local vs Nube",
                                  color='Estrategia',
-                                 color_discrete_map={'Resuelto Local':'#2ca02c', 'Escalado a Nube':'#ff7f0e'})
+                                 color_discrete_map={'Resuelto Local':'#2ca02c', 'Escalado a Nube':'#ff7f0e', 'Legacy (Sin Cascade)':'#7f7f7f'})
                 st.plotly_chart(fig_pie, use_container_width=True)
+            else:
+                st.info("Aún no hay datos suficientes para graficar las rutas.")
                 
         # 3. Evolución del Costo
         with col_graf_2:
@@ -224,3 +257,70 @@ elif menu == "📡 Monitoreo Operativo en Vivo":
         columnas_existentes = [col for col in columnas_mostrar if col in df_telemetria.columns]
         
         st.dataframe(df_telemetria.sort_values('timestamp', ascending=False)[columnas_existentes].head(50), use_container_width=True)
+
+# --- MÓDULO 4: Trazabilidad RAG ---
+elif menu == "🔍 Trazabilidad y Auditoría RAG":
+    st.header("🔍 Auditoría de Caja Blanca (Trazabilidad)")
+    st.markdown("Inspecciona exactamente qué se preguntó, qué recuperó el motor de búsqueda (Chunks) y cómo justificó su respuesta el modelo.")
+    
+    cache_data = load_semantic_cache()
+    if not cache_data:
+        st.warning("El caché semántico está vacío. Realiza consultas exitosas en la app web para que aparezcan aquí.")
+    else:
+        # Preparar datos para el selector
+        opciones = []
+        for idx, item in enumerate(reversed(cache_data)):
+            q = item.get("query", "Sin consulta")
+            # Truncar si es muy larga
+            q_trunc = q[:80] + "..." if len(q) > 80 else q
+            opciones.append((idx, q_trunc, item))
+            
+        seleccion = st.selectbox(
+            "Selecciona una consulta reciente para auditar:",
+            options=opciones,
+            format_func=lambda x: f"[{len(opciones)-x[0]}] {x[1]}"
+        )
+        
+        if seleccion:
+            _, _, item_data = seleccion
+            meta = item_data.get("meta", {})
+            
+            st.divider()
+            col1, col2 = st.columns([2, 1])
+            
+            with col1:
+                st.subheader("📝 Pregunta Original")
+                st.info(item_data.get("query", ""))
+                
+                st.subheader("🤖 Respuesta Generada")
+                st.markdown(item_data.get("respuesta", ""))
+                
+            with col2:
+                st.subheader("📊 Metadatos y Telemetría")
+                st.metric("Faithfulness Score", f"{meta.get('faithfulness_local_score', 'N/A')}")
+                st.metric("Ruta Cascade", f"{meta.get('estrategia_cascade', 'Desconocida')}")
+                st.metric("Latencia Total", f"{meta.get('latencia_total_seg', 0):.2f} s")
+                
+                # Calcular costo aproximado en base a tokens si existen en meta
+                in_tok = meta.get('prompt_tokens', 0)
+                out_tok = meta.get('completion_tokens', 0)
+                modelo = meta.get('modelo', '').lower()
+                costo = 0.0
+                if 'mini' in modelo:
+                    costo = (in_tok / 1e6) * 0.15 + (out_tok / 1e6) * 0.60
+                elif 'gpt-4o' in modelo:
+                    costo = (in_tok / 1e6) * 5.0 + (out_tok / 1e6) * 15.0
+                    
+                st.metric("Costo Estimado", f"${costo:.5f} USD")
+                st.metric("Tokens Consumidos", f"{meta.get('total_tokens', 0)}")
+                
+            st.divider()
+            st.subheader("📚 Contexto Normativo (Chunks Recuperados)")
+            chunks = item_data.get("chunks", [])
+            if not chunks:
+                st.warning("No se registraron chunks para esta consulta.")
+            else:
+                for i, chunk in enumerate(chunks, 1):
+                    with st.expander(f"Fragmento {i} - Origen: {chunk.get('metadata', {}).get('source_file', 'Normativa')}"):
+                        st.markdown(chunk.get("content", ""))
+                        st.caption(f"Metadatos: {chunk.get('metadata', {})}")

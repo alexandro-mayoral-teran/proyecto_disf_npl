@@ -303,3 +303,19 @@ Sin embargo, descubrimos una debilidad crítica en el caché semántico tradicio
 
 **La Solución (LLM Cache Judge):**
 Re-arquitectamos el caché hacia un modelo híbrido. Primero aplicamos un filtro matemático de baja fricción (similitud > 0.88). Si una pregunta pasa la red, despertamos al modelo local (Llama 3.1) asignándole un rol de Juez. Le enviamos ambas preguntas y le instruimos determinar la equivalencia de intenciones respondiendo únicamente "SI" o "NO" (`max_tokens=4`). Esta capa de inteligencia intercepta variaciones complejas con precisión milimétrica, devolviendo la respuesta en `~0.5` segundos y evadiendo la latencia completa de RAG.
+## 11. Evolución Arquitectónica (Fase 5): Trazabilidad, Observabilidad y Auto-Optimización
+
+En la recta final hacia el paso a producción (Avance 6), la arquitectura abrazó conceptos avanzados de LLMOps para garantizar no solo el rendimiento del sistema, sino su mantenibilidad, audibilidad legal y escalabilidad autónoma.
+
+### 11.1 Trazabilidad RAG (Auditoría de Caja Blanca)
+En el sector financiero, el concepto de "caja negra" es inaceptable regulatoriamente. Se diseñó un módulo de memoria persistente que captura la anatomía completa de cada inferencia (*semantic_cache.pkl*). En el dashboard de MLOps, los ingenieros ahora pueden realizar ingeniería inversa a cualquier respuesta:
+1. ¿Qué prompt exacto recibió el LLM?
+2. ¿Qué fragmentos (chunks) de la CUB fueron inyectados en el contexto?
+3. ¿Cuál fue la latencia y el costo en centavos de dólar de esa transacción?
+
+### 11.2 Percentiles de Cola Larga (Observabilidad P90/P99)
+Se maduró la telemetría operativa. En lugar de monitorizar promedios, el dashboard implementó un enfoque centrado en la "cola larga" de la inferencia, observando la Mediana (P50), la Alerta Temprana (P90) y el Estado Crítico (P99). Esto brinda visibilidad instantánea sobre picos de latencia que degradarían la experiencia de usuario o evidenciarían estrangulamiento de la API (*throttling*).
+
+### 11.3 El Paradigma DSPy y la Auto-Compilación (Stanford)
+Para superar los límites empíricos del *Prompt Engineering* manual, se integró una prueba de concepto usando el framework **DSPy**. En lugar de escribir instrucciones detalladas y estáticas, se definió una firma modular (`Signature`).
+Se integró un Optimizador (`BootstrapFewShot`) que utiliza el registro histórico de telemetría (Caché Semántico) para simular ejecuciones y empaquetar matemáticamente los mejores ejemplos dentro del prompt (Few-Shot guiado por métricas). Esta arquitectura transforma al RAG en un sistema de auto-mejora continua.
