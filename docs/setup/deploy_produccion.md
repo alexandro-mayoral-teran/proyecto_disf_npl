@@ -90,3 +90,46 @@ Cada vez que programes algo nuevo y quieras **actualizar producción**, solo sig
    > **Autenticación:** Hugging Face te pedirá usuario y contraseña en la terminal. En la contraseña NO pongas tu clave normal, debes pegar un **Access Token** con permisos de **Write** (puedes crearlo en `Settings -> Access Tokens` de tu perfil de Hugging Face).
 
 ¡Y listo! El script subirá automáticamente el código a ambos servidores y tu aplicación web y tablero MLOps se actualizarán en vivo.
+
+## 4. Troubleshooting y Lecciones Aprendidas (MLOps)
+
+Durante el primer despliegue a producción en servidores en la nube como Hugging Face, es común enfrentar restricciones de seguridad y entorno. Si otro miembro del equipo necesita reproducir este despliegue, debe tener en cuenta lo siguiente:
+
+### A. Restricciones de Archivos Binarios y Pesados (Git LFS)
+Hugging Face Spaces bloqueará cualquier intento de `git push` si detecta:
+1. Archivos mayores a 10 MB (ej. nuestra base de datos vectorial de ChromaDB).
+2. Archivos puramente binarios, sin importar su tamaño (ej. `.docx`, `.pdf`, `.png`, `.pickle`, `.sqlite3`).
+
+**Solución:** Siempre debemos forzar a que Git trate todas estas extensiones mediante Git Large File Storage (LFS) antes de subir el código:
+```bash
+git lfs migrate import --include="*.bin,*.sqlite3,*.docx,*.pdf,*.pickle,*.png,*.pkl" --everything
+```
+
+### B. El Script `deploy_spaces.ps1` en diferentes Terminales
+Si intentas correr `./deploy_spaces.ps1` en una terminal de Linux (como **Git Bash** o **MINGW64**), el sistema arrojará múltiples errores de sintaxis (`command not found`). Esto ocurre porque el script está diseñado para el motor nativo de Windows (PowerShell).
+
+**Solución:** Ejecutar explícitamente el script invocando a PowerShell y saltando las políticas de restricción de Windows:
+```bash
+powershell -ExecutionPolicy Bypass -File .\deploy_spaces.ps1
+```
+
+### C. Codificación de Emojis en YAML y Versiones de Python
+El archivo `README.md` requiere un encabezado YAML. Se descubrieron dos retos:
+1. **Emojis corruptos:** Al inyectar texto mediante PowerShell en Windows, el "Encoding UTF-8" por defecto corrompe los caracteres especiales (ej. transformándolos en `ðŸš€`). Hugging Face rechaza el código marcando un `YAML metadata verification error`. *Solución:* No usar emojis en scripts automatizados.
+2. **Versiones de Python:** Al definir `python_version: 3.10` sin comillas, el motor de YAML eliminó el cero (leyendo 3.1), lo cual causó que el contenedor de Docker fallara. *Solución:* Usar comillas `"3.10"` explícitamente.
+
+### D. Ausencia de Modelos Locales en la Nube (UnboundLocalError)
+El sistema "RAG Cascade" estaba diseñado para probar primero con un modelo local (Ollama). Al subir el código a la nube, Ollama no existe, por lo que la red fallaba tan rápido que ciertas variables de telemetría nunca llegaban a inicializarse, causando un "Error Interno del Servidor".
+
+**Solución:** El código fuente fue parcheado para inicializar preventivamente estas variables (`meta_local = {}`) y atrapar correctamente fallas de red catastróficas, garantizando que el "Plan B" (servidores de OpenAI en la nube) siempre entre al rescate.
+
+## 5. Privacidad y Consumo de Tokens (OpenAI)
+
+Tus Spaces en Hugging Face están configurados como **Public** (Públicos). 
+
+**¿Esto es un riesgo para mis tokens de OpenAI?**
+No. En la práctica, el ecosistema funciona bajo "Seguridad por Oscuridad". Nadie en internet encontrará tu aplicación a menos que tú les compartas la liga exacta (`huggingface.co/spaces/TU_USUARIO/...`). 
+Dejarlo como *Público* es **altamente recomendado para tu evaluación académica**, ya que permite que todo tu jurado o asesores puedan entrar a probarlo inmediatamente con solo dar clic en la liga, sin necesidad de crear cuentas en Hugging Face ni pedirte accesos.
+
+**¿Cómo protejo mi tarjeta cuando me evalúen?**
+En cuanto termine tu evaluación, simplemente ve a la pestaña *Settings* de tus Spaces y elimina el *Secret* llamado `OPENAI_API_KEY` (o haz clic en "Pause Space"). Esto "apagará" el cerebro de la aplicación permanentemente, garantizando que ya no consuma un solo centavo de tu cuenta de OpenAI.
