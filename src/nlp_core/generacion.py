@@ -35,18 +35,18 @@ def get_motor_and_docs():
         use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
         
         if use_cache and cache_path.exists():
-            print("📦 Cargando documentos desde caché binario (Pickle)...")
+            print("[LOAD] Cargando documentos desde caché binario (Pickle)...")
             with open(cache_path, "rb") as f:
                 _DOCS_RAW_CACHE = pickle.load(f)
         else:
-            print("⚙️ Extrayendo documentos crudos desde VectorDB...")
+            print("[EXTRACT] Extrayendo documentos crudos desde VectorDB...")
             data = _MOTOR_CACHE.vectorstore.get(include=['documents', 'metadatas'])
             _DOCS_RAW_CACHE = [
                 Document(page_content=txt, metadata=meta)
                 for txt, meta in zip(data['documents'], data['metadatas'])
             ]
             if use_cache:
-                print("💾 Guardando documentos en caché binario...")
+                print("[SAVE] Guardando documentos en caché binario...")
                 cache_path.parent.mkdir(parents=True, exist_ok=True)
                 with open(cache_path, "wb") as f:
                     pickle.dump(_DOCS_RAW_CACHE, f)
@@ -85,12 +85,12 @@ def _check_semantic_cache(query: str, threshold_math: float = 0.80):
     best_idx = np.argmax(sims)
     mejor_similitud = sims[best_idx]
     
-    print(f"🧠 Evaluando caché... Máxima similitud matemática encontrada: {mejor_similitud:.4f}")
+    print(f"[CACHE] Evaluando caché... Máxima similitud matemática encontrada: {mejor_similitud:.4f}")
     
     if mejor_similitud >= threshold_math:
         # 2. El Juez LLM
         pregunta_cache = cache[best_idx]["query"]
-        print(f"⚖️ Similitud > {threshold_math}. Activando LLM Juez para comparar:\n - N: '{query}'\n - C: '{pregunta_cache}'")
+        print(f"[JUDGE] Similitud > {threshold_math}. Activando LLM Juez para comparar:\n - N: '{query}'\n - C: '{pregunta_cache}'")
         
         client = get_llm_client("qa")  # Usamos Ollama local
         modelo_qa = get_llm_model_name("qa")
@@ -113,14 +113,14 @@ Pregunta en Caché: {pregunta_cache}"""
             latencia_juez = time.time() - t0_juez
             
             if "SI" in veredicto:
-                print(f"✅ LLM Juez dictaminó 'SI' en {latencia_juez:.2f}s -> CACHE HIT!")
+                print(f"[OK] LLM Juez dictaminó 'SI' en {latencia_juez:.2f}s -> CACHE HIT!")
                 return cache[best_idx]
             else:
-                print(f"❌ LLM Juez dictaminó 'NO' en {latencia_juez:.2f}s -> CACHE MISS!")
+                print(f"[FAIL] LLM Juez dictaminó 'NO' en {latencia_juez:.2f}s -> CACHE MISS!")
         except Exception as e:
-            print(f"⚠️ Error en LLM Juez: {e}. Cayendo a Cache Miss.")
+            print(f"[WARN] Error en LLM Juez: {e}. Cayendo a Cache Miss.")
     else:
-        print(f"❌ La similitud matemática ({mejor_similitud:.4f}) no superó el umbral mínimo ({threshold_math}).")
+        print(f"[FAIL] La similitud matemática ({mejor_similitud:.4f}) no superó el umbral mínimo ({threshold_math}).")
         
     return None
 
@@ -382,19 +382,19 @@ def responder_rag_cascade_qa(
     Intenta responder primero con el modelo local. Luego evalúa su 'Faithfulness'.
     Si el LLM local tiene alucinaciones o baja fidelidad (score < umbral), escala a la nube.
     """
-    print(f"🔄 Iniciando RAG Cascade para: '{query}'")
+    print(f"[*] Iniciando RAG Cascade para: '{query}'")
     
     # === INPUT GUARDRAIL ===
     is_safe, reason = verificar_input_seguro(query)
     if not is_safe:
-        print(f"🚨 ALERTA ROJA: Consulta maliciosa bloqueada. Motivo: {reason}")
+        print(f"[!] ALERTA ROJA: Consulta maliciosa bloqueada. Motivo: {reason}")
         telemetria_bloqueo = {
             "estrategia_cascade": "Bloqueado por Seguridad",
             "latencia_total_seg": 0.5,
             "faithfulness_local_score": 0.0,
             "motivo_bloqueo": reason
         }
-        return f"🔒 **Petición Bloqueada**: La consulta ha sido rechazada por nuestras políticas de seguridad institucionales ({reason}).", telemetria_bloqueo, []
+        return f"[LOCKED] **Petición Bloqueada**: La consulta ha sido rechazada por nuestras políticas de seguridad institucionales ({reason}).", telemetria_bloqueo, []
     
     # === SEMANTIC CACHE CHECK ===
     use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
@@ -425,7 +425,7 @@ def responder_rag_cascade_qa(
         score = evaluar_faithfulness_claims(resp_local, contexto_str)
         
         if score >= umbral_faithfulness:
-            print(f"✅ Respuesta Local aceptada (Faithfulness: {score:.2f})")
+            print(f"[OK] Respuesta Local aceptada (Faithfulness: {score:.2f})")
             meta_local["faithfulness_local_score"] = round(score, 2)
             meta_local["estrategia_cascade"] = "Resuelto Local"
             
@@ -435,10 +435,10 @@ def responder_rag_cascade_qa(
             os.environ["USE_LOCAL_QA"] = estado_original_qa
             return resp_local, meta_local, chunks
         else:
-            print(f"⚠️ Baja Confianza Local (Faithfulness: {score:.2f} < {umbral_faithfulness}). Redirigiendo a Nube...")
+            print(f"[WARN] Baja Confianza Local (Faithfulness: {score:.2f} < {umbral_faithfulness}). Redirigiendo a Nube...")
             
     except Exception as e:
-        print(f"⚠️ Error en capa local, forzando fallback a nube: {e}")
+        print(f"[WARN] Error en capa local, forzando fallback a nube: {e}")
         score = 0.0
         chunks = []
         
@@ -469,12 +469,12 @@ def extraer_rag_cascade(query: str, k: int = 4, umbral_faithfulness: float = 0.8
     """Wrapper para Cascade en caso de usarse para formularios estructurados."""
     # Como los formularios son Pydantic, la evaluación de Faithfulness sobre JSON es más estricta.
     # Por ahora simplemente envolvemos la función para cumplir el API del walkthrough.
-    print(f"🔄 Iniciando Extracción RAG Cascade para: '{query}'")
+    print(f"[*] Iniciando Extracción RAG Cascade para: '{query}'")
     
     # === INPUT GUARDRAIL ===
     is_safe, reason = verificar_input_seguro(query)
     if not is_safe:
-        print(f"🚨 ALERTA ROJA: Consulta maliciosa bloqueada. Motivo: {reason}")
+        print(f"[!] ALERTA ROJA: Consulta maliciosa bloqueada. Motivo: {reason}")
         raise ValueError(f"Petición Bloqueada: {reason}")
         
     estado_original = os.getenv("USE_LOCAL_EXTRACTION", "false")
@@ -487,7 +487,7 @@ def extraer_rag_cascade(query: str, k: int = 4, umbral_faithfulness: float = 0.8
         os.environ["USE_LOCAL_EXTRACTION"] = estado_original
         return resultado, meta
     except Exception as e:
-        print(f"⚠️ Falla en extracción local: {e}. Redirigiendo a Nube...")
+        print(f"[WARN] Falla en extracción local: {e}. Redirigiendo a Nube...")
         os.environ["USE_LOCAL_EXTRACTION"] = "false"
         try:
             resultado_nube, meta_nube = extraer_rag_simple(query, k)
@@ -513,10 +513,10 @@ if __name__ == "__main__":
     try:
         resultado_fc, telemetria_fc = extraer_full_context(texto_prueba)
         print("¡Extracción Full Context exitosa!")
-        print(f"📊 Formulario propuesto: {resultado_fc.nombre_formulario}")
-        print(f"⏱️  Telemetría: {telemetria_fc}")
+        print(f"[DATA] Formulario propuesto: {resultado_fc.nombre_formulario}")
+        print(f"[TIME]  Telemetría: {telemetria_fc}")
     except Exception as e:
-        print(f"❌ Error en Full Context: {e}")
+        print(f"[FAIL] Error en Full Context: {e}")
 
     print("\n=======================================================")
     print("Iniciando prueba con Estrategia 2: RAG SIMPLE...")
@@ -524,10 +524,10 @@ if __name__ == "__main__":
         query = "¿Cuáles son las metodologías y cálculos para la Severidad de la Pérdida en el Apartado E?"
         resultado_rag, telemetria_rag = extraer_rag_simple(query, k=3)
         print("\n¡Extracción RAG exitosa!")
-        print(f"📊 Formulario propuesto: {resultado_rag.nombre_formulario}")
-        print(f"⏱️  Telemetría: {telemetria_rag}")
+        print(f"[DATA] Formulario propuesto: {resultado_rag.nombre_formulario}")
+        print(f"[TIME]  Telemetría: {telemetria_rag}")
         
-        print("\n📝 Campos identificados por el RAG:")
+        print("\n[NOTE] Campos identificados por el RAG:")
         for campo in resultado_rag.campos_formulario:
             print(f" - {campo.nombre_campo} ({campo.tipo_dato}): {campo.descripcion_funcional}")
             if campo.formula_calculo:
@@ -536,10 +536,10 @@ if __name__ == "__main__":
                 print(f"   [Catálogo: {campo.nombre_catalogo_vinculado}]")
                 
         if resultado_rag.ambiguedades_detectadas:
-            print("\n⚠️ Ambigüedades detectadas:")
+            print("\n[WARN] Ambigüedades detectadas:")
             for amb in resultado_rag.ambiguedades_detectadas:
                 print(f" - {amb}")
     except ValueError as ve:
-        print(f"⚠️ Atención: {ve}")
+        print(f"[WARN] Atención: {ve}")
     except Exception as e:
-        print(f"❌ Error durante la ejecución del RAG: {e}")
+        print(f"[FAIL] Error durante la ejecución del RAG: {e}")

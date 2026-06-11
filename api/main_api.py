@@ -6,6 +6,10 @@ import pandas as pd
 import os
 import sys
 
+# Forzar UTF-8 en stdout para evitar errores de charmap con emojis en Windows
+if sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
+
 # Agregar src al path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
