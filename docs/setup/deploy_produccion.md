@@ -73,13 +73,15 @@ Dado que usaremos un esquema de Monorepo, **no necesitas copiar archivos manualm
    ```bash
    git remote add space-api https://huggingface.co/spaces/TU_USUARIO/rag-cub-webapp
    ```
-5. Haz commit de tu nuevo `Dockerfile` y empuja todo tu código al Space:
+5. Empuja todo tu código al Space. Dado que Hugging Face crea archivos por defecto al iniciar un Space, es altamente probable que tu primer push sea rechazado (`[rejected] fetch first`). Para solucionarlo, debemos forzar la subida usando `-f`:
    ```bash
    git add Dockerfile
    git commit -m "Agregar Dockerfile para App Web"
-   git push space-api main
+   git push -f space-api main
    ```
-   *(Nota: Te pedirá tu usuario de HF y un Access Token como contraseña).*
+   > [!IMPORTANT]
+   > **Autenticación (Git Credential Manager):** Hugging Face ya no admite contraseñas normales. Cuando la terminal te pida credenciales, ingresa tu usuario, pero en la **contraseña deberás pegar un Access Token**. Puedes generar uno desde `Settings -> Access Tokens` en tu perfil de Hugging Face asegurándote de darle permisos de **Write** (Escritura).
+
 6. ¡Tu App Web estará construyéndose y en unos minutos estará viva!
 
 ### Despliegue 2: El Dashboard MLOps (Streamlit)
@@ -103,11 +105,11 @@ Dado que usaremos un esquema de Monorepo, **no necesitas copiar archivos manualm
    ```bash
    git remote add space-dashboard https://huggingface.co/spaces/TU_USUARIO/rag-cub-dashboard
    ```
-4. Haz commit de tu `README.md` actualizado y empuja tu código al Space B:
+4. Haz commit de tu `README.md` actualizado y empuja tu código al Space B (forzando la subida por la misma razón que en el Space A):
    ```bash
    git add README.md
    git commit -m "Configurar YAML para Streamlit"
-   git push space-dashboard main
+   git push -f space-dashboard main
    ```
 5. ¡Listo! Tendrás tu panel de métricas corriendo en otra URL independiente. 
 
