@@ -15,6 +15,45 @@ from src.nlp_core.evals.evaluador import evaluar_faithfulness_claims, evaluar_an
 from src.lab.consistencia_eval import correr_evaluacion_consistencia
 
 st.set_page_config(page_title="Centro de Comando MLOps", page_icon="🚀", layout="wide")
+
+# Inyectar CSS Mobile-First y diseño Premium
+st.markdown("""
+<style>
+/* Diseño Premium para las Métricas (Tarjetas) */
+div[data-testid="metric-container"] {
+    background-color: var(--secondary-background-color);
+    border: 1px solid rgba(250, 250, 250, 0.1);
+    padding: 5% 5% 5% 5%;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+div[data-testid="metric-container"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Optimización Mobile-First: Forzar apilamiento de columnas en pantallas pequeñas (tablets/celulares) */
+@media (max-width: 768px) {
+    div[data-testid="column"] {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+        margin-bottom: 1rem;
+    }
+    h1 {
+        font-size: 2rem !important;
+        text-align: center;
+    }
+    .stMarkdown p {
+        font-size: 1rem !important;
+        text-align: center;
+    }
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("🚀 Centro de Comando MLOps (Banxico DISF)")
 st.markdown("Monitoreo en Vivo y Evaluación bajo demanda de la versión en Producción (Cascade Router).")
 

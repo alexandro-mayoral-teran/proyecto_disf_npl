@@ -88,7 +88,7 @@ Cada vez que programes algo nuevo y quieras **actualizar producción**, solo sig
    ```
 3. **Ejecuta el script de despliegue a Hugging Face:**
    ```bash
-   powershell -ExecutionPolicy Bypass -File .\deploy_spaces.ps1
+   powershell -ExecutionPolicy Bypass -File ./deploy_spaces.ps1
    ```
    > [!IMPORTANT]
    > **Autenticación:** Hugging Face te pedirá usuario y contraseña en la terminal. En la contraseña NO pongas tu clave normal, debes pegar un **Access Token** con permisos de **Write** (puedes crearlo en `Settings -> Access Tokens` de tu perfil de Hugging Face).
@@ -114,7 +114,7 @@ Si intentas correr `./deploy_spaces.ps1` en una terminal de Linux (como **Git Ba
 
 **Solución:** Ejecutar explícitamente el script invocando a PowerShell y saltando las políticas de restricción de Windows:
 ```bash
-powershell -ExecutionPolicy Bypass -File .\deploy_spaces.ps1
+powershell -ExecutionPolicy Bypass -File ./deploy_spaces.ps1
 ```
 
 ### C. Codificación de Emojis en YAML y Versiones de Python
