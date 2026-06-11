@@ -75,16 +75,20 @@ Hugging Face lee el archivo `README.md` para saber qué tecnología arrancar, pe
 
 Para solucionar este reto de monorepo sin ensuciar tu rama principal, hemos creado el script **`deploy_spaces.ps1`**. Este script clona tu código en dos ramas invisibles, inyecta la configuración correcta en cada una, y las sube a sus respectivos servidores.
 
-Cada vez que programes algo nuevo y quieras **actualizar producción**, solo sigue estos 2 pasos:
+Cada vez que programes algo nuevo y quieras **actualizar producción**, solo sigue estos 3 pasos:
 
 1. **Guarda tus cambios localmente:**
    ```bash
    git add .
    git commit -m "Escribe aquí lo que mejoraste"
    ```
-2. **Ejecuta el script de despliegue:**
+2. **Respalda tu código en GitHub:**
    ```bash
-   ./deploy_spaces.ps1
+   git push origin main
+   ```
+3. **Ejecuta el script de despliegue a Hugging Face:**
+   ```bash
+   powershell -ExecutionPolicy Bypass -File .\deploy_spaces.ps1
    ```
    > [!IMPORTANT]
    > **Autenticación:** Hugging Face te pedirá usuario y contraseña en la terminal. En la contraseña NO pongas tu clave normal, debes pegar un **Access Token** con permisos de **Write** (puedes crearlo en `Settings -> Access Tokens` de tu perfil de Hugging Face).
