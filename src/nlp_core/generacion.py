@@ -410,6 +410,7 @@ def responder_rag_cascade_qa(
     estado_original_qa = os.getenv("USE_LOCAL_QA", "false")
     os.environ["USE_LOCAL_QA"] = "true"
     
+    meta_local = {}
     try:
         resp_local, meta_local, chunks = responder_rag_qa(
             query, k, 

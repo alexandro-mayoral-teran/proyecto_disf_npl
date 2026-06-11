@@ -48,69 +48,45 @@ Para mantener el despliegue simple y sin fricciones durante la demostración (si
 
 ---
 
-## 3. Instrucciones Paso a Paso (Workflow con Git)
+## 3. Instrucciones Paso a Paso (Workflow Automatizado)
 
-Dado que usaremos un esquema de Monorepo, **no necesitas copiar archivos manualmente de una carpeta a otra en tu computadora**. Haremos todo directamente desde tu repositorio actual (`proyecto_disf_npl`) agregando múltiples "remotos" de Git.
+Dado que usaremos un esquema de Monorepo, **no necesitas copiar archivos manualmente de una carpeta a otra en tu computadora**. Haremos todo directamente desde tu repositorio actual (`proyecto_disf_npl`) usando ramas de Git automatizadas.
 
-### Despliegue 1: La App Web Principal (FastAPI + Vanilla JS)
-1. Ve a [huggingface.co/spaces](https://huggingface.co/spaces) y crea un nuevo Space.
-   - **Space name**: `rag-cub-webapp`
-   - **License**: `mit` (Es la estándar para proyectos académicos y demostraciones).
-   - **Select the Space SDK**: Elige **Docker** (plantilla Blank).
-   - **Hardware**: Free (CPU Basic).
-2. En la raíz de tu proyecto local, crea un archivo llamado `Dockerfile` con el siguiente código para decirle a HF cómo correr tu FastAPI:
-   ```dockerfile
-   FROM python:3.10
-   WORKDIR /code
-   COPY requirements.txt .
-   RUN pip install --no-cache-dir -r requirements.txt
-   COPY . .
-   # HF Spaces expone el puerto 7860 por defecto
-   CMD ["uvicorn", "api.main_api:app", "--host", "0.0.0.0", "--port", "7860"]
-   ```
-3. En la pestaña "Settings" del Space recién creado en la web, busca la sección "Variables and secrets", y agrega un **New Secret** (`Name: OPENAI_API_KEY`, `Value: sk-...`). ¡Nunca subas el archivo `.env` directamente!
-4. Abre tu terminal en la carpeta de tu proyecto local y vincula tu repositorio con el Space A ejecutando:
+### Configuración Inicial (Solo se hace una vez)
+1. Ve a [huggingface.co/spaces](https://huggingface.co/spaces) y crea **dos Spaces** nuevos:
+   - **`rag-cub-webapp`**: Elige la licencia `mit`, SDK **Docker** (plantilla Blank) y Hardware Free.
+   - **`rag-cub-dashboard`**: Elige la licencia `mit`, SDK **Streamlit** y Hardware Free.
+2. Ve a la pestaña "Settings" del **primer Space (webapp)**, busca "Variables and secrets", y agrega un **New Secret** (`Name: OPENAI_API_KEY`, `Value: sk-...`).
+3. Repite el paso 2 para el **segundo Space (dashboard)**. ¡Nunca subas el archivo `.env` directamente!
+4. Abre tu terminal local en la raíz del proyecto y vincula ambos remotos (reemplaza `TU_USUARIO` por tu nombre en HF):
    ```bash
    git remote add space-api https://huggingface.co/spaces/TU_USUARIO/rag-cub-webapp
-   ```
-5. Empuja todo tu código al Space. Dado que Hugging Face crea archivos por defecto al iniciar un Space, es altamente probable que tu primer push sea rechazado (`[rejected] fetch first`). Para solucionarlo, debemos forzar la subida usando `-f`:
-   ```bash
-   git add Dockerfile
-   git commit -m "Agregar Dockerfile para App Web"
-   git push -f space-api main
-   ```
-   > [!IMPORTANT]
-   > **Autenticación (Git Credential Manager):** Hugging Face ya no admite contraseñas normales. Cuando la terminal te pida credenciales, ingresa tu usuario, pero en la **contraseña deberás pegar un Access Token**. Puedes generar uno desde `Settings -> Access Tokens` en tu perfil de Hugging Face asegurándote de darle permisos de **Write** (Escritura).
-
-6. ¡Tu App Web estará construyéndose y en unos minutos estará viva!
-
-### Despliegue 2: El Dashboard MLOps (Streamlit)
-1. Ve nuevamente a [huggingface.co/spaces](https://huggingface.co/spaces) y crea un segundo Space.
-   - **Space name**: `rag-cub-dashboard`
-   - **Select the Space SDK**: Elige **Streamlit**.
-2. En la raíz de tu proyecto local, abre tu archivo `README.md` y asegúrate de inyectar al **principio del archivo** este bloque YAML (HF lo lee para saber qué archivo de Python debe arrancar):
-   ```yaml
-   ---
-   title: Dashboard MLOps RAG
-   emoji: 📊
-   colorFrom: blue
-   colorTo: indigo
-   sdk: streamlit
-   sdk_version: 1.25.0
-   app_file: dashboard/app_evaluaciones.py
-   pinned: false
-   ---
-   ```
-3. En tu terminal, vincula tu repositorio local con este segundo Space:
-   ```bash
    git remote add space-dashboard https://huggingface.co/spaces/TU_USUARIO/rag-cub-dashboard
    ```
-4. Haz commit de tu `README.md` actualizado y empuja tu código al Space B (forzando la subida por la misma razón que en el Space A):
+5. *(Requisito MLOps)*: Asegúrate de haber migrado tu base de datos y archivos binarios a Git LFS para que no sean rechazados por el límite de 10 MB:
    ```bash
-   git add README.md
-   git commit -m "Configurar YAML para Streamlit"
-   git push -f space-dashboard main
+   git lfs install
+   git lfs migrate import --include="*.bin,*.sqlite3,*.docx,*.pdf,*.pickle,*.png,*.pkl" --everything
    ```
-5. ¡Listo! Tendrás tu panel de métricas corriendo en otra URL independiente. 
 
-Ambos Spaces comparten la misma base de código desde tu computadora, pero al hacer el `git push` a un remoto diferente, se ejecutan de manera aislada en Hugging Face cumpliendo sus propósitos específicos.
+### Despliegue y Actualizaciones (Script `deploy_spaces.ps1`)
+
+Hugging Face lee el archivo `README.md` para saber qué tecnología arrancar, pero no podemos poner la configuración de Docker y Streamlit en el mismo archivo simultáneamente.
+
+Para solucionar este reto de monorepo sin ensuciar tu rama principal, hemos creado el script **`deploy_spaces.ps1`**. Este script clona tu código en dos ramas invisibles, inyecta la configuración correcta en cada una, y las sube a sus respectivos servidores.
+
+Cada vez que programes algo nuevo y quieras **actualizar producción**, solo sigue estos 2 pasos:
+
+1. **Guarda tus cambios localmente:**
+   ```bash
+   git add .
+   git commit -m "Escribe aquí lo que mejoraste"
+   ```
+2. **Ejecuta el script de despliegue:**
+   ```bash
+   ./deploy_spaces.ps1
+   ```
+   > [!IMPORTANT]
+   > **Autenticación:** Hugging Face te pedirá usuario y contraseña en la terminal. En la contraseña NO pongas tu clave normal, debes pegar un **Access Token** con permisos de **Write** (puedes crearlo en `Settings -> Access Tokens` de tu perfil de Hugging Face).
+
+¡Y listo! El script subirá automáticamente el código a ambos servidores y tu aplicación web y tablero MLOps se actualizarán en vivo.
