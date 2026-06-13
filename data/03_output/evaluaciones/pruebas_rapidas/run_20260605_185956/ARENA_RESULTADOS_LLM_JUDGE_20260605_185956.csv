@@ -1,3 +1,0 @@
-estrategia,modo_evaluacion,Recall@5,Recall@10,Recall@10_CI_95,MAP@10,MAP@10_CI_95,NDCG@10,NDCG@10_CI_95,Latencia_P50,Latencia_P95,Latencia_P99,Tokens_Contexto_Promedio,Costo_Total_USD,LLM_Modelo_QA,Es_QA_Local,LLM_Modelo_Extraccion,Es_Extraccion_Local,Es_Juez_Local,Es_Expansion_Local
-1_Baseline_Léxico,llm_judge,100.0,100.0,"(100.0, 100.0)",1.0,"(1.0, 1.0)",1.0,"(1.0, 1.0)",0.8234,0.8234,0.8234,2406.0,0.5409,gpt-4o-mini,False,gpt-4o,False,False,False
-2_Baseline_Semántico,llm_judge,100.0,100.0,"(100.0, 100.0)",1.0,"(1.0, 1.0)",1.0,"(1.0, 1.0)",0.4076,0.4076,0.4076,2324.0,0.5286,gpt-4o-mini,False,gpt-4o,False,False,False

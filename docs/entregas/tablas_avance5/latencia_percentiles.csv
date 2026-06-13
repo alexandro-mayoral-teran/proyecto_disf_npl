@@ -1,8 +1,0 @@
-﻿Candidato,P50 seg,P95 seg,P99 seg,Lectura
-1_Baseline_Léxico,0.2957,0.3034,0.3169,Dentro del SLO P95 < 3.5s
-2_Baseline_Semántico,0.4797,0.7469,1.0108,Dentro del SLO P95 < 3.5s
-3_Híbrido_Simple,0.6926,1.0922,1.672,Dentro del SLO P95 < 3.5s
-4_Híbrido_Reranker,2.8306,3.1817,3.5868,Dentro del SLO P95 < 3.5s
-5_Semántico_Expandido,5.1304,6.8672,8.5695,Excede SLO; requiere cache/ruteo o poda de contexto
-6_SOTA_Completo,9.3484,11.6926,14.518,Excede SLO; requiere cache/ruteo o poda de contexto
-7_Ensamble_Router_Cascade,0.4797,0.7469,1.0108,Dentro del SLO P95 < 3.5s

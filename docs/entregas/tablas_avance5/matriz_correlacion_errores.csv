@@ -1,7 +1,0 @@
-﻿Candidato,1_Baseline_Léxico,2_Baseline_Semántico,3_Híbrido_Simple,4_Híbrido_Reranker,5_Semántico_Expandido,6_SOTA_Completo
-1_Baseline_Léxico,1.0,0.321,-0.029,0.456,0.321,0.207
-2_Baseline_Semántico,0.321,1.0,-0.009,-0.013,1.0,-0.013
-3_Híbrido_Simple,-0.029,-0.009,1.0,-0.013,-0.009,-0.013
-4_Híbrido_Reranker,0.456,-0.013,-0.013,1.0,-0.013,0.491
-5_Semántico_Expandido,0.321,1.0,-0.009,-0.013,1.0,-0.013
-6_SOTA_Completo,0.207,-0.013,-0.013,0.491,-0.013,1.0

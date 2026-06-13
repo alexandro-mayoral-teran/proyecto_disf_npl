@@ -1,3 +1,0 @@
-| Comparación | Total consultas | Ambos aciertan | Ambos fallan | Solo 2_Baseline_Semántico acierta | Solo 6_SOTA_Completo acierta | Disagreement rate | Oracle accuracy | Oracle gap | Lectura |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 2_Baseline_Semántico vs 6_SOTA_Completo | 109 | 106 | 0 | 2 | 1 | 0.0275 | 1.0 | 0.0092 | Hay diversidad limitada; el cascade se justifica más por costo, latencia y residencia que por lift de ranking. |

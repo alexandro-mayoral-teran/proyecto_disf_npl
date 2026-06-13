@@ -29,12 +29,18 @@ Thumbs.db
 data/01_raw/
 data/02_interim/
 data/02_vectorstore/
-data/03_output/chroma_db_*/
-data/03_output/graficos/
+data/03_output/
 docs/entregas/img/
 support/rubrica/
 chroma_db/
 *.png
+*.pkl
+*.sqlite3
+*.bin
+*.pickle
+*.csv
+*.docx
+*.pdf
 
 # Archivos de configuracion local
 # Archivos de configuracion local

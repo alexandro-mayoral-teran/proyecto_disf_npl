@@ -1,5 +1,0 @@
-﻿Artefacto,Entrega,Dueño receptor,Condición de aceptación
-Código y tag,repo GitHub + versión congelada,DISF/TI,Notebook corre secuencialmente y scripts documentados
-Prompts versionados,src/nlp_core/prompts.json + hash,Owner funcional,Cambios de prompt auditables
-Índice vectorial/retrieval,"config de chunking, embeddings y Chroma",MLOps,Reindexación reproducible
-Runbook,"deploy, rollback, monitoreo, incidentes",TI/MLOps,Responsables y alertas definidos

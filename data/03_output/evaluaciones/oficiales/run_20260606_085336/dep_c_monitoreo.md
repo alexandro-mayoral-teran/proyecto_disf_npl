@@ -1,8 +1,0 @@
-| Requisito DEP-C | Evidencia definida | Fuente de medicion | Alerta | Responsable | Estado |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| SLO numericos | Disponibilidad 99.5%, P95 <3.5s, fallback nube <=20%, faithfulness >=0.80 | telemetria_llm.jsonl + dashboard de monitoreo | P95 >3.5s; fallback >30%; faithfulness cae 10 pp; disponibilidad <99.5% | MLOps/infra + owner funcional DISF | Definido para piloto |
-| Plan de monitoreo: que se loggea | query_id, timestamp, backend, ruta cascade, latencia, tokens, costo, prompt_hash, chunks, faithfulness, guardrail_status | telemetria_llm.jsonl | Campos faltantes o crecimiento anomalo de errores | Equipo MLOps | Instrumentado parcialmente; completar en piloto |
-| Donde se almacena | JSONL local para piloto; destino futuro: storage interno o SIEM institucional | telemetria.py | Logs sin rotacion, datos sensibles sin redaccion | TI/Seguridad | Pendiente de politica institucional |
-| Quien revisa y cadencia | Revision semanal en piloto; diaria si hay incidente o drift | dashboard de owner + reporte MLOps | Dos ventanas consecutivas fuera de SLO | Owner funcional DISF + MLOps | Definido como procedimiento |
-| Calidad continua vs E3-BL5 | Re-evaluacion periodica contra muestra congelada + muestra nueva de produccion | NDCG@10, faithfulness, auditoria humana | NDCG <0.83 o aumento de alucinaciones/refusals | Equipo NLP/MLOps | Definido; requiere datos de piloto |
-| Drift detection LLM | Drift de consultas, drift de costo por consulta, hallucination rate y cambios de fallback | embeddings de queries + telemetria de costo/latencia + LLM-as-judge | Distribucion de queries cambia; costo/fallback sube; hallucination rate sube | MLOps + owner funcional | Plan definido; dashboard en desarrollo |
