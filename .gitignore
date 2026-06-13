@@ -28,7 +28,13 @@ Thumbs.db
 # Datos Temporales o pesados
 data/01_raw/
 data/02_interim/
-data/03_output/chroma_db_20261106/
+data/02_vectorstore/
+data/03_output/chroma_db_*/
+data/03_output/graficos/
+docs/entregas/img/
+support/rubrica/
+chroma_db/
+*.png
 
 # Archivos de configuracion local
 # Archivos de configuracion local
