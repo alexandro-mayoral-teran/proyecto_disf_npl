@@ -31,7 +31,10 @@ let textosEfimerosGlobal = null;
 
 btnUploadEfimero.addEventListener('click', async () => {
     const file = efimeroFile.files[0];
-    if (!file) return;
+    if (!file) {
+        efimeroStatus.textContent = "⚠️ Selecciona un archivo PDF/Word primero.";
+        return;
+    }
     
     efimeroStatus.textContent = "Procesando documento...";
     btnUploadEfimero.disabled = true;
