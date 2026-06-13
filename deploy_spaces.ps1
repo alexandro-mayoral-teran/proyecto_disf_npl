@@ -3,7 +3,8 @@ git checkout main
 
 # Space A: API
 Write-Host "-> Preparando Web App (Docker)..."
-git checkout -B deploy-api
+git branch -D deploy-api 2>$null
+git checkout --orphan deploy-api
 $apiYaml = @"
 ---
 title: RAG CUB Webapp
@@ -16,13 +17,15 @@ pinned: false
 "@
 $content = Get-Content README.md -Raw
 Set-Content README.md -Value ($apiYaml + $content) -Encoding UTF8
-git commit -am "Configurar metadata Docker"
+git add .
+git commit -m "Configurar metadata Docker"
 git push -f space-api deploy-api:main
 
 # Space B: Dashboard
 Write-Host "-> Preparando Dashboard (Streamlit)..."
 git checkout main
-git checkout -B deploy-dashboard
+git branch -D deploy-dashboard 2>$null
+git checkout --orphan deploy-dashboard
 $dashYaml = @"
 ---
 title: Dashboard MLOps RAG
@@ -38,7 +41,8 @@ pinned: false
 "@
 $content = Get-Content README.md -Raw
 Set-Content README.md -Value ($dashYaml + $content) -Encoding UTF8
-git commit -am "Configurar metadata Streamlit"
+git add .
+git commit -m "Configurar metadata Streamlit"
 git push -f space-dashboard deploy-dashboard:main
 
 git checkout main
