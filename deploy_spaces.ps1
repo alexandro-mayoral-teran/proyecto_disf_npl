@@ -18,6 +18,10 @@ pinned: false
 $content = Get-Content README.md -Raw
 Set-Content README.md -Value ($apiYaml + $content) -Encoding UTF8
 git add .
+# Excluir archivos del dashboard para no ocupar espacio en la API
+git rm -r --cached "data/03_output/evaluaciones_*" 2>$null
+git rm -r --cached "data/03_output/telemetria_llm.jsonl" 2>$null
+git rm -r --cached "dashboard" 2>$null
 git commit -m "Configurar metadata Docker"
 git push -f space-api deploy-api:main
 
@@ -42,6 +46,11 @@ pinned: false
 $content = Get-Content README.md -Raw
 Set-Content README.md -Value ($dashYaml + $content) -Encoding UTF8
 git add .
+# Excluir archivos de la API para no ocupar espacio en el Dashboard
+git rm -r --cached "data/03_output/chroma_db*" 2>$null
+git rm -r --cached "data/03_output/semantic_cache*" 2>$null
+git rm -r --cached "app" 2>$null
+git rm -r --cached "api" 2>$null
 git commit -m "Configurar metadata Streamlit"
 git push -f space-dashboard deploy-dashboard:main
 
