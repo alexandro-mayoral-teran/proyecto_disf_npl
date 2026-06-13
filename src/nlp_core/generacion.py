@@ -16,7 +16,7 @@ from src.nlp_core.config_llm import get_llm_client, get_llm_model_name
 from src.nlp_core.prompts_registry import get_prompt
 
 # Importamos nuestro esquema Pydantic
-from src.nlp_core.schemas import RequerimientoInformacion
+from src.nlp_core.schemas import RequerimientoInformacion, MetadataDocumento
 from src.nlp_core.retrieval import MotorBusqueda
 from src.nlp_core.pipeline import PipelineRecuperacion
 from src.nlp_core.seguridad.guardrails import verificar_input_seguro
@@ -24,11 +24,16 @@ from langchain_core.documents import Document
 
 _DOCS_RAW_CACHE = None
 _MOTOR_CACHE = None
+_CURRENT_DB_FOLDER = None
 
-def get_motor_and_docs():
-    global _MOTOR_CACHE, _DOCS_RAW_CACHE
-    if _MOTOR_CACHE is None:
-        _MOTOR_CACHE = MotorBusqueda(collection_name="regulacion_disf")
+def get_motor_and_docs(db_folder: str = "chroma_db"):
+    global _MOTOR_CACHE, _DOCS_RAW_CACHE, _CURRENT_DB_FOLDER
+    if _MOTOR_CACHE is None or _CURRENT_DB_FOLDER != db_folder:
+        print(f"[RELOAD] Configurando Motor de Búsqueda apuntando a: {db_folder}")
+        persist_dir = Path(__file__).resolve().parent.parent.parent / "data" / "03_output" / db_folder
+        _MOTOR_CACHE = MotorBusqueda(persist_dir=persist_dir, collection_name="regulacion_disf")
+        _CURRENT_DB_FOLDER = db_folder
+        _DOCS_RAW_CACHE = None # Forzar recarga de documentos en RAM
         
     if _DOCS_RAW_CACHE is None:
         cache_path = Path(__file__).resolve().parent.parent.parent / "data" / "03_output" / "docs_cache.pkl"
@@ -66,9 +71,13 @@ def _load_semantic_cache():
             _SEMANTIC_CACHE = []
     return _SEMANTIC_CACHE
 
-def _check_semantic_cache(query: str, threshold_math: float = 0.80):
+def _check_semantic_cache(query: str, db_folder: str = "chroma_db", threshold_math: float = 0.80):
     """Verifica si la pregunta actual es semánticamente idéntica usando un Juez LLM."""
-    cache = _load_semantic_cache()
+    cache_total = _load_semantic_cache()
+    if not cache_total: return None
+    
+    # Filtrar solo por la base de datos actual
+    cache = [item for item in cache_total if item.get("db_folder", "chroma_db") == db_folder]
     if not cache: return None
     
     from src.nlp_core.config_llm import get_embeddings, get_llm_client, get_llm_model_name
@@ -124,7 +133,7 @@ Pregunta en Caché: {pregunta_cache}"""
         
     return None
 
-def _save_to_semantic_cache(query: str, respuesta: str, meta: dict, chunks: list):
+def _save_to_semantic_cache(query: str, respuesta: str, meta: dict, chunks: list, db_folder: str = "chroma_db"):
     """Guarda la respuesta exitosa en el caché semántico persistente."""
     use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
     if not use_cache: return
@@ -140,7 +149,8 @@ def _save_to_semantic_cache(query: str, respuesta: str, meta: dict, chunks: list
         "embedding": q_vec,
         "respuesta": respuesta,
         "meta": meta,
-        "chunks": chunks
+        "chunks": chunks,
+        "db_folder": db_folder
     })
     
     # Guardar a disco para que sobreviva a Streamlit / Reinicios
@@ -209,23 +219,69 @@ def extraer_full_context(texto_normativo: str) -> tuple[RequerimientoInformacion
     # La API ya nos devuelve el objeto Pydantic instanciado y validado
     return respuesta.choices[0].message.parsed, telemetria
 
-def extraer_rag_simple(query: str, k: int = 4) -> tuple[RequerimientoInformacion, dict]:
+def extraer_metadatos_documento(texto_normativo: str) -> tuple[MetadataDocumento, dict]:
+    """
+    Toma los primeros 4000 caracteres de un documento normativo y utiliza OpenAI 
+    para extraer la metadata (tema, confidencialidad, etc.) en un JSON estructurado.
+    Retorna la estructura Pydantic y un diccionario con telemetría.
+    """
+    client = get_llm_client("extraction")
+    modelo_extraccion = get_llm_model_name("extraction")
+    
+    prompt_sistema, version_prompt, hash_prompt = get_prompt("extraccion_metadatos")
+    
+    texto_para_analizar = texto_normativo[:4000]
+    
+    t0 = time.time()
+    respuesta = client.beta.chat.completions.parse(
+        model=modelo_extraccion,
+        messages=[
+            {"role": "system", "content": prompt_sistema},
+            {"role": "user", "content": f"Texto normativo a analizar:\n\n{texto_para_analizar}"}
+        ],
+        response_format=MetadataDocumento,
+        temperature=0.0
+    )
+    latencia = time.time() - t0
+    
+    telemetria = {
+        "modelo": modelo_extraccion,
+        "prompt_tokens": respuesta.usage.prompt_tokens if respuesta.usage else 0,
+        "completion_tokens": respuesta.usage.completion_tokens if respuesta.usage else 0,
+        "total_tokens": respuesta.usage.total_tokens if respuesta.usage else 0,
+        "latencia_seg": round(latencia, 2),
+        "prompt_version": version_prompt,
+        "prompt_hash": hash_prompt
+    }
+    
+    _guardar_telemetria(telemetria, "Extraccion Metadatos")
+    
+    return respuesta.choices[0].message.parsed, telemetria
+
+
+def extraer_rag_simple(query: str, k: int = 4, tema: str = None, textos_efimeros: list = None, solo_efimero: bool = False, db_folder: str = "chroma_db") -> tuple[RequerimientoInformacion, dict]:
     """
     Estrategia RAG: Utiliza ChromaDB para recuperar los chunks más relevantes 
     basado en la consulta, y le pide al LLM extraer el formulario usando SOLO ese contexto.
+    Soporta búsqueda efímera en memoria si se envían textos_efimeros.
     Retorna la estructura y un diccionario con telemetría (tokens, latencia).
     """
     
-    print(f"Recuperando contexto vectorial para: '{query}'...")
+    print(f"Recuperando contexto vectorial para: '{query}' (Tema: {tema}, DB: {db_folder})...")
     
     t0_busqueda = time.time()
     # 1. Recuperar chunks de ChromaDB
-    motor, _ = get_motor_and_docs()
-    resultados = motor.buscar_similitud(query, k=k)
+    motor, _ = get_motor_and_docs(db_folder)
+    
+    if textos_efimeros:
+        resultados = motor.buscar_similitud_dinamica(query, k, textos_efimeros, solo_efimero, filtro_dominio=tema)
+    else:
+        resultados = motor.buscar_similitud(query, k=k, filtro_dominio=tema)
+        
     latencia_busqueda = time.time() - t0_busqueda
     
     if not resultados:
-        raise ValueError("No se encontró contexto en la base vectorial para esa consulta.")
+        raise ValueError("No se encontró contexto para esa consulta usando el tema seleccionado.")
         
     # 2. Agrupar chunks por documento de origen para soporte Multi-Documento (Requerimiento B4)
     docs_por_archivo = {}
@@ -282,30 +338,36 @@ def extraer_rag_simple(query: str, k: int = 4) -> tuple[RequerimientoInformacion
     
     return respuesta.choices[0].message.parsed, telemetria
 
-def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings", query_expansion: str = "none", post_processing: str = "none") -> tuple[str, dict, list]:
+def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings", query_expansion: str = "none", post_processing: str = "none", tema: str = None, textos_efimeros: list = None, solo_efimero: bool = False, db_folder: str = "chroma_db") -> tuple[str, dict, list]:
     """
     Estrategia RAG Conversacional interactiva usando el Pipeline Modular.
     Retorna el texto markdown, un diccionario con telemetría y la lista de chunks recuperados.
     """
     
-    print(f"Recuperando contexto (Retriever: {base_retriever}, Expansión: {query_expansion}, Post: {post_processing}) para QA: '{query}'...")
+    print(f"Recuperando contexto (Retriever: {base_retriever}, Tema: {tema}, DB: {db_folder}, Efímero: {bool(textos_efimeros)}) para QA: '{query}'...")
     
     t0_busqueda = time.time()
     
-    motor, docs_raw = get_motor_and_docs()
-    pipeline = PipelineRecuperacion(
-        motor=motor,
-        documentos_raw=docs_raw,
-        base_retriever=base_retriever,
-        query_expansion=None if query_expansion == "none" else query_expansion,
-        post_processing=None if post_processing == "none" else post_processing
-    )
+    motor, docs_raw = get_motor_and_docs(db_folder)
     
-    resultados = pipeline.invoke(query, k=k)
+    if textos_efimeros:
+        # Bypassear el pipeline regular si hay textos efímeros
+        resultados = motor.buscar_similitud_dinamica(query, k, textos_efimeros, solo_efimero, filtro_dominio=tema)
+    else:
+        pipeline = PipelineRecuperacion(
+            motor=motor,
+            documentos_raw=docs_raw,
+            base_retriever=base_retriever,
+            query_expansion=None if query_expansion == "none" else query_expansion,
+            post_processing=None if post_processing == "none" else post_processing
+        )
+        
+        resultados = pipeline.invoke(query, k=k, filtro_dominio=tema)
+        
     latencia_busqueda = time.time() - t0_busqueda
     
     if not resultados:
-        raise ValueError("No se encontró contexto para esa consulta usando la estrategia seleccionada.")
+        raise ValueError("No se encontró contexto para esa consulta usando el tema seleccionado.")
         
     # 2. Agrupar chunks por documento de origen para soporte Multi-Documento (Requerimiento B4)
     docs_por_archivo = {}
@@ -368,14 +430,17 @@ def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings",
     ]
     
     return texto_respuesta, telemetria, chunks_recuperados
-
 def responder_rag_cascade_qa(
     query: str, 
-    k: int = 4, 
+    k: int = 15, 
     umbral_faithfulness: float = 0.8, 
-    base_retriever: str = "hibrido",
-    query_expansion: str = "none",
-    post_processing: str = "cross_encoder"
+    base_retriever: str = "hibrido",          # Opciones: "embeddings", "hibrido", "bm25", "tfidf", "bow"
+    query_expansion: str = "none",            # Opciones: "none", "multi_query", "hyde", "ambos"
+    post_processing: str = "cross_encoder",   # Opciones: "none", "cross_encoder"
+    tema: str = None,
+    textos_efimeros: list = None,
+    solo_efimero: bool = False,
+    db_folder: str = "chroma_db"
 ) -> tuple[str, dict, list]:
     """
     Patrón Ensamble Heterogéneo: Router/Cascade por Confianza.
@@ -399,7 +464,7 @@ def responder_rag_cascade_qa(
     # === SEMANTIC CACHE CHECK ===
     use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
     if use_cache:
-        cached_res = _check_semantic_cache(query)
+        cached_res = _check_semantic_cache(query, db_folder)
         if cached_res:
             meta = cached_res["meta"].copy()
             meta["estrategia_cascade"] = "Semantic Cache Hit"
@@ -416,7 +481,11 @@ def responder_rag_cascade_qa(
             query, k, 
             base_retriever=base_retriever,
             query_expansion=query_expansion,
-            post_processing=post_processing
+            post_processing=post_processing,
+            tema=tema,
+            textos_efimeros=textos_efimeros,
+            solo_efimero=solo_efimero,
+            db_folder=db_folder
         )
         contexto_str = "\n".join([c["content"] for c in chunks])
         
@@ -429,7 +498,7 @@ def responder_rag_cascade_qa(
             meta_local["faithfulness_local_score"] = round(score, 2)
             meta_local["estrategia_cascade"] = "Resuelto Local"
             
-            _save_to_semantic_cache(query, resp_local, meta_local, chunks)
+            _save_to_semantic_cache(query, resp_local, meta_local, chunks, db_folder)
             
             # Restaurar variable original
             os.environ["USE_LOCAL_QA"] = estado_original_qa
@@ -451,21 +520,25 @@ def responder_rag_cascade_qa(
             query, k, 
             base_retriever=base_retriever,
             query_expansion=query_expansion,
-            post_processing=post_processing
+            post_processing=post_processing,
+            tema=tema,
+            textos_efimeros=textos_efimeros,
+            solo_efimero=solo_efimero,
+            db_folder=db_folder
         )
         
         meta_nube["faithfulness_local_score"] = round(score, 2)
         meta_nube["estrategia_cascade"] = "Escalado a Nube"
         meta_nube["latencia_cascade_total"] = round(time.time() - t0_nube + meta_local.get("latencia_total_seg", 0), 2)
         
-        _save_to_semantic_cache(query, resp_nube, meta_nube, chunks_nube)
+        _save_to_semantic_cache(query, resp_nube, meta_nube, chunks_nube, db_folder)
         
         return resp_nube, meta_nube, chunks_nube
     finally:
         # Restaurar configuración original SIEMPRE
         os.environ["USE_LOCAL_QA"] = estado_original_qa
 
-def extraer_rag_cascade(query: str, k: int = 4, umbral_faithfulness: float = 0.8) -> tuple[RequerimientoInformacion, dict]:
+def extraer_rag_cascade(query: str, k: int = 4, umbral_faithfulness: float = 0.8, tema: str = None, textos_efimeros: list = None, solo_efimero: bool = False, db_folder: str = "chroma_db") -> tuple[RequerimientoInformacion, dict]:
     """Wrapper para Cascade en caso de usarse para formularios estructurados."""
     # Como los formularios son Pydantic, la evaluación de Faithfulness sobre JSON es más estricta.
     # Por ahora simplemente envolvemos la función para cumplir el API del walkthrough.
@@ -481,7 +554,7 @@ def extraer_rag_cascade(query: str, k: int = 4, umbral_faithfulness: float = 0.8
     os.environ["USE_LOCAL_EXTRACTION"] = "true"
     
     try:
-        resultado, meta = extraer_rag_simple(query, k)
+        resultado, meta = extraer_rag_simple(query, k, tema=tema, textos_efimeros=textos_efimeros, solo_efimero=solo_efimero, db_folder=db_folder)
         meta["faithfulness_local_score"] = 1.0 # Asumimos 1.0 temporalmente por falta de contexto en texto plano
         meta["estrategia_cascade"] = "Resuelto Local (Extracción)"
         os.environ["USE_LOCAL_EXTRACTION"] = estado_original
@@ -490,7 +563,7 @@ def extraer_rag_cascade(query: str, k: int = 4, umbral_faithfulness: float = 0.8
         print(f"[WARN] Falla en extracción local: {e}. Redirigiendo a Nube...")
         os.environ["USE_LOCAL_EXTRACTION"] = "false"
         try:
-            resultado_nube, meta_nube = extraer_rag_simple(query, k)
+            resultado_nube, meta_nube = extraer_rag_simple(query, k, tema=tema, textos_efimeros=textos_efimeros, solo_efimero=solo_efimero, db_folder=db_folder)
             meta_nube["estrategia_cascade"] = "Escalado a Nube (Extracción)"
             return resultado_nube, meta_nube
         finally:

@@ -34,7 +34,7 @@ class PipelineRecuperacion:
         self.post_processing = post_processing
         self.hybrid_weights = hybrid_weights
 
-    def invoke(self, query: str, k: int = 5):
+    def invoke(self, query: str, k: int = 5, filtro_dominio: str = None):
         # 1. Expansión de Consultas
         if self.query_expansion == "multi_query":
             queries = self._generar_multi_queries(query)
@@ -69,10 +69,10 @@ class PipelineRecuperacion:
                 res = self.motor.buscar_bm25(q, self.documentos_raw, k=top_k_base)
                 docs = _get_docs(res)
             elif self.base_retriever == "embeddings":
-                res = self.motor.buscar_similitud(q, k=top_k_base)
+                res = self.motor.buscar_similitud(q, k=top_k_base, filtro_dominio=filtro_dominio)
                 docs = _get_docs(res)
             elif self.base_retriever == "hibrido":
-                res = self.motor.buscar_hibrido(q, self.documentos_raw, k=top_k_base, weights=self.hybrid_weights)
+                res = self.motor.buscar_hibrido(q, self.documentos_raw, k=top_k_base, weights=self.hybrid_weights, filtro_dominio=filtro_dominio)
                 docs = _get_docs(res)
             else:
                 raise ValueError(f"Retriever base no soportado: {self.base_retriever}")

@@ -21,25 +21,30 @@ graph TD
     E --> F["pipeline.py<br>Reranking/Expansión"]
     F --> G
     
-    %% Caché Semántico Híbrido
+    %% Caché Semántico Híbrido (Rama RAG)
     G -->|Recibe Pregunta| CACHE{"¿Existe en Caché?"}
     CACHE -->|Si: Similitud y Juez LLM| CACHE_HIT["Retorna Respuesta Instantanea"]
     CACHE -->|No| R1
     
-    %% Router Cascade (Avance 5)
+    %% Router Cascade (Avance 5 - Rama RAG)
     G -->|Pregunta Local| R1{"¿Faithfulness Local<br> >= 0.80?"}
     R1 -->|Sí: Responde Local| S1("Llama 3.1 8B")
     R1 -->|No: Baja Confianza| S2("Escala a GPT-4o-mini")
     S1 -.-> J
     S2 -.-> J
     
+    %% Extracción Estructurada (Rama Long-Context)
+    G -->|Recibe Documento Efímero| P1["Structured Outputs<br>GPT-4o + Pydantic"]
+    P1 -.-> J
+    
     %% Validación y Monitoreo
-    I["schemas.py<br>Pydantic Contracts"] --> G
+    I["schemas.py<br>Pydantic Contracts"] --> P1
+    I --> G
     J[("telemetria_llm.jsonl<br>Logs de Costos y Latencia")]
     
     %% Laboratorio/Evaluación
     K["telemetria.py<br>Rastreador Analítico"] -.-> L["evaluador.py<br>LLM-as-a-Judge"]
-    L -.->|Pruebas| G
+    L -.->|Pruebas RAG| G
 
     %% Estilos
     style G fill:#2ecc71,stroke:#27ae60,stroke-width:4px,color:black
@@ -48,6 +53,7 @@ graph TD
     style CACHE_HIT fill:#2ecc71,stroke:#27ae60,stroke-width:2px,color:black
     style C fill:#f1c40f,stroke:#f39c12,stroke-width:2px,color:black
     style J fill:#f1c40f,stroke:#f39c12,stroke-width:2px,color:black
+    style P1 fill:#9b59b6,stroke:#8e44ad,stroke-width:2px,color:white
 ```
 
 ---

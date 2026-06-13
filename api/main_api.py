@@ -1,10 +1,12 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from typing import Optional, List
 import pandas as pd
 import os
 import sys
+import yaml
 
 # Forzar UTF-8 en stdout para evitar errores de charmap con emojis en Windows
 if sys.stdout.encoding.lower() != 'utf-8':
@@ -13,7 +15,8 @@ if sys.stdout.encoding.lower() != 'utf-8':
 # Agregar src al path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
-from src.nlp_core.generacion import extraer_rag_cascade, responder_rag_cascade_qa
+from src.nlp_core.generacion import extraer_rag_cascade, responder_rag_cascade_qa, extraer_full_context, extraer_metadatos_documento
+from datetime import datetime
 
 app = FastAPI(title="API DISF - Especialista Digital Regulador")
 
@@ -28,13 +31,24 @@ app.add_middleware(
 
 class ChatRequest(BaseModel):
     query: str
-    top_k: int = 4
+    tema: Optional[str] = None
+    textos_efimeros: Optional[List[str]] = None
+    solo_efimero: bool = False
+    db_folder: Optional[str] = "chroma_db"
 
 @app.post("/api/extraer_formulario")
 def extraer_formulario_endpoint(request: ChatRequest):
     try:
         # Extracción Pydantic con Cascade
-        resultado_rag, telemetria = extraer_rag_cascade(request.query, k=request.top_k)
+        kwargs = {
+            "query": request.query,
+            "tema": request.tema,
+            "textos_efimeros": request.textos_efimeros,
+            "solo_efimero": request.solo_efimero,
+            "db_folder": request.db_folder
+        }
+            
+        resultado_rag, telemetria = extraer_rag_cascade(**kwargs)
         
         # FastAPI convertirá automáticamente el modelo Pydantic a JSON
         return {
@@ -45,16 +59,93 @@ def extraer_formulario_endpoint(request: ChatRequest):
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
     except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error del servidor: {str(e)}")
+
+@app.post("/api/extraer_formulario_full_context")
+def extraer_formulario_full_context_endpoint(request: ChatRequest):
+    """
+    Nuevo endpoint que ignora el RAG y pasa todo el texto concatenado al LLM usando 
+    la ventana de contexto larga (128k tokens) para no perder ningún campo.
+    """
+    try:
+        if not request.textos_efimeros or len(request.textos_efimeros) == 0:
+            raise ValueError("Debes proporcionar al menos un documento para la extracción de contexto largo.")
+            
+        # Unir todos los textos efímeros en un gran string
+        texto_completo = "\n\n--- SIGUIENTE DOCUMENTO ---\n\n".join(request.textos_efimeros)
+        
+        # Llamar al motor de extracción Long-Context
+        resultado_pydantic, telemetria = extraer_full_context(texto_completo)
+        data_dict = resultado_pydantic.model_dump()
+        
+        # Guardar en output local
+        import json
+        output_dir = os.path.join(os.path.dirname(__file__), '../data/03_output/formularios_extraidos')
+        os.makedirs(output_dir, exist_ok=True)
+        filename = f"formulario_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        
+        with open(os.path.join(output_dir, filename), "w", encoding="utf-8") as f:
+            json.dump(data_dict, f, ensure_ascii=False, indent=4)
+        
+        return {
+            "status": "success",
+            "data": data_dict,
+            "telemetry": telemetria,
+            "saved_to": filename
+        }
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
+
+@app.post("/api/extraer_metadatos")
+def extraer_metadatos_endpoint(request: ChatRequest):
+    """
+    Endpoint que toma el documento temporal cargado y extrae su metadata.
+    Guarda el resultado en data/03_output/metadatos_extraidos/.
+    """
+    import json
+    try:
+        if not request.textos_efimeros or len(request.textos_efimeros) == 0:
+            raise ValueError("Debes proporcionar al menos un documento (Temporal) para la extracción de metadatos.")
+            
+        texto = request.textos_efimeros[0]
+        
+        resultado_pydantic, telemetria = extraer_metadatos_documento(texto)
+        data_dict = resultado_pydantic.model_dump()
+        
+        # Guardar en output local
+        output_dir = os.path.join(os.path.dirname(__file__), '../data/03_output/metadatos_extraidos')
+        os.makedirs(output_dir, exist_ok=True)
+        filename = f"metadata_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        
+        with open(os.path.join(output_dir, filename), "w", encoding="utf-8") as f:
+            json.dump(data_dict, f, ensure_ascii=False, indent=4)
+            
+        return {
+            "status": "success",
+            "data": data_dict,
+            "telemetry": telemetria,
+            "saved_to": filename
+        }
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
 
 @app.post("/api/consulta_normativa")
 def consulta_normativa_endpoint(request: ChatRequest):
     try:
         # RAG Conversacional Cascade (usando los defaults óptimos de generacion.py)
-        texto_respuesta, telemetria, contexto = responder_rag_cascade_qa(
-            request.query, 
-            k=request.top_k
-        )
+        kwargs = {
+            "query": request.query,
+            "tema": request.tema,
+            "textos_efimeros": request.textos_efimeros,
+            "solo_efimero": request.solo_efimero,
+            "db_folder": request.db_folder
+        }
+            
+        texto_respuesta, telemetria, contexto = responder_rag_cascade_qa(**kwargs)
         
         return {
             "status": "success",
@@ -64,6 +155,33 @@ def consulta_normativa_endpoint(request: ChatRequest):
         }
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
+
+@app.post("/api/upload_efimero")
+async def upload_efimero_endpoint(file: UploadFile = File(...)):
+    import tempfile
+    import shutil
+    from src.ingesta.ingestor import IngestorDocumentos
+    
+    try:
+        temp_dir = tempfile.mkdtemp()
+        temp_file_path = os.path.join(temp_dir, file.filename)
+        
+        with open(temp_file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+            
+        ingestor = IngestorDocumentos(output_dir=temp_dir)
+        resultado = ingestor.procesar_archivo(temp_file_path)
+        
+        if resultado["status"] == "success":
+            md_path = os.path.join(temp_dir, resultado["output_file"])
+            with open(md_path, "r", encoding="utf-8") as f:
+                md_text = f.read()
+            return {"status": "success", "markdown": md_text}
+        else:
+            raise HTTPException(status_code=400, detail=resultado.get("error", "Error procesando el archivo"))
+            
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
 
@@ -95,6 +213,21 @@ async def get_evaluaciones():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al leer evaluaciones: {str(e)}")
+
+@app.get("/api/temas")
+def get_temas():
+    manifest_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data/01_raw/manifest.yaml'))
+    temas = set()
+    try:
+        with open(manifest_path, 'r', encoding='utf-8') as f:
+            manifest_data = yaml.safe_load(f)
+            if manifest_data and 'documentos' in manifest_data:
+                for doc in manifest_data['documentos']:
+                    if 'tema' in doc:
+                        temas.add(doc['tema'])
+        return {"status": "success", "temas": sorted(list(temas))}
+    except Exception as e:
+        return {"status": "error", "temas": [], "detail": str(e)}
 
 # Montar los archivos estáticos de la app (Frontend Vanilla JS)
 app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../app'))

@@ -91,7 +91,22 @@ PARTE B: RÚBRICA 6 (VIABILIDAD E IMPLEMENTACIÓN CLOUD - DEP)
     - Estrategia: [POSTPUESTO PARA AVANCE 6]. Complementar con defensas en dos capas y Microsoft Presidio para sanitizar PII.
 
 --------------------------------------------------------------------------------
-5. FUTURO (BACKLOG ADICIONAL)
+5. AVANCE 6: GOBIERNO DE DATOS Y EXTRACCIÓN AVANZADA (CIERRE DEL PROYECTO)
+--------------------------------------------------------------------------------
+[x] GOB-A. Data Provenance y Catálogo Maestro.
+    - Implementación del `manifest.yaml` como "Single Source of Truth" para inyectar y gobernar metadatos en ChromaDB.
+
+[x] EXT-A. Extracción Estructurada de Formularios.
+    - Estrategia *Long-Context* con Pydantic (`extraer_full_context`) para inferir reglas de bases de datos desde documentos en memoria RAM, esquivando el fraccionamiento del RAG.
+
+[x] EXT-B. Autogeneración de Metadatos.
+    - Creación de fichas técnicas automáticas con Pydantic (`extraer_metadatos_documento`) para clasificar documentos desconocidos antes de su indexación.
+
+[x] UI-A. Refactorización de Interfaz UX/UI (Directa).
+    - Rediseño de las pestañas de extracción para operar sin la metáfora de "Chat", orientadas a flujos directos (un solo clic) con resultados mostrados en tablas nativas.
+
+--------------------------------------------------------------------------------
+6. FUTURO (BACKLOG ADICIONAL)
 --------------------------------------------------------------------------------
 [ ] QA-C: Validar formato y trazabilidad en modo QA (Error Tipo C).
     - Estrategia: Al desactivar el esquema Pydantic para QA, los errores Tipo C desaparecieron. A futuro, implementar un validador que funja como "Error C" verificando específicamente el cumplimiento de las instrucciones de presentación del Prompt (ej. que la respuesta esté formateada en Markdown correcto y que incluya explícitamente las citas a los fragmentos de origen).

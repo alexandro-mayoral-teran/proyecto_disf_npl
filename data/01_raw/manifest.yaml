@@ -1,0 +1,86 @@
+# Catálogo Maestro de Documentos Normativos DISF
+# Este archivo actúa como la única fuente de verdad para inyectar metadatos en ChromaDB.
+
+documentos:
+  - archivo: "CUB_completo.md"
+    tema: "regulacion_general"
+    tipo_documento: "normativa_oficial"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "CNBV"
+    version: "2026"
+    vigente: true
+    comentarios: "CUB completa para prueba de rendimiento"
+  
+  - archivo: "Anexo_33_CUB.md"
+    tema: "regulacion_general"
+    tipo_documento: "normativa_oficial"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "CNBV"
+    version: "2026"
+    vigente: true
+    comentarios: "Anexo 33 de la CUB"
+
+  - archivo: "Circular3-2012.md"
+    tema: "regulacion_general"
+    tipo_documento: "normativa_oficial"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "CNBV"
+    version: "2026"
+    vigente: true
+    comentarios: "Circular 3-2012 de la CNBV"
+
+  - archivo: "Disposiciones_Liquidez.md"
+    tema: 
+      - "regulacion_general"
+      - "liquidez"
+    tipo_documento: "normativa_oficial"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "Banxico"
+    version: "2026"
+    vigente: true
+    comentarios: "Disposiciones de Liquidez"
+
+  - archivo: "LeyInstCredito_93-110.md"
+    tema: "regulacion_general"
+    tipo_documento: "normativa_oficial"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "Banxico"
+    version: "2026"
+    vigente: true
+    comentarios: "Ley de Instituciones de Crédito 93-110 (Extracto)"
+
+  - archivo: "Intraday_liquidity_esp.md"
+    tema: "liquidez"
+    tipo_documento: "normativa_oficial"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "Banxico"
+    version: "2026"
+    vigente: true
+    comentarios: "Intraday Liquidity (Español)"
+
+  - archivo: "catalogos_ml.md"
+    tema: "liquidez"
+    tipo_documento: "documentacion_interna"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "Banxico"
+    version: "2026"
+    vigente: true
+    comentarios: "Catálogos del ML"
+
+  - archivo: "AYUDAS_CNR_IFRS9.md"
+    tema: "creditos_no_revolventes"
+    tipo_documento: "documentacion_interna"
+    oficina_aplica: "todas"
+    confidencialidad: "publico"
+    institucion: "Banxico"
+    version: "2026"
+    vigente: true
+    comentarios: "Ayudas CNR"
+

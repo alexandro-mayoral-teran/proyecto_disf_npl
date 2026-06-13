@@ -101,12 +101,13 @@ class MotorBusqueda:
             collection_name=collection_name
         )
 
-    def buscar_similitud(self, query: str, k: int = 3) -> list:
+    def buscar_similitud(self, query: str, k: int = 3, filtro_dominio: str = None) -> list:
         """
-        Búsqueda semántica básica. Devuelve una lista de Documentos LangChain.
+        Búsqueda semántica básica con soporte de filtrado por metadatos. Devuelve una lista de Documentos LangChain.
         """
-        print(f"Buscando: '{query}'...")
-        return self.vectorstore.similarity_search(query, k=k)
+        print(f"Buscando: '{query}' (Filtro Tema: {filtro_dominio})...")
+        filtro_db = {"tema": {"$contains": filtro_dominio}} if filtro_dominio and filtro_dominio.lower() != "todos" else None
+        return self.vectorstore.similarity_search(query, k=k, filter=filtro_db)
 
     def buscar_similitud_tabular(self, query: str, k: int = 5) -> tuple[pd.DataFrame, list]:
         """
@@ -131,7 +132,7 @@ class MotorBusqueda:
 
         return pd.DataFrame(filas), resultados
 
-    def buscar_hibrido(self, query: str, documentos_bm25: list, k: int = 5, weights: list = [0.5, 0.5]) -> tuple[pd.DataFrame, list]:
+    def buscar_hibrido(self, query: str, documentos_bm25: list, k: int = 5, weights: list = [0.5, 0.5], filtro_dominio: str = None) -> tuple[pd.DataFrame, list]:
         """
         Ejecuta Búsqueda Híbrida: combina Búsqueda Léxica (BM25) y Semántica (ChromaDB) 
         usando Reciprocal Rank Fusion (RRF).
@@ -139,18 +140,27 @@ class MotorBusqueda:
         """
         from langchain_community.retrievers import BM25Retriever
 
-        print(f"Ejecutando Búsqueda Híbrida para: '{query}'...")
+        print(f"Ejecutando Búsqueda Híbrida para: '{query}' (Filtro Tema: {filtro_dominio})...")
 
         if not documentos_bm25:
             raise ValueError("Búsqueda Híbrida requiere 'documentos_bm25' para inicializar el BM25 local.")
 
-        # 1. Búsqueda Léxica
-        bm25_retriever = _get_bm25(documentos_bm25)
-        bm25_retriever.k = k
-        res_bm25 = bm25_retriever.invoke(query)
+        # 1. Búsqueda Léxica (Filtramos los documentos raw antes de indexar si es necesario)
+        docs_para_bm25 = documentos_bm25
+        if filtro_dominio and filtro_dominio.lower() != "todos":
+            docs_para_bm25 = [d for d in documentos_bm25 if d.metadata.get("tema") == filtro_dominio]
+            
+        if not docs_para_bm25:
+            print("[WARN] No hay documentos en memoria para este tema. Fallback a búsqueda semántica pura.")
+            res_bm25 = []
+        else:
+            bm25_retriever = _get_bm25(docs_para_bm25)
+            bm25_retriever.k = k
+            res_bm25 = bm25_retriever.invoke(query)
         
         # 2. Búsqueda Semántica
-        res_chroma = self.vectorstore.similarity_search(query, k=k)
+        filtro_db = {"tema": {"$contains": filtro_dominio}} if filtro_dominio and filtro_dominio.lower() != "todos" else None
+        res_chroma = self.vectorstore.similarity_search(query, k=k, filter=filtro_db)
         
         # 3. Reciprocal Rank Fusion (RRF) manual
         rrf_k = 60
@@ -211,6 +221,58 @@ class MotorBusqueda:
             })
 
         return pd.DataFrame(filas), resultados_raw
+
+    def buscar_similitud_dinamica(self, query: str, k: int, textos_efimeros: list, solo_efimero: bool, filtro_dominio: str = None) -> list:
+        """
+        Crea un VectorStore en memoria RAM para textos efímeros.
+        Si solo_efimero es True, devuelve solo resultados de RAM.
+        Si es False, utiliza EnsembleRetriever combinando la RAM con ChromaDB.
+        """
+        print(f"Ejecutando Búsqueda Dinámica/Efímera para: '{query}'...")
+        from src.nlp_core.chunking import RegulacionChunker, EstrategiaChunking
+        from langchain_chroma import Chroma
+        import uuid
+        
+        chunker = RegulacionChunker(EstrategiaChunking.ENCABEZADOS_MD, chunk_size=500, overlap=80)
+        chunks_efimeros = []
+        for txt in textos_efimeros:
+            chks = chunker.chunk(txt)
+            for c in chks:
+                c.metadata["source_file"] = "upload_temporal"
+                c.metadata["tema"] = "efimero"
+            chunks_efimeros.extend(chks)
+            
+        print(f" -> Creados {len(chunks_efimeros)} chunks efímeros en RAM.")
+        
+        # Base vectorial efímera (Sin persist_directory = en memoria RAM)
+        collection_id = str(uuid.uuid4())
+        vectorstore_ram = Chroma.from_documents(
+            documents=chunks_efimeros,
+            embedding=self.embeddings,
+            collection_name=f"ram_{collection_id}"
+        )
+        
+        retriever_ram = vectorstore_ram.as_retriever(search_kwargs={"k": k})
+        
+        if solo_efimero:
+            print(" -> Buscando SOLO en el documento temporal...")
+            resultados = retriever_ram.invoke(query)
+            # Limpiar memoria
+            vectorstore_ram.delete_collection()
+            return resultados
+        else:
+            print(" -> Combinando Base Central + Documento Temporal (EnsembleRetriever)...")
+            from langchain.retrievers import EnsembleRetriever
+            filtro_db = {"tema": {"$contains": filtro_dominio}} if filtro_dominio and filtro_dominio.lower() != "todos" else None
+            retriever_db = self.vectorstore.as_retriever(search_kwargs={"k": k, "filter": filtro_db})
+            
+            ensemble_retriever = EnsembleRetriever(
+                retrievers=[retriever_db, retriever_ram],
+                weights=[0.5, 0.5]
+            )
+            resultados = ensemble_retriever.invoke(query)
+            vectorstore_ram.delete_collection()
+            return resultados[:k]
 
     def buscar_bow(self, query: str, documentos_raw: list, k: int = 5) -> tuple[pd.DataFrame, list]:
         """Búsqueda Léxica pura usando Bag of Words (CountVectorizer)."""

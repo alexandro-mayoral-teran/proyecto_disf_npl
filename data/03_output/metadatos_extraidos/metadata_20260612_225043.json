@@ -1,0 +1,35 @@
+{
+    "tema_principal": "Créditos al Consumo Revolventes",
+    "subtemas": [
+        "Tarjetas de Crédito",
+        "Indicadores Financieros",
+        "Requerimientos de Información"
+    ],
+    "nivel_confidencialidad": "Publico",
+    "audiencia": "Bancos y SOFOMES ER",
+    "frecuencia_reporte": "Bimestral",
+    "descripcion_corta": "Formulario para reporte bimestral de créditos al consumo revolventes para bancos y SOFOMES ER.",
+    "justificacion_extraccion": "El documento se centra en la recopilación de información sobre créditos al consumo revolventes, específicamente para bancos y SOFOMES ER, con un enfoque en el cumplimiento regulatorio y la generación de estadísticas.",
+    "metadatos_dinamicos": [
+        {
+            "clave": "Área Emisora",
+            "valor": "Banco de México"
+        },
+        {
+            "clave": "Leyes de Referencia",
+            "valor": "Ley de Instituciones de Crédito, Ley del Banco de México, Ley de Transparencia y Ordenamiento de Servicios Financieros"
+        },
+        {
+            "clave": "Fecha de Entrada en Vigor",
+            "valor": "2 de enero de 2022"
+        },
+        {
+            "clave": "Tipo de Instrumento",
+            "valor": "Formulario"
+        },
+        {
+            "clave": "Sectores Afectados",
+            "valor": "Sector Financiero"
+        }
+    ]
+}

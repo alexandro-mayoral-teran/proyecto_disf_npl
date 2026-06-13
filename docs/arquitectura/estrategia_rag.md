@@ -2,6 +2,8 @@
 
 Este documento sirve como la documentación extendida del proyecto. Detalla el contexto del problema, el flujo de procesamiento de los documentos regulatorios, las técnicas de Prompt Engineering aplicadas y las estrategias de Inteligencia Artificial evaluadas (Full Context vs RAG) para la extracción automatizada de requerimientos de información.
 
+> **Nota de Arquitectura Actualizada:** Para conocer los detalles operativos de la extracción estructurada final (Long-Context + Pydantic) y la inyección automatizada de metadatos de gobernanza que se implementaron como prototipos finales en el sistema, consulta el documento unificado: [extraccion_y_gobernanza_datos.md](./extraccion_y_gobernanza_datos.md).
+
 ## 1. Contexto del Problema
 
 El Banco de México (Banxico) y otras entidades regulatorias publican normativas extensas (ej. Circular Única de Bancos). Estas normativas contienen reglas de negocio, fórmulas matemáticas y catálogos de datos que las instituciones financieras deben cumplir al reportar su información. 
@@ -319,3 +321,32 @@ Se maduró la telemetría operativa. En lugar de monitorizar promedios, el dashb
 ### 11.3 El Paradigma DSPy y la Auto-Compilación (Stanford)
 Para superar los límites empíricos del *Prompt Engineering* manual, se integró una prueba de concepto usando el framework **DSPy**. En lugar de escribir instrucciones detalladas y estáticas, se definió una firma modular (`Signature`).
 Se integró un Optimizador (`BootstrapFewShot`) que utiliza el registro histórico de telemetría (Caché Semántico) para simular ejecuciones y empaquetar matemáticamente los mejores ejemplos dentro del prompt (Few-Shot guiado por métricas). Esta arquitectura transforma al RAG en un sistema de auto-mejora continua.
+
+### 11.4 Inyección Efímera y Búsqueda en Conjunto (EnsembleRetriever)
+Para permitir que los usuarios (analistas) suban documentos complementarios al vuelo (ej. oficios, actas) sin re-indexar la base de datos principal, se implementó una estrategia de **Búsqueda Dinámica Efímera**.
+Cuando se carga un documento PDF/Word temporal:
+1. **Indexación en RAM:** El sistema extrae el texto y lo indexa en una colección temporal de ChromaDB que reside exclusivamente en la memoria RAM (sin persistencia en disco), aislando temporalmente el dominio.
+2. **Control de Contexto (Aislado vs Combinado):**
+   - **Aislar Contexto:** Si el usuario elige esta opción, el sistema interroga *únicamente* la base de datos temporal en RAM. Esto garantiza que el LLM no "alucine" mezclando regulaciones de la base maestra con el caso particular del documento subido.
+   - **Contexto Combinado (EnsembleRetriever):** Si el usuario no aísla el contexto, el sistema activa un `EnsembleRetriever` de LangChain. Este componente ejecuta búsquedas simultáneas en ambas bases (la base histórica `chroma_db` y la base efímera en RAM), asignando un peso equitativo (`weights=[0.5, 0.5]`) a los resultados antes de re-ordenarlos. Esto le otorga al LLM una visión holística que cruza el documento del usuario contra todo el marco regulatorio.
+
+### 11.5 Resiliencia en la Extracción Documental (Fallback Local PyPDF)
+Durante el uso operativo, se descubrió que el API externo principal de conversión documental (BlazeDocs) es susceptible a rechazos por archivos corruptos, especialmente "Git LFS Pointers" (archivos de texto vacíos que simulan ser PDFs al no clonarse correctamente con Git LFS).
+Para blindar el sistema y evitar caídas (`500 Internal Server Error`), se programó un mecanismo de Resiliencia y Manejo de Errores:
+1. **Fallback Automático:** Si BlazeDocs falla, la excepción es atrapada y el flujo se rutea silenciosamente hacia un parser local usando la librería `pypdf` (`_procesar_pdf_local`).
+2. **Detección de Corrupción en RAM:** Si el archivo también falla localmente (ej. `PdfStreamError` por no tener firma binaria de PDF), el sistema atrapa el fallo nativo de C/C++ y en su lugar emite un mensaje HTTP 400 amistoso informando al usuario que el archivo original (probablemente un puntero Git) está hueco o corrupto, preservando la experiencia de usuario (UX) sin crashear el orquestador general de FastAPI.
+
+### 11.6 La Jerarquía de la Verdad (Prelación Jurídica en el RAG)
+Al indexar múltiples tipos de documentos en una misma base de datos (ej. normativas oficiales puras vs. manuales de ayuda o FAQs), surge el desafío de la **Jerarquía de la Verdad**. Legalmente, una normativa oficial tiene mayor peso que una guía de ayuda, y el modelo debe resolver conflictos a favor de la ley.
+Para abordar este reto arquitectónico sin aislar los documentos en silos separados, se diseñó la inyección robusta de metadatos mediante `manifest.yaml` (ej. `tipo_documento: normativa_oficial` vs `guia_ayuda`), habilitando tres estrategias operativas:
+1. **Ponderación vía System Prompt (Línea Base):** El LLM recibe todos los fragmentos sin discriminar, pero es gobernado por una regla rígida en su System Prompt que dicta: *"En caso de conflicto de información, la normativa oficial tiene prelación absoluta. Menciona las guías de ayuda solo como soporte explicativo."*
+2. **Filtrado Dinámico de Metadatos (Self-Query):** Un paso de pre-procesamiento donde el Agente detecta la intención del usuario y aplica filtros estrictos sobre ChromaDB antes de recuperar texto (ej. restringiendo la búsqueda exclusivamente a normativas para preguntas punitivas, y abriendo el filtro a guías para preguntas operativas).
+3. **Re-Ranking con Boost Matemático (Soft Weighting):** Intervención en el algoritmo Reciprocal Rank Fusion (RRF) en `retrieval.py` donde los fragmentos con el metadato `tipo_documento: normativa` reciben un factor multiplicador (ej. `x 1.5`) en su score, empujándolos forzosamente al tope superior del contexto y relegando las ayudas al fondo.
+
+**Decisión Arquitectónica Implementada:** Se optó por implementar la **Estrategia 1 (Prompt Engineering Jerárquico)** añadiendo la regla `JERARQUÍA DOCUMENTAL` al archivo `prompts.json`. Esta decisión se tomó por ser la más elegante y "cero invasiva", ya que delega la resolución de conflictos al razonamiento lógico del modelo sin alterar ni sesgar prematuramente las métricas matemáticas del motor de búsqueda (Retrieval), previniendo la pérdida accidental de contexto periférico valioso.
+
+### 11.7 Ingeniería de Prompts para Concisión y Control de Verbosidad
+En sistemas de Chat RAG regulatorio, los LLMs tienden a la hiper-verbosidad ("sobre-explicación"), respondiendo a preguntas simples con desgloses extensos de características o clasificaciones no solicitadas, acompañadas de preámbulos robóticos ("Según la información proporcionada..."). 
+
+Para alinear el comportamiento del modelo a las expectativas de un analista financiero (que busca respuestas directas y eficientes), se aplicó una técnica de *System Prompting* restrictivo:
+* **Inyección de la regla de CONCISIÓN (`prompts.json`):** Se le prohíbe explícitamente al LLM utilizar preámbulos y se le fuerza a "ir directo al grano", limitando la generación estrictamente a la entidad de la pregunta formulada sin extenderse en información periférica de los fragmentos recuperados. Esto reduce dramáticamente la carga cognitiva del usuario en la interfaz y mejora los tiempos de latencia y costos de *Output Tokens*.

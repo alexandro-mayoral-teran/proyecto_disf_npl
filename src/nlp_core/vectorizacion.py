@@ -25,7 +25,7 @@ class MotorVectorizacion:
         
         self.persist_dir = str(persist_dir) if persist_dir else str(project_root / "data" / "03_output" / "chroma_db")
 
-    def indexar_documento_markdown(self, ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf", postprocesadores: list = None):
+    def indexar_documento_markdown(self, ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf", postprocesadores: list = None, tema: str = "general"):
         """
         Toma un archivo Markdown local, lo fragmenta usando el chunker proporcionado y lo guarda en ChromaDB.
         Si no se provee chunker, usa EstrategiaChunking.ENCABEZADOS_MD por defecto.
@@ -56,6 +56,7 @@ class MotorVectorizacion:
         ids = []
         for i, chunk in enumerate(chunks):
             chunk.metadata["source_file"] = ruta_archivo.name
+            chunk.metadata["tema"] = tema
             ids.append(f"{ruta_archivo.stem}_{chunker.estrategia}_chunk_{i}")
             
         print("Indexando en ChromaDB...")
@@ -106,6 +107,72 @@ class MotorVectorizacion:
         print(f'"Base vectorial creada y almacenada en" {self.persist_dir}')
         return vectorstore
 
+    def indexar_desde_manifest(self, manifest_path: str | Path, base_dir: str | Path, collection_name: str = "regulacion_disf", chunker=None, postprocesadores=None):
+        """
+        Lee un archivo manifest.yaml y procesa todos los documentos listados, inyectando 
+        sus respectivos metadatos en ChromaDB, permitiendo postprocesadores (ej. ContextualizadorLLM).
+        """
+        import yaml
+        from src.nlp_core.chunking import RegulacionChunker, EstrategiaChunking
+        from src.utils.limpieza_texto import procesar_documento
+        
+        manifest_path = Path(manifest_path)
+        base_dir = Path(base_dir)
+        
+        with open(manifest_path, 'r', encoding='utf-8') as f:
+            manifest = yaml.safe_load(f)
+            
+        documentos_totales = []
+        ids_totales = []
+        
+        chunker = RegulacionChunker(EstrategiaChunking.ENCABEZADOS_MD, chunk_size=500, overlap=80)
+        
+        for entry in manifest.get("documentos", []):
+            archivo_nombre = entry.get("archivo")
+            tema_raw = entry.get("tema", "general")
+            tema = ", ".join(tema_raw) if isinstance(tema_raw, list) else str(tema_raw)
+            institucion = entry.get("institucion", "CNBV")
+            version = str(entry.get("version", "1.0"))
+            
+            ruta_archivo = base_dir / archivo_nombre
+            if not ruta_archivo.exists():
+                print(f"[WARN] Archivo no encontrado: {ruta_archivo}")
+                continue
+                
+            print(f"Procesando {archivo_nombre} (Tema: {tema})...")
+            texto = ruta_archivo.read_text(encoding="utf-8")
+            texto_limpio = procesar_documento(texto, origen=institucion)
+            chunks = chunker.chunk(texto_limpio)
+            
+            if postprocesadores:
+                print(f"   Aplicando {len(postprocesadores)} post-procesadores a {archivo_nombre} (puede tardar por el LLM)...")
+                for procesador in postprocesadores:
+                    chunks = procesador.procesar(chunks, texto_limpio)
+            
+            for i, chunk in enumerate(chunks):
+                chunk.metadata["source_file"] = archivo_nombre
+                chunk.metadata["tema"] = tema
+                chunk.metadata["institucion"] = institucion
+                chunk.metadata["version"] = version
+                
+                documentos_totales.append(chunk)
+                ids_totales.append(f"{ruta_archivo.stem}_{chunker.estrategia}_chunk_{i}")
+                
+        if documentos_totales:
+            print(f"Indexando {len(documentos_totales)} chunks consolidados en ChromaDB...")
+            vectorstore = Chroma.from_documents(
+                documents=documentos_totales,
+                embedding=self.embeddings,
+                ids=ids_totales,
+                persist_directory=self.persist_dir,
+                collection_name=collection_name
+            )
+            print("Indexación desde manifest completada.")
+            return vectorstore
+        else:
+            print("No se generaron documentos para indexar.")
+            return None
+
 # =====================================================================
 # FUNCIONES  
 # =====================================================================
@@ -114,9 +181,13 @@ def obtener_embeddings():
     motor = MotorVectorizacion()
     return motor.embeddings
 
-def indexar_documento(ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf", postprocesadores=None):
+def indexar_documento(ruta_archivo: Path, chunker=None, origen: str = "CNBV", collection_name: str = "regulacion_disf", postprocesadores=None, tema: str = "general"):
     motor = MotorVectorizacion()
-    return motor.indexar_documento_markdown(ruta_archivo, chunker=chunker, origen=origen, collection_name=collection_name, postprocesadores=postprocesadores)
+    return motor.indexar_documento_markdown(ruta_archivo, chunker=chunker, origen=origen, collection_name=collection_name, postprocesadores=postprocesadores, tema=tema)
+
+def indexar_desde_manifest(manifest_path: Path, base_dir: Path, collection_name: str = "regulacion_disf", chunker=None, postprocesadores=None):
+    motor = MotorVectorizacion()
+    return motor.indexar_desde_manifest(manifest_path, base_dir, collection_name, chunker=chunker, postprocesadores=postprocesadores)
 
 def indexar_documentos_formularios(df_textos: pd.DataFrame, collection_name: str = "regulacion_formularios_disf"):
     motor = MotorVectorizacion()

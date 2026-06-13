@@ -9,10 +9,53 @@ const btnQaSend = document.getElementById('btn-qa-send');
 
 // Referencias DOM - Tab 1: Extracción Formularios
 const chatForm = document.getElementById('chat-form');
-const queryInput = document.getElementById('query-input');
-const chatHistory = document.getElementById('chat-history');
 const resultContainer = document.getElementById('result-container');
 const btnSend = document.getElementById('btn-send');
+const formStatus = document.getElementById('extraccion-form-status');
+
+// Referencias DOM - Tab 2: Extracción Metadatos
+const metaForm = document.getElementById('meta-form');
+const btnMetaSend = document.getElementById('btn-meta-send');
+const metaResultContainer = document.getElementById('meta-result-container');
+const metaStatus = document.getElementById('extraccion-meta-status');
+
+// Controles Globales (Efímero y Temas)
+const temaSelect = document.getElementById('tema-select');
+const efimeroFile = document.getElementById('efimero-file');
+const btnUploadEfimero = document.getElementById('btn-upload-efimero');
+const efimeroStatus = document.getElementById('efimero-status');
+const soloEfimeroCheck = document.getElementById('solo-efimero-check');
+const dbSelector = document.getElementById('db-selector');
+
+let textosEfimerosGlobal = null;
+
+btnUploadEfimero.addEventListener('click', async () => {
+    const file = efimeroFile.files[0];
+    if (!file) return;
+    
+    efimeroStatus.textContent = "Procesando documento...";
+    btnUploadEfimero.disabled = true;
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    try {
+        const response = await fetch('/api/upload_efimero', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (response.ok && result.status === "success") {
+            textosEfimerosGlobal = [result.markdown];
+            efimeroStatus.textContent = "✅ ¡Cargado en Memoria RAM!";
+        } else {
+            efimeroStatus.textContent = "❌ Error: " + (result.detail || "Desconocido");
+        }
+    } catch (err) {
+        efimeroStatus.textContent = "❌ Error de red al subir archivo.";
+    } finally {
+        btnUploadEfimero.disabled = false;
+    }
+});
 
 // Cambio de Pestañas
 function switchTab(tabId, navElement) {
@@ -144,7 +187,10 @@ qaForm.addEventListener('submit', async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 query: query, 
-                top_k: 4
+                tema: temaSelect.value,
+                textos_efimeros: textosEfimerosGlobal,
+                solo_efimero: soloEfimeroCheck.checked,
+                db_folder: dbSelector ? dbSelector.value : "chroma_db"
             })
         });
 
@@ -172,7 +218,7 @@ qaForm.addEventListener('submit', async (e) => {
         if (qaHistory.contains(skeletonDiv)) {
             qaHistory.removeChild(skeletonDiv);
         }
-        addChatMessage("Ocurrió un error: " + error.message, 'bot', qaHistory);
+        addChatMessage(error.message, 'bot', qaHistory);
     } finally {
         btnQaSend.innerHTML = btnHtml;
         btnQaSend.disabled = false;
@@ -199,25 +245,46 @@ function renderResultTable(data) {
     }
 
     let html = `<h4 style="color: var(--banxico-azul-institucional);">${data.nombre_formulario}</h4>`;
-    html += `<table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Campo</th>
-                        <th>Tipo Dato</th>
-                        <th>Descripción</th>
-                        <th>Fórmula</th>
-                    </tr>
-                </thead>
-                <tbody>`;
+    
+    // Renderizar Ficha Técnica (Metadatos Dinámicos) si existen
+    if (data.metadatos_adicionales && data.metadatos_adicionales.length > 0) {
+        html += `
+        <div style="background-color: #f8f9fa; border-left: 4px solid var(--banxico-oro); padding: 10px; margin-bottom: 20px; border-radius: 4px;">
+            <h5 style="margin-top: 0; color: #333;">Ficha Técnica / Metadatos Extraídos</h5>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px;">
+        `;
+        data.metadatos_adicionales.forEach(meta => {
+            html += `
+                <div>
+                    <strong style="color: var(--banxico-azul-claro); font-size: 0.9em;">${meta.clave}</strong><br>
+                    <span style="font-size: 0.9em;">${meta.valor}</span>
+                </div>
+            `;
+        });
+        html += `</div></div>`;
+    }
+
+    html += `<div class="table-responsive"><table class="table">
+        <thead>
+            <tr>
+                <th>Campo</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th>Fórmula / Validaciones</th>
+                <th>Catálogo</th>
+            </tr>
+        </thead>
+        <tbody>`;
     
     data.campos_formulario.forEach(campo => {
         let catalogoBadge = campo.es_catalogo ? `<br><span class="badge-catalogo">Catálogo: ${campo.nombre_catalogo_vinculado || 'Sí'}</span>` : '';
         let formulaText = campo.formula_calculo ? `<strong>${campo.formula_calculo}</strong>` : '-';
+        let justificacionText = campo.justificacion ? `<br><em style="font-size:0.85em; color:#64748b; display:block; margin-top:4px;"><i data-lucide="info" class="icon-sm"></i> Rationale: ${campo.justificacion}</em>` : '';
         
         html += `<tr>
                     <td><strong>${campo.nombre_campo}</strong>${catalogoBadge}</td>
                     <td>${campo.tipo_dato}</td>
-                    <td>${campo.descripcion_funcional}</td>
+                    <td>${campo.descripcion_funcional}${justificacionText}</td>
                     <td>${formulaText}</td>
                  </tr>`;
     });
@@ -239,20 +306,30 @@ function renderResultTable(data) {
 
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const query = queryInput.value.trim();
-    if (!query) return;
+    
+    if (!textosEfimerosGlobal || textosEfimerosGlobal.length === 0) {
+        formStatus.innerHTML = "⚠️ Sube un 'Documento Temporal' arriba antes de extraer.";
+        formStatus.style.color = "#dc3545"; // rojo
+        return;
+    }
 
-    addChatMessage(query, 'user', chatHistory);
-    queryInput.value = '';
+    formStatus.innerHTML = "Procesando documento... esto puede tomar varios segundos.";
+    formStatus.style.color = "var(--banxico-azul-medio)";
     btnSend.disabled = true;
     showTableSkeleton();
-    addChatMessage("Ejecutando RAG y estructurando respuesta Pydantic...", 'bot', chatHistory);
 
     try {
-        const response = await fetch('/api/extraer_formulario', {
+        const response = await fetch('/api/extraer_formulario_full_context', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: query, top_k: 4 })
+            body: JSON.stringify({ 
+                query: "extraer todo", // Dummy
+                top_k: 4,
+                tema: temaSelect.value,
+                textos_efimeros: textosEfimerosGlobal,
+                solo_efimero: true, // Siempre true para este flujo
+                db_folder: dbSelector ? dbSelector.value : "chroma_db"
+            })
         });
 
         const jsonResp = await response.json();
@@ -263,17 +340,173 @@ chatForm.addEventListener('submit', async (e) => {
         const telemetry = jsonResp.telemetry;
 
         renderResultTable(formResponse);
-        addChatMessage(`¡Listo! Extraje ${formResponse.campos_formulario.length} campos. Revisa la tabla de la derecha.`, 'bot', chatHistory);
+        
+        // Agregar info de guardado
+        resultContainer.innerHTML += `
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: #64748b; text-align: right;">
+                <i data-lucide="save" class="icon-sm"></i> Guardado como: <strong>${jsonResp.saved_to}</strong>
+            </div>
+        `;
+        
+        formStatus.innerHTML = `¡Listo! Se extrajeron ${formResponse.campos_formulario.length} campos.`;
+        formStatus.style.color = "green";
 
-        latencyHud.innerHTML = `<i data-lucide="activity" class="icon-sm"></i> Latencia: ${telemetry.latencia_total_seg}s`;
+        latencyHud.innerHTML = `<i data-lucide="activity" class="icon-sm"></i> Latencia: ${telemetry.latencia_total_seg || telemetry.latencia_seg}s`;
         lucide.createIcons();
         
     } catch (error) {
-        addChatMessage("Ocurrió un error: " + error.message, 'bot', chatHistory);
-        resultContainer.innerHTML = `<div class="callout callout-important">Error al consultar el modelo: ${error.message}</div>`;
+        formStatus.innerHTML = error.message;
+        formStatus.style.color = "#dc3545";
+        resultContainer.innerHTML = `<div class="callout callout-important">${error.message}</div>`;
     } finally {
         btnSend.disabled = false;
-        queryInput.focus();
+    }
+});
+
+// Cargar temas dinámicamente desde manifest.yaml
+async function loadTemas() {
+    try {
+        const response = await fetch('/api/temas');
+        const result = await response.json();
+        if (result.status === 'success' && result.temas) {
+            const select = document.getElementById('tema-select');
+            result.temas.forEach(tema => {
+                const option = document.createElement('option');
+                option.value = tema;
+                // Formatear: regulacion_general -> Regulacion General
+                option.textContent = tema.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                select.appendChild(option);
+            });
+        }
+    } catch (e) {
+        console.error("Error cargando temas dinámicos:", e);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadTemas);
+
+
+// ----------------------------------------------------
+// LÓGICA: Pestaña 2 - Extracción Metadatos
+// ----------------------------------------------------
+
+metaForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!textosEfimerosGlobal || textosEfimerosGlobal.length === 0) {
+        metaStatus.innerHTML = "⚠️ Sube un 'Documento Temporal' arriba antes de extraer.";
+        metaStatus.style.color = "#dc3545"; // rojo
+        return;
+    }
+
+    metaStatus.innerHTML = "Extrayendo metadatos del documento...";
+    metaStatus.style.color = "var(--banxico-azul-medio)";
+    btnMetaSend.disabled = true;
+    
+    metaResultContainer.innerHTML = `
+        <div class="skeleton skeleton-text" style="width: 80%"></div>
+        <div class="skeleton skeleton-text" style="width: 60%; margin-top: 1rem;"></div>
+        <div class="skeleton skeleton-text" style="width: 70%; margin-top: 1rem;"></div>
+    `;
+
+    try {
+        const response = await fetch('/api/extraer_metadatos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                query: "extraer metadatos", // Query dummy, el endpoint solo usa textos_efimeros
+                textos_efimeros: textosEfimerosGlobal
+            })
+        });
+
+        const jsonResp = await response.json();
+
+        if (!response.ok) throw new Error(jsonResp.detail || "Error en el servidor");
+
+        const data = jsonResp.data;
+        const telemetry = jsonResp.telemetry;
+        
+        // Renderizar Metadatos
+        let subtemasHtml = data.subtemas.map(s => `<span class="badge-catalogo" style="background-color: var(--banxico-azul-medio); margin-right: 4px;">${s}</span>`).join('');
+        
+        let dinamicosHtml = '';
+        if (data.metadatos_dinamicos && data.metadatos_dinamicos.length > 0) {
+            dinamicosHtml = `
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1;">
+                    <strong style="color: var(--banxico-oro); font-size: 0.85em; text-transform: uppercase;"><i data-lucide="sparkles" class="icon-sm"></i> Metadatos Dinámicos Detectados</strong>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+            `;
+            data.metadatos_dinamicos.forEach(meta => {
+                dinamicosHtml += `
+                    <div style="background-color: white; padding: 8px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                        <strong style="color: #475569; font-size: 0.85em;">${meta.clave}</strong><br>
+                        <span style="font-size: 0.9em;">${meta.valor}</span>
+                    </div>
+                `;
+            });
+            dinamicosHtml += `</div></div>`;
+        }
+        
+        let html = `
+            <div style="background-color: #f8f9fa; border-left: 4px solid var(--banxico-turquesa); padding: 15px; border-radius: 4px;">
+                <h4 style="margin-top: 0; color: var(--banxico-azul-institucional); margin-bottom: 1rem;">Metadatos del Documento</h4>
+                
+                <div style="background-color: #f1f5f9; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 0.9em;">
+                    <strong style="color: #64748b;"><i data-lucide="info" class="icon-sm"></i> Justificación de Extracción (Rationale):</strong>
+                    <p style="margin: 4px 0 0 0; font-style: italic; color: #475569;">"${data.justificacion_extraccion || 'No proporcionada.'}"</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <strong style="color: var(--banxico-azul-claro); font-size: 0.85em; text-transform: uppercase;">Tema Principal</strong>
+                        <div style="font-size: 1.1em; font-weight: bold;">${data.tema_principal}</div>
+                    </div>
+                    <div>
+                        <strong style="color: var(--banxico-azul-claro); font-size: 0.85em; text-transform: uppercase;">Confidencialidad</strong>
+                        <div style="font-size: 1.1em; font-weight: bold; color: ${data.nivel_confidencialidad.toLowerCase().includes('restringido') ? '#dc3545' : 'inherit'}">${data.nivel_confidencialidad}</div>
+                    </div>
+                    <div>
+                        <strong style="color: var(--banxico-azul-claro); font-size: 0.85em; text-transform: uppercase;">Audiencia Objetivo</strong>
+                        <div style="font-size: 1em;">${data.audiencia}</div>
+                    </div>
+                    <div>
+                        <strong style="color: var(--banxico-azul-claro); font-size: 0.85em; text-transform: uppercase;">Frecuencia Reporte</strong>
+                        <div style="font-size: 1em;">${data.frecuencia_reporte || 'No especificada'}</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <strong style="color: var(--banxico-azul-claro); font-size: 0.85em; text-transform: uppercase;">Subtemas</strong>
+                    <div style="margin-top: 5px;">${subtemasHtml}</div>
+                </div>
+                
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                    <strong style="color: var(--banxico-azul-claro); font-size: 0.85em; text-transform: uppercase;">Descripción Corta</strong>
+                    <p style="margin-top: 5px; margin-bottom: 0;">${data.descripcion_corta}</p>
+                </div>
+                ${dinamicosHtml}
+            </div>
+            
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: #64748b; text-align: right;">
+                <i data-lucide="save" class="icon-sm"></i> Guardado como: <strong>${jsonResp.saved_to}</strong>
+            </div>
+        `;
+        
+        metaResultContainer.innerHTML = html;
+        lucide.createIcons();
+
+        metaStatus.innerHTML = `¡Extracción completada con éxito!`;
+        metaStatus.style.color = "green";
+
+        latencyHud.innerHTML = `<i data-lucide="activity" class="icon-sm"></i> Latencia: ${telemetry.latencia_seg}s`;
+        lucide.createIcons();
+        
+    } catch (error) {
+        metaStatus.innerHTML = error.message;
+        metaStatus.style.color = "#dc3545";
+        metaResultContainer.innerHTML = `<div class="callout callout-important">${error.message}</div>`;
+    } finally {
+        btnMetaSend.disabled = false;
     }
 });
 

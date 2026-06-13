@@ -54,8 +54,9 @@ graph TD
         Q -.->|3. Desagregación Errores| U_eval[Fallas A, B, C]
     end
 
-    %% API
-    V(api/main_api.py) --> L
+    %% API e Interfaces
+    V(api/main_api.py) -->|Vía Chat RAG| L
+    V -->|Vía Extracción Pydantic| L
 ```
 
 ---
@@ -89,7 +90,9 @@ graph TD
   - **Caché Semántico:** Intercepta la consulta antes del RAG. Usa Llama 3.1 como Juez para determinar equivalencia semántica devolviendo respuestas cacheadas en milisegundos.
   - Recibe los fragmentos encontrados por el pipeline y los **agrupa lógicamente por documento de origen** (Soporte Multi-Documento).
   - Inyecta el contexto y la pregunta al LLM (Ensamble Cascade: intenta Local, escala a Nube si falla la métrica de confianza).
-  - Genera la respuesta en texto libre (`responder_rag_qa`) o en un JSON Pydantic estricto (`extraer_rag_simple`).
+  - **Doble Vía de Ejecución:**
+    - *Vía RAG:* Genera respuestas de chat consultando la base de datos (`responder_rag_cascade_qa`).
+    - *Vía Long-Context:* Extrae JSON estructurado directo desde un documento cargado en memoria usando Pydantic, sin usar búsqueda fragmentada (`extraer_full_context` y `extraer_metadatos_documento`).
   - Escribe el consumo de tokens y latencia en el archivo de telemetría.
 
 ### 6. `src/nlp_core/evals/evaluador.py` (`EvaluadorRAG`)

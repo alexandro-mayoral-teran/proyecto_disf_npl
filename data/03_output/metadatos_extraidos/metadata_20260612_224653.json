@@ -1,0 +1,29 @@
+{
+    "tema_principal": "Créditos al Consumo No Revolventes",
+    "subtemas": [
+        "ABCD",
+        "Auto",
+        "Microcréditos",
+        "Nómina",
+        "Personales"
+    ],
+    "nivel_confidencialidad": "Publico",
+    "audiencia": "Bancos y SOFOMES ER",
+    "frecuencia_reporte": "Bimestral",
+    "descripcion_corta": "Formulario para el reporte bimestral de créditos al consumo no revolventes para bancos y SOFOMES ER.",
+    "justificacion_extraccion": "El documento se centra en el reporte de créditos al consumo no revolventes, especificando su periodicidad y audiencia objetivo.",
+    "metadatos_dinamicos": [
+        {
+            "clave": "Vigencia",
+            "valor": "Vigente a partir del 02 de enero de 2022 – Última modificación 25 de agosto de 2025"
+        },
+        {
+            "clave": "Fundamento Legal",
+            "valor": "Sección I del documento"
+        },
+        {
+            "clave": "Objetivo del Requerimiento",
+            "valor": "Sección II del documento"
+        }
+    ]
+}

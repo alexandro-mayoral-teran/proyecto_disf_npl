@@ -157,17 +157,41 @@ class IngestorDocumentos:
             files = {"file": (input_path.name, file, "application/pdf")}
             response = requests.post(self.blazedocs_url, headers=headers, files=files)
 
-        response.raise_for_status()
-        result = response.json()
+        try:
+            response.raise_for_status()
+            result = response.json()
 
-        if not result.get("success", False):
-            raise ValueError(f"BlazeDocs falló: {result.get('error', 'Error desconocido')}")
+            if not result.get("success", False):
+                raise ValueError(f"BlazeDocs falló: {result.get('error', 'Error desconocido')}")
 
-        data = result["data"]
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write(data["markdown"])
+            data = result["data"]
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(data["markdown"])
+                
+            return data  # Devuelve metadata
+        except Exception as e:
+            logger.warning(f"Error con BlazeDocs ({e}). Activando fallback local (pypdf)...")
+            return self._procesar_pdf_local(input_path, output_path)
+
+    def _procesar_pdf_local(self, input_path: Path, output_path: Path) -> dict:
+        import pypdf
+        texto_completo = []
+        try:
+            reader = pypdf.PdfReader(str(input_path))
+            for i, page in enumerate(reader.pages):
+                texto = page.extract_text()
+                if texto:
+                    texto_completo.append(f"## Página {i+1}\n\n{texto.strip()}")
             
-        return data  # Devuelve metadata (page_count, token_count, processing_time_ms)
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(f"# Documento: {input_path.stem}\n\n")
+                f.write("\n\n".join(texto_completo))
+                
+            return {"page_count": len(reader.pages)}
+        except pypdf.errors.PdfStreamError:
+            raise ValueError("El archivo PDF parece estar corrupto, vacío o es un puntero de Git LFS (archivo de texto). Por favor descarga el PDF real.")
+        except Exception as e:
+            raise ValueError(f"Error al leer PDF localmente: {str(e)}")
 
     def _procesar_excel(self, input_path: Path, output_path: Path) -> dict:
         archivo_xls = pd.ExcelFile(input_path)

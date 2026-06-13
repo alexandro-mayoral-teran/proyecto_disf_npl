@@ -24,6 +24,14 @@ class CampoFormulario(BaseModel):
     es_catalogo: bool = Field(..., description="Indica si este campo requiere una lista cerrada de valores (Catálogo).")
     nombre_catalogo_vinculado: Optional[str] = Field(None, description="Si es_catalogo es True, indicar el nombre del catálogo correspondiente.")
     validaciones_sugeridas: Optional[List[str]] = Field(None, description="Reglas de negocio o validaciones cruzadas deducidas del texto (ej. 'No puede ser negativo', 'Debe ser menor a la fecha actual').")
+    justificacion: str = Field(..., description="Breve justificación o cita literal del fragmento del documento donde se fundamenta la creación de este campo.")
+
+# ==========================================
+# ESQUEMAS PARA METADATOS FLEXIBLES
+# ==========================================
+class MetadatoDinamico(BaseModel):
+    clave: str = Field(..., description="Categoría general y estandarizada del metadato (ej. 'Periodicidad', 'Sujetos Obligados', 'Fundamento Legal', 'Temática Principal', 'Sanciones'). Evita crear claves hiper-específicas; usa nombres amplios que permitan homologar la metadata entre múltiples documentos distintos.")
+    valor: str = Field(..., description="Valor extraído para este metadato según el texto normativo.")
 
 # ==========================================
 # ESQUEMA PRINCIPAL (CONTRATO DE SALIDA DEL LLM)
@@ -38,3 +46,17 @@ class RequerimientoInformacion(BaseModel):
     campos_formulario: List[CampoFormulario] = Field(..., description="Lista de todas las columnas/campos que componen el formulario.")
     catalogos_identificados: List[CatalogoAsociado] = Field(default_factory=list, description="Lista de catálogos encontrados con sus respectivos valores.")
     ambiguedades_detectadas: Optional[List[str]] = Field(None, description="Cualquier contradicción o falta de claridad detectada en la normativa original.")
+    metadatos_adicionales: List[MetadatoDinamico] = Field(default_factory=list, description="Lista de metadatos o fichas técnicas relevantes que el modelo considere importantes extraer del contexto general del formulario (frecuencia, aplicabilidad, etc.).")
+
+# ==========================================
+# ESQUEMA PARA EXTRACCIÓN DE METADATOS DEL DOCUMENTO
+# ==========================================
+class MetadataDocumento(BaseModel):
+    tema_principal: str = Field(description="El tema principal del documento (ej. Crédito, Riesgos, Liquidez).")
+    subtemas: List[str] = Field(description="Lista de subtemas secundarios.")
+    nivel_confidencialidad: str = Field(description="Nivel de privacidad: 'Publico', 'Interno', 'Restringido'. Si no se menciona, asume 'Publico'.")
+    audiencia: str = Field(description="A quién va dirigido el documento (ej. Bancos, SOFOMES, Público General).")
+    frecuencia_reporte: Optional[str] = Field(description="Si el documento menciona una periodicidad de reporte (ej. Mensual, Bimestral), indícalo aquí.")
+    descripcion_corta: str = Field(description="Un resumen muy breve (1 oración) de lo que trata el documento.")
+    justificacion_extraccion: str = Field(description="Breve justificación o cita que fundamente la clasificación de este documento (por qué elegiste ese tema o confidencialidad).")
+    metadatos_dinamicos: List[MetadatoDinamico] = Field(default_factory=list, description="Otros metadatos relevantes encontrados en el documento que no encajen en las categorías fijas.")
