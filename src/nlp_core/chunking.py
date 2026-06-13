@@ -197,17 +197,21 @@ class InyectorMetadatos(PostProcesadorChunk):
             
         return chunks_procesados
 
+import asyncio
+import nest_asyncio
+nest_asyncio.apply()
+
 class ContextualizadorLLM(PostProcesadorChunk):
     """
-    Implementa la técnica de 'Contextual Retrieval'.
-    Para cada chunk, llama a un LLM ligero (gpt-4o-mini) para que redacte
-    una o dos oraciones de contexto, y las antepone al contenido.
+    Implementa la técnica de 'Contextual Retrieval' optimizada con asyncio.
+    Para cada chunk, llama a un LLM ligero de forma asíncrona y paralela.
     """
-    def __init__(self, max_retries: int = 3):
+    def __init__(self, max_retries: int = 3, max_concurrent: int = 50):
         from src.nlp_core.config_llm import get_langchain_chat
         
         self.llm = get_langchain_chat(task="qa", temperature=0.0)
         self.max_retries = max_retries
+        self.max_concurrent = max_concurrent
         self.prompt = PromptTemplate.from_template(
             "Eres un experto regulador financiero del Banco de México.\n"
             "A continuación te presento un documento normativo completo (o una gran sección) y un fragmento (chunk) específico extraído de él.\n\n"
@@ -219,11 +223,51 @@ class ContextualizadorLLM(PostProcesadorChunk):
             "Respuesta:"
         )
 
-    def procesar(self, chunks: List[Document], texto_completo: str = "") -> List[Document]:
-        chunks_procesados = []
-        texto_recortado = texto_completo[:30000]
+    async def _procesar_chunk_async(self, idx: int, doc: Document, texto_recortado: str, sem: asyncio.Semaphore, progress: dict = None) -> Document:
+        async with sem:
+            contexto_generado = ""
+            intentos = 0
+            while intentos < self.max_retries:
+                try:
+                    chain = self.prompt | self.llm
+                    respuesta = await chain.ainvoke({
+                        "documento": texto_recortado,
+                        "chunk": doc.page_content
+                    })
+                    contexto_generado = respuesta.content.strip()
+                    break
+                except Exception as e:
+                    intentos += 1
+                    await asyncio.sleep(1) # Backoff simple
+                    if intentos == self.max_retries:
+                        print(f"\n  [!] Error al contextualizar chunk {idx}: {e}. Se omitirá el contexto LLM.")
+                        contexto_generado = ""
+
+            if contexto_generado:
+                nuevo_contenido = f"[Contexto generado por IA: {contexto_generado}]\n\n{doc.page_content}"
+            else:
+                nuevo_contenido = doc.page_content
+                
+            if progress is not None:
+                progress["count"] += 1
+                print(f"  Procesados {progress['count']}/{progress['total']} chunks...", end="\r")
+                
+            return Document(page_content=nuevo_contenido, metadata=doc.metadata.copy())
+
+    async def _procesar_todos_async(self, chunks: List[Document], texto_recortado: str) -> List[Document]:
+        sem = asyncio.Semaphore(self.max_concurrent)
+        progress = {"count": 0, "total": len(chunks)}
+        tareas = [self._procesar_chunk_async(i, doc, texto_recortado, sem, progress) for i, doc in enumerate(chunks)]
         
-        print(f"Contextualizando {len(chunks)} chunks con LLM...")
+        print(f"Contextualizando {len(chunks)} chunks con LLM (Asíncrono, máx {self.max_concurrent} concurrentes)...")
+        resultados = await asyncio.gather(*tareas)
+        print(f"\nContextualización de {len(chunks)} chunks finalizada.")
+        return resultados
+
+    def _procesar_todos_sync(self, chunks: List[Document], texto_recortado: str) -> List[Document]:
+        import time
+        chunks_procesados = []
+        print(f"Contextualizando {len(chunks)} chunks con LLM (Secuencial/Respaldo)...")
         
         for i, doc in enumerate(chunks):
             print(f"  Procesando chunk {i+1}/{len(chunks)}...", end="\r")
@@ -255,8 +299,22 @@ class ContextualizadorLLM(PostProcesadorChunk):
                 Document(page_content=nuevo_contenido, metadata=doc.metadata.copy())
             )
             
-        print("\nContextualización con LLM finalizada.")
+        print("\nContextualización secuencial finalizada.")
         return chunks_procesados
+
+    def procesar(self, chunks: List[Document], texto_completo: str = "", asincrono: bool = True) -> List[Document]:
+        texto_recortado = texto_completo[:30000]
+        
+        if not asincrono:
+            return self._procesar_todos_sync(chunks, texto_recortado)
+            
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+        return loop.run_until_complete(self._procesar_todos_async(chunks, texto_recortado))
 
 # =====================================================================
 # FUNCIONES DE COMPATIBILIDAD HACIA ATRÁS (Para no romper otros módulos)

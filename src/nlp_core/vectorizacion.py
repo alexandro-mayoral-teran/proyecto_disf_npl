@@ -151,6 +151,7 @@ class MotorVectorizacion:
             
             for i, chunk in enumerate(chunks):
                 chunk.metadata["source_file"] = archivo_nombre
+                chunk.metadata["documento"] = archivo_nombre  # La interfaz gráfica (app/main.js) espera esta llave
                 chunk.metadata["tema"] = tema
                 chunk.metadata["institucion"] = institucion
                 chunk.metadata["version"] = version

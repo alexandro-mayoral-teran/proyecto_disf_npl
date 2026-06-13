@@ -386,7 +386,33 @@ async function loadTemas() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadTemas);
+// Cargar bases de datos dinámicamente
+async function loadDatabases() {
+    try {
+        const response = await fetch('/api/databases');
+        const result = await response.json();
+        if (result.status === 'success' && result.databases) {
+            const select = document.getElementById('db-selector');
+            select.innerHTML = ''; // Limpiar el "Cargando..."
+            
+            result.databases.forEach(db => {
+                const option = document.createElement('option');
+                option.value = db.value;
+                option.textContent = db.label;
+                select.appendChild(option);
+            });
+        }
+    } catch (e) {
+        console.error("Error cargando bases de datos:", e);
+        const select = document.getElementById('db-selector');
+        select.innerHTML = '<option value="chroma_db">Actual (chroma_db) - Fallback</option>';
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadTemas();
+    loadDatabases();
+});
 
 
 // ----------------------------------------------------

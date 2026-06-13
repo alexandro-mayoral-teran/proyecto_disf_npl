@@ -35,8 +35,11 @@ def get_motor_and_docs(db_folder: str = "chroma_db"):
         _CURRENT_DB_FOLDER = db_folder
         _DOCS_RAW_CACHE = None # Forzar recarga de documentos en RAM
         
+        from src.nlp_core.retrieval import limpiar_cache_retrieval
+        limpiar_cache_retrieval()
+        
     if _DOCS_RAW_CACHE is None:
-        cache_path = Path(__file__).resolve().parent.parent.parent / "data" / "03_output" / "docs_cache.pkl"
+        cache_path = Path(__file__).resolve().parent.parent.parent / "data" / "03_output" / f"docs_cache_{db_folder}.pkl"
         use_cache = os.getenv("USE_IN_MEMORY_CACHE", "true").lower() != "false"
         
         if use_cache and cache_path.exists():
@@ -432,10 +435,10 @@ def responder_rag_qa(query: str, k: int = 4, base_retriever: str = "embeddings",
     return texto_respuesta, telemetria, chunks_recuperados
 def responder_rag_cascade_qa(
     query: str, 
-    k: int = 15, 
+    k: int = 13, 
     umbral_faithfulness: float = 0.8, 
     base_retriever: str = "hibrido",          # Opciones: "embeddings", "hibrido", "bm25", "tfidf", "bow"
-    query_expansion: str = "none",            # Opciones: "none", "multi_query", "hyde", "ambos"
+    query_expansion: str = "ambos",            # Opciones: "none", "multi_query", "hyde", "ambos"
     post_processing: str = "cross_encoder",   # Opciones: "none", "cross_encoder"
     tema: str = None,
     textos_efimeros: list = None,

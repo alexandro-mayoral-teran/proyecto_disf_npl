@@ -36,6 +36,25 @@ class ChatRequest(BaseModel):
     solo_efimero: bool = False
     db_folder: Optional[str] = "chroma_db"
 
+@app.get("/api/databases")
+def get_databases():
+    base_dir = os.path.join(os.path.dirname(__file__), '../data/03_output')
+    dbs = []
+    if os.path.exists(base_dir):
+        for item in os.listdir(base_dir):
+            if item.startswith("chroma_db") and os.path.isdir(os.path.join(base_dir, item)):
+                # Generar etiqueta amigable
+                label = item.replace("chroma_db", "").replace("_", " ").strip()
+                if not label:
+                    label = "Actual (chroma_db)"
+                else:
+                    label = label.title()
+                dbs.append({"value": item, "label": label})
+    
+    # Ordenar asegurando que 'chroma_db' quede de primero
+    dbs.sort(key=lambda x: (x["value"] != "chroma_db", x["label"]))
+    return {"status": "success", "databases": dbs}
+
 @app.post("/api/extraer_formulario")
 def extraer_formulario_endpoint(request: ChatRequest):
     try:
@@ -224,7 +243,11 @@ def get_temas():
             if manifest_data and 'documentos' in manifest_data:
                 for doc in manifest_data['documentos']:
                     if 'tema' in doc:
-                        temas.add(doc['tema'])
+                        if isinstance(doc['tema'], list):
+                            for t in doc['tema']:
+                                temas.add(t)
+                        else:
+                            temas.add(doc['tema'])
         return {"status": "success", "temas": sorted(list(temas))}
     except Exception as e:
         return {"status": "error", "temas": [], "detail": str(e)}

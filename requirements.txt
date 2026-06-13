@@ -41,3 +41,4 @@ tiktoken>=0.7.0
 numpy>=1.24.0
 cachetools<6.0
 dspy-ai>=3.2.0
+nest_asyncio>=1.6.0

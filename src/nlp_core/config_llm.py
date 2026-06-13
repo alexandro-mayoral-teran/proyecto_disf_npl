@@ -29,12 +29,14 @@ def get_llm_client(task: str = "extraction") -> OpenAI:
     if is_local_llm_enabled(task):
         return OpenAI(
             base_url=os.getenv("LOCAL_LLM_URL", "http://localhost:11434/v1"),
-            api_key="ollama" # dummy api key para modelos locales
+            api_key="ollama", # dummy api key para modelos locales
+            timeout=50.0,
+            max_retries=0
         )
     else:
         if not os.getenv("OPENAI_API_KEY"):
             raise ValueError("No se encontró OPENAI_API_KEY en las variables de entorno.")
-        return OpenAI() # Usa OPENAI_API_KEY nativamente
+        return OpenAI(timeout=50.0) # Usa OPENAI_API_KEY nativamente
 
 def get_langchain_chat(task: str = "qa", temperature: float = 0.0) -> ChatOpenAI:
     """Devuelve un ChatOpenAI (LangChain) apuntando al proveedor configurado."""
@@ -54,7 +56,8 @@ def get_langchain_chat(task: str = "qa", temperature: float = 0.0) -> ChatOpenAI
         return ChatOpenAI(
             model=model_name,
             temperature=temperature,
-            api_key=api_key
+            api_key=api_key,
+            timeout=50.0
         )
 
 def is_local_embeddings_enabled() -> bool:
