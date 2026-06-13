@@ -1,0 +1,8 @@
+﻿query_id,pregunta,respuesta_ciega,texto_clave_esperado,hit_ciego,duracion_segundos
+Q01,¿Qué se entiende por Activos Líquidos Computables?,"Los Activos Líquidos Computables son aquellos activos que una entidad financiera puede utilizar para cumplir con sus obligaciones de liquidez a corto plazo. Estos activos son considerados de alta calidad y fácilmente convertibles en efectivo sin una pérdida significativa de valor. En el contexto de la regulación financiera, especialmente bajo el marco de Basilea III, los Activos Líquidos Computables se dividen en dos categorías principales:
+
+1. **Activos Líquidos de Nivel 1 (HQLA1)**: Son los activos más seguros y líquidos, como el efectivo, los depósitos en bancos centrales y los bonos del gobierno de alta calidad. Estos activos pueden ser utilizados sin restricciones para cumplir con los requisitos de liquidez.
+
+2. **Activos Líquidos de Nivel 2 (HQLA2)**: Incluyen activos que son líquidos pero que pueden estar sujetos a descuentos en su valor o a ciertas restricciones. Esto puede incluir bonos corporativos de alta calidad o ciertos tipos de valores respaldados por activos.
+
+La regulación exige que las entidades mantengan un nivel mínimo de Activos Líquidos Computables para asegurar que puedan hacer frente a salidas de efectivo inesperadas y mantener la estabilidad financiera.","Al monto total correspondiente al valor de los Activos Líquidos Elegibles que, conforme a las presentes disposiciones, se incluyan en el cálculo del Coeficiente de Cobertura de Liquidez, con los límites y factores de descuento establecidos en las presentes disposiciones.",0,3.7105

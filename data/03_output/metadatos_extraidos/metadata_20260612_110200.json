@@ -1,0 +1,14 @@
+{
+    "tema_principal": "Riesgos Crediticios",
+    "subtemas": [
+        "Reservas Preventivas",
+        "Cartera Crediticia",
+        "Probabilidad de Incumplimiento",
+        "Severidad de la Pérdida",
+        "Exposición al Incumplimiento"
+    ],
+    "nivel_confidencialidad": "Publico",
+    "audiencia": "Instituciones Financieras",
+    "frecuencia_reporte": null,
+    "descripcion_corta": "El documento establece criterios para la calificación y constitución de reservas preventivas para riesgos crediticios en instituciones financieras."
+}

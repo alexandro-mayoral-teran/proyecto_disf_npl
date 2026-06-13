@@ -1,0 +1,310 @@
+{
+    "nombre_formulario": "Formulario de Calificación y Reservas de Cartera Crediticia de Consumo",
+    "campos_formulario": [
+        {
+            "nombre_campo": "Monto Exigible",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Monto que el acreditado debe cubrir en el Periodo de Facturación, considerando facturación e importes exigibles anteriores no pagados.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado en moneda nacional a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Pago Realizado",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Suma de los pagos realizados por el acreditado en el Periodo de Facturación.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado en moneda nacional a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Atraso",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Número de atrasos calculado como el total de facturaciones vencidas a la fecha de calificación.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Importe Original del Crédito",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Monto total del crédito en el momento de su otorgamiento.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado en moneda nacional a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Antigüedad del Acreditado en la Institución",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Número de meses enteros desde la apertura del primer producto crediticio en la Institución hasta la fecha de cálculo de reservas.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser un número entero"
+            ]
+        },
+        {
+            "nombre_campo": "Antigüedad del Acreditado con Instituciones",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Número de meses enteros desde la apertura del primer producto crediticio con alguna Institución hasta la fecha de cálculo de reservas.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser un número entero"
+            ]
+        },
+        {
+            "nombre_campo": "Monto a Pagar a la Institución",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Suma de los importes a pagar de todas las obligaciones contractuales con la Institución en el Periodo de Pago.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado en moneda nacional a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Monto a Pagar Reportado en las sociedades de información crediticia",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Suma de los importes a pagar de todas las obligaciones contractuales con acreedores registrados en las sociedades de información crediticia.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado en moneda nacional a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Saldo Reportado en las sociedades de información crediticia",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Suma de los saldos insolutos de todos los productos crediticios con acreedores registrados en las sociedades de información crediticia.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado en moneda nacional a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Endeudamiento",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Cociente del Monto a Pagar reportado en las sociedades de información crediticia entre el Ingreso Mensual del Acreditado.",
+            "formula_calculo": "Monto a Pagar Reportado en las sociedades de información crediticia / Ingreso Mensual del Acreditado",
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Saldo del Crédito",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Saldo insoluto a la fecha de la calificación, ajustado por intereses devengados, menos pagos al seguro, cobros de principal e intereses, quitas, condonaciones, bonificaciones y descuentos.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado en moneda nacional a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Ingreso Mensual del Acreditado",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Importe de los ingresos netos de impuestos mensuales percibidos por el acreditado.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Voluntad de pago",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Promedio simple de los cocientes de Pago Realizado entre el Monto Exigible a la fecha de cálculo.",
+            "formula_calculo": "Promedio(Pago Realizado / Monto Exigible)",
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado a dos decimales",
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Tipo de Crédito",
+            "tipo_dato": "Texto",
+            "longitud": null,
+            "descripcion_funcional": "Clasificación del crédito según su destino o características de cobranza.",
+            "formula_calculo": null,
+            "es_catalogo": true,
+            "nombre_catalogo_vinculado": "CatalogoTipoCredito",
+            "validaciones_sugeridas": null
+        },
+        {
+            "nombre_campo": "Etapa de riesgo de crédito",
+            "tipo_dato": "Texto",
+            "longitud": null,
+            "descripcion_funcional": "Clasificación del crédito en una de las etapas de riesgo según el incremento significativo del riesgo crediticio.",
+            "formula_calculo": null,
+            "es_catalogo": true,
+            "nombre_catalogo_vinculado": "CatalogoEtapasRiesgo",
+            "validaciones_sugeridas": null
+        },
+        {
+            "nombre_campo": "Probabilidad de Incumplimiento (PI)",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Probabilidad de que el acreditado incumpla con sus obligaciones crediticias.",
+            "formula_calculo": "PI = 1 / (1 + e^(-Z))",
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar entre 0 y 1"
+            ]
+        },
+        {
+            "nombre_campo": "Severidad de la Pérdida (SP)",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Porcentaje de pérdida esperada en caso de incumplimiento del crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar entre 0 y 1"
+            ]
+        },
+        {
+            "nombre_campo": "Exposición al Incumplimiento (EI)",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Monto del crédito expuesto al riesgo de incumplimiento.",
+            "formula_calculo": "EI = Saldo del Crédito",
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Tasa de Interés (r)",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Tasa de interés anual cobrada al cliente.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado a cinco decimales",
+                "Debe ser mayor a cero"
+            ]
+        },
+        {
+            "nombre_campo": "Plazo remanente (n)",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Número de años que restan para liquidar el crédito a la fecha de calificación.",
+            "formula_calculo": "n = max(Número de días remanentes contractuales / 365.25, 1)",
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar expresado a cinco decimales"
+            ]
+        },
+        {
+            "nombre_campo": "Pago teórico anual amortizable (PAGO)",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Pago teórico anual amortizable del crédito.",
+            "formula_calculo": "PAGO = EI * (1 + r) * ((1 - (1 + r)^-1) / (1 - (1 + r)^-n))",
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe considerar dos decimales"
+            ]
+        }
+    ],
+    "catalogos_identificados": [
+        {
+            "nombre_catalogo": "CatalogoTipoCredito",
+            "valores": [
+                {
+                    "clave": "B",
+                    "descripcion": "Créditos para adquisición de bienes de consumo duradero"
+                },
+                {
+                    "clave": "A",
+                    "descripcion": "Créditos para adquisición de vehículos automotrices particulares"
+                },
+                {
+                    "clave": "N",
+                    "descripcion": "Créditos de liquidez asociados a la nómina"
+                },
+                {
+                    "clave": "P",
+                    "descripcion": "Créditos personales"
+                },
+                {
+                    "clave": "O",
+                    "descripcion": "Otros créditos al consumo no Revolvente"
+                }
+            ]
+        },
+        {
+            "nombre_catalogo": "CatalogoEtapasRiesgo",
+            "valores": [
+                {
+                    "clave": "1",
+                    "descripcion": "Créditos con ATR <= 1"
+                },
+                {
+                    "clave": "2",
+                    "descripcion": "Créditos con 1 < ATR <= 3"
+                },
+                {
+                    "clave": "3",
+                    "descripcion": "Créditos con ATR > 3"
+                }
+            ]
+        }
+    ],
+    "ambiguedades_detectadas": [
+        "No se especifica claramente cómo se determina el Factor de ajuste FiM para créditos clasificados como 'O'.",
+        "La fórmula para calcular la Probabilidad de Incumplimiento (PI) no define claramente todas las variables involucradas en Z para cada tipo de crédito."
+    ]
+}

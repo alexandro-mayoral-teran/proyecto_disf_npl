@@ -1,0 +1,31 @@
+﻿query_id,pregunta,retrieval_exitoso,formato_exitoso,generacion_exitosa,categoria_error,detalle_error,texto_esperado,respuesta_generada,modelo_extraccion_usado,prompt_version,prompt_hash
+Q01,¿Qué se entiende por Activos Líquidos Computables?,0,1,0,A,El buscador falló. El texto clave no estuvo presente en los chunks recuperados en el Top-10.,"Al monto total correspondiente al valor de los Activos Líquidos Elegibles que, conforme a las presentes disposiciones, se incluyan en el cálculo del Coeficiente de Cobertura de Liquidez, con los límites y factores de descuento establecidos en las presentes disposiciones.","**Activos Líquidos Computables**
+=====================================
+
+Según las disposiciones establecidas en el documento ""Disposiciones_Liquidez.md"", los Activos Líquidos Computables se calculan mediante la fórmula siguiente:
+
+**Fórmula**
+
+Activos Líquidos Computables = C1 + C2 + C3 + C4 – Ajuste A – Ajuste B
+
+**Definición de variables**
+
+*   C1, C2, C3 y C4: se refieren a los Activos Líquidos Elegibles que se calculan según las columnas correspondientes en la tabla.
+*   Ajuste A y Ajuste B: son ajustes adicionales que se aplican para determinar la liquidez de las instituciones.
+
+**Clasificación de Activos Líquidos Elegibles**
+
+Según el Anexo 1 de las Disposiciones, los Activos Líquidos Elegibles se clasifican en función de su disponibilidad y factores de descuento establecidos. Estos activos deben estar disponibles para la Institución a la fecha de cálculo del Coeficiente de Cobertura de Liquidez.
+
+**Activos con ponderación del 85%**
+
+Los Activos con ponderación del 85% se refieren a los títulos de deuda no incluidos en los Activos Líquidos Elegibles con plazo de vencimiento mayor a un año y las acciones negociables que no califiquen dentro de los Activos Líquidos Elegibles.
+
+**Restricciones**
+
+Según el documento ""Circular3-2012.md"", los Depósitos de dos a siete Días en entidades financieras del exterior pueden ser considerados como Activos Líquidos hasta un límite del cincuenta por ciento del promedio del requerimiento total.
+
+**Fuentes**
+
+*   Disposiciones_Liquidez.md
+*   Circular3-2012.md",llama3.1:8b,1.0.0,2cbbc4f704-bd0f72c
