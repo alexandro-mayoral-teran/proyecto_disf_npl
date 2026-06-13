@@ -25,11 +25,10 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Datos Temporales o pesados (Opcional)
-# Si tus PDFs o Excel son privados o muy pesados, descomenta lo siguiente:
-# data/01_raw/*.pdf
-# data/01_raw/*.docx
-# *.xlsx
+# Datos Temporales o pesados
+data/01_raw/
+data/02_interim/
+data/03_output/chroma_db_20261106/
 
 # Archivos de configuracion local
 # Archivos de configuracion local
