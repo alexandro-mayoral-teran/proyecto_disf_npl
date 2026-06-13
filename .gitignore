@@ -45,7 +45,3 @@ data/03_output/chroma_db_contextual/
 data/03_output/chroma_db_inyector_metadata/
 data/03_output/chroma_db_only_chunking/
 
-# Ignorar caches pesados
-data/03_output/docs_cache_*.pkl
-data/03_output/chroma_db_fragmento/
-data/03_output/chroma_db_test_async/
