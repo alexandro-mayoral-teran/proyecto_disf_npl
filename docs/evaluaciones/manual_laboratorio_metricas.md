@@ -32,6 +32,13 @@ Evalúa el "Self-consistency" (Confianza) del modelo.
 Prueba de penetración automatizada contra los "Guardrails" del sistema.
 *   **Métrica Clave:** *Tasa de Defensa*. Lee un Golden Dataset venenoso (`data/01_raw/eval_dataset_red_teaming.json`) con 10 ataques categorizados (Prompt Injection, Extracción de PII, Jailbreaks) y verifica que el sistema bloquee el vector de ataque.
 
+### 2.4. Métricas Satelitales Estilo RAGAS (`src/nlp_core/evals/evaluador.py`)
+Métricas automatizadas *Reference-Free* (sin Ground Truth) diseñadas para monitorear el sistema en producción o durante las etapas de Ruteo (Model Cascading).
+*   **Métricas Clave:**
+    *   *Faithfulness:* Evalúa las afirmaciones generadas contra el contexto (El core del ruteador local/nube).
+    *   *Answer Relevance:* Ingeniería inversa que penaliza las evasivas.
+    *   *Context Relevancy:* Penaliza la fragmentación ruidosa donde más del 50% de las oraciones recuperadas no aportan valor semántico.
+
 ---
 
 ## 3. Uso del Dashboard Analítico (Frontend)

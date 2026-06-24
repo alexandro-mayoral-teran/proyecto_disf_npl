@@ -35,6 +35,7 @@ class ChatRequest(BaseModel):
     textos_efimeros: Optional[List[str]] = None
     solo_efimero: bool = False
     db_folder: Optional[str] = "chroma_db"
+    instrucciones: Optional[str] = None
 
 @app.get("/api/databases")
 def get_databases():
@@ -94,7 +95,7 @@ def extraer_formulario_full_context_endpoint(request: ChatRequest):
         texto_completo = "\n\n--- SIGUIENTE DOCUMENTO ---\n\n".join(request.textos_efimeros)
         
         # Llamar al motor de extracción Long-Context
-        resultado_pydantic, telemetria = extraer_full_context(texto_completo)
+        resultado_pydantic, telemetria = extraer_full_context(texto_completo, instrucciones=request.instrucciones)
         data_dict = resultado_pydantic.model_dump()
         
         # Guardar en output local
@@ -130,7 +131,7 @@ def extraer_metadatos_endpoint(request: ChatRequest):
             
         texto = request.textos_efimeros[0]
         
-        resultado_pydantic, telemetria = extraer_metadatos_documento(texto)
+        resultado_pydantic, telemetria = extraer_metadatos_documento(texto, instrucciones=request.instrucciones)
         data_dict = resultado_pydantic.model_dump()
         
         # Guardar en output local

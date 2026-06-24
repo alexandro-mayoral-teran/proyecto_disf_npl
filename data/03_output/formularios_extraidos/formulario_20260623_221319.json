@@ -1,0 +1,171 @@
+{
+    "nombre_formulario": "Formulario de Cálculo del CAT para Créditos Revolventes y No Revolventes",
+    "campos_formulario": [
+        {
+            "nombre_campo": "monto_financiamiento",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Monto total del financiamiento otorgado al acreditado.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor a 0"
+            ],
+            "justificacion": "La Entidad conoce el monto de financiamiento, plazo y otras características del Crédito."
+        },
+        {
+            "nombre_campo": "plazo_credito",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Plazo del crédito otorgado al acreditado.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor a 0"
+            ],
+            "justificacion": "La Entidad conoce el monto de financiamiento, plazo y otras características del Crédito."
+        },
+        {
+            "nombre_campo": "edad_acreditado",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Edad del acreditado al momento de la contratación del crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor a 0"
+            ],
+            "justificacion": "La Entidad conoce la edad, género y otras características relevantes del acreditado."
+        },
+        {
+            "nombre_campo": "genero_acreditado",
+            "tipo_dato": "Texto",
+            "longitud": "1",
+            "descripcion_funcional": "Género del acreditado (M/F).",
+            "formula_calculo": null,
+            "es_catalogo": true,
+            "nombre_catalogo_vinculado": "CatalogoGenero",
+            "validaciones_sugeridas": [
+                "Debe ser 'M' o 'F'"
+            ],
+            "justificacion": "La Entidad conoce la edad, género y otras características relevantes del acreditado."
+        },
+        {
+            "nombre_campo": "costo_seguro",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Costo del seguro exigido al Cliente para la contratación del Crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a 0"
+            ],
+            "justificacion": "El cálculo del CAT incluirá, en todos los casos, los seguros exigidos al Cliente."
+        },
+        {
+            "nombre_campo": "periodicidad_pago_seguro",
+            "tipo_dato": "Texto",
+            "longitud": "10",
+            "descripcion_funcional": "Periodicidad de pago del seguro (ej. mensual, anual).",
+            "formula_calculo": null,
+            "es_catalogo": true,
+            "nombre_catalogo_vinculado": "CatalogoPeriodicidadPago",
+            "validaciones_sugeridas": [
+                "Debe ser un valor del catálogo asociado"
+            ],
+            "justificacion": "El costo del seguro se incluirá de acuerdo a la periodicidad de pago que se pacte con el Cliente."
+        },
+        {
+            "nombre_campo": "comision_anual",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Monto de la comisión anual cobrada al Cliente.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a 0"
+            ],
+            "justificacion": "El cálculo del CAT incluirá la comisión anual del producto específico."
+        },
+        {
+            "nombre_campo": "cat_promedio",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Costo Anual Total promedio calculado para el crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a 0"
+            ],
+            "justificacion": "El CAT promedio ponderado se calculará, por monto de Crédito otorgado que se informa en el Contrato."
+        },
+        {
+            "nombre_campo": "vigencia_oferta",
+            "tipo_dato": "Fecha",
+            "longitud": null,
+            "descripcion_funcional": "Fecha de vigencia de la oferta del crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser una fecha futura"
+            ],
+            "justificacion": "El período de vigencia deberá estar visible y asociado a los textos del CAT de la publicidad de que se trate."
+        }
+    ],
+    "catalogos_identificados": [
+        {
+            "nombre_catalogo": "CatalogoGenero",
+            "valores": [
+                {
+                    "clave": "M",
+                    "descripcion": "Masculino"
+                },
+                {
+                    "clave": "F",
+                    "descripcion": "Femenino"
+                }
+            ]
+        },
+        {
+            "nombre_catalogo": "CatalogoPeriodicidadPago",
+            "valores": [
+                {
+                    "clave": "mensual",
+                    "descripcion": "Mensual"
+                },
+                {
+                    "clave": "anual",
+                    "descripcion": "Anual"
+                }
+            ]
+        }
+    ],
+    "ambiguedades_detectadas": [
+        "No se especifica claramente cómo se debe calcular el CAT cuando hay promociones de seguros gratuitos por un periodo parcial del crédito."
+    ],
+    "metadatos_adicionales": [
+        {
+            "clave": "Periodicidad",
+            "valor": "Anual"
+        },
+        {
+            "clave": "Sujetos Obligados",
+            "valor": "Entidades Financieras"
+        },
+        {
+            "clave": "Fundamento Legal",
+            "valor": "Circular 21/2009 del Banco de México"
+        },
+        {
+            "clave": "Temática Principal",
+            "valor": "Cálculo del Costo Anual Total (CAT)"
+        }
+    ]
+}

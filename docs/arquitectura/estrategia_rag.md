@@ -1,352 +1,249 @@
-# Estrategias de Procesamiento de Lenguaje Natural para el Proyecto DISF
+# Estrategia RAG y Arquitectura del Proyecto ARIF
 
 Este documento sirve como la documentación extendida del proyecto. Detalla el contexto del problema, el flujo de procesamiento de los documentos regulatorios, las técnicas de Prompt Engineering aplicadas y las estrategias de Inteligencia Artificial evaluadas (Full Context vs RAG) para la extracción automatizada de requerimientos de información.
 
 > **Nota de Arquitectura Actualizada:** Para conocer los detalles operativos de la extracción estructurada final (Long-Context + Pydantic) y la inyección automatizada de metadatos de gobernanza que se implementaron como prototipos finales en el sistema, consulta el documento unificado: [extraccion_y_gobernanza_datos.md](./extraccion_y_gobernanza_datos.md).
 
-## 1. Contexto del Problema
+## 1. Introducción y Contexto del Problema
 
 El Banco de México (Banxico) y otras entidades regulatorias publican normativas extensas (ej. Circular Única de Bancos). Estas normativas contienen reglas de negocio, fórmulas matemáticas y catálogos de datos que las instituciones financieras deben cumplir al reportar su información. 
 
-El reto principal radica en que **esta información no está estructurada**. Extraer manualmente qué campos, validaciones y catálogos componen un "Formulario de Reporte" a partir de cientos de páginas de texto legal es un proceso lento, costoso y propenso a errores humanos. El objetivo del proyecto DISF es automatizar esta extracción, convirtiendo texto legal denso en esquemas de datos estructurados (JSON / Pydantic) listos para implementarse en bases de datos institucionales.
+El reto operativo principal radica en tres factores:
+1. **Interpretar** esta normatividad requiere de un alto nivel de especialización y conocimiento experto.
+2. **Consumo de tiempo:** Leer y analizar la regulación con el nivel de detalle necesario es sumamente lento.
+3. **Falta de Estandarización:** Al intervenir diferentes equipos, los formularios de requerimiento diseñados carecen de estructura uniforme.
+
+Extraer manualmente qué campos, validaciones y catálogos componen un "Formulario de Reporte" a partir de cientos de páginas de texto legal es un proceso propenso a errores. El objetivo del proyecto ARIF (Asistente Regulatorio para Información Financiera) para la DISF es automatizar esta extracción, convirtiendo texto legal denso en esquemas de datos estructurados (JSON / Pydantic) listos para implementarse en bases de datos institucionales.
+
+## 2. Evolución del Proyecto y Fundamentos Arquitectónicos
+
+Inicialmente, el proyecto buscaba saltar directamente a un asistente que diseñara formularios de manera automatizada. Sin embargo, hubo un punto de inflexión crítico: **antes de que la IA pueda "diseñar", primero necesita "entender" la regulación sin alucinar**. Por ello, el cimiento indispensable es un **Sistema RAG (Retrieval-Augmented Generation)** altamente preciso.
+
+### 2.1 Ingesta Multi-Formato y Limpieza Institucional
+
+Antes de que cualquier modelo de IA pueda interpretar la normativa, los documentos originales deben ser procesados con altísima fidelidad:
+
+1. **Ingesta Multi-Formato y Justificación de Markdown (`src/ingesta/ingestor.py`):** Los documentos legales oficiales suelen publicarse en formatos complejos como PDF. Aunque el PDF es excelente visualmente, es ineficiente para las máquinas porque la paginación rompe la lectura continua (tablas y párrafos partidos a la mitad). Para solucionarlo, se utiliza la API de BlazeDocs para PDFs y librerías nativas para procesar documentos de Word (`.docx`) y tablas en Excel (`.xlsx`), convirtiéndolos unificadamente a texto plano en formato **Markdown (`.md`)**. 
+   * **¿Por qué en markdown?** Al convertir a Markdown, estructuramos explícitamente el documento usando sintaxis de encabezados (`# Título`, `## Capítulo`, `### Artículo`). Esto es el habilitador tecnológico que permite posteriormente fragmentar el texto respetando la jerarquía de la regulación, de modo que el sistema RAG sepa exactamente a qué Título y Capítulo pertenece cualquier párrafo, mejorando radicalmente la precisión de recuperación (Retrieval) y evitando la "orfandad semántica".
+2. **Resiliencia en la Extracción Documental (Fallback Local PyPDF):** Si BlazeDocs falla (ej. por archivos corruptos como "Git LFS Pointers"), el flujo se rutea silenciosamente hacia un parser local (`pypdf`). Si el archivo también falla localmente, el sistema emite un HTTP 400 amistoso informando al usuario que el archivo original está corrupto, preservando la UX sin crashear el orquestador.
+3. **Limpieza de Ruido Institucional (`src/utils/limpieza_texto.py`):** Se desarrollaron expresiones regulares para limpiar ruidos originados por el OCR (CNBV, BANXICO, DOF, BASEL). Esto remueve pies de página, encabezados, fechas y firmas sin alterar la estructura normativa, garantizando un flujo de lectura continuo.
+
+### 2.2 Fragmentación Estructural y Vectorización Matemática
+
+1. **Estrategias de Fragmentación / Chunking (`src/nlp_core/chunking.py`):** El particionado de textos legales es una decisión arquitectónica crítica. Se evaluaron múltiples estrategias para procesar los documentos y evitar la pérdida de sentido:
+   * **Naive Chunking:** La opción básica de cortar el texto cada "N" cantidad de tokens fijos fue descartada rápidamente. En textos normativos, este enfoque ciego partía artículos o tablas a la mitad, destruyendo por completo el contexto legal y matemático.
+   * **Fragmentación Estructural (Implementado):** Se optó por utilizar `MarkdownHeaderTextSplitter`. Esta estrategia fragmenta el documento respetando la jerarquía natural de la ley (Títulos, Capítulos, Artículos) generada durante la conversión a Markdown. Esto asegura que la lógica jurídica se mantenga intacta, inyectando la "ruta del documento" como un *metadato* del fragmento.
+   * **Parent-Child Chunking (Evaluado):** Consiste en dividir el documento en fragmentos "Padres" extensos y subdividirlos en "Hijos" cortos para ChromaDB. Aunque ofrece alta precisión de búsqueda, se descartó temporalmente porque requeriría modificar profundamente la clase `MotorBusqueda` para triangular los IDs.
+   * **RAPTOR / Árboles Recursivos (Evaluado):** Agrupa y resume recursivamente los chunks en un árbol semántico. Es ideal para responder preguntas globales ("Resume todo el manual"), pero se determinó que añade demasiada complejidad a la ingesta y riesgo de duplicar respuestas en el prompt.
+   * **Contextual Retrieval Asíncrono (Seleccionado como SOTA):** Ante las limitantes anteriores, se determinó que esta es la estrategia más robusta y transparente para el pipeline de Retrieval actual. Utiliza un LLM durante la ingesta para inyectar el contexto global al chunk aislado. Para mitigar el masivo cuello de botella en tiempo (que tomaba horas de forma secuencial), se reescribió la implementación utilizando procesamiento asíncrono en Python (`asyncio.gather`), reduciendo la vectorización a escasos minutos.
+2. **Vectorización e Indexación (`src/nlp_core/vectorizacion.py`):** Los fragmentos de texto procesados se transforman en representaciones matemáticas (vectores de 1536 dimensiones) utilizando el modelo `text-embedding-3-small` de OpenAI, elegido por su alta eficiencia y excelente captura de semántica en español jurídico a bajo costo. 
+   * **Implementación:** Durante la indexación, el código inyecta metadatos enriquecidos (institución, tema, versión, documento origen) a cada vector para permitir filtrado granular posterior. Además, se generan IDs deterministas (ej. `f"{ruta_archivo.stem}_{chunker.estrategia}_chunk_{i}"`) garantizando la idempotencia del proceso, lo que permite actualizar documentos en la base de datos sin duplicar registros.
+   * **Base de Datos Vectorial (ChromaDB vs Alternativas):** Los vectores se almacenan localmente en **ChromaDB**.
+     * *ChromaDB (Implementado):* Se eligió por ser open-source, ejecutar localmente apoyado en disco (SQLite/Parquet) y no requerir infraestructura externa. Es ideal para nuestro enfoque "Local-First" y prototipado ágil. Su contraparte es que no escala distributivamente out-of-the-box para millones de transacciones concurrentes.
+     * *Pinecone:* Plataforma SaaS totalmente gestionada. Ideal para producción masiva y latencia ultrabaja, pero introduce dependencia de un proveedor (vendor lock-in) y costos recurrentes, rompiendo el esquema 100% local.
+     * *Weaviate / Milvus:* Bases de datos vectoriales open-source de grado empresarial. Excelentes para búsquedas híbridas nativas a escala y despliegues en Kubernetes (K8s), pero añaden una alta carga de ingeniería y mantenimiento operativo (DevOps) que no era justificable para el volumen documental actual del proyecto ARIF.
+3. **Normalización L2 Explícita para TF-IDF y Semántica:** Se declaró `norm='l2'` en `TfidfVectorizer` y los embeddings de OpenAI ya vienen pre-normalizados. Esto ajusta cada vector para que su magnitud sea exactamente 1, convirtiendo la Similitud Coseno en un simple Producto Punto (`Inner Product`), acelerando inmensamente los cálculos en ChromaDB. Evitamos intencionalmente la Estandarización Clásica para no perder esparsidad.
+4. **Consulta y Extracción Híbrida (Hybrid Search):** Para combatir la vulnerabilidad de depender de un solo motor de búsqueda, el sistema ejecuta dos algoritmos ortogonales en paralelo (`src/nlp_core/retrieval.py`):
+   *   **Semántica (Embeddings en ChromaDB):** Es altamente resistente a errores tipográficos y sinónimos. Excelente para recuperar lenguaje indirecto o conceptos amplios. Sin embargo, suele fallar estrepitosamente en recuperar identificadores precisos (ej. "Artículo 42-Bis" o acrónimos).
+   *   **Léxica Exacta (BM25 en RAM):** Algoritmo estadístico basado en la frecuencia de términos. Es la red de seguridad perfecta para recuperar nombres propios, acrónimos y números de artículos exactos, cubriendo el punto ciego de los Embeddings.
+   *   **Fusión Matemática (RRF):** Dado que ChromaDB devuelve distancias (Coseno) y BM25 devuelve puntajes asimétricos (Okapi), sus métricas base no son matemáticamente sumables. Se implementó el algoritmo *Reciprocal Rank Fusion* (RRF) con una constante `k=60`. Este método ignora el score absoluto y usa únicamente la posición de llegada de cada motor (`1 / (rank + k)`) para recalcular una lista maestra verdaderamente democrática.
+5. **Query Transformations (Transformación de Consultas):** Para lidiar con la barrera de lenguaje entre el usuario y el regulador, las peticiones se interceptan antes de tocar la base de datos:
+   *   **Multi-Query Expansion:** Un usuario podría buscar "préstamos de autos", pero la ley dictamina "cartera automotriz". Un LLM rápido genera 3 paráfrasis ortogonales de la consulta original para cubrir la inmensa varianza del vocabulario humano. Cada paráfrasis lanza un hilo de búsqueda independiente, los cuales se re-ensamblan posteriormente eliminando duplicados.
+   *   **HyDE (Hypothetical Document Embeddings):** En lugar de vectorizar la corta pregunta del usuario, se fuerza al LLM a "alucinar" o redactar una respuesta hipotética asumiendo el tono normativo de la institución. Esa respuesta falsa pero extensa es la que se vectoriza. Esto transforma un problema de búsqueda asimétrico (pregunta corta vs documento largo) en uno simétrico (documento vs documento), incrementando drásticamente las coincidencias en el espacio vectorial y el *Recall*.
+
+## 3. Hallazgos Evaluativos y la Solución Definitiva (El "Súper RAG")
+
+### 3.1 Framework de Evaluación y Hallazgos Empíricos
+
+Se construyó una "Arena de Evaluación" con un Golden Dataset de ~100 consultas reales sobre liquidez y crédito. 
+
+**Métricas de Recuperación de Información (IR):**
+1. **Recall@K:**
+   * *Concepto:* Mide el porcentaje de veces que el fragmento con la respuesta correcta apareció dentro de los primeros `K` resultados devueltos (ej. Recall@10).
+   * *Pros:* Es la métrica de supervivencia en RAG. Si el Recall es 0% (el documento no se inyectó al prompt), el LLM tiene casi un 100% de probabilidad de alucinar.
+   * *Contras:* Es ciego a la posición. Premia exactamente igual si el motor de búsqueda puso la respuesta en el Rank #1 que si la escondió en el Rank #10.
+2. **MAP@K (Mean Average Precision):**
+   * *Concepto:* Promedia la precisión acumulada cada vez que se encuentra un documento relevante a lo largo del ranking.
+   * *Pros:* Es muy sensible al orden de llegada. Penaliza matemáticamente a los motores de búsqueda que "entierran" la respuesta correcta al fondo de la lista.
+   * *Contras:* Sus puntuaciones no son lineales y es difícil de interpretar intuitivamente para stakeholders de negocio.
+3. **NDCG@K (Normalized Discounted Cumulative Gain):**
+   * *Concepto:* Es nuestra **métrica directriz**. Asigna una "ganancia" a la relevancia que se degrada o descuenta logarítmicamente conforme el documento cae de posición. El resultado se normaliza entre 0 y 1.
+   * *Pros:* Es el estándar de oro en la industria (Google/Bing). Premia masivamente colocar el resultado perfecto en el Rank #1, lo cual es vital en RAG para evitar el efecto de "Lost in the Middle" (donde el LLM ignora texto a la mitad del prompt).
+
+**Métodos de Evaluación del Hit (¿El fragmento contiene la respuesta?):**
+1. **A. Subcadena Exacta (`exact_match`):**
+   * *Cómo funciona:* Verifica algorítmicamente si una llave (ej. "Anexo 12") existe literalmente dentro del texto del chunk recuperado.
+   * *Pros y Contras:* Es ultrarrápida y cuesta $0 USD, ideal para CI/CD continuo. Sin embargo, es engañosa y frágil: si el chunk recuperado dice "Anexo doce", el sistema la califica como error (Falso Negativo).
+2. **B. Revisión Manual (Human-in-the-loop):**
+   * *Cómo funciona:* Las consultas se exportan a Excel para que un analista experto de la DISF lea el Top 10 y audite la relevancia real.
+   * *Pros y Contras:* Es el patrón oro indiscutible. La gran contra es que no escala; evaluar miles de resultados tras tunear un parámetro tomaría semanas de tiempo humano.
+3. **C. LLM como Juez (`llm_judge`):**
+   * *Cómo funciona:* Se inyecta la Respuesta Ideal (Ground Truth) y el chunk recuperado a un modelo cognitivo (`gpt-4o-mini`), pidiendo un dictamen binario (SÍ/NO) sobre la completitud semántica.
+   * *Pros y Contras:* Es altamente escalable, soporta parafraseo y permite simular el "Human-in-the-loop" a nivel de máquina. Su desventaja son los costos de API y el sesgo de calibración (Leniency Bias).
+
+**Hallazgos Evaluativos Avanzados:**
+- **Diversidad Cuantificada:** Al fusionar BM25 y Embeddings vía RRF, se demostró matemáticamente baja Correlación de Pearson, comprobando que ambos cometen errores distintos y se complementan.
+- **Sesgo de Benevolencia (Leniency Bias):** Se comprobó que `llama3.1` (8B) operando como Juez aprobaba el 37.6% de sus propias alucinaciones, mientras que `gpt-4o` detectaba rigurosamente los fallos, motivando la delegación de auditorías complejas a la nube.
+- **Significancia Estadística:** Se implementó *Bootstrapping* (1000 iteraciones) para garantizar que las mejoras de nuestra arquitectura Cascade sobre la línea base no fueran fruto del azar (Intervalo de confianza 95%).
+
+### 3.2 Diagnóstico y Corrección de Pérdida de Contexto (Context Loss)
+
+**El Problema:** Inicialmente, el sistema arrojó un Recall de 27.78%. El diagnóstico reveló "pérdida de contexto jerárquico" (orfandad semántica). Fórmulas profundas quedaban separadas de su cartera original (ej. Crédito Automotriz).
+**La Solución:** Inyectar el contexto antes de vectorizar mediante un patrón Pipeline/Filtros en `chunking.py`:
+1. **Inyección de Metadatos:** Concatena títulos extraídos físicamente al inicio del chunk (`[Contexto: Cartera Automotriz]`).
+2. **Contextual Retrieval (SOTA):** Durante el indexado, un LLM económico lee el documento completo y el chunk, redactando una oración de contexto que se antepone al texto. Esto soluciona la ambigüedad semántica definitivamente. (Implementado con `asyncio` para viabilidad en producción).
+
+### 3.3 Resultados de la Arena de Modelos (La Frontera Eficiente)
+
+Medimos la precisión a través de tres escenarios usando `llm_judge`:
+1. **Baseline (Only Chunking):** Recall@10 del **60.0%**. Sufre orfandad semántica.
+2. **Inyector de Metadatos:** Recall@10 del **66.67%**. Mejora inmediata al obligar al modelo a "leer" la jerarquía.
+3. **Contextual Retrieval (State of the Art):** Recall@10 de **73.33%**. El salto cualitativo masivo que elimina la ambigüedad.
+4. **El "Súper RAG" (Maximum Recall):** Búsqueda Híbrida (RRF) expandida simultáneamente con Multi-Query y HyDE, y re-ordenada por Cross-Encoder. Alcanza **90.0%**.
+
+La estrategia base de producción es **Embeddings Puros (con Contextual Retrieval)** por alcanzar 73.33% con latencias de milisegundos. El "Súper RAG" queda a demanda en la interfaz para consultas complejas.
+
+### 3.4 Arquitectura Definitiva: Router Cascade Local-First
+
+**Justificación del Modelo Local y la Frontera de Pareto:** 
+En ingeniería de Inteligencia Artificial, la "Frontera de Pareto" es un concepto de optimización multi-objetivo. Imagina un gráfico donde el Eje X representa el *Costo Computacional (VRAM / Latencia)* y el Eje Y representa la *Precisión / Capacidad Cognitiva*. Se dice que un modelo está "en la frontera" si es imposible encontrar otro modelo que sea más inteligente sin ser más costoso, o que sea más barato sin ser más tonto.
+*   **Interpretación en ARIF:** Al evaluar motores locales, descartamos modelos colosales (como Llama 70B o Mixtral) porque, aunque ganan márgenes mínimos en precisión, el costo de hardware se dispara exponencialmente (requiriendo clústeres de GPUs caras). Por el contrario, los modelos demasiado pequeños perdían coherencia al redactar español jurídico.
+*   **La Decisión (El "Sweet Spot"):** `LLaMA 3.1 (8B)` se sitúa exactamente en el punto de inflexión óptimo de esta frontera. Ofrece una ventana de contexto masiva (128k tokens) y capacidades de razonamiento SOTA (State of the Art) para su tamaño, exigiendo escasos 4.5 a 8GB de VRAM. Esto permite operarlo fluidamente en entornos locales (Ollama) sin fricción. Además, en las pruebas superó holgadamente a Mistral 7B en la asimilación del tono normativo oficial.
 
-## 2. Flujo de Preparación de Documentos (Ingesta y Limpieza)
+Para la privacidad institucional de Banxico, implementamos la política **Local-First** mediante un **Model Cascading Heterogéneo**:
+1. **Intento Local (Llama 3.1):** El sistema interroga al modelo local gratuito.
+2. **Autoevaluación (Faithfulness):** El sistema evalúa la fidelidad de su propia respuesta extrayendo claims contra el contexto.
+3. **Escalado Dinámico:** Si la confianza es alta (>=0.80), la entrega. Si es baja, la desecha y redirige silenciosamente a la nube (`gpt-4o-mini`).
+Esto reduce el TCO en un >80% derivando el "Happy Path" a modelos gratuitos sin penalizar calidad.
 
-Antes de que cualquier modelo de IA pueda interpretar la normativa, los documentos originales (comúnmente PDFs) deben ser procesados con altísima fidelidad:
+**Ollama vs vLLM:** En desarrollo local, se usa Ollama mediante Patrón Factory (`config_llm.py`). Para producción, la arquitectura contempla migrar a vLLM en Docker (AWS/GCP con GPUs L4) para soportar procesamiento por lotes continuo bajo alta concurrencia.
 
-1. **Ingesta con BlazeDocs (`src/ingesta/`):** Los documentos legales suelen tener formatos complejos (múltiples columnas, tablas insertadas, pies de página). Se utiliza la API de BlazeDocs para convertirlos en archivos Markdown (`.md`). Esto preserva la jerarquía semántica (títulos, subtítulos) y convierte las tablas visuales en tablas de texto legibles por la máquina.
-2. **Limpieza de Ruido (`src/utils/limpieza_texto.py`):** Los documentos extraídos contienen "ruido" originado por el OCR y la paginación (ej. marcas de agua del "Diario Oficial de la Federación", avisos de derechos reservados, firmas, números de página). El script aplica expresiones regulares para eliminar este ruido institucional sin alterar la estructura Markdown, garantizando un flujo de lectura continuo para el modelo.
+### 3.5 Anatomía del Pipeline de Recuperación (Retrieval Pipeline)
 
-## 3. Estrategias de Extracción e IA Aplicadas
+El proceso de responder a una consulta no es un flujo lineal simple. Para maximizar la precisión, la implementación central (`src/nlp_core/pipeline.py`) opera como un orquestador modular dividido en tres fases altamente desacopladas:
 
-Para transformar el texto limpio en un formulario estructurado, el proyecto emplea un Agente basado en `gpt-4o` acoplado a un esquema estricto de validación usando Pydantic (`RequerimientoInformacion`). Se desarrollaron y documentaron múltiples aproximaciones arquitectónicas (visibles en `src/nlp_core/agente.py`):
+1. **Fase 1: Pre-procesamiento y Expansión (Query Expansion)**
+   *   *¿Qué hace?* Intercepta la pregunta original del usuario y la altera dinámicamente antes de tocar la base de datos para superar las barreras del lenguaje humano.
+   *   *¿Cómo funciona?* Permite activar *Multi-Query* (generación de paráfrasis) o *HyDE* (generación de un documento respuesta alucinado). Si el usuario lo requiere, ambas técnicas pueden dispararse en conjunto. El resultado es que una sola pregunta humana se convierte en múltiples "hilos" de búsqueda matemáticos.
+2. **Fase 2: Recuperación Base (Base Retrieval)**
+   *   *¿Qué hace?* Desciende a los motores de búsqueda para extraer los fragmentos crudos (chunks).
+   *   *¿Cómo funciona?* Recibe la batería de consultas generadas en la Fase 1. El motor de búsqueda es intercambiable en caliente (puede ser TF-IDF, BM25 en RAM, Embeddings en ChromaDB, o un Híbrido RRF). El pipeline ejecuta búsquedas exhaustivas por cada hilo generado y luego los **consolida y desduplica** utilizando algoritmos de hashing en memoria (evitando que el mismo artículo se repita). Si la Fase 3 está activa, el motor extraerá intencionalmente una red masiva de candidatos (ej. Top 20) en lugar del Top 5 usual, para garantizar que haya suficiente materia prima.
+3. **Fase 3: Post-procesamiento y Reordenamiento (Reranking)**
+   *   *¿Qué hace?* Filtra la red masiva de documentos candidatos, descartando el ruido y ordenando los verdaderos diamantes para entregárselos al LLM Generador final.
+   *   *¿Cómo funciona?* Utiliza un modelo neuronal especializado conocido como **Cross-Encoder** (`ms-marco-MiniLM-L-6-v2`). A diferencia de la Búsqueda Vectorial bi-encoder (que calcula distancia entre dos puntos pre-vectorizados), el Cross-Encoder lee el par exacto *(Pregunta Original + Documento Candidato)* de manera simultánea, permitiéndole entender la intención profunda. Emite una puntuación de relevancia ultra-precisa, reordena la lista de mayor a menor, y finalmente recorta únicamente el `Top K` estricto (ej. Top 5) solicitado por el usuario.
 
-### 3.1 Full Context Prompting (La Línea Base)
-*   **En qué consiste:** Se inyecta el documento normativo completo en el prompt del LLM. Se utiliza un riguroso *Prompt Engineering*, instruyendo al modelo a actuar como un "Especialista Digital Regulador" y exigiéndole aplicar reglas estrictas (ej. *"extrae fórmulas"*, *"crea catálogos si ves listas cerradas"*, *"reporta ambigüedades"*).
-*   **Ventajas:** El modelo tiene todo el contexto simultáneamente, permitiéndole correlacionar una regla en el Capítulo I con una excepción en el Capítulo V.
-*   **Desventajas:** Un costo financiero muy elevado en consumo de tokens. Además, sufre del fenómeno cognitivo *"Lost in the Middle"*, donde el modelo tiende a ignorar instrucciones si la ventana de contexto se vuelve demasiado grande.
 
-### 3.2 Generación Aumentada por Recuperación (RAG)
-Para mitigar el alto costo y evitar la pérdida de contexto, se diseñó un flujo RAG especializado en el ámbito regulatorio:
-
-1. **Fragmentación Estructural / Chunking (`src/nlp_core/chunking.py`):** En textos normativos, cortar cada "N" tokens es peligroso porque puede partir un artículo por la mitad. Se implementó `MarkdownHeaderTextSplitter` para fragmentar el documento respetando la jerarquía (Títulos, Capítulos, Artículos). Esto asegura que un artículo y su tabla mantengan coherencia, inyectando la "ruta del documento" como un *metadato* del fragmento.
-2. **Vectorización e Indexación (`src/nlp_core/vectorizacion.py`):** Los fragmentos generados se convierten en vectores matemáticos usando `text-embedding-3-small` de OpenAI (un modelo optimizado y económico) y se almacenan localmente utilizando **ChromaDB**. Adicionalmente, durante las etapas de evaluación se utiliza `TfidfVectorizer` para establecer el marco de referencia léxico y capturar la jerga financiera.
-3. **Consulta y Extracción Híbrida (Hybrid Search):** El proyecto evolucionó de una simple búsqueda semántica a un modelo de *Reciprocal Rank Fusion (RRF)*. Ahora, cuando se solicita información, el sistema ejecuta dos búsquedas en paralelo:
-   *   **Búsqueda Semántica (ChromaDB + Embeddings):** Recupera fragmentos conceptualmente relevantes, incluso si usan sinónimos o lenguaje indirecto.
-   *   **Búsqueda Léxica Exacta (BM25):** Recupera fragmentos donde las palabras clave coinciden exactamente.
-   *   **Mecanismo de Fusión (RRF):** Este método ignora los *scores* absolutos originales y recalcula la relevancia basándose estrictamente en la posición de llegada (el *ranking*) que cada fragmento obtuvo en ambas listas. El resultado es una lista maestra ordenada de forma democrática.
-
-### 3.3 Arquitectura Map-Reduce
-Aunque el RAG híbrido es eficiente, corre un "riesgo de omisión" si la búsqueda vectorial falla en traer un artículo crítico. La solución planteada para estos casos es un patrón *Map-Reduce*: recuperar **todos** los artículos de un anexo específico mediante metadatos, aplicar el agente extractor a cada uno de manera individual (Map), y utilizar un agente consolidador final para unir los resultados en el esquema definitivo (Reduce).
-
-### 3.4 Pipeline Modular de RAG Avanzado (SOTA)
-Para maximizar la precisión y superar consistentemente la línea base (BM25), se implementa un pipeline de recuperación con técnicas avanzadas orientadas a cerrar la brecha entre consultas cortas y documentos regulatorios largos:
-
-1. **Query Transformations (Multi-Query y HyDE):** Para cerrar la asimetría semántica entre consultas cortas de usuario y documentos legales extensos, se incorporan dos técnicas de expansión como "bloques LEGO":
-   - **Multi-Query:** Genera 3 paráfrasis o perspectivas de la consulta original para cubrir distintos vocabularios.
-   - **HyDE (Hypothetical Document Embeddings):** El LLM redacta una "alucinación" o documento hipotético respondiendo a la pregunta, imitando el tono y vocabulario oficial normativo. Luego, se vectoriza esta respuesta falsa para buscar coincidencias en ChromaDB (comparando documento vs documento). Esta técnica incrementa la capacidad de *Recall* en preguntas ambiguas.
-2. **Cross-Encoder Reranking Jerárquico:** Tras la Búsqueda Híbrida (RRF), se introduce una segunda etapa utilizando un modelo especializado. Este modelo lee simultáneamente la pregunta y el documento, reordenando el *Top K* final y compensando la "deriva semántica" inherente a los embeddings.
-
-### 3.5 Aspectos Matemáticos y Telemetría: Normalización L2 y Estandarización
-Para construir nuestra línea base léxica (TF-IDF) y semántica (Embeddings) de manera rigurosa, se documentan decisiones matemáticas y métricas clave aplicadas en el código:
-
-1. **Normalización L2 Explícita para TF-IDF y Semántica:** 
-   - **En Léxico (TF-IDF):** Hemos declarado explícitamente `norm='l2'` en la instanciación de `TfidfVectorizer`. 
-   - **En Semántica (OpenAI Embeddings):** Los modelos `text-embedding-3-small` ya emiten vectores pre-normalizados en L2 de forma nativa. 
-   La normalización L2 ajusta matemáticamente cada vector para que su magnitud sea exactamente 1. El impacto es absoluto: **la Similitud Coseno se vuelve idéntica a un simple Producto Punto (`Inner Product`)**. Esto permite a bases de datos vectoriales como ChromaDB acelerar inmensamente los cálculos en producción (optimizaciones SIMD) y utilizar umbrales de relevancia universales independientemente del largo del texto.
-   
-2. **Estandarización Post-Vectorización (Ausencia Intencional):**
-   Es una mala práctica aplicar una estandarización clásica (como `StandardScaler`, que resta la media y divide por la desviación estándar) después de vectorizar. 
-   - **Pérdida de Esparsidad:** Restar la media convierte una matriz "dispersa" en una densa, saturando la RAM.
-   - **Destrucción de Pesos Originales:** La varianza unitaria trata a todas las palabras o dimensiones latentes como si tuvieran la misma importancia, destruyendo el propósito principal de la Frecuencia Inversa de Documento (IDF).
-
-3. **Telemetría Transversal (Tokens y Latencia):**
-   Se implementó seguimiento robusto durante el retrieval contando tokens precisos inyectados en el contexto (mediante `tiktoken`) y trackeando la latencia entre etapas (Cross-Encoder, OpenAI calls para expansión).
-
-### 3.6 Iteración del Sistema: Diagnóstico y Corrección de Pérdida de Contexto (Context Loss)
-
-**El Ciclo de Iteración:**
-1. **Creación de la Línea Base:** Inicialmente, se pobló la base de datos vectorial (ChromaDB) utilizando una estrategia estándar de fragmentación por encabezados (`MarkdownHeaderTextSplitter`).
-2. **Evaluación Cuantitativa:** Al ejecutar el framework de evaluación (la "Arena de Modelos"), el sistema arrojó un *Recall* del 27.78%. 
-3. **Diagnóstico del Problema:** El análisis de los errores en las evaluaciones reveló un problema estructural crítico: la **pérdida de contexto jerárquico**. En documentos complejos (como la CUB), una misma fórmula (ej. cálculo de la Probabilidad de Incumplimiento - PI) aparece múltiples veces, pero aplica a distintas carteras (revolvente, auto, nómina). Al fragmentar el texto, el *chunk* resultante contenía la fórmula pero quedaba "huérfano" perdiendo el contexto de la cartera a la que pertenecía (información que quedó "arriba" en el título). Por ello, consultas precisas como "PI de auto" fallaban.
-4. **Corrección e Implementación (Post-procesamiento):** Para solucionar este cuello de botella y mejorar drásticamente las métricas, se iteró la arquitectura integrando soluciones directamente en `chunking.py` para inyectar este contexto antes de vectorizar.
-
-**Soluciones Implementadas (Integradas como Post-procesadores en el Chunker):**
-Para mantener una arquitectura limpia e integrada (alta cohesión), se implementó un patrón *Pipeline/Filtros*:
-
-1. **Inyección de Metadatos (Metadata Injection):** Una técnica rápida y sin costo de API que concatena los títulos jerárquicos extraídos (ej. `[Contexto Estructural: Anexo 33 | Cartera Automotriz]`) físicamente al inicio del *chunk*. 
-2. **Contextual Retrieval (Resumen con LLM Ligero - SOTA):** Una técnica de vanguardia donde, durante el indexado, se le envía el documento completo y el *chunk* a un LLM económico (como `gpt-4o-mini`). El LLM redacta una única oración de contexto (ej. *"Este fragmento detalla el cálculo de la PI específicamente para la cartera automotriz"*) que se antepone al texto. Esto elimina la ambigüedad semántica de forma definitiva, maximizando el *Recall* a cambio de costo y latencia moderados durante la ingesta.
-
-**¿Por qué funciona esta concatenación física en el espacio vectorial?**
-El modelo de embeddings (ej. OpenAI `text-embedding-3-small`) no lee ni interpreta los diccionarios de metadatos (JSON) de un objeto *Document*; procesa **exclusivamente el string de texto crudo (`page_content`)**. 
-Si el texto fragmentado es simplemente *"La PI se calcula como X + Y"*, el vector resultante apunta semánticamente a conceptos matemáticos financieros, pero carece de la dimensión del tipo de producto. 
-Al **concatenar físicamente** el contexto en un único "súper texto" (ej. `"[Contexto: Cartera Automotriz] La PI se calcula como X + Y"`), obligamos al modelo a "leer" todas las palabras juntas. El nuevo vector generado apunta simultáneamente al concepto matemático y al ecosistema automotriz. Cuando el usuario hace la consulta *"PI de auto"*, la similitud coseno hace un emparejamiento perfecto porque ambos vectores vibran en esa misma frecuencia semántica que originalmente se habría perdido.
-
-**Compatibilidad entre Estrategias de Chunking y Post-procesadores:**
-Dado que la arquitectura se diseñó bajo un modelo de componentes "LEGO" (Filtros), los post-procesadores nunca romperán el código independientemente de la estrategia de fragmentación seleccionada, pero su efectividad sí varía:
-- **`ContextualizadorLLM`:** Es **100% universal**. Dado que el LLM lee el documento original completo y el fragmento resultante, es irrelevante si el fragmento se cortó por párrafos, por superposición fija (`fijo_overlap`) o por encabezados. El LLM siempre podrá inferir y redactar el contexto correctamente.
-- **`InyectorMetadatos`:** Su efectividad **depende de la estrategia**. Esta clase busca activamente llaves como `"Header 1"` en el diccionario del chunk. Si se usa `EstrategiaChunking.ENCABEZADOS_MD`, LangChain extrae estos headers y funciona a la perfección. Sin embargo, si se usan cortadores básicos (`PARRAFO` o `FIJO_OVERLAP` sin encadenamiento previo), LangChain no extrae la jerarquía. En ese caso, el inyector no encontrará metadatos y dejará el *chunk* intacto (no inyectará contexto, pero el programa no fallará).
-
-## 4. Framework de Evaluación Cuantitativa
-
-Un componente esencial es la evaluación sistemática y cuantitativa del pipeline RAG:
-
-### 4.1 Dataset de Evaluación y Métricas IR
-1. **Dataset de Evaluación (Ground Truth):** Se construyó un dataset benchmark emparejando consultas representativas con documentos relevantes esperados.
-2. **Diccionario de Métricas:**
-   - **Recall@K:** Mide si el documento relevante apareció entre los primeros $K$ resultados. Si es bajo, ChatGPT alucinará por falta de contexto.
-   - **MAP@K (Mean Average Precision):** Penaliza drásticamente a los motores que "entierran" la respuesta correcta al fondo.
-   - **NDCG@K (Normalized Discounted Cumulative Gain):** El *Estándar de Oro*. Usa atenuación logarítmica premiando colocar la respuesta en el Rank #1. Nuestra métrica directriz para ajustes será el **NDCG@10**.
-
-### 4.2 Métodos de Evaluación del Hit en el Retrieval
-Evaluar si un documento recuperado es un "acierto" se diseñó utilizando un patrón polimórfico en el `EvaluadorRAG`, permitiendo tres modos de ejecución:
-
-1. **A. Subcadena Exacta (`exact_match`):** Busca si el texto clave esperado está contenido físicamente en el fragmento recuperado. Es ultrarrápido y no consume tokens de API. Sirve como la línea base estricta, aunque penaliza falsamente documentos con respuestas parafraseadas o redundancias en la ley.
-2. **B. Revisión Manual (`human` y cálculo posterior):** 
-   - **Exportación:** El sistema recupera el Top K y exporta una plantilla de Excel (`auditoria_manual_Estrategia.xlsx`) con las consultas y fragmentos para que un experto califique manualmente (1 o 0).
-   - **Cálculo:** Una vez que el analista devuelve el archivo calificado, el evaluador cuenta con el método `calcular_metricas_desde_excel()` que parsea las filas, agrupa por consulta, extrae el Rank más alto calificado con '1', y calcula automáticamente el Recall, MAP y NDCG con la máxima precisión matemática basada en criterio experto ("Human-in-the-loop").
-3. **C. LLM como Juez (`llm_judge` - Context Relevance):** Un modelo avanzado (`gpt-4o-mini`) actúa como juez imparcial leyendo la pregunta y el contexto recuperado. Evalúa semánticamente si el fragmento contiene la información necesaria y emite un fallo binario al vuelo. Resuelve la limitante del `exact_match` de manera automatizada.
-
-### 4.3 Otros Controles de Calidad
-1. **Prueba de Contaminación de Datos:** Evaluación del LLM sin contexto inyectado (*no-context test*) para medir la memorización nativa.
-2. **Análisis de Errores por Etapas:** Clasificar si (a) El Retrieval falló; (b) Retrieval exitoso pero LLM alucinó; (c) Formato JSON inválido.
-
-## 5. Resultados Evolutivos de la Arena de Modelos (Impacto del Contextualizador)
-
-Se ejecutó un módulo de evaluación cuantitativa (Arena) midiendo la precisión de recuperación a través de tres escenarios evolutivos de indexación. Esto permitió medir empíricamente el valor añadido de las técnicas de mitigación de *Context Loss*. Los resultados a continuación utilizan el evaluador semántico **LLM-as-a-Judge (`llm_judge`)** para capturar aciertos parafraseados.
-
-### 5.1 Escenario 1: Baseline (Only Chunking)
-Los documentos se fragmentaron por encabezados sin post-procesamiento.
-*   **Embeddings Puros:** Recall@10 del **60.0%**.
-*   **MultiQuery + CrossEncoder:** Recall@10 del **60.0%**.
-*   **Diagnóstico:** El modelo sufre "orfandad semántica". Fórmulas matemáticas profundas no pueden ser vinculadas al producto financiero al que pertenecen.
-
-### 5.2 Escenario 2: Inyector de Metadatos
-Se concatenó la ruta jerárquica (títulos y subtítulos) físicamente al inicio de cada *chunk* antes de vectorizar.
-*   **Embeddings Puros:** Recall@10 sube a **66.67%**.
-*   **MultiQuery + CrossEncoder:** Recall@10 sube a **70.0%**.
-*   **Diagnóstico:** Efectividad comprobada. Obligar al modelo de embeddings a "leer" la jerarquía junto con el texto soluciona parcialmente la pérdida de contexto, mejorando directamente las métricas de recuperación.
-
-### 5.3 Escenario 3: Contextual Retrieval (State of the Art)
-Se utilizó `gpt-4o-mini` durante la ingesta para redactar un contexto explicativo holístico, anteponiéndolo al *chunk*. Se incorporó un pipeline adicional: *HyDE*.
-*   **Embeddings Puros:** Recall@10 se dispara a **73.33%** (NDCG@10 de 0.7333).
-*   **HyDE + Embeddings + CrossEncoder:** Alcanza **73.33%**.
-*   **Diagnóstico:** El salto cualitativo es masivo. Se elimina la ambigüedad semántica por completo.
-
-### 5.4 Escenario 4: El "Súper RAG" (Maximum Recall)
-Se integró una configuración final combinando todas las técnicas en un único pipeline: Búsqueda Híbrida (RRF) expandida simultáneamente con Multi-Query y HyDE, filtrada por un Cross-Encoder.
-*   **Híbrido + Ambos (Multi-Query/HyDE) + CrossEncoder:** El Recall@10 se disparó a un masivo **90.0%**.
-*   **Diagnóstico:** Esta combinación representa el techo de cristal de la recuperación del sistema. Es extremadamente pesado computacionalmente (alta latencia), pero asegura que virtualmente ningún artículo regulatorio relevante quede fuera de la vista del modelo extractor.
-
-### 5.5 Marco de Referencia (Benchmark de la Industria)
-Para interpretar estos resultados, los estándares de la industria para RAG son:
-*   **Recall@10:** 🔴 < 40% (Pobre), 🟡 40% - 60% (Aceptable), 🟢 60% - 85% (Bueno), ⭐ > 85% (SOTA con Fine-Tuning).
-*   **NDCG@10:** 🔴 < 0.30 (Desordenado), 🟡 0.30 - 0.50 (Decente), 🟢 0.50 - 0.70 (Bueno a Excelente).
-
-**Conclusión del Sistema Actual:** 
-Haber escalado de un **60% a un 73.33%** posiciona al proyecto sólidamente en el rango **"Bueno a Excelente"** sin requerir *fine-tuning* de los embeddings, demostrando que el pre-procesamiento del contexto es más impactante que el modelo de vectorización per se.
-
-### 5.6 Estrategia Seleccionada y Justificación Final
-**La estrategia base de producción es: Embeddings Puros (con Contextual Retrieval). Sin embargo, el "Súper RAG" queda habilitado en la Interfaz Gráfica para consultas especializadas.**
-
-**¿Por qué?**
-1. **Precisión y UX Óptimas (Base):** Los Embeddings Puros alcanzan un excelente 73.33% con latencias de inferencia bajísimas (~0.55s - ~0.94s).
-2. **Potencia a Demanda:** Mediante un Frontend visual y controles dinámicos (UI en Vanilla JS), el usuario puede activar la estrategia "Súper RAG" (90.0% Recall) cuando enfrenta requerimientos normativos complejos, aceptando conscientemente una latencia mayor (Cross-Encoder + Multi-expansion) a cambio de una precisión perfecta.
-
-## 6. Estado Actual (Roadmap)
-
-1.  ✅ **Ingesta y Limpieza:** Flujo completado (`IngestorDocumentos`).
-2.  ✅ **Desarrollo del Chunking (OOP):** Patrón *Strategy* (`RegulacionChunker`) implementado.
-3.  ✅ **Vectorización y Retrieval (Desacoplados):** Arquitectura separada limpiamente en `MotorVectorizacion` y `MotorBusqueda`.
-4.  ✅ **Búsqueda Híbrida Implementada:** Integración de `rank_bm25` y `EnsembleRetriever`.
-5.  ✅ **Adaptación del Agente:** Agente Pydantic funcional.
-6.  ✅ **Pipeline Modular de Retrieval (LEGO Style):** Pipeline robusto soportando Expansión (`Multi-Query`), BM25, Embeddings y Re-ranking.
-7.  ✅ **Framework de Evaluación Avanzado:** Implementación de métricas IR usando tres modos dinámicos (Subcadena, Juez LLM y Revisión Humana offline en Excel).
-8.  ✅ **Telemetría y Evaluación Comparativa (Arena finalizada):** Benchmark ejecutado midiendo latencia, tokens y métricas IR.
-
-## 7. Horizonte de Producción (Escalabilidad)
-
-Inspirado en arquitecturas de despliegue real, se contemplan las siguientes integraciones:
-1. **Caché Semántico:** Memoria para almacenar respuestas previas y reducir costos de API y latencia a milisegundos en consultas repetidas.
-2. **Operaciones de Índice (Index Ops):** Módulo CRUD para ChromaDB, permitiendo actualizar únicamente los artículos que sufran reformas sin reprocesar todo el corpus.
-3. **Control de Acceso (RBAC):** Utilización de metadatos en ChromaDB para restringir la inyección de contexto según el perfil del analista dentro de la DISF.
-
-## 8. Roadmap y Próximos Pasos
-
-El seguimiento detallado de tareas, hitos a futuro (Avance 5 - Ensambles y Avance 6 - Producción) y el registro formal de requerimientos científicos implementados se maneja en un documento vivo independiente. 
-
-Para revisar el cronograma técnico actualizado y las rúbricas completadas, consulta el archivo: **[`support/pendientes_y_roadmap_final.txt`](../../support/pendientes_y_roadmap_final.txt)**
-
-## 9. Justificación Técnica del Modelo Local: LLaMA 3.1 (8B)
-
-En la arquitectura de nuestro pipeline RAG Híbrido, hemos seleccionado el modelo **LLaMA 3.1 de 8 mil millones de parámetros (`llama3.1:8b`)** de Meta para operar localmente a través de Ollama. 
-
-A continuación, se documenta la justificación formal para esta decisión de diseño arquitectónico, evaluando sus ventajas, desventajas y comparativa con el mercado, con el fin de tener certidumbre técnica frente a los *sponsors* del proyecto.
-
-### 9.1 ¿Por qué LLaMA 3.1 8B es la mejor opción actual? (Frontera de Pareto)
-
-La elección de un modelo local para tareas NLP corporativas (como normativas de Banxico/DISF) se reduce a un problema de optimización entre **Hardware Requerido vs. Razonamiento Lógico**. LLaMA 3.1 8B se sitúa exactamente en el "Sweet Spot" de esta frontera:
-
-**Ventajas Principales:**
-1. **Ventana de Contexto Masiva (128k Tokens):** A diferencia de modelos anteriores que colapsaban a los 4k u 8k tokens, LLaMA 3.1 puede ingerir hasta 128,000 tokens. Esto es crítico para RAG.
-2. **Hardware de Consumo:** Al estar cuantizado a 4-bits o 8-bits mediante Ollama, este modelo requiere entre 4.5 GB y 8 GB de RAM/VRAM para funcionar.
-3. **Capacidad Multilingüe Mejorada:** Manejo del español normativo/legal excepcionalmente fluido.
-4. **Instrucciones Estrictas:** Ajustado para seguir reglas duras (vital para HyDE y Pydantic).
-
-**Desventajas:**
-1. **Extracción Estructurada Profunda:** Aún se queda ligeramente atrás de modelos gigantes como GPT-4o en JSONs anidados complejos (por ello, delegamos esto a la nube).
-
-### 9.2 Comparativa contra Alternativas (Por qué los descartamos)
-
-- ❌ **Mistral v0.3 (7B) / Mixtral (8x7B):** Mistral 7B fue superado drásticamente por Llama 3.1. Mixtral requiere mucha más memoria (~24 GB de VRAM).
-- ❌ **Gemma 2 (9B):** Excelente rendimiento, pero licencia comercial más restrictiva y mayor consumo computacional.
-- ❌ **LLaMA 3.1 (70B):** Exige hardware empresarial de ultra-alta gama (Múltiples GPUs de 80GB).
-
-### 9.3 Conclusión Contundente
-
-> [!IMPORTANT]
-> **Veredicto:** LLaMA 3.1 8B es la mejor opción estratégica actual para nuestro caso de uso prototipo (MVP). Nos provee un nivel de razonamiento a la par de GPT-3.5 de forma 100% privada.
-
-### 9.4 Glosario Rápido
-- **Cuantización:** Compresión de pesos matemáticos a 4/8 bits para ahorrar RAM.
-- **Open-Weights:** Modelos descargables y ejecutables sin depender de APIs externas.
-
----
-
-## 10. Viabilidad de Inferencia Local: Ollama vs vLLM en Hardware de Consumo
-
-En esta sección se documenta el análisis técnico de viabilidad y los trade-offs de los motores de inferencia local en hardware de consumo típico de desarrollo.
-
-### 10.1 Comparativa Técnica de Motores: Ollama vs vLLM
-
-| Criterio | Ollama (Basado en `llama.cpp`) | vLLM (Inferencia de Producción) |
-| :--- | :--- | :--- |
-| **Arquitectura de Inferencia** | Inferencia síncrona/secuencial optimizada para CPU/GPU mixta. | Procesamiento por lotes continuo (*Continuous Batching*) y *PagedAttention*. |
-| **Soporte de Hardware** | Multiplataforma (NVIDIA, AMD, Apple Silicon, CPU e Intel Arc). | Principalmente GPU NVIDIA dedicada (CUDA). Soporte experimental en AMD/ROCm. |
-| **Instalación y Configuración** | Extremadamente sencilla. Un instalador nativo de un clic en Windows. | Compleja en Windows. Requiere instalar WSL2 (Linux), CUDA Toolkit y compilaciones C++. |
-| **Gestión de Memoria** | Dinámica. Carga el modelo en VRAM y el excedente en RAM. Libera recursos al estar en reposo. | Estática. Se adueña del 90% (por defecto) de la VRAM desde la inicialización, independientemente del uso. |
-| **Rendimiento (Latency / Throughput)** | Excelente latencia para un usuario (~45-55 tokens/s con RTX 4060 en 8B). | Altísimo throughput bajo alta concurrencia (cientos de consultas simultáneas). |
-
-### 10.2 Ventajas y Desventajas en Entornos de Desarrollo Local
-
-#### Ollama (La Opción Elegida para Desarrollo)
-*   **Ventajas:** Consumo bajo demanda y estabilidad nativa en Windows sin virtualización pesada.
-*   **Desventajas:** No optimizado para cientos de usuarios paralelos.
-
-#### vLLM (La Opción Recomendada para Producción)
-*   **Ventajas:** Máximo rendimiento concurrente (SOTA).
-*   **Desventajas e Impacto en Laptops:** Congela la máquina al adueñarse de la VRAM. Fricción de WSL2/Linux.
-
-### 10.3 Justificación de la Estrategia Híbrida de Inferencia
-Para el proyecto DISF, se adopta un **Enfoque de Inferencia Evolutivo**:
-1.  **Fase de Desarrollo y Prototipado (Local):** Se utiliza **Ollama** con el modelo `llama3.1:8b`. 
-2.  **Fase de Despliegue en Producción:** Se migrará a **vLLM** alojado en un contenedor Docker en un servidor dedicado (ej. AWS/GCP con L4). Es 100% compatible con OpenAI API.
-
-## 11. Evaluaciones Avanzadas y Auditoría (Avance 5 - Logros Implementados)
-
-Para maximizar la robustez del sistema y cumplir con las rúbricas avanzadas de MLOps, el proyecto finalizó la implementación de evaluaciones científicas de alto rigor:
-
-1. **Ensambles de Recuperación y Diversidad:** Se ensamblaron modelos con sesgos opuestos (Léxico BM25 vs Semántico OpenAI) vía *Reciprocal Rank Fusion (RRF)*. Se demostró matemáticamente (Diversidad Cuantificada) que ambos modelos tienen una Correlación de Pearson baja, validando empíricamente que cometen errores distintos y, por ende, el Ensamble aporta un valor real superior a sus partes.
-2. **Calibración y Self-Consistency (ECE):** En entornos regulatorios, la certeza es primordial. Se construyó el script `consistencia_eval.py`, el cual ejecuta la misma consulta múltiples veces con `temperature = 0.7`. Se extrae la varianza matemática de las respuestas para calcular un proxy del *Expected Calibration Error (ECE)*, detectando efectivamente alucinaciones encubiertas en modelos miscalibrados.
-3. **Auditoría Humana MA6 (Human-in-the-loop):** El Evaluador Integral usa un Juez LLM (GPT-4o) para categorizar los fallos en una taxonomía (Recuperación, Generación o Formato). Para los críticos Errores de Generación (Tipo B), se programó un exportador automático a Excel (`exportar_auditoria_manual.py`). Esto permite a un analista experto humano realizar una doble validación asíncrona (Útil, Parcial, Alucinación), creando un puente entre la IA y la auditoría humana tradicional.
-4. **Significancia Estadística (Bootstrapping MA4):** Para asegurar que las mejoras del Cascade sobre el Baseline no son fruto del azar, se implementó un algoritmo de Remuestreo Bootstrap con 1000 iteraciones (`calcular_delta_ma4.py`), entregando un Intervalo de Confianza del 95% para la mejora del NDCG.
-5. **Telemetría de Percentiles (P95/P99):** La madurez del proyecto obligó a abandonar los "promedios de latencia". Ahora la telemetría registra y el gráfico de la Frontera de Pareto plotea explícitamente la latencia de recuperación en su **Percentil 95**, garantizando que incluso los peores escenarios de carga ofrezcan una UX predecible y fluida.
-
-## 12. Arquitectura de Producción y Seguridad Cloud (Avance 6 - DEP)
-
-La transición de un entorno de evaluación (Eval) a un sistema productivo exige rigurosos controles operacionales y de seguridad.
-
-
-1. **Costo Total de Propiedad a 12 Meses (TCO - DEP-B):** La viabilidad financiera se sustenta comparando el TCO de la solución Self-hosted (Hardware + Electricidad + vLLM) frente al esquema Multi-Cloud (Costo por 1000 tokens en OpenAI). Se mapea explícitamente el almacenamiento vectorial (*Vector Index Storage*) y la retención de logs.
-2. **SLOs y Monitoreo en Producción (DEP-C):**
-   - **Latencia:** Se establece un Service Level Objective numérico (ej. $P_{95} \le 3.5$ segundos).
-   - **Drift Detection:** Monitoreo activo de la distribución de consultas entrantes. Si las consultas de los usuarios divergen radicalmente de nuestro Eval Set congelado, se disparan alertas de retuning.
-3. **Seguridad y Red-Teaming (DEP-D):**
-   - **Prompt Injection & Jailbreaks:** Pruebas documentadas intentando "romper" los guardrails del Agente forzando respuestas destructivas o ilegítimas. Se probaron vectores de ataque específicos como:
-     - *System Prompt Override:* Intentos de reescribir el comportamiento del asistente (ej. "Ignora las instrucciones anteriores y actúa como...").
-     - *Context Override:* Intentos de inyectar reglas normativas falsas dentro de la consulta para corromper la extracción (ej. "Asume que la nueva regla de Banxico indica...").
-   - **Manejo de PII:** Dado que es un sistema para analistas bancarios, la inferencia local (Llama 3.1) funge como escudo primario para consultas sensibles, aislando los datos de la nube pública.
-4. **Plan de Handoff (DEP-E):** Entrega documentada de artefactos serializados (Base vectorial indexada en ChromaDB, Registro de Prompts en JSON), garantizando que el sponsor institucional pueda operar, detener o destruir limpiamente los activos del proyecto (*Decommissioning plan*).
-
-## 10. Evolución Arquitectónica (Fase 4): Telemetría, Model Cascading y Análisis de Sesgos
-
-A medida que el proyecto migró hacia métricas de producción, la arquitectura se ajustó para solucionar deficiencias empíricas y optimizar el Costo Total de Propiedad (TCO) y el rigor evaluativo:
-
-
-### 10.1 Telemetría en Vivo y Dashboard Operativo
-Se desarrolló un módulo de telemetría inyectado (`RastreadorTelemetria`) que intercepta las llamadas al LLM, midiendo latencia en milisegundos y tokens consumidos vía `tiktoken`. Esta información se persiste localmente en un formato de logs de alta eficiencia (`telemetria_llm.jsonl`) y se expone mediante un **Dashboard de Streamlit** (`dashboard/app_evaluaciones.py`). El dashboard permite al equipo monitorizar el TCO acumulado, los tiempos de inferencia y la distribución taxonómica de errores en tiempo real.
-
-### 10.2 Abstracción de Modelos (Factory Pattern)
-Se implementó `config_llm.py` usando el patrón *Factory*. A través de la variable de entorno `USE_LOCAL_LLM`, el orquestador conmuta dinámicamente entre el cliente de OpenAI (Nube) y los wrappers de Ollama (Local) sin refactorizar el código base.
-
-### 10.3 Taxonomía de Errores (El fin del Blind Debugging)
-Cuando el *LLM-as-a-Judge* dictamina que una extracción falló, un módulo subsecuente analiza el texto recuperado por ChromaDB y subdivide el fallo en:
-*   **Error Tipo A (Retrieval):** El documento correcto nunca llegó al contexto. (Problema de Embeddings/Chunking).
-*   **Error Tipo B (Generación/Leniency):** El documento sí llegó, pero el LLM lo ignoró, alucinó o falló su lógica matemática.
-*   **Error Tipo C (Estructural):** Ruptura del contrato JSON (Pydantic).
-
-### 10.4 Descubrimiento Empírico: LLM-as-a-Judge Leniency Bias
-Durante las evaluaciones cruzadas de la Prueba Ciega (Data Contamination) y la Taxonomía, descubrimos un fenómeno documentado académicamente: **El sesgo de benevolencia**.
-Cuando `llama3.1` (8B) actuó como juez evaluando sus propias respuestas, dictaminó 0 Errores B y aprobó como válidas el 37.6% de respuestas sin contexto (alucinadas). Sin embargo, cuando `gpt-4o` operó como juez sobre los mismos datos, fue implacable, detectando 43 Errores B y permitiendo solo un 5.5% de contaminación.
-
-### 10.5 Arquitectura Definitiva: Model Cascading (Enrutamiento por Confianza)
-Ante la evidencia matemática de la incapacidad del modelo pequeño para fungir como Juez de alto rigor, y el costo prohibitivo ($16 USD / 1k queries) de operar todo el flujo en `gpt-4o`, la arquitectura RAG adoptó y **programó exitosamente** la estrategia de **Model Cascading Heterogéneo**.
-
-En lugar de un ruteo estático, se implementó un enrutador dinámico evaluativo (`responder_rag_cascade_qa`):
-1. **Intento Local (Llama 3.1):** El sistema interroga al modelo local gratuito y recibe una respuesta inicial.
-2. **Autoevaluación de Confianza (Faithfulness):** El mismo sistema extrae las afirmaciones (*claims*) de la respuesta y las cruza contra el contexto original, generando un *Score* de 0 a 1.
-3. **Escalado Dinámico:** Si el Score es >= 0.80, la respuesta se le entrega al usuario (Costo $0). Si el Score es bajo, el sistema desecha la respuesta y redirige silenciosamente la consulta a la Nube (`gpt-4o-mini`).
-Esta arquitectura permite derivar el "Happy Path" hacia fierros locales gratuitos, reservando los tokens costosos únicamente para consultas complejas donde el modelo open-source falla empíricamente, **reduciendo el TCO en más de un 80% sin penalizar la calidad (NDCG).**
-
-### 10.6 Optimización de Latencia Extrema: Caché Semántico y Juez LLM (Arquitectura Híbrida)
-Para reducir drásticamente el TCO y el tiempo de respuesta en producción, implementamos un sistema de **Caché Semántico** respaldado por serialización binaria (Pickle) para la indexación de documentos.
-
-Sin embargo, descubrimos una debilidad crítica en el caché semántico tradicional: la Similitud Coseno estricta fallaba ante variaciones gramaticales naturales de los humanos. Bajar el umbral matemático causaba falsos positivos, y mantenerlo alto causaba *Cache Misses* innecesarios.
-
-**La Solución (LLM Cache Judge):**
-Re-arquitectamos el caché hacia un modelo híbrido. Primero aplicamos un filtro matemático de baja fricción (similitud > 0.88). Si una pregunta pasa la red, despertamos al modelo local (Llama 3.1) asignándole un rol de Juez. Le enviamos ambas preguntas y le instruimos determinar la equivalencia de intenciones respondiendo únicamente "SI" o "NO" (`max_tokens=4`). Esta capa de inteligencia intercepta variaciones complejas con precisión milimétrica, devolviendo la respuesta en `~0.5` segundos y evadiendo la latencia completa de RAG.
-## 11. Evolución Arquitectónica (Fase 5): Trazabilidad, Observabilidad y Auto-Optimización
-
-En la recta final hacia el paso a producción (Avance 6), la arquitectura abrazó conceptos avanzados de LLMOps para garantizar no solo el rendimiento del sistema, sino su mantenibilidad, audibilidad legal y escalabilidad autónoma.
-
-### 11.1 Trazabilidad RAG (Auditoría de Caja Blanca)
-En el sector financiero, el concepto de "caja negra" es inaceptable regulatoriamente. Se diseñó un módulo de memoria persistente que captura la anatomía completa de cada inferencia (*semantic_cache.pkl*). En el dashboard de MLOps, los ingenieros ahora pueden realizar ingeniería inversa a cualquier respuesta:
-1. ¿Qué prompt exacto recibió el LLM?
-2. ¿Qué fragmentos (chunks) de la CUB fueron inyectados en el contexto?
-3. ¿Cuál fue la latencia y el costo en centavos de dólar de esa transacción?
-
-### 11.2 Percentiles de Cola Larga (Observabilidad P90/P99)
-Se maduró la telemetría operativa. En lugar de monitorizar promedios, el dashboard implementó un enfoque centrado en la "cola larga" de la inferencia, observando la Mediana (P50), la Alerta Temprana (P90) y el Estado Crítico (P99). Esto brinda visibilidad instantánea sobre picos de latencia que degradarían la experiencia de usuario o evidenciarían estrangulamiento de la API (*throttling*).
-
-### 11.3 El Paradigma DSPy y la Auto-Compilación (Stanford)
-Para superar los límites empíricos del *Prompt Engineering* manual, se integró una prueba de concepto usando el framework **DSPy**. En lugar de escribir instrucciones detalladas y estáticas, se definió una firma modular (`Signature`).
-Se integró un Optimizador (`BootstrapFewShot`) que utiliza el registro histórico de telemetría (Caché Semántico) para simular ejecuciones y empaquetar matemáticamente los mejores ejemplos dentro del prompt (Few-Shot guiado por métricas). Esta arquitectura transforma al RAG en un sistema de auto-mejora continua.
-
-### 11.4 Inyección Efímera y Búsqueda en Conjunto (EnsembleRetriever)
-Para permitir que los usuarios (analistas) suban documentos complementarios al vuelo (ej. oficios, actas) sin re-indexar la base de datos principal, se implementó una estrategia de **Búsqueda Dinámica Efímera**.
-Cuando se carga un documento PDF/Word temporal:
-1. **Indexación en RAM:** El sistema extrae el texto y lo indexa en una colección temporal de ChromaDB que reside exclusivamente en la memoria RAM (sin persistencia en disco), aislando temporalmente el dominio.
-2. **Control de Contexto (Aislado vs Combinado):**
-   - **Aislar Contexto:** Si el usuario elige esta opción, el sistema interroga *únicamente* la base de datos temporal en RAM. Esto garantiza que el LLM no "alucine" mezclando regulaciones de la base maestra con el caso particular del documento subido.
-   - **Contexto Combinado (EnsembleRetriever):** Si el usuario no aísla el contexto, el sistema activa un `EnsembleRetriever` de LangChain. Este componente ejecuta búsquedas simultáneas en ambas bases (la base histórica `chroma_db` y la base efímera en RAM), asignando un peso equitativo (`weights=[0.5, 0.5]`) a los resultados antes de re-ordenarlos. Esto le otorga al LLM una visión holística que cruza el documento del usuario contra todo el marco regulatorio.
-
-### 11.5 Resiliencia en la Extracción Documental (Fallback Local PyPDF)
-Durante el uso operativo, se descubrió que el API externo principal de conversión documental (BlazeDocs) es susceptible a rechazos por archivos corruptos, especialmente "Git LFS Pointers" (archivos de texto vacíos que simulan ser PDFs al no clonarse correctamente con Git LFS).
-Para blindar el sistema y evitar caídas (`500 Internal Server Error`), se programó un mecanismo de Resiliencia y Manejo de Errores:
-1. **Fallback Automático:** Si BlazeDocs falla, la excepción es atrapada y el flujo se rutea silenciosamente hacia un parser local usando la librería `pypdf` (`_procesar_pdf_local`).
-2. **Detección de Corrupción en RAM:** Si el archivo también falla localmente (ej. `PdfStreamError` por no tener firma binaria de PDF), el sistema atrapa el fallo nativo de C/C++ y en su lugar emite un mensaje HTTP 400 amistoso informando al usuario que el archivo original (probablemente un puntero Git) está hueco o corrupto, preservando la experiencia de usuario (UX) sin crashear el orquestador general de FastAPI.
-
-### 11.6 La Jerarquía de la Verdad (Prelación Jurídica en el RAG)
-Al indexar múltiples tipos de documentos en una misma base de datos (ej. normativas oficiales puras vs. manuales de ayuda o FAQs), surge el desafío de la **Jerarquía de la Verdad**. Legalmente, una normativa oficial tiene mayor peso que una guía de ayuda, y el modelo debe resolver conflictos a favor de la ley.
-Para abordar este reto arquitectónico sin aislar los documentos en silos separados, se diseñó la inyección robusta de metadatos mediante `manifest.yaml` (ej. `tipo_documento: normativa_oficial` vs `guia_ayuda`), habilitando tres estrategias operativas:
-1. **Ponderación vía System Prompt (Línea Base):** El LLM recibe todos los fragmentos sin discriminar, pero es gobernado por una regla rígida en su System Prompt que dicta: *"En caso de conflicto de información, la normativa oficial tiene prelación absoluta. Menciona las guías de ayuda solo como soporte explicativo."*
-2. **Filtrado Dinámico de Metadatos (Self-Query):** Un paso de pre-procesamiento donde el Agente detecta la intención del usuario y aplica filtros estrictos sobre ChromaDB antes de recuperar texto (ej. restringiendo la búsqueda exclusivamente a normativas para preguntas punitivas, y abriendo el filtro a guías para preguntas operativas).
-3. **Re-Ranking con Boost Matemático (Soft Weighting):** Intervención en el algoritmo Reciprocal Rank Fusion (RRF) en `retrieval.py` donde los fragmentos con el metadato `tipo_documento: normativa` reciben un factor multiplicador (ej. `x 1.5`) en su score, empujándolos forzosamente al tope superior del contexto y relegando las ayudas al fondo.
-
-**Decisión Arquitectónica Implementada:** Se optó por implementar la **Estrategia 1 (Prompt Engineering Jerárquico)** añadiendo la regla `JERARQUÍA DOCUMENTAL` al archivo `prompts.json`. Esta decisión se tomó por ser la más elegante y "cero invasiva", ya que delega la resolución de conflictos al razonamiento lógico del modelo sin alterar ni sesgar prematuramente las métricas matemáticas del motor de búsqueda (Retrieval), previniendo la pérdida accidental de contexto periférico valioso.
-
-### 11.7 Ingeniería de Prompts para Concisión y Control de Verbosidad
-En sistemas de Chat RAG regulatorio, los LLMs tienden a la hiper-verbosidad ("sobre-explicación"), respondiendo a preguntas simples con desgloses extensos de características o clasificaciones no solicitadas, acompañadas de preámbulos robóticos ("Según la información proporcionada..."). 
-
-Para alinear el comportamiento del modelo a las expectativas de un analista financiero (que busca respuestas directas y eficientes), se aplicó una técnica de *System Prompting* restrictivo:
-* **Inyección de la regla de CONCISIÓN (`prompts.json`):** Se le prohíbe explícitamente al LLM utilizar preámbulos y se le fuerza a "ir directo al grano", limitando la generación estrictamente a la entidad de la pregunta formulada sin extenderse en información periférica de los fragmentos recuperados. Esto reduce dramáticamente la carga cognitiva del usuario en la interfaz y mejora los tiempos de latencia y costos de *Output Tokens*.
+## 4. Módulo de Extracción Estructurada y Gobernanza de Datos
+
+Retomando la meta de diseñar formularios estandarizados y auditar el repositorio masivo, el sistema implementa flujos de extracción estructurada independientes al chat principal.
+
+### 4.1 Data Provenance y el Estándar de Oro (`manifest.yaml`)
+En un RAG institucional, si el LLM responde basándose en un fragmento de texto, necesitamos trazabilidad absoluta (¿De qué documento salió? ¿De qué institución? ¿Está vigente?). Sin esto, la base vectorial degeneraría en un "Data Swamp" (pantano de datos) inauditable.
+*   **El Manifiesto:** Implementamos un archivo `manifest.yaml` como la única fuente de la verdad (*Single Source of Truth*) para inyectar los metadatos en ChromaDB. Al ser texto plano, permite versionamiento perfecto en Git, habilita pre-filtros de seguridad de acceso por rol (RBAC), y garantiza que el motor jamás recupere o mezcle normas derogadas.
+
+### 4.2 Casos de Uso Core: Autogeneración y Formularios
+Llenar un manifiesto manualmente o deducir los campos requeridos en una base de datos exige cientos de horas humanas. Para automatizarlo, el sistema despliega dos flujos (disponibles en la App):
+1. **Autogeneración de Metadatos de Gobernanza:** Un analista sube un PDF regulatorio. El LLM asume el rol de "Bibliotecario" y deduce automáticamente la Ficha Técnica (Tema, Institución, Nivel de Confidencialidad) emitiendo el JSON listo para inyectarse al `manifest.yaml`.
+2. **Generación de Formularios desde Normativa:** En lugar de leer toda la ley para saber qué solicitarle a los bancos, el LLM actúa como "Analista de Datos", infiriendo el esquema relacional requerido (Nombres de campo, Catálogos, Tipos de dato) a partir de un extracto subido.
+
+### 4.3 Paradigmas: RAG vs Long-Context y Structured Outputs
+Los LLMs tienden a responder con texto libre hiper-verboso. Para la extracción descrita arriba usamos **Structured Outputs** nativos de OpenAI (`client.beta.chat.completions.parse`), esposando al modelo a moldes Pydantic (`MetadataDocumento` o `FormularioEstructurado`) que devuelven JSON estrictos y predecibles.
+*   **Por qué NO usamos RAG:** El RAG es un "buscador quirúrgico" ideal para responder preguntas. Pero para extraer la estructura de un formulario o el tema de un documento, el RAG fallaría al recuperar solo trozos asilados, omitiendo datos esparcidos en páginas distintas.
+*   **La Solución (Long-Context Extraction):** Para la extracción, esquivamos la búsqueda vectorial por completo y pasamos el documento íntegro a la ventana masiva del modelo (hasta 128k tokens). Esto le da una visión panorámica al LLM, permitiéndole entender referencias cruzadas y extraer la estructura de manera holística y perfecta.
+*   **Extracción Guiada (Prompt Injection Controlado):** Recientemente introdujimos la capacidad de que el usuario inyecte instrucciones específicas (ej. "extrae exclusivamente temas de riesgo crediticio") directamente en el prompt del usuario. Esto guía al modelo sin alterar el "System Prompt" maestro ni romper el esquema Pydantic. **Consideración de Seguridad Futura:** Al abrir una ventana de texto libre directo al prompt, el sistema se vuelve susceptible a ataques de *Prompt Injection* maliciosos. Para que esta característica sea totalmente segura y funcional en un entorno productivo, será necesario implementar una capa de validación de entradas (Input Guardrails) estricta antes de la inferencia.
+
+### 4.4 Escalabilidad hacia Enterprise (Map-Reduce)
+Para mitigar que el enfoque *Long-Context* sufra el síndrome de "Lost in the Middle" (cuando los LLMs olvidan texto atrapado a la mitad de un mega-documento) frente a leyes colosales de cientos de páginas, se diseñó la arquitectura Map-Reduce:
+1. **Map:** Pre-procesar el documento dividiéndolo por sus Capítulos naturales y lanzar múltiples extracciones en paralelo.
+2. **Reduce:** Un LLM consolidador final recibe los mini-esquemas de todos los hilos, elimina duplicados y ensambla un esquema maestro inquebrantable.
+
+## 5. Demostración Técnica: Interfaces de Usuario y Operaciones (MLOps)
+
+Para disponibilizar toda la robustez de la arquitectura, se construyeron dos clientes:
+
+### 5.1 Aplicación de Usuario Final (Analistas DISF)
+Ubicada en `app/` (Vanilla JS, HTML, CSS), permite tres modalidades:
+1. **Chat Normativo:** RAG con un HUD que expone latencia, ruta Cascade, y ruteo documental. Soporta matemáticas con `KaTeX`.
+2. **Extracción de Formularios:** Tablas HTML dinámicas que mapean el output de Pydantic.
+3. **Extracción Dinámica de Metadatos:** Clasifica confidencialidad y audiencia.
+
+**Búsqueda Dinámica Efímera:** El analista puede arrastrar un PDF temporal (oficio, acta) para procesarlo en memoria RAM, habilitando un *EnsembleRetriever* que cruza el documento del usuario contra la base oficial histórica sin contaminarla.
+
+### 5.2 Centro de Comando MLOps (Ingenieros)
+Ubicado en `dashboard/app_evaluaciones.py` (Streamlit), es el cuarto de control operativo:
+1. **Telemetría y FinOps:** Rastreador de latencia de cola larga (P50/P90/P99) y tokens, persistidos en `telemetria_llm.jsonl`.
+2. **Taxonomía de Errores y ECE:** Ejecución de pruebas RAGAS bajo demanda y Calibración Inyectando alta temperatura para detectar alucinaciones encubiertas.
+
+### 5.3 Auditoría de Caja Blanca (Trazabilidad RAG)
+El concepto de "caja negra" es inaceptable regulatoriamente. Un `semantic_cache.pkl` captura la anatomía de cada inferencia:
+- **Trazabilidad:** Permite inspeccionar qué prompt exacto se usó y qué fragmentos se inyectaron en el pasado.
+- **Caché Semántico con Juez LLM:** Para optimizar respuestas repetidas ante variaciones gramaticales, un Juez LLM local evalúa la equivalencia de intención (SÍ/NO) de la consulta actual contra el caché, devolviendo respuestas en ~0.5s y evadiendo la latencia completa de RAG.
+
+## 6. Seguridad, Recomendaciones y Horizonte de Escalabilidad (El Futuro)
+
+### 6.1 Seguridad Proactiva y Jerarquía de la Verdad
+- **Guardrails (Input):** Un Juez de Entrada detecta *Prompt Injection* y *Jailbreaks*, bloqueando peticiones maliciosas en el perímetro sin gastar tokens.
+- **Jerarquía Jurídica:** Ante conflictos (Ley vs Guía), se aplicó *Prompt Engineering Jerárquico*: "La normativa oficial tiene prelación absoluta", permitiendo resolución lógica sin alterar los scores matemáticos del motor de búsqueda.
+
+### 6.2 Arquitectura Cloud y FinOps (Avance 6)
+- **TCO (DEP-B):** Análisis del costo total comparando la solución Self-hosted frente al esquema Multi-Cloud.
+- **Monitoreo en Producción:** Establecimiento de SLOs (ej. P95 <= 3.5s) y alertas de *Drift Detection*.
+- **Plan de Handoff (DEP-E):** Entrega documentada de artefactos serializados (ChromaDB, Prompts JSON) para un *Decommissioning plan* seguro institucional.
+
+### 6.3 Horizonte Tecnológico (Auto-optimización)
+- **Paradigma DSPy:** Se validó una prueba de concepto para superar el *Prompt Engineering* manual. Un optimizador empaqueta iterativamente los mejores ejemplos matemáticamente en el prompt, evolucionando a un sistema de auto-mejora continua.
+- **Control de Accesos (RBAC):** Uso de metadatos en ChromaDB para restringir inyección de contexto según el perfil del analista.
+
+### 6.4 Resumen de Beneficios y Roadmap Final
+El proyecto ARIF reduce tiempos de consulta drásticamente, democratiza el conocimiento experto de la DISF y minimiza el riesgo de errores de interpretación.
+
+El seguimiento detallado a futuro se maneja en el documento **[`support/pendientes_y_roadmap_final.txt`](../../support/pendientes_y_roadmap_final.txt)**, e incluye:
+1. Estructurar un piloto institucional a mayor escala (Hardware profiling).
+2. Robustecer la gobernanza de datos.
+3. Reactivar el diseño automatizado de formularios incorporando estrategias Human-in-the-Loop (HITL) para validaciones expertas sobre inferencias de IA.
+
+## 7. Visión Global de la Arquitectura y Desglose de Scripts
+
+Para tener una perspectiva panorámica completa, la solución ARIF no es un script monolítico, sino un ecosistema modular de microservicios. A grandes rasgos, la implementación física (`src/`, `app/`, `dashboard/`) opera en cinco grandes macrosistemas:
+
+### 7.1 El Módulo de Ingesta (El "ETL" Vectorial)
+Se encarga de transformar el caos de los documentos regulatorios en datos matemáticos estructurados y limpios.
+*   **`src/ingesta/ingestor.py`**: El motor de extracción. Extrae texto de PDFs (vía OCR) o Excels sin importar el formato original.
+*   **`src/utils/limpieza_texto.py`**: Elimina el "ruido" institucional (ej. firmas del DOF, sellos, pies de página irrelevantes).
+*   **`src/nlp_core/chunking.py`**: Fragmenta los textos respetando la jerarquía legal e inyecta memoria asíncrona mediante *Contextual Retrieval*.
+*   **`src/nlp_core/vectorizacion.py`**: Interfaz con ChromaDB. Transforma los fragmentos de texto en embeddings matemáticos y los persiste en la base de datos.
+
+### 7.2 El Motor Central NLP (Cerebro de Búsqueda y Generación)
+El núcleo que orquesta el razonamiento de la inteligencia artificial.
+*   **`src/nlp_core/seguridad/guardrails.py`**: Actúa como un cortafuegos. Intercepta ataques, *Jailbreaks* o toxicidad financiera antes de procesar la consulta.
+*   **`src/nlp_core/generacion.py`**: El orquestador principal. Implementa el *Router Cascade* (Llama 3.1 vs GPT-4o-mini) y el Caché Semántico.
+*   **`src/nlp_core/retrieval.py` y `pipeline.py`**: Ejecutan el motor híbrido (BM25 + ChromaDB con RRF), despliegan las estrategias de expansión de la consulta (Multi-Query/HyDE), y filtran la respuesta óptima mediante un *Cross-Encoder* profundo.
+*   **`src/nlp_core/config_llm.py` y `prompts_registry.py`**: Manejan la inyección de los modelos (Ollama/OpenAI) y los "System Prompts" firmados criptográficamente para trazabilidad legal.
+
+### 7.3 El Módulo de Extracción Estructurada
+Un flujo alterno para automatización rígida.
+*   **`src/nlp_core/schemas.py`**: Define los moldes Pydantic estrictos (ej. `RequerimientoInformacion`).
+*   **`generacion.py (Vía Structured Outputs)`**: En lugar de platicar libremente, este flujo obliga al LLM a leer documentos inmensos y devolver exclusivamente un JSON estructurado, inquebrantable y sin alucinaciones, permitiendo la automatización de procesos.
+
+### 7.4 El Laboratorio de MLOps (El Sistema Evaluador)
+Una suite para pruebas automatizadas, optimización y justificación del retorno de inversión (ROI).
+*   **`src/nlp_core/evals/evaluador.py`**: Actuando como un científico en las sombras, bombardea al sistema con consultas humanas reales y usa a un LLM avanzado como Juez (`llm_judge`) para puntuar automáticamente si el bot local se equivocó o alucinó.
+*   **`src/nlp_core/telemetria.py`**: Registra en un log silencioso los tiempos de latencia y los centavos de dólar gastados por cada petición, información crítica para el control financiero.
+*   **`src/lab/generar_pareto_final.py` y `calcular_delta_ma4.py`**: Scripts de ciencia de datos que cruzan los resultados y ejecutan simulaciones matemáticas (Bootstrapping) para dibujar gráficas que demuestran qué modelo es el más eficiente (Frontera de Pareto).
+
+### 7.5 Interfaces de Usuario (Frontend, Backend y Analítica)
+Donde el usuario final y los ingenieros interactúan con la "caja negra" de la IA.
+*   **`api/main_api.py`**: Expone los endpoints robustos (FastAPI) para consumir el NLP Core de forma programática.
+*   **`app/index.html` y `app/main.js`**: La interfaz web interactiva del usuario final (la "App"). Permite entablar el chat normativo, subir documentos efímeros para analizarlos al vuelo, y visualizar las citas de origen exactas.
+*   **`dashboard/app_evaluaciones.py`**: Un panel de control construido en Streamlit exclusivo para el equipo de MLOps. Lee la telemetría, mapea la taxonomía de errores del evaluador, y visualiza de forma interactiva las gráficas de rendimiento sin tener que tocar la base de código.
+
+### 7.6 Gestión de Datos, Prompts y Artefactos
+La inteligencia del sistema no vive solo en el código, sino en los archivos de configuración, memoria y evaluación.
+*   **`src/nlp_core/prompts.json`**: El corazón del comportamiento. En lugar de tener las instrucciones del LLM dispersas por el código (Hardcoded), este JSON centraliza todas las "personalidades" (ej. `qa_system`, `contextual_chunking`, `hyde`, `guardrails_toxicity`). Al combinarse con `prompts_registry.py`, permite versionar el comportamiento del modelo de forma independiente al código, y asegura criptográficamente que no se alteren en producción sin autorización.
+*   **`data/evaluacion_dataset.json`**: El *Ground Truth*. Contiene el banco de más de 100 consultas humanas curadas y respondidas por expertos de la DISF, sirviendo como la "hoja de respuestas correctas" para el evaluador automático.
+*   **`data/config_experimentos.json`**: Orquesta el laboratorio. Define qué variaciones del RAG se van a probar (ej. Baseline Léxico vs Híbrido Simple vs SOTA_Completo).
+*   **`data/03_output/`**: El repositorio de artefactos vivos generados por el sistema:
+    *   `telemetria_llm.jsonl`: Archivo transaccional inmutable (append-only) que anota silenciosamente cada *token* gastado y cada latencia de inferencia en milisegundos.
+    *   `semantic_cache.pkl`: El caché vectorizado que almacena las preguntas frecuentes para responder en menos de 0.5s en la Interfaz de Usuario sin ir al LLM Generativo.
+    *   `evaluaciones_*/` y `graficos/`: Carpetas dinámicas donde `evaluador.py` deposita las calificaciones brutas, y donde `generar_pareto_final.py` dibuja las gráficas `.png` que terminan justificando las decisiones arquitectónicas.
+*   **`src/utils/` y `src/lab/`**: Scripts de soporte vitales. Aquí viven herramientas de mantenimiento como `poblar_chroma.py` (para ingestar la base documental completa offline), `exportar_auditoria_manual.py` (para sacar excels legibles por humanos ante errores del LLM), y `analisis_texto.py` para utilería.

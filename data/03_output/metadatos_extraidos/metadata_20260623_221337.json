@@ -1,0 +1,36 @@
+{
+    "tema_principal": "Transparencia Financiera",
+    "subtemas": [
+        "Cálculo del Costo Anual Total (CAT)",
+        "Créditos Revolventes",
+        "Créditos No Revolventes",
+        "Seguros en Créditos"
+    ],
+    "nivel_confidencialidad": "Publico",
+    "audiencia": "Entidades Financieras",
+    "frecuencia_reporte": null,
+    "descripcion_corta": "Documento de apoyo para el cálculo del Costo Anual Total (CAT) en créditos revolventes y no revolventes.",
+    "justificacion_extraccion": "El documento se centra en el cálculo del CAT para créditos, mencionando específicamente los créditos revolventes y no revolventes, y su relación con seguros y financiamiento de accesorios.",
+    "metadatos_dinamicos": [
+        {
+            "clave": "Área Emisora",
+            "valor": "Banco de México"
+        },
+        {
+            "clave": "Leyes de Referencia",
+            "valor": "Circular 21/2009"
+        },
+        {
+            "clave": "Fecha de Entrada en Vigor",
+            "valor": "3 de septiembre de 2009"
+        },
+        {
+            "clave": "Tipo de Instrumento",
+            "valor": "Documento de Apoyo"
+        },
+        {
+            "clave": "Sectores Afectados",
+            "valor": "Sector Financiero"
+        }
+    ]
+}

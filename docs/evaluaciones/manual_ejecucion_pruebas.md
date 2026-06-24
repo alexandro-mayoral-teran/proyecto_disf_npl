@@ -126,6 +126,12 @@ Traza la gráfica de Costo Operativo vs Calidad (NDCG@10) incluyendo todos los m
 python src/lab/generar_pareto_final.py
 ```
 
+### 4.5. Pruebas de Penetración y Guardrails (Seguridad)
+Evalúa el cortafuegos del sistema (`src/nlp_core/seguridad/guardrails.py`) enviándole un dataset malicioso (`eval_dataset_red_teaming.json`) para verificar si el Agente detecta y bloquea *Prompt Injections*, peticiones tóxicas, y *Jailbreaks* corporativos.
+```bash
+python src/lab/seguridad_eval.py
+```
+
 ---
 
 ## 5. Auditoría y Taxonomía de Errores

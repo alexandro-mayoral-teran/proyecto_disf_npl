@@ -25,7 +25,7 @@ En un RAG complejo, cuando una extracción falla, es difícil saber por qué. Es
 - **Fallo B (Culpa del LLM / Alucinación):** El buscador hizo bien su trabajo y le entregó el texto perfecto, pero el LLM se confundió, alucinó o razonó mal la respuesta. 
   - *Solución:* Cambiar a un modelo más inteligente (ej. LLaMA 70B o GPT-4o) o mejorar la claridad de las reglas en el Prompt del sistema.
 - **Fallo C (Culpa de Formato / Parser JSON):** El buscador le dio la info correcta y el LLM extrajo bien los datos, pero falló al armar el esquema JSON (olvidó unas comillas, usó un string en vez de int, etc.) rompiendo la validación de Pydantic. 
-  - *Solución:* Bajar la temperatura a `0.0`, usar LLMs afinados para *Structured Outputs* o reescribir la descripción de los campos en el código.
+  - *Solución:* Bajar la temperatura a `0.0`, usar LLMs afinados para *Structured Outputs* o utilizar la validación matemática nativa (`client.beta.chat.completions.parse`) para forzar la estructura.
 
 ## 4. Evaluaciones de Robustez y Ensambles (Avance 5)
 Para cumplir con los estándares de MLOps en el Avance 5, se implementaron evaluaciones científicas adicionales a través de scripts especializados en `src/lab/`:
@@ -36,3 +36,9 @@ Para cumplir con los estándares de MLOps en el Avance 5, se implementaron evalu
 
 ## Trazabilidad (Metadatos)
 En todos los CSVs verás columnas inyectadas como `LLM_Modelo_QA`, `Es_Local` o `Git_Hash`. Utiliza estas variables como dimensiones cuando cruces los datos en Excel/Python para dibujar tu **Frontera de Pareto** (graficando `NDCG@10` vs. `Costo` vs. `Latencia`).
+
+## 5. Métricas Satelitales (Estilo RAGAS / Reference-Free)
+Además de las pruebas contra el Ground Truth humano, el orquestador (`src/nlp_core/evals/evaluador.py`) expone métricas Reference-Free donde un Juez LLM evalúa la calidad sin conocer la respuesta perfecta:
+- **Faithfulness (Fidelidad):** Evalúa si la respuesta generada se deriva estrictamente del contexto recuperado. Si es baja (< 0.8), significa que el modelo está alucinando información externa.
+- **Answer Relevance (Relevancia):** Mide si la respuesta atiende directamente la pregunta original o si la está evadiendo con respuestas vagas.
+- **Context Relevancy (Utilidad del Contexto):** Mide qué porcentaje de las oraciones recuperadas son realmente útiles. Un score bajo indica "ruido" excesivo en la base vectorial, lo que encarece los costos de inferencia.

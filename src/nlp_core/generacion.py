@@ -181,7 +181,7 @@ def _guardar_telemetria(telemetria: dict, estrategia: str):
     except Exception as e:
         print(f"Advertencia: No se pudo guardar la telemetría - {e}")
 
-def extraer_full_context(texto_normativo: str) -> tuple[RequerimientoInformacion, dict]:
+def extraer_full_context(texto_normativo: str, instrucciones: str = None) -> tuple[RequerimientoInformacion, dict]:
     """
     Toma el texto limpio de un documento normativo y utiliza OpenAI 
     para extraer la estructura tabular y los catálogos en un JSON estructurado.
@@ -192,6 +192,11 @@ def extraer_full_context(texto_normativo: str) -> tuple[RequerimientoInformacion
     
     prompt_sistema, version_prompt, hash_prompt = get_prompt("extraccion_full_context")
     
+    # Inyectar instrucciones personalizadas si existen
+    user_content = f"Texto normativo a analizar:\n\n{texto_normativo}"
+    if instrucciones:
+        user_content += f"\n\n[INSTRUCCIONES ESPECÍFICAS DEL USUARIO]:\n{instrucciones}\n"
+    
     # Utilizamos Structured Outputs de OpenAI (disponible en pydantic >= 2.0 y openai >= 1.40)
     # garantizando que la salida cumpla perfectamente con nuestro esquema.
     t0 = time.time()
@@ -199,7 +204,7 @@ def extraer_full_context(texto_normativo: str) -> tuple[RequerimientoInformacion
         model=modelo_extraccion,
         messages=[
             {"role": "system", "content": prompt_sistema},
-            {"role": "user", "content": f"Texto normativo a analizar:\n\n{texto_normativo}"}
+            {"role": "user", "content": user_content}
         ],
         response_format=RequerimientoInformacion,
         temperature=0.1 # Temperatura baja porque queremos extracción precisa, no creatividad
@@ -222,7 +227,7 @@ def extraer_full_context(texto_normativo: str) -> tuple[RequerimientoInformacion
     # La API ya nos devuelve el objeto Pydantic instanciado y validado
     return respuesta.choices[0].message.parsed, telemetria
 
-def extraer_metadatos_documento(texto_normativo: str) -> tuple[MetadataDocumento, dict]:
+def extraer_metadatos_documento(texto_normativo: str, instrucciones: str = None) -> tuple[MetadataDocumento, dict]:
     """
     Toma los primeros 4000 caracteres de un documento normativo y utiliza OpenAI 
     para extraer la metadata (tema, confidencialidad, etc.) en un JSON estructurado.
@@ -235,12 +240,17 @@ def extraer_metadatos_documento(texto_normativo: str) -> tuple[MetadataDocumento
     
     texto_para_analizar = texto_normativo[:4000]
     
+    # Inyectar instrucciones personalizadas si existen
+    user_content = f"Texto normativo a analizar:\n\n{texto_para_analizar}"
+    if instrucciones:
+        user_content += f"\n\n[INSTRUCCIONES ESPECÍFICAS DEL USUARIO]:\n{instrucciones}\n"
+    
     t0 = time.time()
     respuesta = client.beta.chat.completions.parse(
         model=modelo_extraccion,
         messages=[
             {"role": "system", "content": prompt_sistema},
-            {"role": "user", "content": f"Texto normativo a analizar:\n\n{texto_para_analizar}"}
+            {"role": "user", "content": user_content}
         ],
         response_format=MetadataDocumento,
         temperature=0.0

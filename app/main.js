@@ -316,6 +316,8 @@ chatForm.addEventListener('submit', async (e) => {
         return;
     }
 
+    const intruccionesExt = document.getElementById('instrucciones-form') ? document.getElementById('instrucciones-form').value.trim() : null;
+
     formStatus.innerHTML = "Procesando documento... esto puede tomar varios segundos.";
     formStatus.style.color = "var(--banxico-azul-medio)";
     btnSend.disabled = true;
@@ -331,7 +333,8 @@ chatForm.addEventListener('submit', async (e) => {
                 tema: temaSelect.value,
                 textos_efimeros: textosEfimerosGlobal,
                 solo_efimero: true, // Siempre true para este flujo
-                db_folder: dbSelector ? dbSelector.value : "chroma_db"
+                db_folder: dbSelector ? dbSelector.value : "chroma_db",
+                instrucciones: intruccionesExt
             })
         });
 
@@ -428,6 +431,8 @@ metaForm.addEventListener('submit', async (e) => {
         return;
     }
 
+    const intruccionesMeta = document.getElementById('instrucciones-meta') ? document.getElementById('instrucciones-meta').value.trim() : null;
+
     metaStatus.innerHTML = "Extrayendo metadatos del documento...";
     metaStatus.style.color = "var(--banxico-azul-medio)";
     btnMetaSend.disabled = true;
@@ -444,7 +449,8 @@ metaForm.addEventListener('submit', async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 query: "extraer metadatos", // Query dummy, el endpoint solo usa textos_efimeros
-                textos_efimeros: textosEfimerosGlobal
+                textos_efimeros: textosEfimerosGlobal,
+                instrucciones: intruccionesMeta
             })
         });
 

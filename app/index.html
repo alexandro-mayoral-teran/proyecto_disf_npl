@@ -431,17 +431,23 @@
         <!-- Pestaña 1: Extracción Normativa -->
         <div id="tab-extraccion" class="tab-pane">
             <!-- Panel Control -->
-            <div class="banxico-card" style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem;">
-                <div>
-                    <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="settings" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Control de Extracción</h3>
-                    <p style="margin: 0.5rem 0 0 0; color: #64748b; font-size: 0.9em;">Procesa el documento temporal para extraer el formulario completo. <span id="extraccion-form-status" style="font-weight: bold; color: var(--banxico-azul-medio); margin-left: 1rem;"></span></p>
+            <div class="banxico-card" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="settings" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Control de Extracción</h3>
+                        <p style="margin: 0.5rem 0 0 0; color: #64748b; font-size: 0.9em;">Procesa el documento temporal para extraer el formulario completo. <span id="extraccion-form-status" style="font-weight: bold; color: var(--banxico-azul-medio); margin-left: 1rem;"></span></p>
+                    </div>
+                    <form id="chat-form" style="margin: 0;">
+                        <button type="submit" id="btn-send" class="btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; width: 100%; justify-content: center;">
+                            <span>Ejecutar Extracción</span>
+                            <i data-lucide="cpu" class="icon-sm"></i>
+                        </button>
+                    </form>
                 </div>
-                <form id="chat-form" style="margin: 0;">
-                    <button type="submit" id="btn-send" class="btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
-                        <span>Ejecutar Extracción</span>
-                        <i data-lucide="cpu" class="icon-sm"></i>
-                    </button>
-                </form>
+                <div style="width: 100%;">
+                    <label for="instrucciones-form" style="font-weight: bold; font-size: 0.85rem; color: var(--banxico-azul-institucional);">Instrucciones Específicas (Opcional):</label>
+                    <textarea id="instrucciones-form" rows="2" style="width: 100%; max-width: 100%; padding: 0.75rem; border: 1px solid rgba(210, 223, 232, 0.8); border-radius: 8px; font-family: inherit; margin-top: 0.5rem; resize: vertical; box-sizing: border-box;" placeholder="Ej. Extrae solo lo relacionado a riesgos de liquidez..."></textarea>
+                </div>
             </div>
 
             <!-- Panel Resultados -->
@@ -461,17 +467,23 @@
         <!-- Pestaña 2: Extracción Metadatos -->
         <div id="tab-metadatos" class="tab-pane">
             <!-- Panel Control -->
-            <div class="banxico-card" style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem;">
-                <div>
-                    <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="tags" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Control de Metadatos</h3>
-                    <p style="margin: 0.5rem 0 0 0; color: #64748b; font-size: 0.9em;">Extrae la ficha técnica (tema, audiencia) para el Manifest. <span id="extraccion-meta-status" style="font-weight: bold; color: var(--banxico-azul-medio); margin-left: 1rem;"></span></p>
+            <div class="banxico-card" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="tags" class="icon-md" style="color: var(--banxico-azul-institucional)"></i> Control de Metadatos</h3>
+                        <p style="margin: 0.5rem 0 0 0; color: #64748b; font-size: 0.9em;">Extrae la ficha técnica (tema, audiencia) para el Manifest. <span id="extraccion-meta-status" style="font-weight: bold; color: var(--banxico-azul-medio); margin-left: 1rem;"></span></p>
+                    </div>
+                    <form id="meta-form" style="margin: 0;">
+                        <button type="submit" id="btn-meta-send" class="btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; width: 100%; justify-content: center;">
+                            <span>Ejecutar Extracción</span>
+                            <i data-lucide="cpu" class="icon-sm"></i>
+                        </button>
+                    </form>
                 </div>
-                <form id="meta-form" style="margin: 0;">
-                    <button type="submit" id="btn-meta-send" class="btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
-                        <span>Ejecutar Extracción</span>
-                        <i data-lucide="cpu" class="icon-sm"></i>
-                    </button>
-                </form>
+                <div style="width: 100%;">
+                    <label for="instrucciones-meta" style="font-weight: bold; font-size: 0.85rem; color: var(--banxico-azul-institucional);">Instrucciones Específicas (Opcional):</label>
+                    <textarea id="instrucciones-meta" rows="2" style="width: 100%; max-width: 100%; padding: 0.75rem; border: 1px solid rgba(210, 223, 232, 0.8); border-radius: 8px; font-family: inherit; margin-top: 0.5rem; resize: vertical; box-sizing: border-box;" placeholder="Ej. Presta especial atención a la audiencia objetivo..."></textarea>
+                </div>
             </div>
 
             <!-- Panel Resultados -->
