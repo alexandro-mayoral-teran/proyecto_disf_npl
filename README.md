@@ -1,11 +1,3 @@
----
-title: ARIF - Especialista Digital Regulador
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
----
-
 # 🏛️ ARIF: Asistente Regulatorio para Información Financiera
 
 ## 1. ¿Qué hace y qué problema resuelve?
