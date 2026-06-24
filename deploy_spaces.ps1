@@ -1,5 +1,5 @@
 Write-Host "=== Actualizando Hugging Face Spaces ==="
-git checkout main
+git checkout -f main
 
 # Space A: API
 Write-Host "-> Preparando Web App (Docker)..."
@@ -27,7 +27,7 @@ git push -f space-api deploy-api:main
 
 # Space B: Dashboard
 Write-Host "-> Preparando Dashboard (Streamlit)..."
-git checkout main
+git checkout -f main
 git branch -D deploy-dashboard 2>$null
 git checkout --orphan deploy-dashboard
 $dashYaml = @"
@@ -54,5 +54,5 @@ git rm -r --cached "api" 2>$null
 git commit -m "Configurar metadata Streamlit"
 git push -f space-dashboard deploy-dashboard:main
 
-git checkout main
+git checkout -f main
 Write-Host "=== ¡Todos los despliegues finalizados! ==="
