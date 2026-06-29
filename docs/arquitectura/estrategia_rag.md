@@ -60,14 +60,17 @@ Se construyó una "Arena de Evaluación" con un Golden Dataset de ~100 consultas
 **Métricas de Recuperación de Información (IR):**
 1. **Recall@K:**
    * *Concepto:* Mide el porcentaje de veces que el fragmento con la respuesta correcta apareció dentro de los primeros `K` resultados devueltos (ej. Recall@10).
+   * *Cálculo:* `(Número de documentos relevantes recuperados en el top K) / (Total de documentos relevantes esperados)`. Al buscar una única respuesta correcta, suele evaluarse de forma binaria: 1 si aparece en el Top K, 0 si no.
    * *Pros:* Es la métrica de supervivencia en RAG. Si el Recall es 0% (el documento no se inyectó al prompt), el LLM tiene casi un 100% de probabilidad de alucinar.
    * *Contras:* Es ciego a la posición. Premia exactamente igual si el motor de búsqueda puso la respuesta en el Rank #1 que si la escondió en el Rank #10.
 2. **MAP@K (Mean Average Precision):**
    * *Concepto:* Promedia la precisión acumulada cada vez que se encuentra un documento relevante a lo largo del ranking.
+   * *Cálculo:* Es el promedio del *Average Precision* (AP) de todas las consultas. El AP suma la precisión obtenida en cada posición `i` (hasta `K`) donde aparece un documento relevante, y se divide por el total de documentos relevantes esperados.
    * *Pros:* Es muy sensible al orden de llegada. Penaliza matemáticamente a los motores de búsqueda que "entierran" la respuesta correcta al fondo de la lista.
    * *Contras:* Sus puntuaciones no son lineales y es difícil de interpretar intuitivamente para stakeholders de negocio.
 3. **NDCG@K (Normalized Discounted Cumulative Gain):**
    * *Concepto:* Es nuestra **métrica directriz**. Asigna una "ganancia" a la relevancia que se degrada o descuenta logarítmicamente conforme el documento cae de posición. El resultado se normaliza entre 0 y 1.
+   * *Cálculo:* Suma la relevancia de cada documento recuperado, pero la divide por un penalizador logarítmico basado en su posición (`Relevancia / log2(posición + 1)`), obteniendo el *DCG*. Luego, este valor se divide entre el *Ideal DCG* (el puntaje máximo posible si el orden fuera perfecto) para normalizarlo.
    * *Pros:* Es el estándar de oro en la industria (Google/Bing). Premia masivamente colocar el resultado perfecto en el Rank #1, lo cual es vital en RAG para evitar el efecto de "Lost in the Middle" (donde el LLM ignora texto a la mitad del prompt).
 
 **Métodos de Evaluación del Hit (¿El fragmento contiene la respuesta?):**

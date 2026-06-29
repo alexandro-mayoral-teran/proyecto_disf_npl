@@ -419,6 +419,9 @@
                     
                     <form class="chat-input-container" id="qa-form">
                         <input type="text" id="qa-input" class="chat-input" placeholder="Hazme una pregunta sobre la CUB o manuales..." required autocomplete="off">
+                        <button type="button" id="btn-mic" class="btn-primary" style="background-color: var(--banxico-azul-medio); padding: 0.8rem;" title="Presiona para hablar">
+                            <i data-lucide="mic" class="icon-sm"></i>
+                        </button>
                         <button type="submit" id="btn-qa-send" class="btn-primary">
                             <span>Consultar</span>
                             <i data-lucide="send" class="icon-sm"></i>
@@ -503,7 +506,7 @@
     </div>
 
     <!-- Funcionalidad Principal JS (con cache-buster) -->
-    <script src="main.js?v=2.1"></script>
+    <script src="main.js?v=2.2"></script>
     <script>
         // Inicializar iconos de Lucide
         lucide.createIcons();

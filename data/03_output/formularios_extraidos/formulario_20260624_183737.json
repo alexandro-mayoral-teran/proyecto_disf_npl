@@ -1,0 +1,274 @@
+{
+    "nombre_formulario": "Formulario de Cálculo del Costo Anual Total (CAT)",
+    "campos_formulario": [
+        {
+            "nombre_campo": "monto_financiamiento",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Monto total del financiamiento otorgado al acreditado.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor a 0"
+            ],
+            "justificacion": "La Entidad conoce el monto de financiamiento, plazo y otras características del Crédito."
+        },
+        {
+            "nombre_campo": "plazo_credito",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Plazo del crédito otorgado al acreditado.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor a 0"
+            ],
+            "justificacion": "La Entidad conoce el monto de financiamiento, plazo y otras características del Crédito."
+        },
+        {
+            "nombre_campo": "edad_acreditado",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Edad del acreditado al momento de la contratación del crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor a 0"
+            ],
+            "justificacion": "La Entidad conoce la edad, género y otras características relevantes del acreditado."
+        },
+        {
+            "nombre_campo": "genero_acreditado",
+            "tipo_dato": "Texto",
+            "longitud": "1",
+            "descripcion_funcional": "Género del acreditado (M/F).",
+            "formula_calculo": null,
+            "es_catalogo": true,
+            "nombre_catalogo_vinculado": "CatalogoGenero",
+            "validaciones_sugeridas": [
+                "Debe ser 'M' o 'F'"
+            ],
+            "justificacion": "La Entidad conoce la edad, género y otras características relevantes del acreditado."
+        },
+        {
+            "nombre_campo": "costo_seguro",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Costo de las primas de seguro exigidas al Cliente para la contratación del Crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a 0"
+            ],
+            "justificacion": "El cálculo del CAT incluirá los seguros exigidos al Cliente como requisito para la contratación del Crédito."
+        },
+        {
+            "nombre_campo": "periodicidad_pago_seguro",
+            "tipo_dato": "Texto",
+            "longitud": "10",
+            "descripcion_funcional": "Periodicidad de pago del seguro pactada con el Cliente.",
+            "formula_calculo": null,
+            "es_catalogo": true,
+            "nombre_catalogo_vinculado": "CatalogoPeriodicidadPago",
+            "validaciones_sugeridas": [
+                "Debe ser un valor válido del catálogo"
+            ],
+            "justificacion": "El costo del seguro se incluirá de acuerdo a la periodicidad de pago que se pacte con el Cliente en el Contrato."
+        },
+        {
+            "nombre_campo": "comision_anual",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Monto de la comisión anual cobrada al Cliente.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a 0"
+            ],
+            "justificacion": "El cálculo del CAT incluirá la comisión anual del producto específico."
+        },
+        {
+            "nombre_campo": "tasa_interes_promedio",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Tasa de interés promedio ponderada por saldo.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar entre 0 y 100"
+            ],
+            "justificacion": "El CAT de publicidad y propaganda se informará con la tasa de interés promedio ponderada por saldo."
+        },
+        {
+            "nombre_campo": "vigencia_oferta",
+            "tipo_dato": "Fecha",
+            "longitud": null,
+            "descripcion_funcional": "Fecha de vigencia de la oferta del crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser una fecha futura"
+            ],
+            "justificacion": "El período de vigencia deberá estar visible y asociado a los textos del CAT de la publicidad de que se trate."
+        },
+        {
+            "nombre_campo": "cat_promedio",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Costo Anual Total promedio calculado para el crédito.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe ser mayor o igual a 0"
+            ],
+            "justificacion": "El CAT promedio ponderado se calculará por monto de Crédito otorgado."
+        },
+        {
+            "nombre_campo": "producto_especifico",
+            "tipo_dato": "Texto",
+            "longitud": "100",
+            "descripcion_funcional": "Nombre del producto específico bajo una misma marca comercial.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "No debe estar vacío"
+            ],
+            "justificacion": "Por “producto específico” se entenderá un producto identificado bajo una misma marca comercial."
+        },
+        {
+            "nombre_campo": "tipo_vivienda",
+            "tipo_dato": "Texto",
+            "longitud": "50",
+            "descripcion_funcional": "Clasificación del tipo de vivienda según la Sociedad Hipotecaria Federal.",
+            "formula_calculo": null,
+            "es_catalogo": true,
+            "nombre_catalogo_vinculado": "CatalogoTipoVivienda",
+            "validaciones_sugeridas": [
+                "Debe ser un valor válido del catálogo"
+            ],
+            "justificacion": "Para Créditos asociados a la vivienda, su especificación por tipo de vivienda según la clasificación de la Sociedad Hipotecaria Federal."
+        },
+        {
+            "nombre_campo": "plazo_vivienda",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Plazo del crédito asociado a la vivienda en años.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar entre 13.5 y 16.5"
+            ],
+            "justificacion": "Plazo: de 13.5 a 16.5 años, como aproximaciones de las variables plazo."
+        },
+        {
+            "nombre_campo": "aforo_vivienda",
+            "tipo_dato": "Numérico",
+            "longitud": null,
+            "descripcion_funcional": "Porcentaje de aforo del crédito asociado a la vivienda.",
+            "formula_calculo": null,
+            "es_catalogo": false,
+            "nombre_catalogo_vinculado": null,
+            "validaciones_sugeridas": [
+                "Debe estar entre 72 y 88"
+            ],
+            "justificacion": "Aforo: de 72% a 88% del valor de la vivienda."
+        }
+    ],
+    "catalogos_identificados": [
+        {
+            "nombre_catalogo": "CatalogoGenero",
+            "valores": [
+                {
+                    "clave": "M",
+                    "descripcion": "Masculino"
+                },
+                {
+                    "clave": "F",
+                    "descripcion": "Femenino"
+                }
+            ]
+        },
+        {
+            "nombre_catalogo": "CatalogoPeriodicidadPago",
+            "valores": [
+                {
+                    "clave": "semanal",
+                    "descripcion": "Pago semanal"
+                },
+                {
+                    "clave": "mensual",
+                    "descripcion": "Pago mensual"
+                },
+                {
+                    "clave": "semestral",
+                    "descripcion": "Pago semestral"
+                },
+                {
+                    "clave": "anual",
+                    "descripcion": "Pago anual"
+                }
+            ]
+        },
+        {
+            "nombre_catalogo": "CatalogoTipoVivienda",
+            "valores": [
+                {
+                    "clave": "minima",
+                    "descripcion": "Vivienda mínima"
+                },
+                {
+                    "clave": "social",
+                    "descripcion": "Vivienda social"
+                },
+                {
+                    "clave": "economica",
+                    "descripcion": "Vivienda económica"
+                },
+                {
+                    "clave": "media",
+                    "descripcion": "Vivienda media"
+                },
+                {
+                    "clave": "residencial",
+                    "descripcion": "Vivienda residencial"
+                },
+                {
+                    "clave": "residencial_plus",
+                    "descripcion": "Vivienda residencial plus"
+                }
+            ]
+        }
+    ],
+    "ambiguedades_detectadas": [
+        "No se especifica claramente cómo se deben calcular las variables de tasa de interés promedio ponderada y CAT promedio ponderado.",
+        "La normativa no define cómo se debe tratar el CAT en caso de que existan múltiples promociones simultáneas."
+    ],
+    "metadatos_adicionales": [
+        {
+            "clave": "Periodicidad",
+            "valor": "Anual"
+        },
+        {
+            "clave": "Sujetos Obligados",
+            "valor": "Entidades Financieras"
+        },
+        {
+            "clave": "Fundamento Legal",
+            "valor": "Circular 21/2009 del Banco de México"
+        },
+        {
+            "clave": "Temática Principal",
+            "valor": "Cálculo del Costo Anual Total (CAT)"
+        }
+    ]
+}

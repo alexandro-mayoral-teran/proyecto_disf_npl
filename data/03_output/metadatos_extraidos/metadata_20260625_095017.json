@@ -1,0 +1,35 @@
+{
+    "tema_principal": "Transparencia Financiera",
+    "subtemas": [
+        "Cálculo del CAT",
+        "Seguros en Créditos",
+        "Financiamiento de Accesorios"
+    ],
+    "nivel_confidencialidad": "Publico",
+    "audiencia": "Entidades Financieras",
+    "frecuencia_reporte": null,
+    "descripcion_corta": "Documento de apoyo del Banco de México para el cálculo del Costo Anual Total (CAT) en créditos.",
+    "justificacion_extraccion": "El documento se centra en el cálculo del CAT, un indicador clave para la transparencia financiera en créditos, y está dirigido a entidades financieras.",
+    "metadatos_dinamicos": [
+        {
+            "clave": "Área Emisora",
+            "valor": "Banco de México"
+        },
+        {
+            "clave": "Leyes de Referencia",
+            "valor": "Circular 21/2009"
+        },
+        {
+            "clave": "Fecha de Entrada en Vigor",
+            "valor": "3 de septiembre de 2009"
+        },
+        {
+            "clave": "Tipo de Instrumento",
+            "valor": "Documento de Apoyo"
+        },
+        {
+            "clave": "Sectores Afectados",
+            "valor": "Sector Financiero"
+        }
+    ]
+}

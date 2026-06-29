@@ -6,6 +6,49 @@ const qaForm = document.getElementById('qa-form');
 const qaInput = document.getElementById('qa-input');
 const qaHistory = document.getElementById('qa-history');
 const btnQaSend = document.getElementById('btn-qa-send');
+const btnMic = document.getElementById('btn-mic');
+
+// Configuración de Reconocimiento de Voz (Web Speech API)
+let recognition = null;
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'es-MX'; // Español de México
+    recognition.interimResults = false;
+    
+    recognition.onstart = () => {
+        if(btnMic) {
+            btnMic.style.backgroundColor = '#dc3545'; // Rojo grabando
+            btnMic.innerHTML = '<i data-lucide="mic" class="icon-sm" style="animation: pulse 1s infinite;"></i>';
+            lucide.createIcons();
+        }
+    };
+    
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        qaInput.value += (qaInput.value ? ' ' : '') + transcript;
+    };
+    
+    recognition.onend = () => {
+        if(btnMic) {
+            btnMic.style.backgroundColor = 'var(--banxico-azul-medio)';
+            btnMic.innerHTML = '<i data-lucide="mic" class="icon-sm"></i>';
+            lucide.createIcons();
+        }
+    };
+    
+    if(btnMic) {
+        btnMic.addEventListener('click', () => {
+            try {
+                recognition.start();
+            } catch(e) {
+                recognition.stop();
+            }
+        });
+    }
+} else {
+    if(btnMic) btnMic.style.display = 'none'; // Ocultar si el navegador no soporta
+}
 
 // Referencias DOM - Tab 1: Extracción Formularios
 const chatForm = document.getElementById('chat-form');

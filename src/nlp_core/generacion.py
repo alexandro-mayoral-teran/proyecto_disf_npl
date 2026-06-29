@@ -448,7 +448,7 @@ def responder_rag_cascade_qa(
     k: int = 13, 
     umbral_faithfulness: float = 0.8, 
     base_retriever: str = "hibrido",          # Opciones: "embeddings", "hibrido", "bm25", "tfidf", "bow"
-    query_expansion: str = "ambos",            # Opciones: "none", "multi_query", "hyde", "ambos"
+    query_expansion: str = "none",            # Opciones: "none", "multi_query", "hyde", "ambos"
     post_processing: str = "cross_encoder",   # Opciones: "none", "cross_encoder"
     tema: str = None,
     textos_efimeros: list = None,

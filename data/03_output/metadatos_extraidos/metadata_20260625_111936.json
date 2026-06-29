@@ -1,0 +1,35 @@
+{
+    "tema_principal": "Riesgos Crediticios",
+    "subtemas": [
+        "Reservas Preventivas",
+        "Cartera Crediticia",
+        "Metodologías de Calificación"
+    ],
+    "nivel_confidencialidad": "Publico",
+    "audiencia": "Instituciones Financieras",
+    "frecuencia_reporte": null,
+    "descripcion_corta": "Normativa sobre la calificación y constitución de reservas preventivas para riesgos crediticios en instituciones financieras.",
+    "justificacion_extraccion": "El documento se centra en la calificación de riesgos crediticios y la constitución de reservas preventivas, lo cual es esencial para la gestión de riesgos en instituciones financieras.",
+    "metadatos_dinamicos": [
+        {
+            "clave": "Área Emisora",
+            "valor": "Secretaría de Hacienda y Crédito Público"
+        },
+        {
+            "clave": "Leyes de Referencia",
+            "valor": "Criterio B-6 “Cartera de Crédito”, NIF C-16"
+        },
+        {
+            "clave": "Fecha de Entrada en Vigor",
+            "valor": "No especificada en el fragmento"
+        },
+        {
+            "clave": "Tipo de Instrumento",
+            "valor": "Disposiciones Normativas"
+        },
+        {
+            "clave": "Sectores Afectados",
+            "valor": "Instituciones Financieras, Cartera Crediticia de Consumo"
+        }
+    ]
+}
